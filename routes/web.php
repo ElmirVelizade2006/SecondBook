@@ -208,6 +208,7 @@ Route::prefix('admin')
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
+        Route::get('/{payment}', 'show')->name('show');
         Route::get('/{payment}/edit', 'edit')->name('edit');
         Route::put('/{payment}', 'update')->name('update');
         Route::delete('/{payment}', 'destroy')->name('destroy');

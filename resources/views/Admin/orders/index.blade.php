@@ -304,33 +304,33 @@
 
 
 
-                            <td>
+                           <td>
+                                <div class="order-actions">
 
-                                <a href="{{ route('admin.orders.show', $order->id) }}"
-                                   class="btn btn-sm btn-light">
+                                    <a href="{{ route('admin.orders.show', $order->id) }}"
+                                    class="btn btn-sm btn-light">
 
-                                    <i class="bi bi-eye"></i>
+                                        <i class="bi bi-eye"></i>
 
-                                </a>
-
-
-                                <a href="{{ route('admin.orders.edit', $order->id) }}"
-                                   class="btn btn-sm btn-light">
-
-                                    <i class="bi bi-pencil"></i>
-
-                                </a>
+                                    </a>
 
 
-                                <button class="btn btn-sm btn-danger">
+                                    <a href="{{ route('admin.orders.edit', $order->id) }}"
+                                    class="btn btn-sm btn-light">
 
-                                    <i class="bi bi-trash"></i>
+                                        <i class="bi bi-pencil"></i>
 
-                                </button>
+                                    </a>
 
 
+                                    <button class="btn btn-sm btn-danger">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                </div>
                             </td>
-
 
                         </tr>
 

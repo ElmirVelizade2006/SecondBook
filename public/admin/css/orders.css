@@ -120,3 +120,28 @@
     color: #6b7280;
 
 }
+
+/* =========================================================
+   Payment Actions
+========================================================= */
+
+.order-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+}
+
+.order-actions .btn {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.order-actions .btn i {
+    font-size: 15px;
+}
