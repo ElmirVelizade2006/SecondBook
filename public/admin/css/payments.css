@@ -3,22 +3,21 @@
 ========================================================= */
 
 .payment-card {
-    background: transparent;
+    background: #ffffff;
     border-radius: 12px;
     padding: 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 100%;
-    border: 1px solid rgba(128, 128, 128, 0.15);
+    border: 1px solid #e5e7eb;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    color: inherit;
+    color: #172033;
 }
 
 .payment-card span {
     display: block;
-    color: inherit;
-    opacity: 0.7;
+    color: #6c757d;
     font-size: 14px;
     margin-bottom: 6px;
 }
@@ -27,13 +26,13 @@
     margin: 0;
     font-size: 28px;
     font-weight: 700;
-    color: inherit;
+    color: #172033;
 }
 
 .payment-card > i {
     font-size: 32px;
     opacity: 0.65;
-    color: inherit;
+    color: #172033;
 }
 
 
@@ -48,16 +47,16 @@
 .card .table thead th {
     font-size: 13px;
     font-weight: 600;
-    color: inherit;
-    opacity: 0.8;
-    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+    color: #172033;
+    border-bottom: 1px solid #e5e7eb;
     white-space: nowrap;
 }
 
 .card .table tbody td {
     padding-top: 16px;
     padding-bottom: 16px;
-    border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+    color: #172033;
+    border-bottom: 1px solid #eef0f3;
 }
 
 
@@ -66,11 +65,13 @@
 ========================================================= */
 
 .table .btn-light {
-    border: 1px solid rgba(128, 128, 128, 0.2);
+    border: 1px solid #d9e0ea;
+    background: #ffffff;
+    color: #172033;
 }
 
 .table .btn-light:hover {
-    background: rgba(128, 128, 128, 0.1);
+    background: #f3f5f8;
 }
 
 
@@ -80,13 +81,23 @@
 
 input[name="amount"],
 textarea[name="note"] {
-    color: inherit !important;
+    background-color: #ffffff !important;
+    color: #172033 !important;
+    border-color: #d9e0ea !important;
 }
 
 input[name="amount"]::placeholder,
 textarea[name="note"]::placeholder {
-    color: currentColor !important;
-    opacity: 0.5 !important;
+    color: #8a94a6 !important;
+    opacity: 1 !important;
+}
+
+input[name="amount"]:focus,
+textarea[name="note"]:focus {
+    background-color: #ffffff !important;
+    color: #172033 !important;
+    border-color: #3b5bdb !important;
+    box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.10) !important;
 }
 
 
@@ -94,27 +105,24 @@ textarea[name="note"]::placeholder {
    Payment Search / Filters
 ========================================================= */
 
+input[name="search"],
+.form-control,
+.form-select {
+    color: #172033;
+}
+
 input[name="search"]::placeholder,
 .form-control::placeholder {
-    color: currentColor;
-    opacity: 0.5;
+    color: #8a94a6;
+    opacity: 1;
 }
 
-
-/* =========================================================
-   Responsive
-========================================================= */
-
-@media (max-width: 768px) {
-
-    .payment-card {
-        padding: 20px;
-    }
-
-    .payment-card h3 {
-        font-size: 24px;
-    }
+input[name="search"]:focus,
+.form-control:focus,
+.form-select:focus {
+    color: #172033;
 }
+
 
 /* =========================================================
    Payment Actions
@@ -139,4 +147,168 @@ input[name="search"]::placeholder,
 
 .payment-actions .btn i {
     font-size: 15px;
+}
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+.dark-mode .payment-card,
+.dark-theme .payment-card,
+[data-theme="dark"] .payment-card {
+    background: #111827;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+.dark-mode .payment-card span,
+.dark-theme .payment-card span,
+[data-theme="dark"] .payment-card span {
+    color: #94a3b8;
+}
+
+.dark-mode .payment-card h3,
+.dark-theme .payment-card h3,
+[data-theme="dark"] .payment-card h3 {
+    color: #f1f5f9;
+}
+
+.dark-mode .payment-card > i,
+.dark-theme .payment-card > i,
+[data-theme="dark"] .payment-card > i {
+    color: #f1f5f9;
+}
+
+
+/* =========================================================
+   Table - DARK MODE
+========================================================= */
+
+.dark-mode .card .table thead th,
+.dark-theme .card .table thead th,
+[data-theme="dark"] .card .table thead th {
+    color: #f1f5f9;
+    border-bottom-color: #334155;
+}
+
+.dark-mode .card .table tbody td,
+.dark-theme .card .table tbody td,
+[data-theme="dark"] .card .table tbody td {
+    color: #e2e8f0;
+    border-bottom-color: #263244;
+}
+
+
+/* =========================================================
+   Table Buttons - DARK MODE
+========================================================= */
+
+.dark-mode .table .btn-light,
+.dark-theme .table .btn-light,
+[data-theme="dark"] .table .btn-light {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+.dark-mode .table .btn-light:hover,
+.dark-theme .table .btn-light:hover,
+[data-theme="dark"] .table .btn-light:hover {
+    background: #334155;
+}
+
+
+/* =========================================================
+   Payment Form - DARK MODE
+========================================================= */
+
+.dark-mode input[name="amount"],
+.dark-mode textarea[name="note"],
+.dark-theme input[name="amount"],
+.dark-theme textarea[name="note"],
+[data-theme="dark"] input[name="amount"],
+[data-theme="dark"] textarea[name="note"] {
+    background-color: #0b1323 !important;
+    color: #f1f5f9 !important;
+    border-color: #334155 !important;
+}
+
+.dark-mode input[name="amount"]::placeholder,
+.dark-mode textarea[name="note"]::placeholder,
+.dark-theme input[name="amount"]::placeholder,
+.dark-theme textarea[name="note"]::placeholder,
+[data-theme="dark"] input[name="amount"]::placeholder,
+[data-theme="dark"] textarea[name="note"]::placeholder {
+    color: #7890b3 !important;
+    opacity: 1 !important;
+}
+
+.dark-mode input[name="amount"]:focus,
+.dark-mode textarea[name="note"]:focus,
+.dark-theme input[name="amount"]:focus,
+.dark-theme textarea[name="note"]:focus,
+[data-theme="dark"] input[name="amount"]:focus,
+[data-theme="dark"] textarea[name="note"]:focus {
+    background-color: #0b1323 !important;
+    color: #f1f5f9 !important;
+    border-color: #3b5bdb !important;
+    box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.12) !important;
+}
+
+
+/* =========================================================
+   Search / Filters - DARK MODE
+========================================================= */
+
+.dark-mode input[name="search"],
+.dark-mode .form-control,
+.dark-mode .form-select,
+.dark-theme input[name="search"],
+.dark-theme .form-control,
+.dark-theme .form-select,
+[data-theme="dark"] input[name="search"],
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+    background-color: #0b1323 !important;
+    color: #f1f5f9 !important;
+    border-color: #334155 !important;
+}
+
+.dark-mode input[name="search"]::placeholder,
+.dark-mode .form-control::placeholder,
+.dark-theme input[name="search"]::placeholder,
+.dark-theme .form-control::placeholder,
+[data-theme="dark"] input[name="search"]::placeholder,
+[data-theme="dark"] .form-control::placeholder {
+    color: #7890b3 !important;
+    opacity: 1;
+}
+
+.dark-mode .form-select option,
+.dark-theme .form-select option,
+[data-theme="dark"] .form-select option {
+    background-color: #0b1323;
+    color: #f1f5f9;
+}
+
+
+/* =========================================================
+   Responsive
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .payment-card {
+        padding: 20px;
+    }
+
+    .payment-card h3 {
+        font-size: 24px;
+    }
+
+    .payment-actions .btn {
+        width: 38px;
+        height: 38px;
+    }
 }

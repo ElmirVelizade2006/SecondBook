@@ -180,12 +180,13 @@ Route::prefix('admin')
     // Coupons
     Route::controller(CouponsController::class)->prefix('coupons')->name('coupons.')->group(function () {
 
-        Route::get('/', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
-        Route::post('/', 'store')->name('store');
-        Route::get('/{coupon}/edit', 'edit')->name('edit');
-        Route::put('/{coupon}', 'update')->name('update');
-        Route::delete('/{coupon}', 'destroy')->name('destroy');
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{coupon}/edit', 'edit')->name('edit');
+            Route::put('/{coupon}', 'update')->name('update');
+            Route::patch('/{coupon}/toggle-status','toggleStatus')->name('toggle-status');
+            Route::delete('/{coupon}', 'destroy')->name('destroy');
 
     });
 
