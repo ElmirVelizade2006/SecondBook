@@ -39,4 +39,4 @@ Users can discover, buy and sell used books through a simple and modern platform
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/SecondBook.git
+git clone https://github.com/ElmirVelizade/SecondBook.git
