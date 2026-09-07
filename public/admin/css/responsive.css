@@ -1,0 +1,139 @@
+/* =====================================
+   GLOBAL RESPONSIVE FIXES
+   Loaded last — overrides conflicts
+===================================== */
+
+html,
+body{
+    overflow-x:hidden;
+    max-width:100%;
+}
+
+.wrapper .main{
+    min-height:100vh;
+}
+
+/* Navbar full width on small screens */
+.navbar .container-fluid{
+    flex-wrap:nowrap;
+    min-width:0;
+}
+
+.navbar .container-fluid > .d-flex:last-child{
+    flex-shrink:0;
+}
+
+.navbar .container-fluid > .d-flex:first-child{
+    min-width:0;
+    flex:1 1 auto;
+}
+
+.header-title{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+/* Sidebar overlay — laptop + mobile */
+.sidebar-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,.45);
+    backdrop-filter:blur(3px);
+    z-index:1040;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .3s ease, visibility .3s ease;
+}
+
+body.sidebar-open{
+    overflow:hidden;
+}
+
+body.sidebar-open .sidebar-overlay{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+}
+
+/* Dashboard responsive improvements */
+@media (max-width: 991px){
+    .dashboard-section{
+        padding:20px 18px;
+    }
+
+    .hero-section{
+        padding:28px 24px;
+        min-height:auto;
+        flex-direction:column;
+        align-items:flex-start;
+        gap:16px;
+    }
+
+    .hero-icon{
+        display:none;
+    }
+
+    .dashboard-card,
+    .dashboard-panel,
+    .card{
+        margin-bottom:12px;
+    }
+}
+
+@media (max-width: 767px){
+    .dashboard-section{
+        padding:16px 14px;
+    }
+
+    .hero-content h2{
+        font-size:28px;
+    }
+
+    .hero-content p{
+        font-size:15px;
+    }
+
+    .hero-buttons{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .hero-buttons .btn{
+        width:100%;
+        justify-content:center;
+    }
+
+    .dashboard-card{
+        min-height:auto;
+        padding:22px 20px;
+    }
+
+    .dashboard-card h2{
+        font-size:32px;
+    }
+
+    .panel-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:8px;
+    }
+
+    .activity-item{
+        padding:12px 0;
+    }
+}
+
+/* Desktop/laptop: no overlay when sidebar sits beside content */
+@media (min-width:993px){
+    body.sidebar-open{
+        overflow:auto;
+    }
+
+    body.sidebar-open .sidebar-overlay{
+        opacity:0;
+        visibility:hidden;
+        pointer-events:none;
+    }
+}

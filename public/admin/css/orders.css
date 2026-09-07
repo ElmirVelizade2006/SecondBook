@@ -1,0 +1,122 @@
+.order-card{
+
+    background:#fff;
+    border-radius:18px;
+    padding:25px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.06);
+
+}
+
+
+.order-card span{
+
+    color:#6b7280;
+    font-size:14px;
+
+}
+
+
+.order-card h3{
+
+    margin-top:8px;
+    font-weight:700;
+
+}
+
+
+.order-card i{
+
+    font-size:35px;
+    color:#8b5e3c;
+
+}
+
+
+
+.table thead th{
+
+    font-size:13px;
+    text-transform:uppercase;
+    color:#6b7280;
+
+}
+
+
+.table td{
+
+    padding:16px;
+
+}
+
+
+.badge{
+
+    padding:7px 12px;
+    border-radius:20px;
+
+}
+
+/* ==========================
+   Order Form Inputs
+========================== */
+
+
+/* Dark Mode */
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+
+    color: #ffffff !important;
+    background-color: #1f2937;
+    border-color: #374151;
+
+}
+
+
+[data-theme="dark"] .form-control::placeholder {
+
+    color: #ffffff !important;
+    opacity: 1;
+
+}
+
+
+
+/* Light Mode */
+[data-theme="light"] .form-control,
+[data-theme="light"] .form-select {
+
+    color: #111827 !important;
+    background-color: #ffffff;
+    border-color: #d1d5db;
+
+}
+
+
+[data-theme="light"] .form-control::placeholder {
+
+    color: #6b7280 !important;
+    opacity: 1;
+
+}
+
+
+
+/* Default (theme class yoxdursa) */
+.form-control,
+.form-select {
+
+    color: #111827;
+
+}
+
+
+.form-control::placeholder {
+
+    color: #6b7280;
+
+}
