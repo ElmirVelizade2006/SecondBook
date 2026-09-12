@@ -1,0 +1,354 @@
+/* =========================================
+   COUPON CARD
+========================================= */
+
+.coupon-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.coupon-card span {
+    display: block;
+    color: #6c757d;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.coupon-card h3 {
+    margin: 0;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.coupon-card > i {
+    font-size: 30px;
+    opacity: 0.65;
+}
+
+
+/* =========================================
+   COUPON CODE
+========================================= */
+
+.coupon-code {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #f8f9fa;
+    color: #172033;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================================
+   COUPON ACTIONS
+========================================= */
+
+.coupon-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+}
+
+.coupon-actions .btn {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =========================================
+   COUPON DETAIL
+========================================= */
+
+.coupon-detail {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 18px;
+    background: #ffffff;
+}
+
+.coupon-detail span {
+    display: block;
+    color: #6c757d;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.coupon-detail strong {
+    font-size: 17px;
+    color: #172033;
+}
+
+
+/* =========================================
+   COUPON FORM
+   LIGHT MODE
+========================================= */
+
+.coupon-form .form-label,
+.coupon-form label {
+    color: #172033 !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px;
+}
+
+
+/* =========================================
+   INPUTS - LIGHT
+========================================= */
+
+.coupon-form .form-control,
+.coupon-form .form-select {
+    background-color: #ffffff !important;
+    color: #172033 !important;
+    border: 1px solid #d9e0ea !important;
+    border-radius: 10px;
+    min-height: 46px;
+}
+
+.coupon-form .form-control::placeholder {
+    color: #8a94a6 !important;
+    opacity: 1;
+}
+
+
+/* =========================================
+   INPUT FOCUS - LIGHT
+========================================= */
+
+.coupon-form .form-control:focus,
+.coupon-form .form-select:focus {
+    background-color: #ffffff !important;
+    color: #172033 !important;
+    border-color: #3b5bdb !important;
+    box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.10) !important;
+}
+
+
+/* =========================================
+   SELECT OPTIONS - LIGHT
+========================================= */
+
+.coupon-form .form-select option {
+    background-color: #ffffff;
+    color: #172033;
+}
+
+
+/* =========================================
+   HELPER TEXT - LIGHT
+========================================= */
+
+.coupon-form small {
+    color: #7b8798 !important;
+}
+
+
+/* =========================================
+   NUMBER INPUT
+========================================= */
+
+.coupon-form input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.coupon-form input[type="number"]::-webkit-inner-spin-button,
+.coupon-form input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+/* =========================================
+   DATE / TIME - LIGHT
+========================================= */
+
+.coupon-form input[type="datetime-local"] {
+    color: #172033 !important;
+}
+
+.coupon-form input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+
+/* =========================================
+   DARK MODE
+========================================= */
+
+/* Əgər sayt dark-mode class istifadə edirsə */
+
+.dark-mode .coupon-card,
+.dark-theme .coupon-card,
+[data-theme="dark"] .coupon-card {
+    background: #111827;
+}
+
+.dark-mode .coupon-card span,
+.dark-theme .coupon-card span,
+[data-theme="dark"] .coupon-card span {
+    color: #94a3b8;
+}
+
+.dark-mode .coupon-code,
+.dark-theme .coupon-code,
+[data-theme="dark"] .coupon-code {
+    background: #0b1323;
+    color: #f1f5f9;
+}
+
+.dark-mode .coupon-detail,
+.dark-theme .coupon-detail,
+[data-theme="dark"] .coupon-detail {
+    background: #111827;
+    border-color: #334155;
+}
+
+.dark-mode .coupon-detail span,
+.dark-theme .coupon-detail span,
+[data-theme="dark"] .coupon-detail span {
+    color: #94a3b8;
+}
+
+.dark-mode .coupon-detail strong,
+.dark-theme .coupon-detail strong,
+[data-theme="dark"] .coupon-detail strong {
+    color: #f1f5f9;
+}
+
+
+/* =========================================
+   FORM - DARK MODE
+========================================= */
+
+.dark-mode .coupon-form .form-label,
+.dark-mode .coupon-form label,
+.dark-theme .coupon-form .form-label,
+.dark-theme .coupon-form label,
+[data-theme="dark"] .coupon-form .form-label,
+[data-theme="dark"] .coupon-form label {
+    color: #f1f5f9 !important;
+}
+
+
+/* =========================================
+   INPUTS - DARK MODE
+========================================= */
+
+.dark-mode .coupon-form .form-control,
+.dark-mode .coupon-form .form-select,
+.dark-theme .coupon-form .form-control,
+.dark-theme .coupon-form .form-select,
+[data-theme="dark"] .coupon-form .form-control,
+[data-theme="dark"] .coupon-form .form-select {
+    background-color: #0b1323 !important;
+    color: #f1f5f9 !important;
+    border-color: #334155 !important;
+}
+
+
+/* =========================================
+   PLACEHOLDER - DARK MODE
+========================================= */
+
+.dark-mode .coupon-form .form-control::placeholder,
+.dark-theme .coupon-form .form-control::placeholder,
+[data-theme="dark"] .coupon-form .form-control::placeholder {
+    color: #7890b3 !important;
+    opacity: 1;
+}
+
+
+/* =========================================
+   FOCUS - DARK MODE
+========================================= */
+
+.dark-mode .coupon-form .form-control:focus,
+.dark-mode .coupon-form .form-select:focus,
+.dark-theme .coupon-form .form-control:focus,
+.dark-theme .coupon-form .form-select:focus,
+[data-theme="dark"] .coupon-form .form-control:focus,
+[data-theme="dark"] .coupon-form .form-select:focus {
+    background-color: #0b1323 !important;
+    color: #f1f5f9 !important;
+    border-color: #3b5bdb !important;
+    box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.12) !important;
+}
+
+
+/* =========================================
+   SELECT OPTIONS - DARK
+========================================= */
+
+.dark-mode .coupon-form .form-select option,
+.dark-theme .coupon-form .form-select option,
+[data-theme="dark"] .coupon-form .form-select option {
+    background-color: #0b1323;
+    color: #f1f5f9;
+}
+
+
+/* =========================================
+   HELPER TEXT - DARK
+========================================= */
+
+.dark-mode .coupon-form small,
+.dark-theme .coupon-form small,
+[data-theme="dark"] .coupon-form small {
+    color: #94a3b8 !important;
+}
+
+
+/* =========================================
+   DATE / TIME - DARK
+========================================= */
+
+.dark-mode .coupon-form input[type="datetime-local"],
+.dark-theme .coupon-form input[type="datetime-local"],
+[data-theme="dark"] .coupon-form input[type="datetime-local"] {
+    color: #f1f5f9 !important;
+}
+
+.dark-mode .coupon-form input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+.dark-theme .coupon-form input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+[data-theme="dark"] .coupon-form input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .coupon-card {
+        padding: 18px;
+    }
+
+    .coupon-actions .btn {
+        width: 34px;
+        height: 34px;
+    }
+
+    .coupon-form .form-control,
+    .coupon-form .form-select {
+        min-height: 44px;
+    }
+}
