@@ -3,11 +3,123 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\Refund;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class RefundsController extends Controller
 {
-    public function index()
+    private const STATUSES = ['pending', 'approved', 'rejected', 'processed', 'cancelled'];
+
+    public function index(Request $request)
     {
-        return view('admin.refunds.index');
+        $search = trim((string) $request->query('search'));
+        $status = $request->query('status');
+        $sort = $request->query('sort', 'newest');
+        $query = Refund::with(['order', 'user', 'payment']);
+
+        if ($search !== '') {
+            $query->where(function ($q) use ($search) {
+                $q->where('refund_number', 'like', "%{$search}%")
+                    ->orWhere('reason', 'like', "%{$search}%")
+                    ->orWhereHas('order', fn ($order) => $order->where('order_number', 'like', "%{$search}%"))
+                    ->orWhereHas('user', fn ($user) => $user->where('name', 'like', "%{$search}%")->orWhere('email', 'like', "%{$search}%"));
+            });
+        }
+
+        if (in_array($status, self::STATUSES, true)) $query->where('status', $status);
+        match ($sort) {
+            'oldest' => $query->oldest('requested_at'),
+            'highest' => $query->orderByDesc('amount'),
+            'lowest' => $query->orderBy('amount'),
+            default => $query->latest('requested_at'),
+        };
+
+        $refunds = $query->paginate(10)->withQueryString();
+        $stats = [
+            'total' => Refund::count(),
+            'pending' => Refund::where('status', 'pending')->count(),
+            'processed' => Refund::where('status', 'processed')->count(),
+            'amount' => Refund::where('status', 'processed')->sum('amount'),
+        ];
+
+        return view('Admin.refunds.index', compact('refunds', 'stats', 'search', 'status', 'sort'));
+    }
+
+    public function create()
+    {
+        $orders = Order::with(['user', 'payment'])->latest()->get();
+        return view('Admin.refunds.create', compact('orders'));
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $this->validateRefund($request);
+        $order = Order::with('payment')->findOrFail($validated['order_id']);
+        $limit = $order->payment?->amount ?? $order->total_price;
+        $alreadyRefunded = Refund::where('order_id', $order->id)->whereIn('status', ['approved', 'processed'])->sum('amount');
+
+        if ((float) $validated['amount'] > ((float) $limit - (float) $alreadyRefunded)) {
+            return back()->withInput()->withErrors(['amount' => 'Refund amount cannot exceed the remaining refundable amount.']);
+        }
+
+        $refund = Refund::create([...$validated, 'payment_id' => $order->payment?->id, 'user_id' => $order->user_id, 'refund_number' => $this->nextRefundNumber(), 'status' => 'pending', 'requested_at' => now()]);
+        return redirect()->route('admin.refunds.show', $refund)->with('success', 'Refund created successfully.');
+    }
+
+    public function show(Refund $refund)
+    {
+        $refund->load(['order.user', 'order.payment', 'payment', 'user', 'processor']);
+        return view('Admin.refunds.show', compact('refund'));
+    }
+
+    public function edit(Refund $refund)
+    {
+        if ($refund->status === 'processed') return back()->with('error', 'Processed refunds cannot be edited.');
+        return view('Admin.refunds.edit', compact('refund'));
+    }
+
+    public function update(Request $request, Refund $refund)
+    {
+        if ($refund->status === 'processed') return back()->with('error', 'Processed refunds cannot be edited.');
+        $validated = $request->validate(['amount' => ['required', 'numeric', 'gt:0'], 'reason' => ['required', 'string', 'max:255'], 'note' => ['nullable', 'string', 'max:2000']]);
+        $refund->update($validated);
+        return redirect()->route('admin.refunds.show', $refund)->with('success', 'Refund updated successfully.');
+    }
+
+    public function updateStatus(Request $request, Refund $refund)
+    {
+        $next = $request->validate(['status' => [Rule::in(['approved', 'rejected', 'processed', 'cancelled'])]])['status'];
+        $allowed = match ($refund->status) { 'pending' => ['approved', 'rejected', 'cancelled'], 'approved' => ['processed', 'cancelled'], default => [] };
+        if (!in_array($next, $allowed, true)) return back()->with('error', 'This refund status transition is not allowed.');
+
+        DB::transaction(function () use ($refund, $next) {
+            $refund->update(['status' => $next, 'processed_by' => auth()->id(), 'processed_at' => $next === 'processed' ? now() : null]);
+            if ($next === 'processed') {
+                $refund->payment?->update(['payment_status' => 'refunded']);
+                $refund->order->update(['payment_status' => 'refunded']);
+            }
+        });
+        return back()->with('success', 'Refund ' . $next . ' successfully.');
+    }
+
+    public function destroy(Refund $refund)
+    {
+        if ($refund->status === 'processed') return back()->with('error', 'Processed refunds cannot be deleted.');
+        $refund->delete();
+        return redirect()->route('admin.refunds.index')->with('success', 'Refund deleted successfully.');
+    }
+
+    private function validateRefund(Request $request): array
+    {
+        return $request->validate(['order_id' => ['required', 'exists:orders,id'], 'amount' => ['required', 'numeric', 'gt:0'], 'reason' => ['required', 'string', 'max:255'], 'note' => ['nullable', 'string', 'max:2000']]);
+    }
+
+    private function nextRefundNumber(): string
+    {
+        do { $number = 'REF-' . now()->format('Ymd') . '-' . str_pad((string) random_int(1, 9999), 4, '0', STR_PAD_LEFT); } while (Refund::where('refund_number', $number)->exists());
+        return $number;
     }
 }

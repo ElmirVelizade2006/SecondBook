@@ -14,7 +14,7 @@
 
 
     {{-- Header --}}
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4" style="flex-wrap: wrap; gap: 10px;">
 
         <div>
             <h2 class="fw-bold mb-1">

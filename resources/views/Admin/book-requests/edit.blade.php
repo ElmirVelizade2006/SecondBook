@@ -3,7 +3,7 @@
 @section('title', 'Edit Book Request')
 
 @section('content')
-<div class="dashboard-section">
+<div class="dashboard-section book-requests-page">
 
     <div class="dashboard-panel mb-4">
         <div class="panel-header mb-0">

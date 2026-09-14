@@ -38,4 +38,9 @@ class Payment extends Model
     {
         return $this->belongsTo(Order::class);
     }
+
+    public function refunds()
+    {
+        return $this->hasMany(Refund::class);
+    }
 }

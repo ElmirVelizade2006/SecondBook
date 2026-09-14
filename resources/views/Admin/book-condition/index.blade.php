@@ -3,7 +3,7 @@
 @section('title', 'Book Conditions')
 
 @section('content')
-<div class="dashboard-section">
+<div class="dashboard-section book-condition-page">
 
     <div class="dashboard-panel mb-4">
         <div class="panel-header mb-0">
@@ -121,34 +121,3 @@
 </div>
 @endsection
 
-@push('css')
-<style>
-    .input-group-text{
-        border-radius:14px 0 0 14px;
-    }
-
-    .input-group .form-control{
-        border-radius:0;
-        padding:12px 14px;
-    }
-
-    .input-group .btn{
-        border-radius:0 14px 14px 0;
-    }
-
-    .form-select{
-        border-radius:14px;
-        padding:12px 14px;
-    }
-
-    .dashboard-panel .btn-sm{
-        width:36px;
-        height:36px;
-        padding:0;
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        border-radius:10px;
-    }
-</style>
-@endpush

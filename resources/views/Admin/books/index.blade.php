@@ -188,7 +188,7 @@
 
                         <tr>
                             <td colspan="9" class="text-center py-5">
-                                <div class="chart-placeholder" style="height:auto;padding:30px 0;">
+                                <div class="chart-placeholder books-empty-state">
                                     <i class="bi bi-book"></i>
                                     <h6>No books found</h6>
                                     <p>Add your first book to get started.</p>
@@ -219,55 +219,3 @@
 </div>
 
 @endsection
-
-@push('css')
-<style>
-    .book-cover-thumb{
-        width:44px;
-        height:56px;
-        flex-shrink:0;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        border-radius:10px;
-        background:linear-gradient(135deg,#eff6ff,#e0e7ff);
-        color:#2563eb;
-        font-size:18px;
-    }
-
-    .book-cover-image{
-        width:44px;
-        height:56px;
-        object-fit:cover;
-        flex-shrink:0;
-    }
-
-    .input-group-text{
-        border-radius:14px 0 0 14px;
-    }
-
-    .input-group .form-control{
-        border-radius:0;
-        padding:12px 14px;
-    }
-
-    .input-group .btn{
-        border-radius:0 14px 14px 0;
-    }
-
-    .form-select{
-        border-radius:14px;
-        padding:12px 14px;
-    }
-
-    .dashboard-panel .btn-sm{
-        width:36px;
-        height:36px;
-        padding:0;
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        border-radius:10px;
-    }
-</style>
-@endpush

@@ -18,7 +18,12 @@ class AdminMiddleware
         $user = Auth::user();
         $role = strtolower((string) ($user->role ?? ''));
 
-        if (!in_array($role, ['admin', 'superadmin', 'administrator'], true)) {
+        if (
+            !in_array($role, ['admin', 'superadmin', 'administrator'], true)
+            && !$user->hasRole('super-admin')
+            && !$user->hasRole('admin')
+            && !$user->roles()->exists()
+        ) {
             abort(403);
         }
 

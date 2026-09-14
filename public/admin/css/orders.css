@@ -1,128 +1,107 @@
-.order-card{
+/* =========================================================
+   Orders
+========================================================= */
 
-    background:#fff;
-    border-radius:18px;
-    padding:25px;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    box-shadow:0 10px 25px rgba(0,0,0,.06);
-
+.order-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    color: #172033;
 }
 
-
-.order-card span{
-
-    color:#6b7280;
-    font-size:14px;
-
+.order-card span {
+    display: block;
+    color: #6c757d;
+    font-size: 14px;
+    margin-bottom: 6px;
 }
 
-
-.order-card h3{
-
-    margin-top:8px;
-    font-weight:700;
-
+.order-card h3 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #172033;
 }
 
-
-.order-card i{
-
-    font-size:35px;
-    color:#8b5e3c;
-
+.order-card > i {
+    font-size: 32px;
+    opacity: 0.65;
+    color: #172033;
 }
 
-
-
-.table thead th{
-
-    font-size:13px;
-    text-transform:uppercase;
-    color:#6b7280;
-
-}
-
-
-.table td{
-
-    padding:16px;
-
-}
-
-
-.badge{
-
-    padding:7px 12px;
-    border-radius:20px;
-
-}
-
-/* ==========================
-   Order Form Inputs
-========================== */
-
-
-/* Dark Mode */
-[data-theme="dark"] .form-control,
-[data-theme="dark"] .form-select {
-
-    color: #ffffff !important;
-    background-color: #1f2937;
-    border-color: #374151;
-
-}
-
-
-[data-theme="dark"] .form-control::placeholder {
-
-    color: #ffffff !important;
-    opacity: 1;
-
-}
-
-
-
-/* Light Mode */
-[data-theme="light"] .form-control,
-[data-theme="light"] .form-select {
-
-    color: #111827 !important;
-    background-color: #ffffff;
-    border-color: #d1d5db;
-
-}
-
-
-[data-theme="light"] .form-control::placeholder {
-
-    color: #6b7280 !important;
-    opacity: 1;
-
-}
-
-
-
-/* Default (theme class yoxdursa) */
-.form-control,
-.form-select {
-
-    color: #111827;
-
-}
-
-
-.form-control::placeholder {
-
-    color: #6b7280;
-
-}
 
 /* =========================================================
-   Payment Actions
+   Table
+========================================================= */
+
+.card .table {
+    margin-bottom: 0;
+}
+
+.card .table thead th {
+    font-size: 13px;
+    font-weight: 600;
+    color: #172033;
+    border-bottom: 1px solid #e5e7eb;
+    white-space: nowrap;
+}
+
+.card .table tbody td {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    color: #172033;
+    border-bottom: 1px solid #eef0f3;
+}
+
+
+/* =========================================================
+   Table Action Buttons
+========================================================= */
+
+.table .btn-light {
+    border: 1px solid #d9e0ea;
+    background: #ffffff;
+    color: #172033;
+}
+
+.table .btn-light:hover {
+    background: #f3f5f8;
+}
+
+
+/* =========================================================
+   Order Form / Filters
+========================================================= */
+
+.form-control,
+.form-select {
+    color: #172033;
+    background-color: #ffffff;
+    border-color: #d9e0ea;
+}
+
+.form-control::placeholder {
+    color: #8a94a6;
+    opacity: 1;
+}
+
+.form-control:focus,
+.form-select:focus {
+    color: #172033;
+    background-color: #ffffff;
+    border-color: #3b5bdb;
+    box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.10);
+}
+
+
+/* =========================================================
+   Order Actions
 ========================================================= */
 
 .order-actions {
@@ -144,4 +123,181 @@
 
 .order-actions .btn i {
     font-size: 15px;
+}
+
+
+/* =========================================================
+   DARK MODE - Cards
+========================================================= */
+
+.dark-mode .order-card,
+.dark-theme .order-card,
+[data-theme="dark"] .order-card {
+    background: #111827;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+.dark-mode .order-card span,
+.dark-theme .order-card span,
+[data-theme="dark"] .order-card span {
+    color: #94a3b8;
+}
+
+.dark-mode .order-card h3,
+.dark-theme .order-card h3,
+[data-theme="dark"] .order-card h3 {
+    color: #f1f5f9;
+}
+
+.dark-mode .order-card > i,
+.dark-theme .order-card > i,
+[data-theme="dark"] .order-card > i {
+    color: #f1f5f9;
+}
+
+
+/* =========================================================
+   DARK MODE - Table
+========================================================= */
+
+.dark-mode .card .table thead th,
+.dark-theme .card .table thead th,
+[data-theme="dark"] .card .table thead th {
+    color: #f1f5f9;
+    border-bottom-color: #334155;
+}
+
+.dark-mode .card .table tbody td,
+.dark-theme .card .table tbody td,
+[data-theme="dark"] .card .table tbody td {
+    color: #e2e8f0;
+    border-bottom-color: #263244;
+}
+
+
+/* =========================================================
+   DARK MODE - Table Buttons
+========================================================= */
+
+.dark-mode .table .btn-light,
+.dark-theme .table .btn-light,
+[data-theme="dark"] .table .btn-light {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+.dark-mode .table .btn-light:hover,
+.dark-theme .table .btn-light:hover,
+[data-theme="dark"] .table .btn-light:hover {
+    background: #334155;
+}
+
+
+/* =========================================================
+   DARK MODE - Form / Filters
+========================================================= */
+
+.dark-mode .form-control,
+.dark-mode .form-select,
+.dark-theme .form-control,
+.dark-theme .form-select,
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+    background-color: #0b1323 !important;
+    color: #f1f5f9 !important;
+    border-color: #334155 !important;
+
+    /*
+       Input daxilindeki yazinin rengini de mecburi deyisir
+    */
+    -webkit-text-fill-color: #f1f5f9 !important;
+}
+
+
+/* =========================================================
+   DARK MODE - Placeholder
+========================================================= */
+
+.dark-mode .form-control::placeholder,
+.dark-theme .form-control::placeholder,
+[data-theme="dark"] .form-control::placeholder {
+    color: #7890b3 !important;
+    opacity: 1 !important;
+}
+
+
+/* =========================================================
+   DARK MODE - Select Options
+========================================================= */
+
+.dark-mode .form-select option,
+.dark-theme .form-select option,
+[data-theme="dark"] .form-select option {
+    background-color: #0b1323 !important;
+    color: #f1f5f9 !important;
+}
+
+
+/* =========================================================
+   DARK MODE - Focus
+========================================================= */
+
+.dark-mode .form-control:focus,
+.dark-mode .form-select:focus,
+.dark-theme .form-control:focus,
+.dark-theme .form-select:focus,
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-select:focus {
+    background-color: #0b1323 !important;
+    color: #f1f5f9 !important;
+    -webkit-text-fill-color: #f1f5f9 !important;
+    border-color: #3b5bdb !important;
+    box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.12) !important;
+}
+
+
+/* =========================================================
+   DARK MODE - Date Input
+========================================================= */
+
+.dark-mode input[type="date"],
+.dark-theme input[type="date"],
+[data-theme="dark"] input[type="date"] {
+    color: #f1f5f9 !important;
+    -webkit-text-fill-color: #f1f5f9 !important;
+}
+
+
+/* Calendar icon */
+.dark-mode input[type="date"]::-webkit-calendar-picker-indicator,
+.dark-theme input[type="date"]::-webkit-calendar-picker-indicator,
+[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+
+/* =========================================================
+   Responsive
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .order-card {
+        padding: 20px;
+    }
+
+    .order-card h3 {
+        font-size: 24px;
+    }
+
+    .order-actions {
+        gap: 4px;
+    }
+
+    .order-actions .btn {
+        width: 38px;
+        height: 38px;
+    }
 }

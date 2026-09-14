@@ -3,7 +3,7 @@
 @section('title', 'Book Requests')
 
 @section('content')
-<div class="dashboard-section">
+<div class="dashboard-section book-requests-page">
 
     <div class="dashboard-panel mb-4">
         <div class="panel-header mb-0">
@@ -56,7 +56,7 @@
 
                 <div class="col-12 col-lg-3">
                     <label class="form-label fw-semibold text-muted small">Date Range</label>
-                    <input type="text" name="date_range" value="{{ request('date_range') }}" class="form-control" placeholder="01/07/2026 - 28/07/2026" style="min-width: 240px; padding: 10px 14px; height: 50px;">
+                    <input type="text" name="date_range" value="{{ request('date_range') }}" class="form-control" placeholder="01/07/2026 - 28/07/2026">
                 </div>
 
                 <div class="col-12 col-lg-4 d-flex gap-2">
@@ -133,35 +133,3 @@
 </div>
 @endsection
 
-@push('css')
-<style>
-    .input-group-text{
-        border-radius:14px 0 0 14px;
-    }
-
-    .input-group .form-control{
-        border-radius:0;
-        padding:12px 14px;
-    }
-
-    .input-group .btn{
-        border-radius:0 14px 14px 0;
-    }
-
-    .form-select,
-    input[name="date_range"]{
-        border-radius:14px;
-        padding:12px 14px;
-    }
-
-    .dashboard-panel .btn-sm{
-        width:36px;
-        height:36px;
-        padding:0;
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        border-radius:10px;
-    }
-</style>
-@endpush

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use App\Models\PasswordOtp;
+use App\Models\Setting;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
@@ -29,6 +30,10 @@ class AuthController extends \App\Http\Controllers\Controller
 
     public function storeRegister(Request $request)
     {
+        if (!Setting::get('user_registration_enabled', true)) {
+            return back()->with('error', 'User registration is currently disabled.');
+        }
+
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name'  => 'required|string|max:255',
@@ -264,6 +269,8 @@ class AuthController extends \App\Http\Controllers\Controller
             ->with('status', 'Password reset successfully.');
 
     }
+
+    
 
     /*
     |--------------------------------------------------------------------------

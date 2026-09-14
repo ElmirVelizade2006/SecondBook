@@ -1,0 +1,20 @@
+/* Categories */
+.category-page .book-cover-thumb { width: 44px; height: 56px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: linear-gradient(135deg, #eff6ff, #e0e7ff); color: #2563eb; font-size: 18px; }
+.category-page .category-thumb { width: 44px; height: 56px; object-fit: cover; display: block; }
+.category-page .category-empty-state { height: auto; padding: 30px 0; }
+.category-page .category-detail-image { max-height: 180px; object-fit: cover; }
+.category-page .category-detail-image-large { max-height: 320px; object-fit: cover; }
+.category-page .category-detail-placeholder { height: 220px; }
+.category-page .input-group-text { border-radius: 14px 0 0 14px; }
+.category-page .input-group .form-control { border-radius: 0; padding: 12px 14px; }
+.category-page .input-group .btn { border-radius: 0 14px 14px 0; }
+.category-page .form-select { border-radius: 14px; padding: 12px 14px; }
+.category-page .dashboard-panel .btn-sm { width: 36px; height: 36px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 10px; }
+.category-page .tip-box { background: rgba(248, 250, 252, .9); color: #475569; border-color: #e2e8f0; }
+.category-page input[type="file"].form-control { padding: 6px; background: #f8fafc; color: #0f172a; border-color: #cbd5e1; }
+.category-page input[type="file"]::file-selector-button,
+.category-page input[type="file"]::-webkit-file-upload-button { margin: 0 10px 0 0; padding: 10px 14px; border: 0; border-right: 1px solid #cbd5e1; border-radius: 10px; background: #e2e8f0; color: #0f172a; font-weight: 600; }
+:root[data-theme="dark"] .category-page .tip-box { background: #111827; color: #e5e7eb; border-color: #334155; }
+:root[data-theme="dark"] .category-page input[type="file"].form-control { background: #0b1220 !important; color: #e5e7eb !important; border-color: #334155 !important; }
+:root[data-theme="dark"] .category-page input[type="file"]::file-selector-button,
+:root[data-theme="dark"] .category-page input[type="file"]::-webkit-file-upload-button { background: #1e293b; color: #e5e7eb; border-right-color: #334155; }

@@ -1,334 +1,187 @@
 @extends('layout.admin.master')
 
-@section('title', 'Edit Order | SecondBook Admin')
-
-
-@push('css')
-    <link rel="stylesheet" href="{{ asset('admin/css/orders.css') }}">
-@endpush
-
-
+@section('title', 'Edit Book')
 
 @section('content')
-
-
-<div class="container-fluid p-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2 class="fw-bold mb-1">
-                <i class="bi bi-pencil-square me-2"></i>
-                Edit Order
-            </h2>
-            <p class="text-muted mb-0">
-                Update customer order information
-            </p>
+<div class="dashboard-section">
+    <div class="dashboard-panel mb-4">
+        <div class="panel-header mb-0">
+            <div>
+                <h5 class="mb-1">Edit Book</h5>
+                <p class="text-muted mb-0 small">Update the book listing details</p>
+            </div>
+            <a href="{{ route('admin.books.index') }}" class="btn btn-light border">
+                <i class="bi bi-arrow-left me-2"></i>
+                Back to Books
+            </a>
         </div>
-
-        <a href="{{ route('admin.orders.index') }}" class="btn btn-secondary">
-            <i class="bi bi-arrow-left me-2"></i>
-            Back
-        </a>
     </div>
 
+    <div class="dashboard-panel">
+        @if ($errors->any())
+            <div class="alert alert-danger mb-4">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-    <div class="card border-0 shadow-sm">
-        <div class="card-body p-4">
-            <form action="{{ route('admin.orders.update',$order->id) }}" method="POST">
-
-                @csrf
-                @method('PUT')
+        <form action="{{ route('admin.books.update', $book->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
 
             <div class="row g-4">
-                <div class="col-md-6">
+                <div class="col-12 col-lg-8">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Book Title <span class="text-danger">*</span></label>
+                        <input type="text" name="title" class="form-control @error('title') is-invalid @enderror"
+                               value="{{ old('title', $book->title) }}" placeholder="Enter book title" required>
+                        @error('title')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
 
-                <label class="form-label">
-                Customer
-                </label>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">ISBN</label>
+                        <input type="text" name="isbn" class="form-control @error('isbn') is-invalid @enderror"
+                               value="{{ old('isbn', $book->isbn) }}" placeholder="e.g. 978-3-16-148410-0">
+                        @error('isbn')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
 
-                <select name="user_id" class="form-select">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Author</label>
+                            <select name="author_id" class="form-select @error('author_id') is-invalid @enderror">
+                                <option value="">Select author</option>
+                                @foreach($authors as $author)
+                                    <option value="{{ $author->id }}" {{ old('author_id', $book->author_id) == $author->id ? 'selected' : '' }}>
+                                        {{ $author->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('author_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
 
-                    @foreach($users as $user)
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Category</label>
+                            <select name="category_id" class="form-select @error('category_id') is-invalid @enderror">
+                                <option value="">Select category</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ old('category_id', $book->category_id) == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('category_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
 
-                        <option value="{{ $user->id }}"
-                        {{ $order->user_id == $user->id ? 'selected' : '' }}>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Publisher</label>
+                            <select name="publisher_id" class="form-select @error('publisher_id') is-invalid @enderror">
+                                <option value="">Select publisher</option>
+                                @foreach($publishers as $publisher)
+                                    <option value="{{ $publisher->id }}" {{ old('publisher_id', $book->publisher_id) == $publisher->id ? 'selected' : '' }}>
+                                        {{ $publisher->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('publisher_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
 
-                        {{ $user->first_name }} {{ $user->last_name }}
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Condition</label>
+                            <select name="condition" class="form-select">
+                                <option value="new" {{ old('condition', $book->condition) == 'new' ? 'selected' : '' }}>New</option>
+                                <option value="like_new" {{ old('condition', $book->condition) == 'like_new' ? 'selected' : '' }}>Like New</option>
+                                <option value="good" {{ old('condition', $book->condition) == 'good' ? 'selected' : '' }}>Good</option>
+                                <option value="fair" {{ old('condition', $book->condition) == 'fair' ? 'selected' : '' }}>Fair</option>
+                            </select>
+                        </div>
 
-                        </option>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Price ($)</label>
+                            <input type="number" name="price" class="form-control @error('price') is-invalid @enderror"
+                                   step="0.01" min="0" value="{{ old('price', $book->price) }}" placeholder="0.00">
+                            @error('price')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
 
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Stock</label>
+                            <input type="number" name="stock" class="form-control @error('stock') is-invalid @enderror"
+                                   min="0" value="{{ old('stock', $book->stock) }}" placeholder="1">
+                            @error('stock')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
 
-                    @endforeach
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Language</label>
+                            <input type="text" name="language" class="form-control"
+                                   value="{{ old('language', $book->language ?? 'English') }}" placeholder="English">
+                        </div>
 
-                </select>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Publication Year</label>
+                            <input type="number" name="publication_year" class="form-control @error('publication_year') is-invalid @enderror"
+                                   min="1000" max="{{ date('Y') }}" value="{{ old('publication_year', $book->publication_year) }}" placeholder="{{ date('Y') }}">
+                            @error('publication_year')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Pages</label>
+                            <input type="number" name="pages" class="form-control @error('pages') is-invalid @enderror"
+                                   min="1" value="{{ old('pages', $book->pages) }}" placeholder="Number of pages">
+                            @error('pages')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Seller</label>
+                            <select name="seller_id" class="form-select @error('seller_id') is-invalid @enderror">
+                                <option value="">Select seller</option>
+                                @foreach($sellers as $seller)
+                                    <option value="{{ $seller->id }}" {{ old('seller_id', $book->seller_id) == $seller->id ? 'selected' : '' }}>
+                                        {{ $seller->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('seller_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <label class="form-label fw-semibold">Description</label>
+                        <textarea name="description" class="form-control" rows="5" placeholder="Write a short description about the book...">{{ old('description', $book->description) }}</textarea>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-4">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Cover Image</label>
+                        @if(!empty($book->cover))
+                            <img src="{{ asset('storage/' . $book->cover) }}" alt="{{ $book->title }}" class="img-fluid rounded border mb-3" style="max-height: 240px; object-fit: cover;">
+                        @endif
+                        <input type="file" name="cover" class="form-control @error('cover') is-invalid @enderror" accept="image/*">
+                        <small class="text-muted">Leave empty to keep the current cover.</small>
+                        @error('cover')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Status</label>
+                        <select name="status" class="form-select">
+                            <option value="pending" {{ old('status', $book->status) == 'pending' ? 'selected' : '' }}>Pending</option>
+                            <option value="approved" {{ old('status', $book->status) == 'approved' ? 'selected' : '' }}>Approved</option>
+                            <option value="rejected" {{ old('status', $book->status) == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                        </select>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle me-2"></i>
+                            Update Book
+                        </button>
+                        <a href="{{ route('admin.books.index') }}" class="btn btn-light border">Cancel</a>
+                    </div>
+                </div>
             </div>
-
-            <div class="col-md-6">
-
-                <label class="form-label">
-                Book
-                </label>
-
-                <select name="book_id" class="form-select">
-
-                    @foreach($books as $book)
-                        <option value="{{ $book->id }}"
-                        {{ $order->book_id == $book->id ? 'selected' : '' }}>
-                        {{ $book->title }}
-                        </option>
-                    @endforeach
-
-                </select>
-
-
-            </div>
-
-
-            <div class="col-md-4">
-
-                <label class="form-label">
-                Book Price
-                </label>
-
-                <input type="number"
-                name="book_price"
-                step="0.01"
-                class="form-control"
-                value="{{ $order->book_price }}">
-
-            </div>
-
-            <div class="col-md-4">
-
-                <label class="form-label">
-                Quantity
-                </label>
-
-                <input type="number"
-                name="quantity"
-                min="1"
-                class="form-control"
-                value="{{ $order->quantity }}">
-
-            </div>
-
-            <div class="col-md-4">
-
-                <label class="form-label">
-                Payment Method
-                </label>
-
-                <select name="payment_method" class="form-select">
-
-                    <option value="cash_on_delivery"
-                    {{ $order->payment_method == 'cash_on_delivery' ? 'selected':'' }}>
-                    Cash On Delivery
-                    </option>
-
-
-                    <option value="credit_card"
-                    {{ $order->payment_method == 'credit_card' ? 'selected':'' }}>
-                    Credit Card
-                    </option>
-
-
-                    <option value="debit_card"
-                    {{ $order->payment_method == 'debit_card' ? 'selected':'' }}>
-                    Debit Card
-                    </option>
-
-
-                    <option value="paypal"
-                    {{ $order->payment_method == 'paypal' ? 'selected':'' }}>
-                    Paypal
-                    </option>
-
-                </select>
-
-            </div>
-
-            <div class="col-md-6">
-
-
-                <label class="form-label">
-                Payment Status
-                </label>
-
-
-                <select name="payment_status" class="form-select">
-
-
-                    <option value="pending"
-                    {{ $order->payment_status=='pending'?'selected':'' }}>
-                    Pending
-                    </option>
-
-
-                    <option value="paid"
-                    {{ $order->payment_status=='paid'?'selected':'' }}>
-                    Paid
-                    </option>
-
-
-                    <option value="failed"
-                    {{ $order->payment_status=='failed'?'selected':'' }}>
-                    Failed
-                    </option>
-
-
-                    <option value="refunded"
-                    {{ $order->payment_status=='refunded'?'selected':'' }}>
-                    Refunded
-                    </option>
-
-
-                </select>
-
-
-            </div>
-
-            <div class="col-md-6">
-
-                <label class="form-label">
-                Order Status
-                </label>
-
-                <select name="order_status" class="form-select">
-
-                    <option value="pending"
-                    {{ $order->order_status=='pending'?'selected':'' }}>
-                    Pending
-                    </option>
-
-                    <option value="processing"
-                    {{ $order->order_status=='processing'?'selected':'' }}>
-                    Processing
-                    </option>
-
-                    <option value="shipped"
-                    {{ $order->order_status=='shipped'?'selected':'' }}>
-                    Shipped
-                    </option>
-
-                    <option value="delivered"
-                    {{ $order->order_status=='delivered'?'selected':'' }}>
-                    Delivered
-                    </option>
-
-                    <option value="cancelled"
-                    {{ $order->order_status=='cancelled'?'selected':'' }}>
-                    Cancelled
-                    </option>
-
-                </select>
-
-            </div>
-
-            <div class="col-md-6">
-
-            <label class="form-label">
-            Full Name
-            </label>
-
-            <input type="text"
-            name="full_name"
-            class="form-control"
-            value="{{ $order->full_name }}">
-
-            </div>
-
-            <div class="col-md-6">
-
-                <label class="form-label">
-                Phone
-                </label>
-
-                <input type="text"
-                name="phone"
-                class="form-control"
-                value="{{ $order->phone }}">
-
-            </div>
-
-            <div class="col-md-4">
-
-                <label class="form-label">
-                Country
-                </label>
-
-                <input type="text"
-                name="country"
-                class="form-control"
-                value="{{ $order->country }}">
-
-            </div>
-
-            <div class="col-md-4">
-
-                <label class="form-label">
-                City
-                </label>
-
-
-                <input type="text"
-                name="city"
-                class="form-control"
-                value="{{ $order->city }}">
-
-            </div>
-
-            <div class="col-md-4">
-
-                <label class="form-label">
-                Postal Code
-                </label>
-
-                <input type="text"
-                name="postal_code"
-                class="form-control"
-                value="{{ $order->postal_code }}">
-
-            </div>
-
-            <div class="col-12">
-
-                <label class="form-label">
-                Address
-                </label>
-
-                <textarea name="address"
-                class="form-control"
-                rows="3">{{ $order->address }}</textarea>
-
-            </div>
-
-            <div class="col-12">
-
-                <label class="form-label">
-                Note
-                </label>
-
-                <textarea name="note"
-                class="form-control"
-                rows="3">{{ $order->note }}</textarea>
-
-            </div>
-
-        </div>
-
-        <div class="mt-4 text-end">
-
-            <button class="btn btn-primary">
-            <i class="bi bi-check-circle me-2"></i>
-            Update Order
-            </button>
-
-        </div>
-
-    </form>
-
-
+        </form>
+    </div>
 </div>
-
-
-
 @endsection

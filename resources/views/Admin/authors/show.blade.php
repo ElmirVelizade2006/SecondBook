@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="dashboard-section">
+<div class="dashboard-section authors-page">
 
     <div class="dashboard-panel mb-4">
 
@@ -66,7 +66,7 @@
                         src="{{ asset('storage/' . $author->photo) }}"
                         alt="{{ $author->name }}"
                         class="img-fluid rounded border"
-                        style="max-height: 220px; object-fit: cover;">
+                        class="author-detail-image">
                 @else
                     <span class="text-muted">-</span>
                 @endif

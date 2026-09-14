@@ -109,6 +109,8 @@ input[name="search"],
 .form-control,
 .form-select {
     color: #172033;
+    background-color: #ffffff;
+    border-color: #d9e0ea;
 }
 
 input[name="search"]::placeholder,
@@ -153,6 +155,10 @@ input[name="search"]:focus,
 /* =========================================================
    DARK MODE
 ========================================================= */
+
+/* -------------------------
+   Payment Cards
+------------------------- */
 
 .dark-mode .payment-card,
 .dark-theme .payment-card,
@@ -225,33 +231,54 @@ input[name="search"]:focus,
 
 .dark-mode input[name="amount"],
 .dark-mode textarea[name="note"],
+
 .dark-theme input[name="amount"],
 .dark-theme textarea[name="note"],
+
 [data-theme="dark"] input[name="amount"],
 [data-theme="dark"] textarea[name="note"] {
     background-color: #0b1323 !important;
     color: #f1f5f9 !important;
     border-color: #334155 !important;
+
+    /* Input daxilindeki yazini deyisir */
+    -webkit-text-fill-color: #f1f5f9 !important;
 }
+
+
+/* -------------------------
+   Payment Placeholder
+------------------------- */
 
 .dark-mode input[name="amount"]::placeholder,
 .dark-mode textarea[name="note"]::placeholder,
+
 .dark-theme input[name="amount"]::placeholder,
 .dark-theme textarea[name="note"]::placeholder,
+
 [data-theme="dark"] input[name="amount"]::placeholder,
 [data-theme="dark"] textarea[name="note"]::placeholder {
     color: #7890b3 !important;
+    -webkit-text-fill-color: #7890b3 !important;
     opacity: 1 !important;
 }
 
+
+/* -------------------------
+   Payment Form Focus
+------------------------- */
+
 .dark-mode input[name="amount"]:focus,
 .dark-mode textarea[name="note"]:focus,
+
 .dark-theme input[name="amount"]:focus,
 .dark-theme textarea[name="note"]:focus,
+
 [data-theme="dark"] input[name="amount"]:focus,
 [data-theme="dark"] textarea[name="note"]:focus {
     background-color: #0b1323 !important;
     color: #f1f5f9 !important;
+    -webkit-text-fill-color: #f1f5f9 !important;
     border-color: #3b5bdb !important;
     box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.12) !important;
 }
@@ -264,32 +291,92 @@ input[name="search"]:focus,
 .dark-mode input[name="search"],
 .dark-mode .form-control,
 .dark-mode .form-select,
+
 .dark-theme input[name="search"],
 .dark-theme .form-control,
 .dark-theme .form-select,
+
 [data-theme="dark"] input[name="search"],
 [data-theme="dark"] .form-control,
 [data-theme="dark"] .form-select {
     background-color: #0b1323 !important;
     color: #f1f5f9 !important;
     border-color: #334155 !important;
+
+    /* Input daxilindeki yazini deyisir */
+    -webkit-text-fill-color: #f1f5f9 !important;
 }
+
+
+/* =========================================================
+   Search Placeholder - DARK MODE
+========================================================= */
 
 .dark-mode input[name="search"]::placeholder,
 .dark-mode .form-control::placeholder,
+
 .dark-theme input[name="search"]::placeholder,
 .dark-theme .form-control::placeholder,
+
 [data-theme="dark"] input[name="search"]::placeholder,
 [data-theme="dark"] .form-control::placeholder {
     color: #7890b3 !important;
-    opacity: 1;
+    -webkit-text-fill-color: #7890b3 !important;
+    opacity: 1 !important;
 }
+
+
+/* =========================================================
+   Select Options - DARK MODE
+========================================================= */
 
 .dark-mode .form-select option,
 .dark-theme .form-select option,
 [data-theme="dark"] .form-select option {
-    background-color: #0b1323;
-    color: #f1f5f9;
+    background-color: #0b1323 !important;
+    color: #f1f5f9 !important;
+}
+
+
+/* =========================================================
+   Search / Filters Focus - DARK MODE
+========================================================= */
+
+.dark-mode input[name="search"]:focus,
+.dark-mode .form-control:focus,
+.dark-mode .form-select:focus,
+
+.dark-theme input[name="search"]:focus,
+.dark-theme .form-control:focus,
+.dark-theme .form-select:focus,
+
+[data-theme="dark"] input[name="search"]:focus,
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-select:focus {
+    background-color: #0b1323 !important;
+    color: #f1f5f9 !important;
+    -webkit-text-fill-color: #f1f5f9 !important;
+    border-color: #3b5bdb !important;
+    box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.12) !important;
+}
+
+
+/* =========================================================
+   Date Input - DARK MODE
+========================================================= */
+
+.dark-mode input[type="date"],
+.dark-theme input[type="date"],
+[data-theme="dark"] input[type="date"] {
+    color: #f1f5f9 !important;
+    -webkit-text-fill-color: #f1f5f9 !important;
+}
+
+.dark-mode input[type="date"]::-webkit-calendar-picker-indicator,
+.dark-theme input[type="date"]::-webkit-calendar-picker-indicator,
+[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.8;
 }
 
 

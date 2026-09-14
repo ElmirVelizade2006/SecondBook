@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="dashboard-section">
+<div class="dashboard-section category-page">
 
     <div class="dashboard-panel mb-4">
 
@@ -42,10 +42,9 @@
                     <img
                         src="{{ asset('storage/' . $category->image) }}"
                         alt="{{ $category->name }}"
-                        class="img-fluid rounded border w-100"
-                        style="max-height: 320px; object-fit: cover;">
+                        class="img-fluid rounded border w-100 category-detail-image-large">
                 @else
-                    <div class="chart-placeholder" style="height:220px;">
+                    <div class="chart-placeholder category-detail-placeholder">
                         <i class="bi bi-image"></i>
                         <h6>No image uploaded</h6>
                     </div>

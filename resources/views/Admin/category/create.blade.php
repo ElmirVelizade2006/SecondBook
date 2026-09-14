@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="dashboard-section">
+<div class="dashboard-section category-page">
 
     <div class="dashboard-panel mb-4">
 
@@ -142,50 +142,3 @@
 
 @endsection
 
-@push('css')
-<style>
-    .tip-box{
-        background:rgba(248, 250, 252, 0.9);
-        color:#475569;
-        border-color:#e2e8f0;
-    }
-
-    :root[data-theme="dark"] .tip-box{
-        background:#111827;
-        color:#e5e7eb;
-        border-color:#334155;
-    }
-
-    input[type="file"].form-control{
-        padding:6px;
-        background:#f8fafc;
-        color:#0f172a;
-        border-color:#cbd5e1;
-    }
-
-    input[type="file"].form-control::file-selector-button,
-    input[type="file"].form-control::-webkit-file-upload-button{
-        margin:0 10px 0 0;
-        padding:10px 14px;
-        border:0;
-        border-right:1px solid #cbd5e1;
-        border-radius:10px;
-        background:#e2e8f0;
-        color:#0f172a;
-        font-weight:600;
-    }
-
-    :root[data-theme="dark"] input[type="file"].form-control{
-        background:#0b1220 !important;
-        color:#e5e7eb !important;
-        border-color:#334155 !important;
-    }
-
-    :root[data-theme="dark"] input[type="file"].form-control::file-selector-button,
-    :root[data-theme="dark"] input[type="file"].form-control::-webkit-file-upload-button{
-        background:#1e293b;
-        color:#e5e7eb;
-        border-right:1px solid #334155;
-    }
-</style>
-@endpush

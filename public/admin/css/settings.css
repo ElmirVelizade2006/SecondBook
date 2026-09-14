@@ -1,0 +1,188 @@
+/* =========================================================
+   Global Settings additions
+   Theme Mode styling remains owned by the admin layout.
+========================================================= */
+.settings-page .settings-form-header,
+.settings-page .settings-card,
+.settings-page .settings-save-bar {
+    padding: 25px 28px;
+}
+
+.settings-form-header,
+.settings-save-bar,
+.settings-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.settings-form-header h5,
+.settings-section-heading h5 {
+    margin: 5px 0 4px;
+    color: #172033;
+}
+
+.settings-eyebrow {
+    color: #2563eb;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+}
+
+.settings-section-heading {
+    margin-bottom: 20px;
+}
+
+.settings-section-heading small {
+    display: block;
+    margin-top: 5px;
+}
+
+.settings-page .form-label {
+    margin-bottom: 7px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.settings-page .form-control,
+.settings-page .form-select {
+    min-height: 44px;
+    border-radius: 10px;
+}
+
+.settings-page input[type="file"].form-control {
+    padding: 7px;
+}
+
+.settings-page input[type="file"]::file-selector-button,
+.settings-page input[type="file"]::-webkit-file-upload-button {
+    margin: 0 10px 0 0;
+    padding: 8px 12px;
+    border: 0;
+    border-right: 1px solid #d9e1eb;
+    border-radius: 7px;
+    background: #eef2f7;
+    color: #334155;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.settings-page textarea.form-control {
+    min-height: 92px;
+    resize: vertical;
+}
+
+.settings-switch {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.settings-switch input {
+    width: 18px;
+    height: 18px;
+    accent-color: #2563eb;
+}
+
+.settings-methods {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    padding: 14px 16px;
+    border: 1px solid #e8edf4;
+    border-radius: 12px;
+    background: #f8fafc;
+}
+
+.settings-methods .settings-switch {
+    min-height: auto;
+}
+
+.settings-save-bar {
+    position: sticky;
+    bottom: 16px;
+    z-index: 5;
+    border: 1px solid #e6ebf2;
+    box-shadow: 0 12px 30px rgba(24, 40, 72, .1);
+}
+
+:root[data-theme="dark"] .settings-page .settings-form-header,
+:root[data-theme="dark"] .settings-page .settings-card,
+:root[data-theme="dark"] .settings-page .settings-save-bar {
+    border-color: #334155;
+    background: #111827;
+}
+
+:root[data-theme="dark"] .settings-form-header h5,
+:root[data-theme="dark"] .settings-section-heading h5,
+:root[data-theme="dark"] .settings-page .form-label,
+:root[data-theme="dark"] .settings-switch {
+    color: #e6edf7;
+}
+
+:root[data-theme="dark"] .settings-page .form-control,
+:root[data-theme="dark"] .settings-page .form-select {
+    border-color: #334155;
+    background: #0b1220;
+    color: #e5e7eb;
+}
+
+:root[data-theme="dark"] .settings-page input[type="file"].form-control {
+    background: #0b1220;
+    border-color: #334155;
+    color: #e5e7eb;
+    -webkit-text-fill-color: #e5e7eb;
+}
+
+:root[data-theme="dark"] .settings-page input[type="file"]::file-selector-button,
+:root[data-theme="dark"] .settings-page input[type="file"]::-webkit-file-upload-button {
+    border-right-color: #475569;
+    background: #1e293b;
+    color: #e5e7eb;
+}
+
+:root[data-theme="dark"] .settings-page input[type="file"]:hover::file-selector-button {
+    background: #334155;
+}
+
+:root[data-theme="dark"] .settings-page .form-control::placeholder {
+    color: #7f8da3;
+}
+
+:root[data-theme="dark"] .settings-methods {
+    border-color: #334155;
+    background: #0f172a;
+}
+
+@media (max-width: 767.98px) {
+    .settings-page .settings-form-header,
+    .settings-page .settings-card,
+    .settings-page .settings-save-bar {
+        padding: 20px 18px;
+    }
+
+    .settings-form-header,
+    .settings-save-bar,
+    .settings-section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .settings-form-header .btn,
+    .settings-save-bar .btn {
+        width: 100%;
+    }
+
+    .settings-methods {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}

@@ -81,7 +81,7 @@
 
             <div class="dashboard-card-footer">
 
-                <a href="#">
+                <a href="{{ route('admin.books.index') }}">
                     View Details
                     <i class="bi bi-arrow-right ms-1"></i>
                 </a>
@@ -117,7 +117,7 @@
 
             <div class="dashboard-card-footer">
 
-                <a href="#">
+                <a href="{{ route('admin.users.index') }}">
                     View Details
                     <i class="bi bi-arrow-right ms-1"></i>
                 </a>
@@ -153,7 +153,7 @@
 
             <div class="dashboard-card-footer">
 
-                <a href="#">
+                <a href="{{ route('admin.categories.index') }}">
                     View Details
                     <i class="bi bi-arrow-right ms-1"></i>
                 </a>
@@ -189,7 +189,7 @@
 
             <div class="dashboard-card-footer">
 
-                <a href="#">
+                <a href="{{ route('admin.authors.index') }}">
                     View Details
                     <i class="bi bi-arrow-right ms-1"></i>
                 </a>
@@ -452,19 +452,19 @@
 
             <div class="card-body d-grid gap-3">
 
-                <a href="#" class="btn btn-primary">
+                <a href="{{ route('admin.books.create') }}" class="btn btn-primary">
                     Add Book
                 </a>
 
-                <a href="#" class="btn btn-success">
+                <a href="{{ route('admin.categories.create') }}" class="btn btn-success">
                     Add Category
                 </a>
 
-                <a href="#" class="btn btn-warning">
+                <a href="{{ route('admin.authors.create') }}" class="btn btn-warning">
                     Add Author
                 </a>
 
-                <a href="#" class="btn btn-dark">
+                <a href="{{ route('admin.users.index') }}" class="btn btn-dark">
                     View Users
                 </a>
 

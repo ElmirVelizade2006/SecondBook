@@ -1,0 +1,19 @@
+/* Authors */
+.authors-page .book-cover-thumb { width: 44px; height: 56px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: linear-gradient(135deg, #eff6ff, #e0e7ff); color: #2563eb; font-size: 18px; }
+.authors-page .author-thumb { width: 44px; height: 56px; object-fit: cover; display: block; }
+.authors-page .input-group-text { border-radius: 14px 0 0 14px; }
+.authors-page .input-group .form-control { border-radius: 0; padding: 12px 14px; }
+.authors-page .input-group .btn { border-radius: 0 14px 14px 0; }
+.authors-page .dashboard-panel .btn-sm { width: 36px; height: 36px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 10px; }
+.authors-page .form-control { border-radius: 14px; padding: 12px 16px; }
+.authors-page .form-label { color: #334155; margin-bottom: 8px; }
+.authors-page input[type="file"].form-control,
+.authors-page .form-control[type="file"] { padding: 6px; background: #f8fafc; color: #0f172a; border-color: #cbd5e1; }
+.authors-page input[type="file"]::file-selector-button,
+.authors-page input[type="file"]::-webkit-file-upload-button { margin: 0 10px 0 0; padding: 10px 14px; border: 0; border-right: 1px solid #cbd5e1; border-radius: 10px; background: #e2e8f0; color: #0f172a; font-weight: 600; }
+.authors-page .author-detail-image { max-height: 220px; object-fit: cover; }
+.authors-page .authors-empty-state { height: auto; padding: 30px 0; }
+:root[data-theme="dark"] .authors-page input[type="file"].form-control { background: #0b1220 !important; color: #e5e7eb !important; border-color: #334155 !important; }
+:root[data-theme="dark"] .authors-page input[type="file"]::file-selector-button,
+:root[data-theme="dark"] .authors-page input[type="file"]::-webkit-file-upload-button { background: #1e293b; color: #e5e7eb; border-right-color: #334155; }
+:root[data-theme="dark"] .authors-page .form-label { color: #cbd5e1; }

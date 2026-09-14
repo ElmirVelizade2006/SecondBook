@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="dashboard-section">
+<div class="dashboard-section publishers-page">
 
     <div class="dashboard-panel mb-4">
 
@@ -66,7 +66,7 @@
                         src="{{ asset('storage/' . $publisher->logo) }}"
                         alt="{{ $publisher->name }}"
                         class="img-fluid rounded border"
-                        style="max-height: 180px; object-fit: cover;">
+                        class="publisher-detail-image">
                 @else
                     <strong>-</strong>
                 @endif
