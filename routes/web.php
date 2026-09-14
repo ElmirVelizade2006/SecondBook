@@ -43,7 +43,7 @@ use App\Http\Controllers\Auth\AuthController;
 
 
 Route::prefix('admin')
-    ->middleware('admin')
+    ->middleware(['admin', 'permission'])
     ->name('admin.')
     ->group(function () {
 
@@ -160,8 +160,13 @@ Route::prefix('admin')
     Route::controller(RefundsController::class)->prefix('refunds')->name('refunds.')->group(function () {
 
         Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{refund}/edit', 'edit')->name('edit');
+        Route::patch('/{refund}/status', 'updateStatus')->name('status');
         Route::get('/{refund}', 'show')->name('show');
         Route::put('/{refund}', 'update')->name('update');
+        Route::delete('/{refund}', 'destroy')->name('destroy');
 
     });
 
@@ -230,6 +235,7 @@ Route::prefix('admin')
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
+        Route::patch('/{user}/status', 'updateStatus')->name('status');
         Route::get('/{user}', 'show')->name('show');
         Route::get('/{user}/edit', 'edit')->name('edit');
         Route::put('/{user}', 'update')->name('update');
@@ -243,6 +249,7 @@ Route::prefix('admin')
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
+        Route::patch('/{seller}/status', 'updateStatus')->name('status');
         Route::get('/{seller}', 'show')->name('show');
         Route::get('/{seller}/edit', 'edit')->name('edit');
         Route::put('/{seller}', 'update')->name('update');
@@ -256,6 +263,7 @@ Route::prefix('admin')
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
+        Route::get('/{role}', 'show')->name('show');
         Route::get('/{role}/edit', 'edit')->name('edit');
         Route::put('/{role}', 'update')->name('update');
         Route::delete('/{role}', 'destroy')->name('destroy');
@@ -490,6 +498,7 @@ Route::prefix('frontend')
 
 
             Route::post('/forgot-password/send-otp', 'sendOtp')->name('password.send.otp');
+            
 
 
 

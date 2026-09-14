@@ -1,0 +1,6 @@
+/* Book conditions */
+.book-condition-page .input-group-text { border-radius: 14px 0 0 14px; }
+.book-condition-page .input-group .form-control { border-radius: 0; padding: 12px 14px; }
+.book-condition-page .input-group .btn { border-radius: 0 14px 14px 0; }
+.book-condition-page .form-select { border-radius: 14px; padding: 12px 14px; }
+.book-condition-page .dashboard-panel .btn-sm { width: 36px; height: 36px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 10px; }

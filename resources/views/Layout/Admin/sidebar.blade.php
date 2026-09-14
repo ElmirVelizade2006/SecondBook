@@ -53,6 +53,7 @@
 
 
         {{-- Book Management --}}
+        @canany(['books.view', 'book_conditions.view', 'book_requests.view', 'categories.view', 'authors.view', 'publishers.view'])
 
         <ul class="menu">
 
@@ -76,56 +77,58 @@
 
                     <ul class="menu">
 
-                        <li>
+                        @can('books.view')<li>
                             <a href="{{ route('admin.books.index') }}"
                             class="{{ request()->routeIs('admin.books.*') ? 'active' : '' }}">
                                 Books
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('categories.view')<li>
                             <a href="{{ route('admin.categories.index') }}"
                             class="{{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
                                 Categories
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('authors.view')<li>
                             <a href="{{ route('admin.authors.index') }}"
                             class="{{ request()->routeIs('admin.authors.*') ? 'active' : '' }}">
                                 Authors
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('publishers.view')<li>
                             <a href="{{ route('admin.publishers.index') }}"
                             class="{{ request()->routeIs('admin.publishers.*') ? 'active' : '' }}">
                                 Publishers
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('book_conditions.view')<li>
                             <a href="{{ route('admin.book.conditions.index') }}"
                             class="{{ request()->routeIs('admin.book.conditions.*') ? 'active' : '' }}">
                                 Book Conditions
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('book_requests.view')<li>
                             <a href="{{ route('admin.book.requests.index') }}"
                             class="{{ request()->routeIs('admin.book.requests.*') ? 'active' : '' }}">
                                 Book Requests
                             </a>
-                        </li>
+                        </li>@endcan
 
                     </ul>
 
                 </div>
 
             </li>
+        @endcanany
 
         
         {{-- Sales Management --}}
+        @canany(['orders.view', 'payments.view', 'coupons.view', 'shipping.view', 'refunds.view'])
 
             <li>
 
@@ -148,49 +151,51 @@
 
                     <ul class="menu">
 
-                        <li>
+                        @can('orders.view')<li>
                             <a href="{{ route('admin.orders.index') }}"
                             class="{{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
                                 Orders
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('payments.view')<li>
                             <a href="{{ route('admin.payments.index') }}"
                             class="{{ request()->routeIs('admin.payments.*') ? 'active' : '' }}">
                                 Payments
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('coupons.view')<li>
                             <a href="{{ route('admin.coupons.index') }}"
                             class="{{ request()->routeIs('admin.coupons.*') ? 'active' : '' }}">
                                 Coupons
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('shipping.view')<li>
                             <a href="{{ route('admin.shipping.index') }}"
                             class="{{ request()->routeIs('admin.shipping.*') ? 'active' : '' }}">
                                 Shipping
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('refunds.view')<li>
                             <a href="{{ route('admin.refunds.index') }}"
                             class="{{ request()->routeIs('admin.refunds.*') ? 'active' : '' }}">
                                 Refunds
                             </a>
-                        </li>
+                        </li>@endcan
 
                     </ul>
 
                 </div>
 
             </li>
+        @endcanany
 
 
         {{-- User Management --}}
+        @canany(['users.view', 'sellers.view', 'roles.view'])
 
             <li>
 
@@ -213,35 +218,37 @@
 
                     <ul class="menu">
 
-                        <li>
+                        @can('users.view')<li>
                             <a href="{{ route('admin.users.index') }}"
                             class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                                 Users
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('sellers.view')<li>
                             <a href="{{ route('admin.sellers.index') }}"
                             class="{{ request()->routeIs('admin.sellers.*') ? 'active' : '' }}">
                                 Sellers
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('roles.view')<li>
                             <a href="{{ route('admin.roles.index') }}"
                             class="{{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
                                 Roles & Permissions
                             </a>
-                        </li>
+                        </li>@endcan
 
                     </ul>
 
                 </div>
 
             </li>
+        @endcanany
     
 
         {{-- Content Management --}}
+        @canany(['reviews.view', 'banners.view', 'blogs.view', 'faq.view'])
 
             <li>
 
@@ -264,43 +271,45 @@
 
                     <ul class="menu">
 
-                        <li>
+                        @can('reviews.view')<li>
                             <a href="{{ route('admin.reviews.index') }}"
                             class="{{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}">
                                 Reviews
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('banners.view')<li>
                             <a href="{{ route('admin.banners.index') }}"
                             class="{{ request()->routeIs('admin.banners.*') ? 'active' : '' }}">
                                 Banners
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('blogs.view')<li>
                             <a href="{{ route('admin.blogs.index') }}"
                             class="{{ request()->routeIs('admin.blogs.*') ? 'active' : '' }}">
                                 Blog
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('faq.view')<li>
                             <a href="{{ route('admin.faq.index') }}"
                             class="{{ request()->routeIs('admin.faq.*') ? 'active' : '' }}">
                                 FAQ
                             </a>
-                        </li>
+                        </li>@endcan
 
                     </ul>
 
                 </div>
 
             </li>
+        @endcanany
 
 
 
         {{-- Analytics --}}
+        @canany(['reports.view', 'analytics.view'])
 
             <li>
 
@@ -323,28 +332,30 @@
 
                     <ul class="menu">
 
-                        <li>
+                        @can('reports.view')<li>
                             <a href="{{ route('admin.reports.index') }}"
                             class="{{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
                                 Reports
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('analytics.view')<li>
                             <a href="{{ route('admin.analytics.index') }}"
                             class="{{ request()->routeIs('admin.analytics.*') ? 'active' : '' }}">
                                 Analytics
                             </a>
-                        </li>
+                        </li>@endcan
 
                     </ul>
 
                 </div>
 
             </li>
+        @endcanany
 
 
         {{-- System --}}
+        @canany(['settings.view', 'email_settings.view', 'notifications.view', 'activity_logs.view', 'backup.view'])
 
             <li>
 
@@ -367,46 +378,47 @@
 
                     <ul class="menu">
 
-                        <li>
+                        @can('settings.view')<li>
                             <a href="{{ route('admin.settings.index') }}"
                             class="{{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
                                 Settings
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('email_settings.view')<li>
                             <a href="{{ route('admin.email.settings.index') }}"
                             class="{{ request()->routeIs('admin.email.settings.*') ? 'active' : '' }}">
                                 Email Settings
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('notifications.view')<li>
                             <a href="{{ route('admin.notifications.index') }}"
                             class="{{ request()->routeIs('admin.notifications.*') ? 'active' : '' }}">
                                 Notifications
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('activity_logs.view')<li>
                             <a href="{{ route('admin.activity.logs.index') }}"
                             class="{{ request()->routeIs('admin.activity.logs.*') ? 'active' : '' }}">
                                 Activity Logs
                             </a>
-                        </li>
+                        </li>@endcan
 
-                        <li>
+                        @can('backup.view')<li>
                             <a href="{{ route('admin.backup.index') }}"
                             class="{{ request()->routeIs('admin.backup.*') ? 'active' : '' }}">
                                 Backup
                             </a>
-                        </li>
+                        </li>@endcan
 
                     </ul>
 
                 </div>
 
             </li>
+        @endcanany
 
         </ul>
 

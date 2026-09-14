@@ -46,7 +46,7 @@ class BooksController extends Controller
         $categories = Category::orderBy('name')->get();
         $authors    = Author::orderBy('name')->get();
         $publishers = Publisher::orderBy('name')->get();
-        $sellers    = User::orderBy('name')->get();
+        $sellers    = User::where('role', 'seller')->orderBy('name')->get();
 
         return view('admin.books.create', compact('categories', 'authors', 'publishers', 'sellers'));
     }
@@ -111,7 +111,7 @@ class BooksController extends Controller
         $categories = Category::orderBy('name')->get();
         $authors    = Author::orderBy('name')->get();
         $publishers = Publisher::orderBy('name')->get();
-        $sellers    = User::orderBy('name')->get();
+        $sellers    = User::where('role', 'seller')->orderBy('name')->get();
 
         return view('admin.books.edit', compact('book', 'categories', 'authors', 'publishers', 'sellers'));
     }

@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="dashboard-section">
+<div class="dashboard-section authors-page">
 
     <div class="dashboard-panel mb-4">
 
@@ -169,7 +169,7 @@
                     @empty
                         <tr>
                             <td colspan="8" class="text-center py-5">
-                                <div class="chart-placeholder" style="height:auto;padding:30px 0;">
+                                <div class="chart-placeholder authors-empty-state">
                                     <i class="bi bi-person"></i>
                                     <h6>No authors found</h6>
                                     <p>Add your first author to get started.</p>
@@ -200,49 +200,3 @@
 
 @endsection
 
-@push('css')
-<style>
-    .book-cover-thumb{
-        width:44px;
-        height:56px;
-        flex-shrink:0;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        border-radius:10px;
-        background:linear-gradient(135deg,#eff6ff,#e0e7ff);
-        color:#2563eb;
-        font-size:18px;
-    }
-
-    .input-group-text{
-        border-radius:14px 0 0 14px;
-    }
-
-    .input-group .form-control{
-        border-radius:0;
-        padding:12px 14px;
-    }
-
-    .input-group .btn{
-        border-radius:0 14px 14px 0;
-    }
-
-    .dashboard-panel .btn-sm{
-        width:36px;
-        height:36px;
-        padding:0;
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        border-radius:10px;
-    }
-
-    .author-thumb{
-        width:44px;
-        height:56px;
-        object-fit:cover;
-        display:block;
-    }
-</style>
-@endpush

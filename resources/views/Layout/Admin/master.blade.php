@@ -23,6 +23,16 @@
     <link rel="stylesheet" href="{{ asset('admin/css/sidebar.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/css/dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/css/responsive.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/books.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/users.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/book-requests.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/book-condition.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/authors.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/category.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/publishers.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/sellers.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/roles.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/settings.css') }}">
     @stack('css')
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

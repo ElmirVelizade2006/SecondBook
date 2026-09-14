@@ -3,7 +3,7 @@
 @section('title', isset($selectedCondition) ? 'Edit Condition' : 'Add Condition')
 
 @section('content')
-<div class="dashboard-section">
+<div class="dashboard-section book-condition-page">
     <div class="dashboard-panel mb-4">
         <div class="panel-header mb-0">
             <div>
