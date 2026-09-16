@@ -3,12 +3,15 @@
 @section('title', 'Create Order')
 
 @push('css')
+<link rel="stylesheet" href="{{ asset('admin/css/orders.css') }}">
 @endpush
 
 @section('content')
 
+<div class="container-fluid p-4">
+
 {{-- Header --}}
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex justify-content-between align-items-center mb-4" style="flex-wrap: wrap; gap: 10px;">
 
     <div>
         <h2 class="fw-bold mb-1">
@@ -30,6 +33,7 @@
     </a>
 
 </div>
+
 
 
 <div class="card border-0 shadow-sm">

@@ -3,7 +3,7 @@
 @section('title', 'Orders')
 
 @push('css')
-<link rel="stylesheet" href="{{ asset('admin/css/orders.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/orders.css') }}">
 @endpush
 
 
@@ -25,7 +25,6 @@
             </p>
         </div>
 
-
         <a href="{{ route('admin.orders.create') }}" class="btn btn-primary">
             <i class="bi bi-plus-lg me-2"></i>
             Add Order
@@ -37,14 +36,14 @@
     {{-- Statistics --}}
     <div class="row g-4 mb-4">
 
-
+        {{-- Total Orders --}}
         <div class="col-xl-3 col-md-6">
 
             <div class="order-card">
 
                 <div>
                     <span>Total Orders</span>
-                    <h3>245</h3>
+                    <h3>{{ $totalOrders }}</h3>
                 </div>
 
                 <i class="bi bi-cart-check"></i>
@@ -54,14 +53,14 @@
         </div>
 
 
-
+        {{-- Pending --}}
         <div class="col-xl-3 col-md-6">
 
             <div class="order-card">
 
                 <div>
                     <span>Pending</span>
-                    <h3>35</h3>
+                    <h3>{{ $totalPending }}</h3>
                 </div>
 
                 <i class="bi bi-hourglass-split"></i>
@@ -71,15 +70,14 @@
         </div>
 
 
-
-
+        {{-- Delivered --}}
         <div class="col-xl-3 col-md-6">
 
             <div class="order-card">
 
                 <div>
                     <span>Delivered</span>
-                    <h3>180</h3>
+                    <h3>{{ $totalDelivered }}</h3>
                 </div>
 
                 <i class="bi bi-check-circle"></i>
@@ -89,15 +87,14 @@
         </div>
 
 
-
-
+        {{-- Revenue --}}
         <div class="col-xl-3 col-md-6">
 
             <div class="order-card">
 
                 <div>
                     <span>Revenue</span>
-                    <h3>$12,450</h3>
+                    <h3>${{ number_format($revenue, 2) }}</h3>
                 </div>
 
                 <i class="bi bi-currency-dollar"></i>
@@ -106,128 +103,185 @@
 
         </div>
 
-
     </div>
 
 
     {{-- Filters --}}
+    <div class="dashboard-panel mb-4">
 
-    <div class="card border-0 shadow-sm mb-4">
+        <form method="GET"
+              action="{{ route('admin.orders.index') }}"
+              class="row g-3 align-items-end">
 
-        <div class="card-body">
+            {{-- Search --}}
+            <div class="col-12 col-md-6 col-lg-4">
 
+                <label class="form-label small text-muted fw-semibold">
+                    Search
+                </label>
 
-            <div class="row g-3">
+                <div class="input-group">
 
+                    <span class="input-group-text bg-white border-end-0">
+                        <i class="bi bi-search text-muted"></i>
+                    </span>
 
-                <div class="col-lg-4">
+                    <input
+                        type="text"
+                        name="search"
+                        value="{{ request('search') }}"
+                        class="form-control border-start-0"
+                        placeholder="Order number, customer, book..."
+                    >
 
-                    <input type="text"
-                           class="form-control"
-                           placeholder="Search order...">
-
-                </div>
-
-
-
-                <div class="col-lg-2">
-
-                    <select class="form-select">
-
-                        <option>
-                            Status
-                        </option>
-
-                        <option>
-                            Pending
-                        </option>
-
-                        <option>
-                            Delivered
-                        </option>
-
-                        <option>
-                            Cancelled
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-
-
-                <div class="col-lg-2">
-
-                    <select class="form-select">
-
-                        <option>
-                            Payment
-                        </option>
-
-                        <option>
-                            Paid
-                        </option>
-
-                        <option>
-                            Pending
-                        </option>
-
-                    </select>
-
-
-                </div>
-
-
-
-                <div class="col-lg-2">
-
-                    <input type="date"
-                           class="form-control">
-
-                </div>
-
-
-
-                <div class="col-lg-2">
-
-                    <button class="btn btn-dark w-100">
-
-                        <i class="bi bi-search"></i>
-                        Filter
-
+                    <button
+                        type="submit"
+                        class="btn btn-primary">
+                        Search
                     </button>
 
                 </div>
 
+            </div>
 
+
+            {{-- Order Status --}}
+            <div class="col-6 col-md-3 col-lg-2">
+
+                <label class="form-label small text-muted fw-semibold">
+                    Status
+                </label>
+
+                <select name="status" class="form-select">
+
+                    <option value="">
+                        All Status
+                    </option>
+
+                    <option value="pending"
+                        @selected(request('status') === 'pending')>
+                        Pending
+                    </option>
+
+                    <option value="processing"
+                        @selected(request('status') === 'processing')>
+                        Processing
+                    </option>
+
+                    <option value="shipped"
+                        @selected(request('status') === 'shipped')>
+                        Shipped
+                    </option>
+
+                    <option value="delivered"
+                        @selected(request('status') === 'delivered')>
+                        Delivered
+                    </option>
+
+                    <option value="cancelled"
+                        @selected(request('status') === 'cancelled')>
+                        Cancelled
+                    </option>
+
+                </select>
 
             </div>
 
 
-        </div>
+            {{-- Payment Status --}}
+            <div class="col-6 col-md-3 col-lg-2">
+
+                <label class="form-label small text-muted fw-semibold">
+                    Payment
+                </label>
+
+                <select name="payment" class="form-select">
+
+                    <option value="">
+                        All Payments
+                    </option>
+
+                    <option value="paid"
+                        @selected(request('payment') === 'paid')>
+                        Paid
+                    </option>
+
+                    <option value="pending"
+                        @selected(request('payment') === 'pending')>
+                        Pending
+                    </option>
+
+                    <option value="failed"
+                        @selected(request('payment') === 'failed')>
+                        Failed
+                    </option>
+
+                    <option value="refunded"
+                        @selected(request('payment') === 'refunded')>
+                        Refunded
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            {{-- Date --}}
+            <div class="col-12 col-md-6 col-lg-2">
+
+                <label class="form-label small text-muted fw-semibold">
+                    Date
+                </label>
+
+                <input
+                    type="date"
+                    name="date"
+                    value="{{ request('date') }}"
+                    class="form-control"
+                >
+
+            </div>
+
+
+            {{-- Buttons --}}
+            <div class="col-12 col-md-6 col-lg-2 d-flex gap-2 order-filter-buttons">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary filter-btn">
+
+                    <i class="bi bi-funnel"></i>
+                    <span>Filter</span>
+
+                </button>
+
+                <a
+                    href="{{ route('admin.orders.index') }}"
+                    class="btn btn-light reset-btn">
+
+                    Reset
+
+                </a>
+
+            </div>
+
+        </form>
 
     </div>
 
 
     {{-- Orders Table --}}
-
     <div class="card border-0 shadow-sm">
-
 
         <div class="card-body">
 
-
             <div class="table-responsive">
 
-
                 <table class="table align-middle">
-
 
                     <thead>
 
                         <tr>
-
                             <th>#</th>
                             <th>Customer</th>
                             <th>Book</th>
@@ -236,122 +290,166 @@
                             <th>Status</th>
                             <th>Date</th>
                             <th>Action</th>
-
                         </tr>
 
                     </thead>
 
 
-                @foreach ($orders as $order)
                     <tbody>
 
+                        @forelse ($orders as $order)
 
-                        <tr>
+                            <tr>
 
-                            <td>
-                                {{ $order->id }}
-                            </td>
-
-
-                            <td>
-
-                                <div class="fw-semibold">
-                                    {{ $order->user->first_name }} {{ $order->user->last_name }}
-                                </div>
-
-                                <small class="text-muted">
-                                    {{ $order->user->email }}
-                                </small>
-
-                            </td>
+                                {{-- ID --}}
+                                <td>
+                                    {{ $order->id }}
+                                </td>
 
 
+                                {{-- Customer --}}
+                                <td>
 
-                            <td>
-                                {{ $order->book->title }}
-                            </td>
+                                    <div class="fw-semibold">
+                                        {{ $order->user->first_name }}
+                                        {{ $order->user->last_name }}
+                                    </div>
 
+                                    <small class="text-muted">
+                                        {{ $order->user->email }}
+                                    </small>
 
-                            <td>
-                                ${{ $order->total_price }}
-                            </td>
-
-
-
-                            <td>
-
-                                <span class="badge bg-success">
-                                    {{ $order->payment_status }}
-                                </span>
-
-                            </td>
+                                </td>
 
 
-
-                            <td>
-
-                                <span class="badge bg-warning text-dark">
-                                    {{ $order->order_status }}
-                                </span>
-
-                            </td>
+                                {{-- Book --}}
+                                <td>
+                                    {{ $order->book->title }}
+                                </td>
 
 
-
-                            <td>
-                                {{ $order->created_at->format('d M Y') }}
-                            </td>
-
-
-
-                           <td>
-                                <div class="order-actions">
-
-                                    <a href="{{ route('admin.orders.show', $order->id) }}"
-                                    class="btn btn-sm btn-light">
-
-                                        <i class="bi bi-eye"></i>
-
-                                    </a>
+                                {{-- Total --}}
+                                <td>
+                                    ${{ number_format($order->total_price, 2) }}
+                                </td>
 
 
-                                    <a href="{{ route('admin.orders.edit', $order->id) }}"
-                                    class="btn btn-sm btn-light">
+                                {{-- Payment --}}
+                                <td>
 
-                                        <i class="bi bi-pencil"></i>
+                                    <span class="badge bg-success">
+                                        {{ ucfirst($order->payment_status) }}
+                                    </span>
 
-                                    </a>
-
-
-                                    <button class="btn btn-sm btn-danger">
-
-                                        <i class="bi bi-trash"></i>
-
-                                    </button>
-
-                                </div>
-                            </td>
-
-                        </tr>
+                                </td>
 
 
-                        @endforeach
+                                {{-- Status --}}
+                                <td>
+
+                                    <span class="badge bg-warning text-dark">
+                                        {{ ucfirst($order->order_status) }}
+                                    </span>
+
+                                </td>
+
+
+                                {{-- Date --}}
+                                <td>
+                                    {{ $order->created_at->format('d M Y') }}
+                                </td>
+
+
+                                {{-- Actions --}}
+                                <td>
+
+                                    <div class="order-actions">
+
+                                        {{-- Show --}}
+                                        <a
+                                            href="{{ route('admin.orders.show', $order->id) }}"
+                                            class="btn btn-sm btn-light"
+                                            title="View">
+
+                                            <i class="bi bi-eye"></i>
+
+                                        </a>
+
+
+                                        {{-- Edit --}}
+                                        <a
+                                            href="{{ route('admin.orders.edit', $order->id) }}"
+                                            class="btn btn-sm btn-light"
+                                            title="Edit">
+
+                                            <i class="bi bi-pencil"></i>
+
+                                        </a>
+
+
+                                        {{-- Delete --}}
+                                        <form
+                                            action="{{ route('admin.orders.destroy', $order->id) }}"
+                                            method="POST"
+                                            class="d-inline"
+                                            onsubmit="return confirm('Are you sure you want to delete this order?');">
+
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button
+                                                type="submit"
+                                                class="btn btn-sm btn-danger"
+                                                title="Delete">
+
+                                                <i class="bi bi-trash"></i>
+
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        @empty
+
+                            <tr>
+
+                                <td colspan="8" class="text-center py-5">
+
+                                    <div class="text-muted">
+
+                                        <i class="bi bi-cart-x fs-1 d-block mb-2"></i>
+
+                                        <div class="fw-semibold">
+                                            No orders found
+                                        </div>
+
+                                        <small>
+                                            Try changing your filters or search.
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        @endforelse
+
                     </tbody>
-
 
                 </table>
 
-
             </div>
 
-
         </div>
-
 
     </div>
 
 </div>
-
-
 
 @endsection

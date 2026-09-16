@@ -129,7 +129,7 @@
 
 
                                     <li class="menu-item">
-                                        <a href="{{ route('frontend.home') }}#books" class="nav-link">
+                                        <a href="{{ route('frontend.home') }}#popular-books" class="nav-link">
                                             Books
                                         </a>
                                     </li>

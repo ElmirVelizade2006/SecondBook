@@ -13,10 +13,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
-
 class AuthController extends \App\Http\Controllers\Controller
 {
-
     /*
     |--------------------------------------------------------------------------
     | Register
@@ -30,6 +28,7 @@ class AuthController extends \App\Http\Controllers\Controller
 
     public function storeRegister(Request $request)
     {
+        // Check if user registration is enabled from Admin Settings
         if (!Setting::get('user_registration_enabled', true)) {
             return back()->with('error', 'User registration is currently disabled.');
         }
@@ -39,8 +38,15 @@ class AuthController extends \App\Http\Controllers\Controller
             'last_name'  => 'required|string|max:255',
             'username'   => 'required|string|max:255|unique:users,username',
             'email'      => 'required|email|unique:users,email',
-            'password'   => 'required|min:8|confirmed',
-            'terms'      => 'accepted',
+
+            'password' => [
+                'required',
+                'string',
+                'min:' . Setting::get('minimum_password_length', 8),
+                'confirmed',
+            ],
+
+            'terms' => 'accepted',
         ], [
             'first_name.required' => 'First name is required.',
             'last_name.required'  => 'Last name is required.',
@@ -50,7 +56,7 @@ class AuthController extends \App\Http\Controllers\Controller
             'email.email'         => 'Please enter a valid email address.',
             'email.unique'        => 'This email is already registered.',
             'password.required'   => 'Password is required.',
-            'password.min'        => 'Password must be at least 8 characters.',
+            'password.min'        => 'Password does not meet the minimum length requirement.',
             'password.confirmed'  => 'Password confirmation does not match.',
             'terms.accepted'      => 'You must accept the Terms and Conditions.',
         ]);
@@ -83,22 +89,17 @@ class AuthController extends \App\Http\Controllers\Controller
 
     public function storeLogin(Request $request)
     {
-
         $credentials = $request->validate(
-        [
-            'email' => 'required|email',
-
-            'password' => 'required',
-        ],
-        [
-            'email.required' => 'Email address is required.',
-
-            'email.email' => 'Please enter a valid email address.',
-
-            'password.required' => 'Password is required.',
-        ]);
-
-
+            [
+                'email' => 'required|email',
+                'password' => 'required',
+            ],
+            [
+                'email.required' => 'Email address is required.',
+                'email.email' => 'Please enter a valid email address.',
+                'password.required' => 'Password is required.',
+            ]
+        );
 
         $remember = $request->boolean('remember');
 
@@ -113,13 +114,16 @@ class AuthController extends \App\Http\Controllers\Controller
             if (Hash::check($password, $user->password)) {
                 $passwordValid = true;
             } elseif ($user->password && $password === $user->password) {
+                // Legacy plaintext password support
                 $passwordValid = true;
+
                 $user->password = Hash::make($password);
                 $user->save();
             }
 
             if ($passwordValid) {
                 Auth::login($user, $remember);
+
                 $request->session()->regenerate();
 
                 $role = strtolower((string) ($user->role ?? ''));
@@ -134,7 +138,6 @@ class AuthController extends \App\Http\Controllers\Controller
 
         return back()
             ->with('error', 'Invalid email or password.');
-
     }
 
     /*
@@ -151,126 +154,99 @@ class AuthController extends \App\Http\Controllers\Controller
     public function sendOtp(Request $request)
     {
         $request->validate([
-            'email' => 'required|email'
+            'email' => 'required|email',
         ]);
-
 
         $otp = rand(100000, 999999);
 
-
-
         PasswordOtp::updateOrCreate(
             [
-                'email' => $request->email
+                'email' => $request->email,
             ],
             [
                 'otp_code' => $otp,
-                'expires_at' => Carbon::now()->addMinutes(10)
+                'expires_at' => Carbon::now()->addMinutes(10),
             ]
         );
 
-
-
         try {
-            Mail::raw("Your SecondBook password reset code is: $otp", function ($message) use ($request) {
-
-                $message->to($request->email)
+            Mail::raw(
+                "Your SecondBook password reset code is: $otp",
+                function ($message) use ($request) {
+                    $message->to($request->email)
                         ->subject('SecondBook Password Reset OTP');
-
-            });
+                }
+            );
         } catch (\Throwable $e) {
             report($e);
         }
 
-
-
         // Emaili session-da saxlayırıq
         session([
-            'reset_email' => $request->email
+            'reset_email' => $request->email,
         ]);
-
-
 
         return redirect()
             ->route('frontend.auth.password.verify')
-            ->with('status', 'Please enter the verification code sent to your email.');
+            ->with(
+                'status',
+                'Please enter the verification code sent to your email.'
+            );
     }
 
     public function verifyOtp(Request $request)
     {
         $request->validate([
             'otp_code' => 'required|digits:6',
-            'password' => 'required|min:8',
+
+            'password' => [
+                'required',
+                'string',
+                'min:' . Setting::get('minimum_password_length', 8),
+            ],
         ]);
 
-
-
-        $otp = PasswordOtp::where('email', session('reset_email'))
+        $otp = PasswordOtp::where(
+            'email',
+            session('reset_email')
+        )
             ->where('otp_code', $request->otp_code)
             ->first();
 
-
-
         if (!$otp) {
-
             return back()->withErrors([
-                'otp_code' => 'Invalid OTP code.'
+                'otp_code' => 'Invalid OTP code.',
             ]);
-
         }
-
-
 
         if (Carbon::now()->greaterThan($otp->expires_at)) {
-
             return back()->withErrors([
-                'otp_code' => 'OTP code has expired.'
+                'otp_code' => 'OTP code has expired.',
             ]);
-
         }
-
-
-
 
         $user = User::where('email', $otp->email)->first();
 
-
-
         if (!$user) {
-
             return back()->withErrors([
-                'email' => 'User not found.'
+                'email' => 'User not found.',
             ]);
-
         }
 
-
-
-
         $user->update([
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
         ]);
-
-
-
 
         // OTP silinir
         $otp->delete();
 
-
-
         // Session təmizlənir
         session()->forget('reset_email');
-
-
 
         return redirect()
             ->route('frontend.auth.login')
             ->with('status', 'Password reset successfully.');
-
     }
-
-    
 
     /*
     |--------------------------------------------------------------------------
@@ -280,20 +256,14 @@ class AuthController extends \App\Http\Controllers\Controller
 
     public function logout(Request $request)
     {
-
         Auth::logout();
-
 
         $request->session()->invalidate();
 
-
         $request->session()->regenerateToken();
-
-
 
         return redirect()
             ->route('frontend.auth.login');
-
     }
 
     /*
@@ -305,12 +275,14 @@ class AuthController extends \App\Http\Controllers\Controller
     public function myprofile()
     {
         $user = Auth::user();
+
         return view('Auth.my-profile', compact('user'));
     }
 
     public function editProfile()
     {
         $user = Auth::user();
+
         return view('Auth.edit-profile', compact('user'));
     }
 
@@ -319,24 +291,114 @@ class AuthController extends \App\Http\Controllers\Controller
         $user = Auth::user();
 
         $validated = $request->validateWithBag('profileUpdate', [
-            'first_name' => ['required', 'string', 'max:100'],
-            'last_name' => ['required', 'string', 'max:100'],
-            'username' => ['nullable', 'string', 'max:100', Rule::unique('users', 'username')->ignore($user->id)],
-            'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
-            'phone' => ['nullable', 'string', 'max:30'],
-            'date_of_birth' => ['nullable', 'date'],
-            'gender' => ['nullable', Rule::in(['male', 'female', 'prefer_not_to_say'])],
-            'country' => ['nullable', 'string', 'max:120'],
-            'city' => ['nullable', 'string', 'max:120'],
-            'state' => ['nullable', 'string', 'max:120'],
-            'postal_code' => ['nullable', 'string', 'max:30'],
-            'address' => ['nullable', 'string', 'max:255'],
-            'bio' => ['nullable', 'string', 'max:300'],
-            'profile_photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
-            'receive_email_notifications' => ['nullable', 'boolean'],
-            'receive_order_updates' => ['nullable', 'boolean'],
-            'receive_promotional_emails' => ['nullable', 'boolean'],
-            'profile_visibility' => ['nullable', 'boolean'],
+            'first_name' => [
+                'required',
+                'string',
+                'max:100',
+            ],
+
+            'last_name' => [
+                'required',
+                'string',
+                'max:100',
+            ],
+
+            'username' => [
+                'nullable',
+                'string',
+                'max:100',
+                Rule::unique('users', 'username')->ignore($user->id),
+            ],
+
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore($user->id),
+            ],
+
+            'phone' => [
+                'nullable',
+                'string',
+                'max:30',
+            ],
+
+            'date_of_birth' => [
+                'nullable',
+                'date',
+            ],
+
+            'gender' => [
+                'nullable',
+                Rule::in([
+                    'male',
+                    'female',
+                    'prefer_not_to_say',
+                ]),
+            ],
+
+            'country' => [
+                'nullable',
+                'string',
+                'max:120',
+            ],
+
+            'city' => [
+                'nullable',
+                'string',
+                'max:120',
+            ],
+
+            'state' => [
+                'nullable',
+                'string',
+                'max:120',
+            ],
+
+            'postal_code' => [
+                'nullable',
+                'string',
+                'max:30',
+            ],
+
+            'address' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+
+            'bio' => [
+                'nullable',
+                'string',
+                'max:300',
+            ],
+
+            'profile_photo' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:2048',
+            ],
+
+            'receive_email_notifications' => [
+                'nullable',
+                'boolean',
+            ],
+
+            'receive_order_updates' => [
+                'nullable',
+                'boolean',
+            ],
+
+            'receive_promotional_emails' => [
+                'nullable',
+                'boolean',
+            ],
+
+            'profile_visibility' => [
+                'nullable',
+                'boolean',
+            ],
         ]);
 
         $profilePhotoPath = $user->profile_photo ?? null;
@@ -346,12 +408,17 @@ class AuthController extends \App\Http\Controllers\Controller
                 Storage::disk('public')->delete($profilePhotoPath);
             }
 
-            $profilePhotoPath = $request->file('profile_photo')->store('profile-photos', 'public');
+            $profilePhotoPath = $request
+                ->file('profile_photo')
+                ->store('profile-photos', 'public');
         }
 
         $firstName = trim((string) $validated['first_name']);
         $lastName = trim((string) $validated['last_name']);
-        $fullName = trim($firstName . ' ' . $lastName);
+
+        $fullName = trim(
+            $firstName . ' ' . $lastName
+        );
 
         $user->update([
             'first_name' => $firstName,
@@ -369,10 +436,18 @@ class AuthController extends \App\Http\Controllers\Controller
             'address' => $validated['address'] ?? null,
             'bio' => $validated['bio'] ?? null,
             'profile_photo' => $profilePhotoPath,
-            'receive_email_notifications' => $request->boolean('receive_email_notifications'),
-            'receive_order_updates' => $request->boolean('receive_order_updates'),
-            'receive_promotional_emails' => $request->boolean('receive_promotional_emails'),
-            'profile_visibility' => $request->boolean('profile_visibility', true),
+
+            'receive_email_notifications' =>
+                $request->boolean('receive_email_notifications'),
+
+            'receive_order_updates' =>
+                $request->boolean('receive_order_updates'),
+
+            'receive_promotional_emails' =>
+                $request->boolean('receive_promotional_emails'),
+
+            'profile_visibility' =>
+                $request->boolean('profile_visibility', true),
         ]);
 
         return redirect()
@@ -385,39 +460,78 @@ class AuthController extends \App\Http\Controllers\Controller
         $user = Auth::user();
 
         if ($user->profile_photo) {
-            Storage::disk('public')->delete($user->profile_photo);
-            $user->update(['profile_photo' => null]);
+            Storage::disk('public')->delete(
+                $user->profile_photo
+            );
+
+            $user->update([
+                'profile_photo' => null,
+            ]);
         }
 
         return redirect()
             ->route('profile.edit')
-            ->with('success', 'Profile photo removed successfully.');
+            ->with(
+                'success',
+                'Profile photo removed successfully.'
+            );
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Update Password
+    |--------------------------------------------------------------------------
+    */
 
     public function updatePassword(Request $request)
     {
         $user = Auth::user();
 
-        $validated = $request->validateWithBag('passwordUpdate', [
-            'current_password' => ['required', 'current_password'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        $validated = $request->validateWithBag(
+            'passwordUpdate',
+            [
+                'current_password' => [
+                    'required',
+                    'current_password',
+                ],
+
+                'password' => [
+                    'required',
+                    'string',
+                    'min:' . Setting::get('minimum_password_length', 8),
+                    'confirmed',
+                ],
+            ]
+        );
 
         $user->update([
-            'password' => Hash::make($validated['password']),
+            'password' => Hash::make(
+                $validated['password']
+            ),
         ]);
 
         return redirect()
             ->route('profile.edit')
-            ->with('success', 'Password updated successfully.');
+            ->with(
+                'success',
+                'Password updated successfully.'
+            );
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Destroy Profile
+    |--------------------------------------------------------------------------
+    */
 
     public function destroyProfile(Request $request)
     {
         $user = Auth::user();
 
         if ($user->profile_photo) {
-            Storage::disk('public')->delete($user->profile_photo);
+            Storage::disk('public')->delete(
+                $user->profile_photo
+            );
         }
 
         Auth::logout();
@@ -425,9 +539,14 @@ class AuthController extends \App\Http\Controllers\Controller
         $user->delete();
 
         $request->session()->invalidate();
+
         $request->session()->regenerateToken();
 
-        return redirect()->route('frontend.home')->with('success', 'Your account has been deleted.');
+        return redirect()
+            ->route('frontend.home')
+            ->with(
+                'success',
+                'Your account has been deleted.'
+            );
     }
-
 }
