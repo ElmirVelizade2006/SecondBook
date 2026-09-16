@@ -79,33 +79,6 @@
    Payment Form
 ========================================================= */
 
-input[name="amount"],
-textarea[name="note"] {
-    background-color: #ffffff !important;
-    color: #172033 !important;
-    border-color: #d9e0ea !important;
-}
-
-input[name="amount"]::placeholder,
-textarea[name="note"]::placeholder {
-    color: #8a94a6 !important;
-    opacity: 1 !important;
-}
-
-input[name="amount"]:focus,
-textarea[name="note"]:focus {
-    background-color: #ffffff !important;
-    color: #172033 !important;
-    border-color: #3b5bdb !important;
-    box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.10) !important;
-}
-
-
-/* =========================================================
-   Payment Search / Filters
-========================================================= */
-
-input[name="search"],
 .form-control,
 .form-select {
     color: #172033;
@@ -113,16 +86,124 @@ input[name="search"],
     border-color: #d9e0ea;
 }
 
-input[name="search"]::placeholder,
+.form-control {
+    border-radius: 14px;
+    padding: 12px 14px;
+}
+
+.form-select {
+    border-radius: 14px;
+    padding: 12px 14px;
+}
+
 .form-control::placeholder {
     color: #8a94a6;
     opacity: 1;
 }
 
-input[name="search"]:focus,
 .form-control:focus,
 .form-select:focus {
     color: #172033;
+    background-color: #ffffff;
+    border-color: #3b5bdb;
+    box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.10);
+}
+
+
+/* =========================================================
+   Filter Panel
+========================================================= */
+
+.dashboard-panel {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.dashboard-panel .form-label {
+    margin-bottom: 7px;
+    color: #6c757d;
+}
+
+
+/* =========================================================
+   Filter Inputs
+========================================================= */
+
+.dashboard-panel .form-control,
+.dashboard-panel .form-select {
+    height: 48px;
+    padding: 12px 14px;
+}
+
+.dashboard-panel .input-group {
+    height: 48px;
+}
+
+.dashboard-panel .input-group-text {
+    height: 48px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    border-color: #d9e0ea;
+    border-radius: 14px 0 0 14px;
+    background: #ffffff;
+}
+
+.dashboard-panel .input-group .form-control {
+    height: 48px;
+    padding: 12px 14px;
+    border-radius: 0;
+}
+
+.dashboard-panel .input-group .btn {
+    height: 48px;
+    padding: 0 18px;
+    border-radius: 0 14px 14px 0;
+}
+
+
+/* =========================================================
+   Payment Filter Buttons
+========================================================= */
+
+.payment-filter-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.payment-filter-buttons .filter-btn,
+.payment-filter-buttons .reset-btn {
+    height: 48px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    font-weight: 600;
+    padding: 0 16px;
+}
+
+.payment-filter-buttons .filter-btn {
+    flex: 1;
+}
+
+.payment-filter-buttons .filter-btn i {
+    font-size: 16px;
+    margin-right: 6px;
+}
+
+.payment-filter-buttons .reset-btn {
+    background: #ffffff;
+    color: #172033;
+    border: 1px solid #d9e0ea;
+}
+
+.payment-filter-buttons .reset-btn:hover {
+    background: #f3f5f8;
 }
 
 
@@ -153,12 +234,8 @@ input[name="search"]:focus,
 
 
 /* =========================================================
-   DARK MODE
+   DARK MODE - Cards
 ========================================================= */
-
-/* -------------------------
-   Payment Cards
-------------------------- */
 
 .dark-mode .payment-card,
 .dark-theme .payment-card,
@@ -188,7 +265,7 @@ input[name="search"]:focus,
 
 
 /* =========================================================
-   Table - DARK MODE
+   DARK MODE - Table
 ========================================================= */
 
 .dark-mode .card .table thead th,
@@ -207,7 +284,7 @@ input[name="search"]:focus,
 
 
 /* =========================================================
-   Table Buttons - DARK MODE
+   DARK MODE - Table Buttons
 ========================================================= */
 
 .dark-mode .table .btn-light,
@@ -226,108 +303,87 @@ input[name="search"]:focus,
 
 
 /* =========================================================
-   Payment Form - DARK MODE
+   DARK MODE - Form
 ========================================================= */
 
-.dark-mode input[name="amount"],
-.dark-mode textarea[name="note"],
-
-.dark-theme input[name="amount"],
-.dark-theme textarea[name="note"],
-
-[data-theme="dark"] input[name="amount"],
-[data-theme="dark"] textarea[name="note"] {
-    background-color: #0b1323 !important;
-    color: #f1f5f9 !important;
-    border-color: #334155 !important;
-
-    /* Input daxilindeki yazini deyisir */
-    -webkit-text-fill-color: #f1f5f9 !important;
-}
-
-
-/* -------------------------
-   Payment Placeholder
-------------------------- */
-
-.dark-mode input[name="amount"]::placeholder,
-.dark-mode textarea[name="note"]::placeholder,
-
-.dark-theme input[name="amount"]::placeholder,
-.dark-theme textarea[name="note"]::placeholder,
-
-[data-theme="dark"] input[name="amount"]::placeholder,
-[data-theme="dark"] textarea[name="note"]::placeholder {
-    color: #7890b3 !important;
-    -webkit-text-fill-color: #7890b3 !important;
-    opacity: 1 !important;
-}
-
-
-/* -------------------------
-   Payment Form Focus
-------------------------- */
-
-.dark-mode input[name="amount"]:focus,
-.dark-mode textarea[name="note"]:focus,
-
-.dark-theme input[name="amount"]:focus,
-.dark-theme textarea[name="note"]:focus,
-
-[data-theme="dark"] input[name="amount"]:focus,
-[data-theme="dark"] textarea[name="note"]:focus {
-    background-color: #0b1323 !important;
-    color: #f1f5f9 !important;
-    -webkit-text-fill-color: #f1f5f9 !important;
-    border-color: #3b5bdb !important;
-    box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.12) !important;
-}
-
-
-/* =========================================================
-   Search / Filters - DARK MODE
-========================================================= */
-
-.dark-mode input[name="search"],
 .dark-mode .form-control,
 .dark-mode .form-select,
-
-.dark-theme input[name="search"],
 .dark-theme .form-control,
 .dark-theme .form-select,
-
-[data-theme="dark"] input[name="search"],
 [data-theme="dark"] .form-control,
 [data-theme="dark"] .form-select {
     background-color: #0b1323 !important;
     color: #f1f5f9 !important;
     border-color: #334155 !important;
-
-    /* Input daxilindeki yazini deyisir */
     -webkit-text-fill-color: #f1f5f9 !important;
 }
 
 
 /* =========================================================
-   Search Placeholder - DARK MODE
+   DARK MODE - Placeholder
 ========================================================= */
 
-.dark-mode input[name="search"]::placeholder,
 .dark-mode .form-control::placeholder,
-
-.dark-theme input[name="search"]::placeholder,
 .dark-theme .form-control::placeholder,
-
-[data-theme="dark"] input[name="search"]::placeholder,
 [data-theme="dark"] .form-control::placeholder {
-    color: #7890b3 !important;
-    -webkit-text-fill-color: #7890b3 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
     opacity: 1 !important;
 }
 
 
 /* =========================================================
-   Select Options - DARK MODE
+   DARK MODE - Filter Panel
+========================================================= */
+
+.dark-mode .dashboard-panel,
+.dark-theme .dashboard-panel,
+[data-theme="dark"] .dashboard-panel {
+    background: #111827;
+    border-color: #334155;
+}
+
+.dark-mode .dashboard-panel .form-label,
+.dark-theme .dashboard-panel .form-label,
+[data-theme="dark"] .dashboard-panel .form-label {
+    color: #94a3b8 !important;
+}
+
+.dark-mode .dashboard-panel .input-group-text,
+.dark-theme .dashboard-panel .input-group-text,
+[data-theme="dark"] .dashboard-panel .input-group-text {
+    background: #0b1323 !important;
+    border-color: #334155 !important;
+}
+
+.dark-mode .dashboard-panel .input-group-text i,
+.dark-theme .dashboard-panel .input-group-text i,
+[data-theme="dark"] .dashboard-panel .input-group-text i {
+    color: #94a3b8 !important;
+}
+
+
+/* =========================================================
+   DARK MODE - Filter Buttons
+========================================================= */
+
+.dark-mode .payment-filter-buttons .reset-btn,
+.dark-theme .payment-filter-buttons .reset-btn,
+[data-theme="dark"] .payment-filter-buttons .reset-btn {
+    background: #1e293b;
+    color: #f1f5f9;
+    border-color: #334155;
+}
+
+.dark-mode .payment-filter-buttons .reset-btn:hover,
+.dark-theme .payment-filter-buttons .reset-btn:hover,
+[data-theme="dark"] .payment-filter-buttons .reset-btn:hover {
+    background: #334155;
+}
+
+
+/* =========================================================
+   DARK MODE - Select Options
 ========================================================= */
 
 .dark-mode .form-select option,
@@ -339,18 +395,13 @@ input[name="search"]:focus,
 
 
 /* =========================================================
-   Search / Filters Focus - DARK MODE
+   DARK MODE - Focus
 ========================================================= */
 
-.dark-mode input[name="search"]:focus,
 .dark-mode .form-control:focus,
 .dark-mode .form-select:focus,
-
-.dark-theme input[name="search"]:focus,
 .dark-theme .form-control:focus,
 .dark-theme .form-select:focus,
-
-[data-theme="dark"] input[name="search"]:focus,
 [data-theme="dark"] .form-control:focus,
 [data-theme="dark"] .form-select:focus {
     background-color: #0b1323 !important;
@@ -362,7 +413,7 @@ input[name="search"]:focus,
 
 
 /* =========================================================
-   Date Input - DARK MODE
+   DARK MODE - Date Input
 ========================================================= */
 
 .dark-mode input[type="date"],
@@ -394,8 +445,25 @@ input[name="search"]:focus,
         font-size: 24px;
     }
 
+    .payment-actions {
+        gap: 4px;
+    }
+
     .payment-actions .btn {
         width: 38px;
         height: 38px;
+    }
+
+    .dashboard-panel {
+        padding: 16px;
+    }
+
+    .payment-filter-buttons {
+        width: 100%;
+    }
+
+    .payment-filter-buttons .filter-btn,
+    .payment-filter-buttons .reset-btn {
+        height: 48px;
     }
 }

@@ -86,6 +86,16 @@
     border-color: #d9e0ea;
 }
 
+.form-control {
+    border-radius: 14px;
+    padding: 12px 14px;
+}
+
+.form-select {
+    border-radius: 14px;
+    padding: 12px 14px;
+}
+
 .form-control::placeholder {
     color: #8a94a6;
     opacity: 1;
@@ -97,6 +107,56 @@
     background-color: #ffffff;
     border-color: #3b5bdb;
     box-shadow: 0 0 0 3px rgba(59, 91, 219, 0.10);
+}
+
+
+/* =========================================================
+   Filter Panel
+========================================================= */
+
+.dashboard-panel {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.dashboard-panel .form-label {
+    margin-bottom: 7px;
+    color: #6c757d;
+}
+
+.dashboard-panel .input-group-text {
+    border-radius: 14px 0 0 14px;
+    border-color: #d9e0ea;
+    background: #ffffff;
+}
+
+.dashboard-panel .input-group .form-control {
+    border-radius: 0;
+    padding: 12px 14px;
+}
+
+.dashboard-panel .input-group .btn {
+    border-radius: 0 14px 14px 0;
+}
+
+.dashboard-panel .btn-primary {
+    border-radius: 14px;
+    padding: 12px 18px;
+}
+
+.dashboard-panel .btn-light {
+    border-radius: 14px;
+    padding: 12px 18px;
+    background: #ffffff;
+    color: #172033;
+    border-color: #d9e0ea;
+}
+
+.dashboard-panel .btn-light:hover {
+    background: #f3f5f8;
 }
 
 
@@ -208,10 +268,6 @@
     background-color: #0b1323 !important;
     color: #f1f5f9 !important;
     border-color: #334155 !important;
-
-    /*
-       Input daxilindeki yazinin rengini de mecburi deyisir
-    */
     -webkit-text-fill-color: #f1f5f9 !important;
 }
 
@@ -223,8 +279,9 @@
 .dark-mode .form-control::placeholder,
 .dark-theme .form-control::placeholder,
 [data-theme="dark"] .form-control::placeholder {
-    color: #7890b3 !important;
+    color: #ffffff !important;
     opacity: 1 !important;
+    -webkit-text-fill-color: #ffffff !important;
 }
 
 
@@ -259,6 +316,51 @@
 
 
 /* =========================================================
+   DARK MODE - Filter Panel
+========================================================= */
+
+.dark-mode .dashboard-panel,
+.dark-theme .dashboard-panel,
+[data-theme="dark"] .dashboard-panel {
+    background: #111827;
+    border-color: #334155;
+}
+
+.dark-mode .dashboard-panel .form-label,
+.dark-theme .dashboard-panel .form-label,
+[data-theme="dark"] .dashboard-panel .form-label {
+    color: #94a3b8 !important;
+}
+
+.dark-mode .dashboard-panel .input-group-text,
+.dark-theme .dashboard-panel .input-group-text,
+[data-theme="dark"] .dashboard-panel .input-group-text {
+    background: #0b1323 !important;
+    border-color: #334155 !important;
+}
+
+.dark-mode .dashboard-panel .input-group-text i,
+.dark-theme .dashboard-panel .input-group-text i,
+[data-theme="dark"] .dashboard-panel .input-group-text i {
+    color: #94a3b8 !important;
+}
+
+.dark-mode .dashboard-panel .btn-light,
+.dark-theme .dashboard-panel .btn-light,
+[data-theme="dark"] .dashboard-panel .btn-light {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+.dark-mode .dashboard-panel .btn-light:hover,
+.dark-theme .dashboard-panel .btn-light:hover,
+[data-theme="dark"] .dashboard-panel .btn-light:hover {
+    background: #334155;
+}
+
+
+/* =========================================================
    DARK MODE - Date Input
 ========================================================= */
 
@@ -269,8 +371,6 @@
     -webkit-text-fill-color: #f1f5f9 !important;
 }
 
-
-/* Calendar icon */
 .dark-mode input[type="date"]::-webkit-calendar-picker-indicator,
 .dark-theme input[type="date"]::-webkit-calendar-picker-indicator,
 [data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator {
@@ -300,4 +400,154 @@
         width: 38px;
         height: 38px;
     }
+
+    .dashboard-panel {
+        padding: 16px;
+    }
+}
+
+/* =========================================================
+   Orders Filter Buttons
+========================================================= */
+
+.dashboard-panel .btn-primary,
+.dashboard-panel .btn-light {
+    height: 62px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.dashboard-panel .btn-primary {
+    padding: 0 22px;
+}
+
+.dashboard-panel .btn-light {
+    padding: 0 22px;
+    background: #ffffff;
+    color: #172033;
+    border: 1px solid #d9e0ea;
+}
+
+.dashboard-panel .btn-light:hover {
+    background: #f3f5f8;
+}
+
+
+/* =========================================================
+   Orders Filter - Same Height as Books
+========================================================= */
+
+.dashboard-panel .form-control,
+.dashboard-panel .form-select {
+    height: 48px;
+    padding: 12px 14px;
+}
+
+.dashboard-panel .input-group {
+    height: 48px;
+}
+
+.dashboard-panel .input-group-text {
+    height: 48px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+}
+
+.dashboard-panel .input-group .form-control {
+    height: 48px;
+    padding: 12px 14px;
+}
+
+.dashboard-panel .input-group .btn {
+    height: 48px;
+    padding: 0 18px;
+}
+
+
+/* Filter + Reset */
+
+.order-filter-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.order-filter-buttons .filter-btn,
+.order-filter-buttons .reset-btn {
+    height: 48px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    font-weight: 600;
+    padding: 0 16px;
+}
+
+.order-filter-buttons .filter-btn {
+    flex: 1;
+}
+
+.order-filter-buttons .filter-btn i {
+    font-size: 16px;
+    margin-right: 6px;
+}
+
+.order-filter-buttons .reset-btn {
+    background: #ffffff;
+    color: #172033;
+    border: 1px solid #d9e0ea;
+}
+
+.order-filter-buttons .reset-btn:hover {
+    background: #f3f5f8;
+}
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+.dark-mode .dashboard-panel .input-group-text,
+.dark-theme .dashboard-panel .input-group-text,
+[data-theme="dark"] .dashboard-panel .input-group-text {
+    background: #0b1323 !important;
+    border-color: #334155 !important;
+}
+
+.dark-mode .order-filter-buttons .reset-btn,
+.dark-theme .order-filter-buttons .reset-btn,
+[data-theme="dark"] .order-filter-buttons .reset-btn {
+    background: #1e293b;
+    color: #f1f5f9;
+    border-color: #334155;
+}
+
+.dark-mode .order-filter-buttons .reset-btn:hover,
+.dark-theme .order-filter-buttons .reset-btn:hover,
+[data-theme="dark"] .order-filter-buttons .reset-btn:hover {
+    background: #334155;
+}
+
+/* =========================================================
+   DARK MODE - Filter Buttons
+========================================================= */
+
+.dark-mode .order-filter-buttons .reset-btn,
+.dark-theme .order-filter-buttons .reset-btn,
+[data-theme="dark"] .order-filter-buttons .reset-btn {
+    background: #1e293b;
+    color: #f1f5f9;
+    border-color: #334155;
+}
+
+.dark-mode .order-filter-buttons .reset-btn:hover,
+.dark-theme .order-filter-buttons .reset-btn:hover,
+[data-theme="dark"] .order-filter-buttons .reset-btn:hover {
+    background: #334155;
 }

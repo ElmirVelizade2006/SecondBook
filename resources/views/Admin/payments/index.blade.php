@@ -152,124 +152,129 @@
 
 
     {{-- Filters --}}
-    <div class="card border-0 shadow-sm mb-4">
+    <div class="dashboard-panel mb-4">
+        <form method="GET"
+            action="{{ route('admin.payments.index') }}"
+            class="row g-3 align-items-end">
 
-        <div class="card-body">
+            {{-- Search --}}
+            <div class="col-12 col-md-6 col-lg-4">
+                <label class="form-label small text-muted fw-semibold">
+                    Search
+                </label>
 
-            <form method="GET"
-                  action="{{ route('admin.payments.index') }}">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0">
+                        <i class="bi bi-search text-muted"></i>
+                    </span>
 
-                <div class="row g-3">
+                    <input type="text"
+                        name="search"
+                        value="{{ request('search') }}"
+                        class="form-control border-start-0"
+                        placeholder="Transaction ID, order number...">
 
-
-                    <div class="col-lg-3">
-
-                        <input type="text"
-                               name="search"
-                               class="form-control"
-                               value="{{ request('search') }}"
-                               placeholder="Search payment...">
-
-                    </div>
-
-
-                    <div class="col-lg-2">
-
-                        <select name="payment_status"
-                                class="form-select">
-
-                            <option value="">
-                                Payment Status
-                            </option>
-
-                            <option value="pending"
-                                {{ request('payment_status') == 'pending' ? 'selected' : '' }}>
-                                Pending
-                            </option>
-
-                            <option value="paid"
-                                {{ request('payment_status') == 'paid' ? 'selected' : '' }}>
-                                Paid
-                            </option>
-
-                            <option value="failed"
-                                {{ request('payment_status') == 'failed' ? 'selected' : '' }}>
-                                Failed
-                            </option>
-
-                            <option value="refunded"
-                                {{ request('payment_status') == 'refunded' ? 'selected' : '' }}>
-                                Refunded
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="col-lg-2">
-
-                        <select name="payment_method"
-                                class="form-select">
-
-                            <option value="">
-                                Payment Method
-                            </option>
-
-                            <option value="cash_on_delivery"
-                                {{ request('payment_method') == 'cash_on_delivery' ? 'selected' : '' }}>
-                                Cash On Delivery
-                            </option>
-
-                            <option value="credit_card"
-                                {{ request('payment_method') == 'credit_card' ? 'selected' : '' }}>
-                                Credit Card
-                            </option>
-
-                            <option value="debit_card"
-                                {{ request('payment_method') == 'debit_card' ? 'selected' : '' }}>
-                                Debit Card
-                            </option>
-
-                            <option value="paypal"
-                                {{ request('payment_method') == 'paypal' ? 'selected' : '' }}>
-                                PayPal
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="col-lg-3">
-
-                        <input type="date"
-                               name="date"
-                               value="{{ request('date') }}"
-                               class="form-control">
-
-                    </div>
-
-
-                    <div class="col-lg-2">
-
-                        <button class="btn btn-dark w-100">
-
-                            <i class="bi bi-search"></i>
-
-                            Filter
-
-                        </button>
-
-                    </div>
-
-
+                    <button type="submit" class="btn btn-primary">
+                        Search
+                    </button>
                 </div>
+            </div>
 
-            </form>
 
-        </div>
+            {{-- Payment Status --}}
+            <div class="col-6 col-md-3 col-lg-2">
+                <label class="form-label small text-muted fw-semibold">
+                    Status
+                </label>
 
+                <select name="payment_status" class="form-select">
+                    <option value="">All Status</option>
+
+                    <option value="pending"
+                        @selected(request('payment_status') === 'pending')>
+                        Pending
+                    </option>
+
+                    <option value="paid"
+                        @selected(request('payment_status') === 'paid')>
+                        Paid
+                    </option>
+
+                    <option value="failed"
+                        @selected(request('payment_status') === 'failed')>
+                        Failed
+                    </option>
+
+                    <option value="refunded"
+                        @selected(request('payment_status') === 'refunded')>
+                        Refunded
+                    </option>
+                </select>
+            </div>
+
+
+            {{-- Payment Method --}}
+            <div class="col-6 col-md-3 col-lg-2">
+                <label class="form-label small text-muted fw-semibold">
+                    Method
+                </label>
+
+                <select name="payment_method" class="form-select">
+                    <option value="">All Methods</option>
+
+                    <option value="cash_on_delivery"
+                        @selected(request('payment_method') === 'cash_on_delivery')>
+                        Cash On Delivery
+                    </option>
+
+                    <option value="credit_card"
+                        @selected(request('payment_method') === 'credit_card')>
+                        Credit Card
+                    </option>
+
+                    <option value="debit_card"
+                        @selected(request('payment_method') === 'debit_card')>
+                        Debit Card
+                    </option>
+
+                    <option value="paypal"
+                        @selected(request('payment_method') === 'paypal')>
+                        PayPal
+                    </option>
+                </select>
+            </div>
+
+
+            {{-- Date --}}
+            <div class="col-12 col-md-6 col-lg-2">
+                <label class="form-label small text-muted fw-semibold">
+                    Date
+                </label>
+
+                <input type="date"
+                    name="date"
+                    value="{{ request('date') }}"
+                    class="form-control">
+            </div>
+
+
+            {{-- Buttons --}}
+            <div class="col-12 col-md-6 col-lg-2 payment-filter-buttons">
+
+                <button type="submit"
+                        class="btn btn-primary filter-btn">
+                    <i class="bi bi-funnel me-1"></i>
+                    <span>Filter</span>
+                </button>
+
+                <a href="{{ route('admin.payments.index') }}"
+                class="btn reset-btn">
+                    Reset
+                </a>
+
+            </div>
+
+        </form>
     </div>
 
 
