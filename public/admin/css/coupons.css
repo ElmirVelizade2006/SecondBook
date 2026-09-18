@@ -118,142 +118,102 @@
 
 
 /* =========================================================
-   Filter Buttons
+   Coupon Filter Buttons
+   Same design as Orders
 ========================================================= */
 
 .coupon-filter-buttons {
-    height: 48px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-wrap: nowrap !important;
+    height: 48px !important;
 }
 
-.coupon-filter-buttons .filter-btn,
-.coupon-filter-buttons .reset-btn {
+.coupon-filter-buttons .filter-btn {
+    flex: 1 1 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+
     height: 48px !important;
     min-height: 48px !important;
+
+    padding: 0 16px !important;
 
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
 
-    padding: 0 18px !important;
-
     border-radius: 14px !important;
 
     font-size: 15px !important;
     font-weight: 600 !important;
-
     line-height: 1 !important;
+
     white-space: nowrap !important;
+}
 
-    box-sizing: border-box !important;
+.coupon-filter-buttons .filter-btn i {
+    font-size: 16px;
+    margin-right: 6px;
 }
 
 
-/* Filter */
-.coupon-filter-buttons .filter-btn {
-    flex: 1 1 auto !important;
-}
+/* =========================================================
+   RESET BUTTON
+   Exactly like Orders
+========================================================= */
 
-
-/* Reset */
 .coupon-filter-buttons .reset-btn {
     flex: 0 0 90px !important;
-
     width: 90px !important;
     min-width: 90px !important;
+    max-width: 90px !important;
+
+    height: 48px !important;
+    min-height: 48px !important;
+
+    padding: 0 16px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 14px !important;
 
     background: #ffffff !important;
     color: #172033 !important;
 
     border: 1px solid #d9e0ea !important;
 
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    line-height: 1 !important;
+
+    white-space: nowrap !important;
     text-decoration: none !important;
 
+    box-shadow: none !important;
     opacity: 1 !important;
 }
 
-
-/* Reset Hover */
 .coupon-filter-buttons .reset-btn:hover {
-    background: #f8fafc !important;
+    background: #f3f5f8 !important;
     color: #172033 !important;
-
     border-color: #cbd5e1 !important;
 }
 
-
-/* =========================================================
-   Dark Mode Filter Buttons
-========================================================= */
-
-[data-theme="dark"] .coupon-filter-buttons .filter-btn {
-    color: #ffffff !important;
+.coupon-filter-buttons .reset-btn:focus {
+    background: #ffffff !important;
+    color: #172033 !important;
+    border-color: #d9e0ea !important;
+    box-shadow: none !important;
 }
 
-
-[data-theme="dark"] .coupon-filter-buttons .reset-btn {
-    flex: 0 0 90px !important;
-
-    width: 90px !important;
-    min-width: 90px !important;
-
-    background: #1e293b !important;
-    color: #f1f5f9 !important;
-
-    border: 1px solid #334155 !important;
-
-    opacity: 1 !important;
-}
-
-
-[data-theme="dark"] .coupon-filter-buttons .reset-btn:hover {
-    background: #273449 !important;
-    color: #ffffff !important;
-
-    border-color: #475569 !important;
-}
-
-
-/* =========================================================
-   Responsive
-========================================================= */
-
-@media (max-width: 992px) {
-
-    .coupon-filter-buttons {
-        height: 48px;
-    }
-
-    .coupon-filter-buttons .filter-btn {
-        flex: 1 1 auto !important;
-    }
-
-    .coupon-filter-buttons .reset-btn {
-        flex: 0 0 90px !important;
-        width: 90px !important;
-    }
-
-}
-
-
-@media (max-width: 768px) {
-
-    .coupon-filter-buttons {
-        height: 48px;
-        width: 100%;
-    }
-
-    .coupon-filter-buttons .filter-btn {
-        flex: 1 1 auto !important;
-    }
-
-    .coupon-filter-buttons .reset-btn {
-        flex: 0 0 90px !important;
-        width: 90px !important;
-    }
-
+.coupon-filter-buttons .reset-btn:active {
+    background: #f3f5f8 !important;
+    color: #172033 !important;
+    border-color: #cbd5e1 !important;
 }
 
 
@@ -327,11 +287,9 @@
     width: 42px;
     height: 42px;
     padding: 0;
-
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
     border-radius: 10px;
     font-size: 15px;
 }
@@ -482,9 +440,11 @@
 
 
 /* =========================================================
-   Dark Mode
+   DARK MODE - Cards
 ========================================================= */
 
+.dark-mode .coupon-card,
+.dark-theme .coupon-card,
 [data-theme="dark"] .coupon-card {
     background: #111827;
     border-color: #334155;
@@ -492,132 +452,204 @@
     box-shadow: none;
 }
 
-[data-theme="dark"] .coupon-card:hover {
-    box-shadow: none;
-}
-
+.dark-mode .coupon-card span,
+.dark-theme .coupon-card span,
 [data-theme="dark"] .coupon-card span {
     color: #94a3b8;
 }
 
+.dark-mode .coupon-card h3,
+.dark-theme .coupon-card h3,
 [data-theme="dark"] .coupon-card h3 {
     color: #f1f5f9;
 }
 
+.dark-mode .coupon-card > i,
+.dark-theme .coupon-card > i,
 [data-theme="dark"] .coupon-card > i {
-    color: #7c93ff;
+    color: #f1f5f9;
 }
 
 
 /* =========================================================
-   Dark Mode Filter
+   DARK MODE - Filter Panel
 ========================================================= */
 
+.dark-mode .dashboard-panel,
+.dark-theme .dashboard-panel,
 [data-theme="dark"] .dashboard-panel {
     background: #111827;
     border-color: #334155;
     box-shadow: none;
 }
 
+.dark-mode .dashboard-panel .form-label,
+.dark-theme .dashboard-panel .form-label,
 [data-theme="dark"] .dashboard-panel .form-label {
     color: #f1f5f9 !important;
 }
 
+
+/* =========================================================
+   DARK MODE - Form Controls
+========================================================= */
+
+.dark-mode .dashboard-panel .form-control,
+.dark-mode .dashboard-panel .form-select,
+.dark-theme .dashboard-panel .form-control,
+.dark-theme .dashboard-panel .form-select,
 [data-theme="dark"] .dashboard-panel .form-control,
 [data-theme="dark"] .dashboard-panel .form-select {
-    background: #0b1323;
-    border-color: #334155;
+    background: #0b1323 !important;
+    border-color: #334155 !important;
     color: #f1f5f9 !important;
-    -webkit-text-fill-color: #f1f5f9;
+    -webkit-text-fill-color: #f1f5f9 !important;
 }
 
+.dark-mode .dashboard-panel .form-control::placeholder,
+.dark-theme .dashboard-panel .form-control::placeholder,
 [data-theme="dark"] .dashboard-panel .form-control::placeholder {
     color: #ffffff !important;
-    opacity: 1;
+    opacity: 1 !important;
 }
 
+.dark-mode .dashboard-panel .input-group-text,
+.dark-theme .dashboard-panel .input-group-text,
 [data-theme="dark"] .dashboard-panel .input-group-text {
-    background: #0b1323;
-    border-color: #334155;
-    color: #ffffff;
+    background: #0b1323 !important;
+    border-color: #334155 !important;
+    color: #ffffff !important;
 }
 
+.dark-mode .dashboard-panel .input-group-text i,
+.dark-theme .dashboard-panel .input-group-text i,
 [data-theme="dark"] .dashboard-panel .input-group-text i {
     color: #ffffff !important;
 }
 
+
+/* =========================================================
+   DARK MODE - Focus
+========================================================= */
+
+.dark-mode .dashboard-panel .form-control:focus,
+.dark-mode .dashboard-panel .form-select:focus,
+.dark-theme .dashboard-panel .form-control:focus,
+.dark-theme .dashboard-panel .form-select:focus,
 [data-theme="dark"] .dashboard-panel .form-control:focus,
 [data-theme="dark"] .dashboard-panel .form-select:focus {
-    border-color: #4f6fe8;
-    box-shadow: 0 0 0 3px rgba(79, 111, 232, 0.15);
-}
-
-[data-theme="dark"] .dashboard-panel .form-select option {
-    background: #0b1323;
-    color: #f1f5f9;
+    background: #0b1323 !important;
+    color: #f1f5f9 !important;
+    -webkit-text-fill-color: #f1f5f9 !important;
+    border-color: #4f6fe8 !important;
+    box-shadow: 0 0 0 3px rgba(79, 111, 232, 0.15) !important;
 }
 
 
 /* =========================================================
-   Dark Mode Filter Buttons
+   DARK MODE - Select Options
 ========================================================= */
 
+.dark-mode .dashboard-panel .form-select option,
+.dark-theme .dashboard-panel .form-select option,
+[data-theme="dark"] .dashboard-panel .form-select option {
+    background: #0b1323 !important;
+    color: #f1f5f9 !important;
+}
+
+
+/* =========================================================
+   DARK MODE - Coupon Reset Button
+========================================================= */
+
+.dark-mode .coupon-filter-buttons .reset-btn,
+.dark-theme .coupon-filter-buttons .reset-btn,
+[data-theme="dark"] .coupon-filter-buttons .reset-btn {
+    background: #1e293b !important;
+    color: #f1f5f9 !important;
+    border: 1px solid #334155 !important;
+}
+
+.dark-mode .coupon-filter-buttons .reset-btn:hover,
+.dark-theme .coupon-filter-buttons .reset-btn:hover,
+[data-theme="dark"] .coupon-filter-buttons .reset-btn:hover {
+    background: #334155 !important;
+    color: #ffffff !important;
+    border-color: #475569 !important;
+}
+
+.dark-mode .coupon-filter-buttons .reset-btn:focus,
+.dark-theme .coupon-filter-buttons .reset-btn:focus,
+[data-theme="dark"] .coupon-filter-buttons .reset-btn:focus {
+    background: #1e293b !important;
+    color: #f1f5f9 !important;
+    border-color: #334155 !important;
+    box-shadow: none !important;
+}
+
+
+/* =========================================================
+   DARK MODE - Filter Button
+========================================================= */
+
+.dark-mode .coupon-filter-buttons .filter-btn,
+.dark-theme .coupon-filter-buttons .filter-btn,
 [data-theme="dark"] .coupon-filter-buttons .filter-btn {
     color: #ffffff !important;
 }
 
-[data-theme="dark"] .coupon-filter-buttons .reset-btn {
-    background: #1e293b !important;
-    border: 1px solid #334155 !important;
-    color: #f1f5f9 !important;
-    opacity: 1 !important;
-    text-decoration: none !important;
-}
-
-[data-theme="dark"] .coupon-filter-buttons .reset-btn:hover {
-    background: #273449 !important;
-    border-color: #475569 !important;
-    color: #ffffff !important;
-}
-
 
 /* =========================================================
-   Dark Mode Table
+   DARK MODE - Table
 ========================================================= */
 
+.dark-mode .card,
+.dark-theme .card,
 [data-theme="dark"] .card {
     background: #111827;
     border-color: #334155;
     color: #f1f5f9;
 }
 
+.dark-mode .table,
+.dark-theme .table,
 [data-theme="dark"] .table {
     color: #f1f5f9;
 }
 
+.dark-mode .table thead th,
+.dark-theme .table thead th,
 [data-theme="dark"] .table thead th {
     color: #f1f5f9;
     border-bottom-color: #334155;
 }
 
+.dark-mode .table tbody td,
+.dark-theme .table tbody td,
 [data-theme="dark"] .table tbody td {
     color: #e2e8f0;
     border-bottom-color: #263449;
 }
 
+.dark-mode .table tbody tr:hover,
+.dark-theme .table tbody tr:hover,
 [data-theme="dark"] .table tbody tr:hover {
     background: #172033;
 }
 
+.dark-mode .table .text-muted,
+.dark-theme .table .text-muted,
 [data-theme="dark"] .table .text-muted {
     color: #94a3b8 !important;
 }
 
 
 /* =========================================================
-   Dark Mode Coupon Code
+   DARK MODE - Coupon Code
 ========================================================= */
 
+.dark-mode .coupon-code,
+.dark-theme .coupon-code,
 [data-theme="dark"] .coupon-code {
     background: #0b1323;
     border-color: #334155;
@@ -626,15 +658,19 @@
 
 
 /* =========================================================
-   Dark Mode Actions
+   DARK MODE - Actions
 ========================================================= */
 
+.dark-mode .coupon-actions .btn-light,
+.dark-theme .coupon-actions .btn-light,
 [data-theme="dark"] .coupon-actions .btn-light {
     background: #1e293b;
     border-color: #334155;
     color: #f1f5f9;
 }
 
+.dark-mode .coupon-actions .btn-light:hover,
+.dark-theme .coupon-actions .btn-light:hover,
 [data-theme="dark"] .coupon-actions .btn-light:hover {
     background: #273449;
     border-color: #475569;
@@ -643,31 +679,43 @@
 
 
 /* =========================================================
-   Dark Mode Detail
+   DARK MODE - Detail
 ========================================================= */
 
+.dark-mode .coupon-detail,
+.dark-theme .coupon-detail,
 [data-theme="dark"] .coupon-detail {
     background: #111827;
     border-color: #334155;
 }
 
+.dark-mode .coupon-detail span,
+.dark-theme .coupon-detail span,
 [data-theme="dark"] .coupon-detail span {
     color: #94a3b8;
 }
 
+.dark-mode .coupon-detail strong,
+.dark-theme .coupon-detail strong,
 [data-theme="dark"] .coupon-detail strong {
     color: #f1f5f9;
 }
 
 
 /* =========================================================
-   Dark Mode Form
+   DARK MODE - Coupon Form
 ========================================================= */
 
+.dark-mode .coupon-form label,
+.dark-theme .coupon-form label,
 [data-theme="dark"] .coupon-form label {
     color: #f1f5f9;
 }
 
+.dark-mode .coupon-form .form-control,
+.dark-mode .coupon-form .form-select,
+.dark-theme .coupon-form .form-control,
+.dark-theme .coupon-form .form-select,
 [data-theme="dark"] .coupon-form .form-control,
 [data-theme="dark"] .coupon-form .form-select {
     background: #0b1323;
@@ -676,47 +724,67 @@
     -webkit-text-fill-color: #f1f5f9;
 }
 
+.dark-mode .coupon-form .form-control::placeholder,
+.dark-theme .coupon-form .form-control::placeholder,
 [data-theme="dark"] .coupon-form .form-control::placeholder {
     color: #ffffff !important;
     opacity: 1;
 }
 
+.dark-mode .coupon-form .form-control:focus,
+.dark-mode .coupon-form .form-select:focus,
+.dark-theme .coupon-form .form-control:focus,
+.dark-theme .coupon-form .form-select:focus,
 [data-theme="dark"] .coupon-form .form-control:focus,
 [data-theme="dark"] .coupon-form .form-select:focus {
     border-color: #4f6fe8;
     box-shadow: 0 0 0 3px rgba(79, 111, 232, 0.15);
 }
 
+.dark-mode .coupon-form .form-select option,
+.dark-theme .coupon-form .form-select option,
 [data-theme="dark"] .coupon-form .form-select option {
     background: #0b1323;
     color: #f1f5f9;
 }
 
+.dark-mode .coupon-form small,
+.dark-mode .coupon-form .form-text,
+.dark-theme .coupon-form small,
+.dark-theme .coupon-form .form-text,
 [data-theme="dark"] .coupon-form small,
 [data-theme="dark"] .coupon-form .form-text {
     color: #94a3b8;
 }
 
+.dark-mode .coupon-form input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+.dark-theme .coupon-form input[type="datetime-local"]::-webkit-calendar-picker-indicator,
 [data-theme="dark"] .coupon-form input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
 }
 
 
 /* =========================================================
-   Dark Mode Pagination
+   DARK MODE - Pagination
 ========================================================= */
 
+.dark-mode .pagination .page-link,
+.dark-theme .pagination .page-link,
 [data-theme="dark"] .pagination .page-link {
     background: #111827;
     border-color: #334155;
     color: #f1f5f9;
 }
 
+.dark-mode .pagination .page-link:hover,
+.dark-theme .pagination .page-link:hover,
 [data-theme="dark"] .pagination .page-link:hover {
     background: #1e293b;
     color: #ffffff;
 }
 
+.dark-mode .pagination .page-item.active .page-link,
+.dark-theme .pagination .page-item.active .page-link,
 [data-theme="dark"] .pagination .page-item.active .page-link {
     background: #3b5bdb;
     border-color: #3b5bdb;
@@ -731,15 +799,26 @@
 @media (max-width: 992px) {
 
     .coupon-filter-buttons {
-        height: auto;
-        min-height: 48px;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        gap: 10px !important;
     }
 
-    .coupon-filter-buttons .filter-btn,
+    .coupon-filter-buttons .filter-btn {
+        flex: 1 1 auto !important;
+        width: auto !important;
+        min-width: 0 !important;
+    }
+
     .coupon-filter-buttons .reset-btn {
-        flex: 1;
+        flex: 0 0 90px !important;
+        width: 90px !important;
+        min-width: 90px !important;
+        max-width: 90px !important;
     }
-
 }
 
 
@@ -762,13 +841,24 @@
     }
 
     .coupon-filter-buttons {
-        height: auto;
-        min-height: 48px;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        gap: 10px !important;
     }
 
-    .coupon-filter-buttons .filter-btn,
+    .coupon-filter-buttons .filter-btn {
+        flex: 1 1 auto !important;
+        width: auto !important;
+        min-width: 0 !important;
+    }
+
     .coupon-filter-buttons .reset-btn {
-        flex: 1;
+        flex: 0 0 90px !important;
+        width: 90px !important;
+        min-width: 90px !important;
+        max-width: 90px !important;
     }
 
     .coupon-actions {
@@ -784,5 +874,4 @@
     .table {
         min-width: 950px;
     }
-
 }

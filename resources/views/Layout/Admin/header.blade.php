@@ -2,24 +2,29 @@
 
     <div class="container-fluid p-0">
 
+        {{-- Left Side --}}
         <div class="d-flex align-items-center">
 
-            <button class="header-toggle me-2 me-md-3 is-active"
-                    id="toggleSidebar"
-                    type="button"
-                    aria-label="Menyunu aç / bağla"
-                    aria-expanded="true">
+            {{-- Sidebar Toggle --}}
+            <button
+                class="header-toggle me-2 me-md-3 is-active"
+                id="toggleSidebar"
+                type="button"
+                aria-label="Menyunu aç / bağla"
+                aria-expanded="true"
+            >
                 <span class="hamburger-box" aria-hidden="true">
                     <span class="hamburger-line"></span>
                     <span class="hamburger-line"></span>
                     <span class="hamburger-line"></span>
                 </span>
-
             </button>
 
+
+            {{-- Page Title --}}
             <div>
                 <h4 class="mb-0 fw-bold header-title">
-                    @yield('title','Dashboard')
+                    @yield('title', 'Dashboard')
                 </h4>
 
                 <small class="text-muted d-none d-sm-inline">
@@ -29,79 +34,176 @@
 
         </div>
 
+
+        {{-- Right Side --}}
         <div class="d-flex align-items-center">
 
-            {{-- Search - yalnız md və yuxarıda tam görünsün --}}
-            <div class="search-box me-2 me-lg-4 d-none d-md-flex">
-                <i class="bi bi-search"></i>
-                <input type="text" placeholder="Search books, users, orders...">
-            </div>
-
-            {{-- Kicik ekranda sadece axtaris ikonu --}}
-            <button class="header-icon me-2 d-flex d-md-none">
-                <i class="bi bi-search"></i>
-            </button>
-
             {{-- Notification --}}
-            <button class="header-icon me-2 me-md-3">
+            <button
+                class="header-icon me-2 me-md-3"
+                type="button"
+                aria-label="Notifications"
+            >
                 <i class="bi bi-bell"></i>
                 <span class="notification-badge">3</span>
             </button>
 
-            {{-- Messages - kicik ekranda gizlensin --}}
-            <button class="header-icon me-2 me-md-4 d-none d-lg-flex">
+            {{-- Messages --}}
+            <a
+                href="{{ route('admin.messages.index') }}"
+                class="header-icon me-2 me-md-4 d-none d-lg-flex text-decoration-none position-relative"
+                aria-label="Messages"
+            >
                 <i class="bi bi-chat-dots"></i>
-            </button>
+
+                @if($unreadMessagesCount > 0)
+                    <span class="notification-badge">
+                        {{ $unreadMessagesCount > 99 ? '99+' : $unreadMessagesCount }}
+                    </span>
+                @endif
+            </a>
+
 
             {{-- Profile --}}
             <div class="dropdown">
+
                 @auth
-                    <a href="#" class="d-flex align-items-center text-decoration-none" data-bs-toggle="dropdown">
 
-                        <img src="https://i.pravatar.cc/100?img=12" class="profile-image">
+                    <a
+                        href="#"
+                        class="d-flex align-items-center text-decoration-none"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
 
+                        {{-- Profile Image --}}
+                        @if(auth()->user()->avatar)
+
+                            <img
+                                src="{{ asset('storage/' . auth()->user()->avatar) }}"
+                                class="profile-image"
+                                alt="{{ auth()->user()->name }}"
+                            >
+
+                        @else
+
+                            <img
+                                src="{{ asset('profile-icon.png') }}"
+                                class="profile-image"
+                                alt="{{ auth()->user()->name }}"
+                            >
+
+                        @endif
+
+
+                        {{-- User Information --}}
                         <div class="ms-3 d-none d-sm-block">
-                            <h6 class="mb-0 fw-semibold">{{ auth()->user()->name }}</h6>
-                            <small class="text-muted">Administrator</small>
+
+                            <h6 class="mb-0 fw-semibold">
+                                {{ auth()->user()->name }}
+                            </h6>
+
+                            <small class="text-muted">
+                                Administrator
+                            </small>
+
                         </div>
 
+
+                        {{-- Dropdown Icon --}}
                         <i class="bi bi-chevron-down ms-2 ms-md-3 text-secondary d-none d-sm-inline"></i>
 
                     </a>
 
+
+                    {{-- Profile Dropdown --}}
                     <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4">
-                        <li><a class="dropdown-item py-2" href="{{ route('my.profile') }}"><i class="bi bi-person me-2"></i>Profile</a></li>
-                        <li><a class="dropdown-item py-2" href="{{ route('admin.settings.index') }}"><i class="bi bi-gear me-2"></i>Settings</a></li>
-                        <li><hr class="dropdown-divider"></li>
+
+                        {{-- Profile --}}
+                        <li>
+                            <a
+                                class="dropdown-item py-2"
+                                href="{{ route('my.profile') }}"
+                            >
+                                <i class="bi bi-person me-2"></i>
+                                Profile
+                            </a>
+                        </li>
+
+
+                        {{-- Settings --}}
+                        <li>
+                            <a
+                                class="dropdown-item py-2"
+                                href="{{ route('admin.settings.index') }}"
+                            >
+                                <i class="bi bi-gear me-2"></i>
+                                Settings
+                            </a>
+                        </li>
+
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+
+                        {{-- Logout --}}
                         <li>
 
-                            <form action="{{ route('frontend.auth.logout') }}" 
+                            <form
+                                action="{{ route('frontend.auth.logout') }}"
                                 method="POST"
-                                id="logoutForm">
+                                id="logoutForm"
+                            >
 
                                 @csrf
 
-                                <button type="button"
-                                        class="dropdown-item text-danger py-2"
-                                        id="logoutBtn">
-
+                                <button
+                                    type="button"
+                                    class="dropdown-item text-danger py-2"
+                                    id="logoutBtn"
+                                >
                                     <i class="bi bi-box-arrow-right me-2"></i>
                                     Logout
-
                                 </button>
 
                             </form>
 
                         </li>
-                        <li><hr class="dropdown-divider"></li>
+
+
                         <li>
-                            <a class="dropdown-item py-2" href="#" id="themeToggleBtn">
-                                <i class="bi bi-moon-stars me-2" id="themeToggleIcon"></i>
-                                <span id="themeToggleLabel">Switch to Dark Mode</span>
-                            </a>
+                            <hr class="dropdown-divider">
                         </li>
+
+
+                        {{-- Dark Mode --}}
+                        <li>
+
+                            <a
+                                class="dropdown-item py-2"
+                                href="#"
+                                id="themeToggleBtn"
+                            >
+
+                                <i
+                                    class="bi bi-moon-stars me-2"
+                                    id="themeToggleIcon"
+                                ></i>
+
+                                <span id="themeToggleLabel">
+                                    Switch to Dark Mode
+                                </span>
+
+                            </a>
+
+                        </li>
+
                     </ul>
+
                 @endauth
+
             </div>
 
         </div>

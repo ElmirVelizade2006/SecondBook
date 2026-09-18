@@ -1,0 +1,560 @@
+@extends('Layout.Frontend.master')
+
+@section('title', 'Contact Us | SecondBook')
+
+@push('css')
+    <link rel="stylesheet" href="{{ asset('frontend/css/contact.css') }}">
+@endpush
+
+@section('content')
+
+<section id="contact-page" class="contact-page">
+
+    {{-- =========================================================
+        Page Hero
+    ========================================================== --}}
+
+    <div class="contact-hero">
+
+        <div class="container">
+
+            <div
+                class="contact-hero-content text-center"
+                data-aos="fade-up"
+            >
+
+                <div class="title">
+                    <span>We are here to help</span>
+                </div>
+
+                <h1 class="section-title">
+                    Contact Us
+                </h1>
+
+                <p>
+                    Have a question about a book, your order, or selling on
+                    SecondBook? Send us a message and our team will get back
+                    to you.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {{-- =========================================================
+        Contact Content
+    ========================================================== --}}
+
+    <section class="contact-content py-5">
+
+        <div class="container">
+
+            <div class="row g-5 align-items-stretch">
+
+
+                {{-- =====================================================
+                    Contact Information
+                ====================================================== --}}
+
+                <div class="col-lg-5">
+
+                    <div
+                        class="contact-info"
+                        data-aos="fade-right"
+                    >
+
+                        <div class="section-header">
+
+                            <div class="title">
+                                <span>Let's talk</span>
+                            </div>
+
+                            <h2 class="section-title">
+                                Get In Touch
+                            </h2>
+
+                        </div>
+
+
+                        <p class="contact-intro">
+                            Whether you need help with an order, want to
+                            report an issue, or simply have a question about
+                            SecondBook, we'd love to hear from you.
+                        </p>
+
+
+                        {{-- Contact Information List --}}
+
+                        <div class="contact-info-list">
+
+
+                            {{-- Email --}}
+
+                            <div class="contact-info-item">
+
+                                <div class="contact-icon">
+                                    <i class="bi bi-envelope"></i>
+                                </div>
+
+                                <div>
+
+                                    <span>Email</span>
+
+                                    <a href="mailto:support@secondbook.com">
+                                        support@secondbook.com
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+
+                            {{-- Phone --}}
+
+                            <div class="contact-info-item">
+
+                                <div class="contact-icon">
+                                    <i class="bi bi-telephone"></i>
+                                </div>
+
+                                <div>
+
+                                    <span>Phone</span>
+
+                                    <a href="tel:+994501234567">
+                                        +994 50 123 45 67
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+
+                            {{-- Address --}}
+
+                            <div class="contact-info-item">
+
+                                <div class="contact-icon">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
+
+                                <div>
+
+                                    <span>Address</span>
+
+                                    <p>
+                                        Nakhchivan, Azerbaijan
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            {{-- Working Hours --}}
+
+                            <div class="contact-info-item">
+
+                                <div class="contact-icon">
+                                    <i class="bi bi-clock"></i>
+                                </div>
+
+                                <div>
+
+                                    <span>Working Hours</span>
+
+                                    <p>
+                                        Monday – Friday, 09:00 – 18:00
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        {{-- Contact Note --}}
+
+                        <div class="contact-note">
+
+                            <i class="bi bi-chat-square-text"></i>
+
+                            <div>
+
+                                <strong>
+                                    Need help with an order?
+                                </strong>
+
+                                <p>
+                                    Please include your order number in your
+                                    message so we can assist you faster.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                {{-- =====================================================
+                    Contact Form
+                ====================================================== --}}
+
+                <div class="col-lg-7">
+
+                    <div
+                        class="contact-form-card"
+                        data-aos="fade-left"
+                    >
+
+                        <div class="contact-form-header">
+
+                            <div class="title">
+                                <span>Send us a message</span>
+                            </div>
+
+                            <h2>
+                                How Can We Help?
+                            </h2>
+
+                            <p>
+                                Fill out the form below and we'll get back
+                                to you as soon as possible.
+                            </p>
+
+                        </div>
+
+
+                        {{-- =================================================
+                            Success Message
+                        ================================================== --}}
+
+                        @if(session('success'))
+
+                            <div
+                                class="alert alert-success contact-alert"
+                                role="alert"
+                            >
+
+                                <i class="bi bi-check-circle me-2"></i>
+
+                                {{ session('success') }}
+
+                            </div>
+
+                        @endif
+
+
+                        {{-- =================================================
+                            Error Message
+                        ================================================== --}}
+
+                        @if(session('error'))
+
+                            <div
+                                class="alert alert-danger contact-alert"
+                                role="alert"
+                            >
+
+                                <i class="bi bi-exclamation-circle me-2"></i>
+
+                                {{ session('error') }}
+
+                            </div>
+
+                        @endif
+
+
+                        {{-- =================================================
+                            Validation Errors
+                        ================================================== --}}
+
+                        @if($errors->any())
+
+                            <div
+                                class="alert alert-danger contact-alert"
+                                role="alert"
+                            >
+
+                                <div class="fw-semibold mb-2">
+                                    Please check the following:
+                                </div>
+
+                                <ul class="mb-0">
+
+                                    @foreach($errors->all() as $error)
+
+                                        <li>
+                                            {{ $error }}
+                                        </li>
+
+                                    @endforeach
+
+                                </ul>
+
+                            </div>
+
+                        @endif
+
+
+                        {{-- =================================================
+                            Contact Form
+                        ================================================== --}}
+
+                        <form
+                            action="{{ route('frontend.contact.store') }}"
+                            method="POST"
+                            class="contact-form"
+                        >
+
+                            @csrf
+
+
+                            <div class="row">
+
+
+                                {{-- =================================================
+                                    Name
+                                ================================================== --}}
+
+                                <div class="col-md-6">
+
+                                    <div class="contact-field">
+
+                                        <label for="name">
+                                            Your Name
+                                        </label>
+
+                                        <div class="contact-input-wrap">
+
+                                            <i class="bi bi-person"></i>
+
+                                            <input
+                                                type="text"
+                                                id="name"
+                                                name="name"
+                                                value="{{ old('name', auth()->user()?->name) }}"
+                                                placeholder="Enter your name"
+                                                maxlength="100"
+                                                autocomplete="name"
+                                                required
+                                            >
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                {{-- =================================================
+                                    Email
+                                ================================================== --}}
+
+                                <div class="col-md-6">
+
+                                    <div class="contact-field">
+
+                                        <label for="email">
+                                            Email Address
+                                        </label>
+
+                                        <div class="contact-input-wrap">
+
+                                            <i class="bi bi-envelope"></i>
+
+                                            <input
+                                                type="email"
+                                                id="email"
+                                                name="email"
+                                                value="{{ old('email', auth()->user()?->email) }}"
+                                                placeholder="Enter your email"
+                                                maxlength="255"
+                                                autocomplete="email"
+                                                required
+                                            >
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                {{-- =================================================
+                                    Subject
+                                ================================================== --}}
+
+                                <div class="col-12">
+
+                                    <div class="contact-field">
+
+                                        <label for="subject">
+                                            Subject
+                                        </label>
+
+                                        <div class="contact-input-wrap">
+
+                                            <i class="bi bi-chat-left-text"></i>
+
+                                            <input
+                                                type="text"
+                                                id="subject"
+                                                name="subject"
+                                                value="{{ old('subject') }}"
+                                                placeholder="What is your message about?"
+                                                maxlength="255"
+                                                required
+                                            >
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                {{-- =================================================
+                                    Message
+                                ================================================== --}}
+
+                                <div class="col-12">
+
+                                    <div class="contact-field">
+
+                                        <label for="message">
+                                            Message
+                                        </label>
+
+                                        <div class="contact-textarea-wrap">
+
+                                            <i class="bi bi-pencil-square"></i>
+
+                                            <textarea
+                                                id="message"
+                                                name="message"
+                                                rows="7"
+                                                minlength="10"
+                                                maxlength="5000"
+                                                placeholder="Write your message here..."
+                                                required
+                                            >{{ old('message') }}</textarea>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                {{-- =================================================
+                                    Form Footer
+                                ================================================== --}}
+
+                                <div class="col-12">
+
+                                    <div class="contact-form-footer">
+
+                                        <p>
+
+                                            <i class="bi bi-shield-check"></i>
+
+                                            Your message will be handled securely.
+
+                                        </p>
+
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-accent contact-submit"
+                                        >
+
+                                            Send Message
+
+                                            <i class="bi bi-arrow-right"></i>
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    {{-- =========================================================
+        Bottom CTA
+    ========================================================== --}}
+
+    <section class="contact-cta">
+
+        <div class="container">
+
+            <div
+                class="contact-cta-inner text-center"
+                data-aos="fade-up"
+            >
+
+                <div class="title">
+
+                    <span>
+                        SecondBook marketplace
+                    </span>
+
+                </div>
+
+
+                <h2>
+                    Your next great read may be waiting for you.
+                </h2>
+
+
+                <p>
+                    Explore affordable books from trusted sellers and
+                    discover something new for your shelf.
+                </p>
+
+
+                <div class="btn-wrap">
+
+                    <a
+                        href="{{ url('/') }}"
+                        class="btn btn-outline-accent btn-accent-arrow"
+                    >
+
+                        Browse Books
+
+                        <i class="icon icon-ns-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</section>
+
+@endsection

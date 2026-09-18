@@ -1864,6 +1864,31 @@ img{
 
     }
 
+    /* =========================================
+   MONTHLY OVERVIEW CHART
+    ========================================= */
+
+    .chart-container {
+        position: relative;
+        width: 100%;
+        height: 330px;
+        min-height: 330px;
+        padding: 10px 5px 5px;
+    }
+
+    .chart-container canvas {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    /* Dark Mode */
+
+    .dark-mode .chart-container,
+    .dark-theme .chart-container,
+    [data-theme="dark"] .chart-container {
+        color: #e5e7eb;
+    }
+    
 }
 
 
