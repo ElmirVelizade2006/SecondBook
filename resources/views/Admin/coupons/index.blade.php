@@ -176,141 +176,96 @@
 
     {{-- Filters --}}
     <div class="dashboard-panel mb-4">
-
         <form method="GET"
-              action="{{ route('admin.coupons.index') }}"
-              class="row g-3 align-items-end">
-
+            action="{{ route('admin.coupons.index') }}"
+            class="row g-3 align-items-end">
 
             {{-- Search --}}
             <div class="col-12 col-md-6 col-lg-4">
-
                 <label class="form-label small text-muted fw-semibold">
                     Search
                 </label>
 
                 <div class="input-group">
-
                     <span class="input-group-text bg-white border-end-0">
-
                         <i class="bi bi-search text-muted"></i>
-
                     </span>
 
-
                     <input type="text"
-                           name="search"
-                           value="{{ request('search') }}"
-                           class="form-control border-start-0"
-                           placeholder="Search coupon code...">
-
+                        name="search"
+                        value="{{ request('search') }}"
+                        class="form-control border-start-0"
+                        placeholder="Search coupon code...">
 
                     <button type="submit"
                             class="btn btn-primary">
-
                         Search
-
                     </button>
-
                 </div>
-
             </div>
-
 
             {{-- Discount Type --}}
             <div class="col-6 col-md-3 col-lg-2">
-
                 <label class="form-label small text-muted fw-semibold">
                     Type
                 </label>
 
-                <select name="type"
-                        class="form-select">
-
+                <select name="type" class="form-select">
                     <option value="">
                         All Types
                     </option>
 
                     <option value="percentage"
                         @selected(request('type') === 'percentage')>
-
                         Percentage
-
                     </option>
 
                     <option value="fixed"
                         @selected(request('type') === 'fixed')>
-
                         Fixed Amount
-
                     </option>
-
                 </select>
-
             </div>
-
 
             {{-- Status --}}
             <div class="col-6 col-md-3 col-lg-2">
-
                 <label class="form-label small text-muted fw-semibold">
                     Status
                 </label>
 
-                <select name="status"
-                        class="form-select">
-
+                <select name="status" class="form-select">
                     <option value="">
                         All Status
                     </option>
 
                     <option value="1"
                         @selected(request('status') === '1')>
-
                         Active
-
                     </option>
 
                     <option value="0"
                         @selected(request('status') === '0')>
-
                         Inactive
-
                     </option>
-
                 </select>
-
             </div>
-
 
             {{-- Filter Buttons --}}
             <div class="col-12 col-md-6 col-lg-4 coupon-filter-buttons">
-
                 <button type="submit"
                         class="btn btn-primary filter-btn">
-
                     <i class="bi bi-funnel me-1"></i>
-
-                    <span>
-                        Filter
-                    </span>
-
+                    <span>Filter</span>
                 </button>
 
-
                 <a href="{{ route('admin.coupons.index') }}"
-                   class="btn reset-btn">
-
+                class="btn btn-secondary reset-btn">
                     Reset
-
                 </a>
-
             </div>
 
         </form>
-
     </div>
-
 
     {{-- Coupons Table --}}
     <div class="card border-0 shadow-sm">

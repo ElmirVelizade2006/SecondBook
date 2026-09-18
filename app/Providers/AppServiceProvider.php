@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Message;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +20,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        view()->composer('layout.admin.master', function ($view) {
+
+            $unreadMessagesCount = Message::where(
+                'status',
+                'unread'
+            )->count();
+
+            $view->with(
+                'unreadMessagesCount',
+                $unreadMessagesCount
+            );
+        });
     }
 }

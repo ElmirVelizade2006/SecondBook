@@ -1,134 +1,251 @@
-.order-card {
-    background: #fff;
+/* =========================================================
+   SHIPPING
+========================================================= */
+
+
+/* =========================================================
+   ADD SHIPPING BUTTON
+========================================================= */
+
+.shipping-add-btn {
+    min-height: 62px;
+    padding: 0 24px;
+    border-radius: 14px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =========================================================
+   SHIPPING STATISTICS CARDS
+========================================================= */
+
+.shipping-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
     border-radius: 18px;
     padding: 25px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 100%;
     box-shadow: 0 10px 25px rgba(0, 0, 0, .06);
 }
 
-.order-card span {
+.shipping-card span {
     color: #6b7280;
     font-size: 14px;
 }
 
-.order-card h3 {
+.shipping-card h3 {
     margin-top: 8px;
+    margin-bottom: 0;
+    color: #111827;
     font-weight: 700;
 }
 
-.order-card i {
+.shipping-card i {
     font-size: 35px;
     color: #8b5e3c;
 }
 
 
-/* ==========================
-   Orders Table
-========================== */
+/* =========================================================
+   SHIPPING FILTER PANEL
+========================================================= */
 
-.table thead th {
-    font-size: 13px;
-    text-transform: uppercase;
-    color: #6b7280;
-}
-
-.table td {
-    padding: 16px;
+.shipping-filter-panel {
+    border-radius: 18px;
 }
 
 
-/* ==========================
-   Badge
-========================== */
+/* =========================================================
+   FILTER INPUTS
+========================================================= */
 
-.badge {
-    padding: 7px 12px;
-    border-radius: 20px;
-}
-
-
-/* ==========================
-   Order Form Inputs
-========================== */
-
-/* Light Mode */
-
-.form-control,
-.form-select {
+.shipping-filter-panel .form-control,
+.shipping-filter-panel .form-select {
+    height: 48px;
+    padding: 12px 14px;
     color: #111827;
     background-color: #ffffff;
     border-color: #d1d5db;
 }
 
-.form-control::placeholder {
+
+/* =========================================================
+   SEARCH GROUP
+========================================================= */
+
+.shipping-search-group {
+    height: 48px;
+}
+
+.shipping-search-group .input-group-text {
+    height: 48px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border-color: #d1d5db;
+}
+
+.shipping-search-group .form-control {
+    height: 48px;
+    padding: 12px 14px;
+}
+
+.shipping-search-group .btn {
+    height: 48px;
+    padding: 0 18px;
+}
+
+
+/* =========================================================
+   PLACEHOLDER
+========================================================= */
+
+.shipping-filter-panel .form-control::placeholder {
     color: #6b7280;
     opacity: 1;
 }
 
 
-/* Dark Mode */
+/* =========================================================
+   FILTER + RESET BUTTONS
+========================================================= */
 
-.dark-mode .form-control,
-.dark-mode .form-select,
-.dark-mode textarea {
-    background-color: #111827 !important;
-    border-color: #334155 !important;
-    color: #e5e7eb !important;
-    -webkit-text-fill-color: #e5e7eb !important;
+.shipping-filter-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.shipping-filter-buttons .filter-btn,
+.shipping-filter-buttons .reset-btn {
+    height: 48px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    font-weight: 600;
+    padding: 0 16px;
+}
+
+.shipping-filter-buttons .filter-btn {
+    flex: 1;
+}
+
+.shipping-filter-buttons .filter-btn i {
+    font-size: 16px;
+    margin-right: 6px;
+}
+
+.shipping-filter-buttons .reset-btn {
+    width: 90px;
+    background: #ffffff;
+    color: #172033;
+    border: 1px solid #d9e0ea;
+}
+
+.shipping-filter-buttons .reset-btn:hover {
+    background: #f3f5f8;
 }
 
 
-/* Dark Mode Placeholder */
+/* =========================================================
+   SHIPPING TABLE
+========================================================= */
 
-.dark-mode .form-control::placeholder,
-.dark-mode textarea::placeholder {
-    color: #64748b !important;
-    opacity: 1 !important;
+.shipping-table-card {
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.shipping-table-card .card-body {
+    padding: 0;
+}
+
+.shipping-table-card .table {
+    margin-bottom: 0;
 }
 
 
-/* Dark Mode Select Options */
+/* =========================================================
+   TABLE HEADER
+========================================================= */
 
-.dark-mode .form-select option {
-    background-color: #111827;
-    color: #e5e7eb;
+.shipping-table-card .table thead th {
+    padding: 18px 16px;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #6b7280;
+    font-weight: 700;
+    white-space: nowrap;
 }
 
 
-/* Dark Mode Focus */
+/* =========================================================
+   TABLE BODY
+========================================================= */
 
-.dark-mode .form-control:focus,
-.dark-mode .form-select:focus,
-.dark-mode textarea:focus {
-    background-color: #111827 !important;
-    color: #e5e7eb !important;
-    -webkit-text-fill-color: #e5e7eb !important;
-    border-color: #64748b !important;
-    box-shadow: 0 0 0 0.2rem rgba(100, 116, 139, 0.15) !important;
+.shipping-table-card .table tbody td {
+    padding: 16px;
+    vertical-align: middle;
+    color: #111827;
+}
+
+.shipping-table-card .table tbody tr:last-child td {
+    border-bottom: 0;
 }
 
 
-/* Dark Mode Labels */
+/* =========================================================
+   SHIPPING NAME
+========================================================= */
 
-.dark-mode .form-label {
-    color: #cbd5e1 !important;
+.shipping-name {
+    color: #111827;
+    font-weight: 600;
 }
 
 
-/* ==========================
-   Order Actions
-========================== */
+/* =========================================================
+   DESCRIPTION
+========================================================= */
 
-.order-actions {
+.shipping-table-card .text-muted {
+    color: #6b7280 !important;
+}
+
+
+/* =========================================================
+   BADGES
+========================================================= */
+
+.shipping-table-card .badge {
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   SHIPPING ACTIONS
+========================================================= */
+
+.shipping-actions {
     display: flex;
     align-items: center;
     gap: 6px;
     flex-wrap: nowrap;
 }
 
-.order-actions .btn {
+.shipping-actions .btn {
     width: 42px;
     height: 42px;
     padding: 0;
@@ -138,62 +255,308 @@
     border-radius: 10px;
 }
 
-.order-actions .btn i {
+.shipping-actions .btn i {
     font-size: 15px;
 }
 
 
-/* ==========================
-   Dark Mode Order Card
-========================== */
+/* =========================================================
+   EMPTY STATE
+========================================================= */
 
-.dark-mode .order-card {
-    background: #111827;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, .25);
+.shipping-empty-state {
+    color: #6b7280;
 }
 
-.dark-mode .order-card span {
+.shipping-empty-state i {
     color: #94a3b8;
 }
 
-.dark-mode .order-card h3 {
+.shipping-empty-state .fw-semibold {
+    color: #6b7280;
+}
+
+
+/* =========================================================
+   DARK MODE - SHIPPING CARDS
+========================================================= */
+
+.dark-mode .shipping-card,
+.dark-theme .shipping-card,
+[data-theme="dark"] .shipping-card {
+    background: #111827;
+    border-color: #334155;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .25);
+}
+
+.dark-mode .shipping-card span,
+.dark-theme .shipping-card span,
+[data-theme="dark"] .shipping-card span {
+    color: #94a3b8;
+}
+
+.dark-mode .shipping-card h3,
+.dark-theme .shipping-card h3,
+[data-theme="dark"] .shipping-card h3 {
     color: #f1f5f9;
 }
 
 
-/* ==========================
-   Dark Mode Table
-========================== */
+/* =========================================================
+   DARK MODE - FILTER INPUTS
+========================================================= */
 
-.dark-mode .table thead th {
-    color: #94a3b8;
+.dark-mode .shipping-filter-panel .form-control,
+.dark-mode .shipping-filter-panel .form-select,
+.dark-theme .shipping-filter-panel .form-control,
+.dark-theme .shipping-filter-panel .form-select,
+[data-theme="dark"] .shipping-filter-panel .form-control,
+[data-theme="dark"] .shipping-filter-panel .form-select {
+    background-color: #111827 !important;
+    border-color: #334155 !important;
+    color: #e5e7eb !important;
+    -webkit-text-fill-color: #e5e7eb !important;
 }
 
-.dark-mode .table td {
+
+/* =========================================================
+   DARK MODE - SEARCH AREA
+========================================================= */
+
+.dark-mode .shipping-search-group .input-group-text,
+.dark-theme .shipping-search-group .input-group-text,
+[data-theme="dark"] .shipping-search-group .input-group-text {
+    background: #0b1323 !important;
+    border-color: #334155 !important;
+    color: #94a3b8 !important;
+}
+
+
+/* =========================================================
+   DARK MODE - SEARCH BUTTON
+========================================================= */
+
+.dark-mode .shipping-search-group .btn-primary,
+.dark-theme .shipping-search-group .btn-primary,
+[data-theme="dark"] .shipping-search-group .btn-primary {
+    color: #ffffff !important;
+}
+
+
+/* =========================================================
+   DARK MODE - PLACEHOLDER
+========================================================= */
+
+.dark-mode .shipping-filter-panel .form-control::placeholder,
+.dark-theme .shipping-filter-panel .form-control::placeholder,
+[data-theme="dark"] .shipping-filter-panel .form-control::placeholder {
+    color: #64748b !important;
+    opacity: 1 !important;
+}
+
+
+/* =========================================================
+   DARK MODE - SELECT OPTIONS
+========================================================= */
+
+.dark-mode .shipping-filter-panel .form-select option,
+.dark-theme .shipping-filter-panel .form-select option,
+[data-theme="dark"] .shipping-filter-panel .form-select option {
+    background-color: #111827;
     color: #e5e7eb;
 }
 
 
-/* ==========================
-   Responsive
-========================== */
+/* =========================================================
+   DARK MODE - INPUT FOCUS
+========================================================= */
+
+.dark-mode .shipping-filter-panel .form-control:focus,
+.dark-mode .shipping-filter-panel .form-select:focus,
+.dark-theme .shipping-filter-panel .form-control:focus,
+.dark-theme .shipping-filter-panel .form-select:focus,
+[data-theme="dark"] .shipping-filter-panel .form-control:focus,
+[data-theme="dark"] .shipping-filter-panel .form-select:focus {
+    background-color: #111827 !important;
+    color: #e5e7eb !important;
+    -webkit-text-fill-color: #e5e7eb !important;
+    border-color: #64748b !important;
+    box-shadow: 0 0 0 0.2rem rgba(100, 116, 139, 0.15) !important;
+}
+
+
+/* =========================================================
+   DARK MODE - LABELS
+========================================================= */
+
+.dark-mode .shipping-filter-panel .form-label,
+.dark-theme .shipping-filter-panel .form-label,
+[data-theme="dark"] .shipping-filter-panel .form-label {
+    color: #cbd5e1 !important;
+}
+
+
+/* =========================================================
+   DARK MODE - RESET
+========================================================= */
+
+.dark-mode .shipping-filter-buttons .reset-btn,
+.dark-theme .shipping-filter-buttons .reset-btn,
+[data-theme="dark"] .shipping-filter-buttons .reset-btn {
+    background: #1e293b;
+    color: #f1f5f9;
+    border-color: #334155;
+}
+
+.dark-mode .shipping-filter-buttons .reset-btn:hover,
+.dark-theme .shipping-filter-buttons .reset-btn:hover,
+[data-theme="dark"] .shipping-filter-buttons .reset-btn:hover {
+    background: #334155;
+}
+
+
+/* =========================================================
+   DARK MODE - TABLE CARD
+========================================================= */
+
+.dark-mode .shipping-table-card,
+.dark-theme .shipping-table-card,
+[data-theme="dark"] .shipping-table-card {
+    background: #111827;
+    border-color: #1e293b;
+}
+
+
+/* =========================================================
+   DARK MODE - TABLE HEADER
+========================================================= */
+
+.dark-mode .shipping-table-card .table thead th,
+.dark-theme .shipping-table-card .table thead th,
+[data-theme="dark"] .shipping-table-card .table thead th {
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   DARK MODE - TABLE BODY
+========================================================= */
+
+.dark-mode .shipping-table-card .table tbody td,
+.dark-theme .shipping-table-card .table tbody td,
+[data-theme="dark"] .shipping-table-card .table tbody td {
+    color: #e5e7eb;
+}
+
+
+/* =========================================================
+   DARK MODE - SHIPPING NAME
+========================================================= */
+
+.dark-mode .shipping-name,
+.dark-theme .shipping-name,
+[data-theme="dark"] .shipping-name {
+    color: #e5e7eb;
+}
+
+
+/* =========================================================
+   DARK MODE - DESCRIPTION
+========================================================= */
+
+.dark-mode .shipping-table-card .text-muted,
+.dark-theme .shipping-table-card .text-muted,
+[data-theme="dark"] .shipping-table-card .text-muted {
+    color: #94a3b8 !important;
+}
+
+
+/* =========================================================
+   DARK MODE - EMPTY STATE
+========================================================= */
+
+.dark-mode .shipping-empty-state,
+.dark-theme .shipping-empty-state,
+[data-theme="dark"] .shipping-empty-state {
+    color: #94a3b8;
+}
+
+.dark-mode .shipping-empty-state i,
+.dark-theme .shipping-empty-state i,
+[data-theme="dark"] .shipping-empty-state i {
+    color: #64748b;
+}
+
+.dark-mode .shipping-empty-state .fw-semibold,
+.dark-theme .shipping-empty-state .fw-semibold,
+[data-theme="dark"] .shipping-empty-state .fw-semibold {
+    color: #cbd5e1;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
 @media (max-width: 768px) {
 
-    .order-card {
+    .shipping-card {
         padding: 20px;
     }
 
-    .order-card h3 {
+    .shipping-card h3 {
         font-size: 24px;
     }
 
-    .order-actions {
+    .shipping-card i {
+        font-size: 30px;
+    }
+
+    .shipping-actions {
         gap: 4px;
     }
 
-    .order-actions .btn {
+    .shipping-actions .btn {
         width: 38px;
         height: 38px;
     }
+
+    .shipping-filter-buttons {
+        width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 576px) {
+
+    .shipping-add-btn {
+        min-height: 48px;
+        padding: 0 16px;
+    }
+
+    .shipping-filter-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .shipping-filter-buttons .filter-btn,
+    .shipping-filter-buttons .reset-btn {
+        width: 100%;
+    }
+
+    .shipping-search-group {
+        height: auto;
+    }
+
+    .shipping-search-group .input-group-text,
+    .shipping-search-group .form-control,
+    .shipping-search-group .btn {
+        height: 48px;
+    }
+
 }

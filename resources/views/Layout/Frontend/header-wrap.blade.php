@@ -157,7 +157,7 @@
 
 
                                     <li class="menu-item">
-                                        <a href="{{ route('frontend.home') }}#contact" class="nav-link">
+                                        <a href="{{ route('frontend.contact') }}" class="nav-link">
                                             Contact
                                         </a>
                                     </li>

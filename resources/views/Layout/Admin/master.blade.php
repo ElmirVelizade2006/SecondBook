@@ -1,21 +1,33 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
 
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>SecondBook Admin</title>
+
     <link rel="icon" type="image/png" href="{{ asset('admin/images/logo.png') }}">
 
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
 
     {{-- Bootstrap --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 
     {{-- Bootstrap Icons --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
 
     {{-- Custom CSS --}}
     <link rel="stylesheet" href="{{ asset('admin/css/style.css') }}">
@@ -33,37 +45,53 @@
     <link rel="stylesheet" href="{{ asset('admin/css/sellers.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/css/roles.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/css/settings.css') }}">
+
     @stack('css')
 
+    {{-- SweetAlert2 --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    {{-- Apply saved theme before page loads --}}
     <script>
         (function () {
+
             var savedTheme = localStorage.getItem('admin_theme');
-            var preferredDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-            var theme = savedTheme || (preferredDark ? 'dark' : 'light');
-            document.documentElement.setAttribute('data-theme', theme);
+
+            var preferredDark =
+                window.matchMedia &&
+                window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            var theme =
+                savedTheme ||
+                (preferredDark ? 'dark' : 'light');
+
+            document.documentElement.setAttribute(
+                'data-theme',
+                theme
+            );
+
         })();
     </script>
 
     <style>
-        :root[data-theme="dark"] body{
-            background:#0f172a;
-            color:#e6edf7;
+
+        :root[data-theme="dark"] body {
+            background: #0f172a;
+            color: #e6edf7;
         }
 
         :root[data-theme="dark"] .navbar,
         :root[data-theme="dark"] footer,
         :root[data-theme="dark"] .dashboard-panel,
         :root[data-theme="dark"] .card,
-        :root[data-theme="dark"] .dropdown-menu{
-            background:#111827 !important;
-            color:#e5e7eb !important;
-            border-color:#334155 !important;
+        :root[data-theme="dark"] .dropdown-menu {
+            background: #111827 !important;
+            color: #e5e7eb !important;
+            border-color: #334155 !important;
         }
 
-        :root[data-theme="dark"] .table{
-            color:#e5e7eb;
+        :root[data-theme="dark"] .table {
+            color: #e5e7eb;
         }
 
         :root[data-theme="dark"] h1,
@@ -84,100 +112,97 @@
         :root[data-theme="dark"] td,
         :root[data-theme="dark"] th,
         :root[data-theme="dark"] li,
-        :root[data-theme="dark"] a:not(.btn){
-            color:#e6edf7;
+        :root[data-theme="dark"] a:not(.btn) {
+            color: #e6edf7;
         }
 
         :root[data-theme="dark"] .table th,
-        :root[data-theme="dark"] .table td{
-            border-color:#334155;
-            background:transparent;
+        :root[data-theme="dark"] .table td {
+            border-color: #334155;
+            background: transparent;
         }
 
         :root[data-theme="dark"] .form-control,
         :root[data-theme="dark"] .form-select,
-        :root[data-theme="dark"] .input-group-text{
-            background:#0b1220 !important;
-            color:#e5e7eb !important;
-            border-color:#334155 !important;
+        :root[data-theme="dark"] .input-group-text {
+            background: #0b1220 !important;
+            color: #e5e7eb !important;
+            border-color: #334155 !important;
         }
 
         .dashboard-panel .form-control,
         .dashboard-panel .form-select,
         .dashboard-panel .form-label,
         .dashboard-panel .form-control::placeholder,
-        .dashboard-panel .form-select option{
-            color:#111827 !important;
+        .dashboard-panel .form-select option {
+            color: #111827 !important;
         }
 
         :root[data-theme="dark"] .dashboard-panel .form-control,
         :root[data-theme="dark"] .dashboard-panel .form-select,
         :root[data-theme="dark"] .dashboard-panel .form-label,
         :root[data-theme="dark"] .dashboard-panel .form-control::placeholder,
-        :root[data-theme="dark"] .dashboard-panel .form-select option{
-            color:#e6edf7 !important;
+        :root[data-theme="dark"] .dashboard-panel .form-select option {
+            color: #e6edf7 !important;
         }
 
         :root[data-theme="dark"] .text-muted,
         :root[data-theme="dark"] small,
-        :root[data-theme="dark"] .navbar small{
-            color:#b6c2d3 !important;
+        :root[data-theme="dark"] .navbar small {
+            color: #b6c2d3 !important;
         }
 
         :root[data-theme="dark"] .btn-light,
-        :root[data-theme="dark"] .btn.btn-light.border{
-            background:#1e293b !important;
-            color:#e5e7eb !important;
-            border-color:#334155 !important;
+        :root[data-theme="dark"] .btn.btn-light.border {
+            background: #1e293b !important;
+            color: #e5e7eb !important;
+            border-color: #334155 !important;
         }
 
-        :root[data-theme="dark"] .dropdown-menu .dropdown-item{
-            color:#e6edf7 !important;
+        :root[data-theme="dark"] .dropdown-menu .dropdown-item {
+            color: #e6edf7 !important;
         }
 
         :root[data-theme="dark"] .dropdown-menu .dropdown-item:hover,
-        :root[data-theme="dark"] .dropdown-menu .dropdown-item:focus{
-            background:#1f2937 !important;
-            color:#ffffff !important;
+        :root[data-theme="dark"] .dropdown-menu .dropdown-item:focus {
+            background: #1f2937 !important;
+            color: #ffffff !important;
         }
 
-        :root[data-theme="dark"] .dropdown-menu .dropdown-item.text-danger{
-            color:#fda4af !important;
+        :root[data-theme="dark"] .dropdown-menu .dropdown-item.text-danger {
+            color: #fda4af !important;
         }
 
         :root[data-theme="dark"] .dropdown-menu .dropdown-item.text-danger:hover,
-        :root[data-theme="dark"] .dropdown-menu .dropdown-item.text-danger:focus{
-            background:#3f1d2a !important;
-            color:#fecdd3 !important;
+        :root[data-theme="dark"] .dropdown-menu .dropdown-item.text-danger:focus {
+            background: #3f1d2a !important;
+            color: #fecdd3 !important;
         }
 
-        :root[data-theme="dark"] .dropdown-divider{
-            border-color:#334155;
+        :root[data-theme="dark"] .dropdown-divider {
+            border-color: #334155;
         }
 
         :root[data-theme="dark"] .main,
-        :root[data-theme="dark"] .container-fluid{
-            background:transparent;
+        :root[data-theme="dark"] .container-fluid {
+            background: transparent;
         }
 
-        :root[data-theme="dark"] .order-card{
-            background:#111827 !important;
-            color:#e6edf7;
+        :root[data-theme="dark"] .order-card {
+            background: #111827 !important;
+            color: #e6edf7;
         }
 
-
-        :root[data-theme="dark"] .order-card span{
-            color:#b6c2d3 !important;
+        :root[data-theme="dark"] .order-card span {
+            color: #b6c2d3 !important;
         }
 
-
-        :root[data-theme="dark"] .order-card h3{
-            color:#ffffff !important;
+        :root[data-theme="dark"] .order-card h3 {
+            color: #ffffff !important;
         }
 
-
-        :root[data-theme="dark"] .order-card i{
-            color:#c08457 !important;
+        :root[data-theme="dark"] .order-card i {
+            color: #c08457 !important;
         }
 
         /* SweetAlert2 Theme Fix */
@@ -194,36 +219,36 @@
             color: #6b7280 !important;
         }
 
-
-        /* Dark Mode */
+        /* SweetAlert2 Dark Mode */
 
         :root[data-theme="dark"] .swal2-popup {
-            background:#111827 !important;
+            background: #111827 !important;
         }
 
         :root[data-theme="dark"] .swal2-title {
-            color:#ffffff !important;
+            color: #ffffff !important;
         }
 
         :root[data-theme="dark"] .swal2-html-container {
-            color:#cbd5e1 !important;
+            color: #cbd5e1 !important;
         }
-        
+
     </style>
 
-
-
 </head>
+
 <body class="sidebar-open">
 
 <div class="wrapper">
 
+    {{-- Sidebar --}}
     @include('layout.admin.sidebar')
 
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <div class="main">
 
+        {{-- Header --}}
         @include('layout.admin.header')
 
         <div class="container-fluid p-0">
@@ -232,139 +257,251 @@
 
         </div>
 
+        {{-- Footer --}}
         @include('layout.admin.footer')
 
     </div>
 
 </div>
 
+
+{{-- Common Scripts --}}
 @include('layout.admin.scripts')
 
-    <script src="{{ asset('admin/js/sidebar.js') }}"></script>
-    <script src="{{ asset('admin/js/app.js') }}"></script>
+<script src="{{ asset('admin/js/sidebar.js') }}"></script>
 
-    <script>
-        (function () {
-            function applyTheme(theme) {
-                var safeTheme = theme === 'dark' ? 'dark' : 'light';
-                document.documentElement.setAttribute('data-theme', safeTheme);
-                localStorage.setItem('admin_theme', safeTheme);
+<script src="{{ asset('admin/js/app.js') }}"></script>
 
-                var label = document.getElementById('themeToggleLabel');
-                var icon = document.getElementById('themeToggleIcon');
-                if (label && icon) {
-                    if (safeTheme === 'dark') {
-                        label.textContent = 'Switch to Light Mode';
-                        icon.className = 'bi bi-sun me-2';
-                    } else {
-                        label.textContent = 'Switch to Dark Mode';
-                        icon.className = 'bi bi-moon-stars me-2';
-                    }
+
+{{-- Theme System --}}
+<script>
+
+    (function () {
+
+        function applyTheme(theme) {
+
+            var safeTheme =
+                theme === 'dark'
+                    ? 'dark'
+                    : 'light';
+
+            document.documentElement.setAttribute(
+                'data-theme',
+                safeTheme
+            );
+
+            localStorage.setItem(
+                'admin_theme',
+                safeTheme
+            );
+
+            var label =
+                document.getElementById('themeToggleLabel');
+
+            var icon =
+                document.getElementById('themeToggleIcon');
+
+            if (label && icon) {
+
+                if (safeTheme === 'dark') {
+
+                    label.textContent =
+                        'Switch to Light Mode';
+
+                    icon.className =
+                        'bi bi-sun me-2';
+
+                } else {
+
+                    label.textContent =
+                        'Switch to Dark Mode';
+
+                    icon.className =
+                        'bi bi-moon-stars me-2';
+
                 }
+
             }
 
-            window.setAdminTheme = applyTheme;
+        }
 
-            document.addEventListener('DOMContentLoaded', function () {
-                var currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        window.setAdminTheme = applyTheme;
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            function () {
+
+                var currentTheme =
+                    document.documentElement.getAttribute(
+                        'data-theme'
+                    ) || 'light';
+
                 applyTheme(currentTheme);
 
-                var toggleBtn = document.getElementById('themeToggleBtn');
+
+                var toggleBtn =
+                    document.getElementById(
+                        'themeToggleBtn'
+                    );
+
                 if (toggleBtn) {
-                    toggleBtn.addEventListener('click', function (event) {
-                        event.preventDefault();
-                        var now = document.documentElement.getAttribute('data-theme') || 'light';
-                        applyTheme(now === 'dark' ? 'light' : 'dark');
-                    });
+
+                    toggleBtn.addEventListener(
+                        'click',
+                        function (event) {
+
+                            event.preventDefault();
+
+                            var now =
+                                document.documentElement.getAttribute(
+                                    'data-theme'
+                                ) || 'light';
+
+                            applyTheme(
+                                now === 'dark'
+                                    ? 'light'
+                                    : 'dark'
+                            );
+
+                        }
+                    );
+
                 }
 
-                document.querySelectorAll('[data-theme-target]').forEach(function (btn) {
-                    btn.addEventListener('click', function () {
-                        applyTheme(btn.getAttribute('data-theme-target'));
+
+                document
+                    .querySelectorAll('[data-theme-target]')
+                    .forEach(function (btn) {
+
+                        btn.addEventListener(
+                            'click',
+                            function () {
+
+                                applyTheme(
+                                    btn.getAttribute(
+                                        'data-theme-target'
+                                    )
+                                );
+
+                            }
+                        );
+
                     });
-                });
-            });
-        })();
-    </script>
 
-    <script>
+            }
+        );
 
-        document.addEventListener('DOMContentLoaded', function () {
+    })();
 
+</script>
+
+
+{{-- Logout Confirmation --}}
+<script>
+
+    document.addEventListener(
+        'DOMContentLoaded',
+        function () {
 
             function confirmLogout(formId) {
 
-
-            Swal.fire({
+                Swal.fire({
 
                     title: 'Logout?',
+
                     text: 'Are you sure you want to sign out of your account?',
+
                     icon: 'warning',
 
                     showCancelButton: true,
 
                     confirmButtonText: 'Logout',
+
                     cancelButtonText: 'Stay signed in',
 
                     confirmButtonColor: '#8b5e3c',
+
                     cancelButtonColor: '#6c757d',
 
                     reverseButtons: false
 
+                }).then(function (result) {
 
+                    if (result.isConfirmed) {
 
+                        var form =
+                            document.getElementById(formId);
 
-                }).then((result)=>{
-
-
-                    if(result.isConfirmed){
-
-                        document.getElementById(formId).submit();
+                        if (form) {
+                            form.submit();
+                        }
 
                     }
 
-
                 });
 
-
             }
-
-
 
 
             // Header Logout
-            const logoutBtn = document.getElementById('logoutBtn');
 
-            if(logoutBtn){
+            var logoutBtn =
+                document.getElementById('logoutBtn');
 
-                logoutBtn.addEventListener('click', function () {
+            if (logoutBtn) {
 
-                    confirmLogout('logoutForm');
+                logoutBtn.addEventListener(
+                    'click',
+                    function (event) {
 
-                });
+                        event.preventDefault();
+
+                        confirmLogout('logoutForm');
+
+                    }
+                );
 
             }
-
-
 
 
             // Sidebar Logout
-            const sidebarLogoutBtn = document.getElementById('sidebarLogoutBtn');
 
-            if(sidebarLogoutBtn){
+            var sidebarLogoutBtn =
+                document.getElementById(
+                    'sidebarLogoutBtn'
+                );
 
-                sidebarLogoutBtn.addEventListener('click', function () {
+            if (sidebarLogoutBtn) {
 
-                    confirmLogout('sidebarLogoutForm');
+                sidebarLogoutBtn.addEventListener(
+                    'click',
+                    function (event) {
 
-                });
+                        event.preventDefault();
+
+                        confirmLogout(
+                            'sidebarLogoutForm'
+                        );
+
+                    }
+                );
 
             }
 
-        });
+        }
+    );
 
-    </script>
+</script>
 
-    @stack('js')
+
+{{-- Page Specific Scripts --}}
+@stack('scripts')
+
+
+{{-- Existing JS Stack --}}
+@stack('js')
+
+
 </body>
+
 </html>

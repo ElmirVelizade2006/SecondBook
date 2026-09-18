@@ -246,13 +246,10 @@
             {{-- Buttons --}}
             <div class="col-12 col-md-6 col-lg-2 d-flex gap-2 order-filter-buttons">
 
-                <button
-                    type="submit"
-                    class="btn btn-primary filter-btn">
-
-                    <i class="bi bi-funnel"></i>
+                <button type="submit"
+                        class="btn btn-primary filter-btn">
+                    <i class="bi bi-funnel me-1"></i>
                     <span>Filter</span>
-
                 </button>
 
                 <a
