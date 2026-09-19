@@ -2,7 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Admin Controllers
+// =========================================================
+// ADMIN CONTROLLERS
+// =========================================================
+
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BooksController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -31,11 +34,21 @@ use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\BackupController;
 
-// Frontend Controllers
+// =========================================================
+// FRONTEND CONTROLLERS
+// =========================================================
+
+use App\Http\Controllers\Frontend\BooksController as FrontendBooksController;
+use App\Http\Controllers\Frontend\CategoriesController as FrontendCategoriesController;
+use App\Http\Controllers\Frontend\AuthorsController as FrontendAuthorsController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ContactController;
+use App\Http\Controllers\Frontend\AccountSettingsController;
 
-// Auth Controller
+// =========================================================
+// AUTH CONTROLLER
+// =========================================================
+
 use App\Http\Controllers\Auth\AuthController;
 
 
@@ -61,7 +74,7 @@ Route::prefix('admin')
 
         /*
         |--------------------------------------------------------------------------
-        | Dashboard
+        | DASHBOARD
         |--------------------------------------------------------------------------
         */
 
@@ -85,19 +98,26 @@ Route::prefix('admin')
             ->name('books.')
             ->group(function () {
 
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'index')
+                    ->name('index');
 
-                Route::get('/create', 'create')->name('create');
+                Route::get('/create', 'create')
+                    ->name('create');
 
-                Route::post('/', 'store')->name('store');
+                Route::post('/', 'store')
+                    ->name('store');
 
-                Route::get('/{book}', 'show')->name('show');
+                Route::get('/{book}', 'show')
+                    ->name('show');
 
-                Route::get('/{book}/edit', 'edit')->name('edit');
+                Route::get('/{book}/edit', 'edit')
+                    ->name('edit');
 
-                Route::put('/{book}', 'update')->name('update');
+                Route::put('/{book}', 'update')
+                    ->name('update');
 
-                Route::delete('/{book}', 'destroy')->name('destroy');
+                Route::delete('/{book}', 'destroy')
+                    ->name('destroy');
 
             });
 
@@ -108,13 +128,17 @@ Route::prefix('admin')
             ->name('book.conditions.')
             ->group(function () {
 
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'index')
+                    ->name('index');
 
-                Route::get('/create', 'create')->name('create');
+                Route::get('/create', 'create')
+                    ->name('create');
 
-                Route::post('/', 'store')->name('store');
+                Route::post('/', 'store')
+                    ->name('store');
 
-                Route::get('/{condition}/edit', 'edit')->name('edit');
+                Route::get('/{condition}/edit', 'edit')
+                    ->name('edit');
 
                 Route::patch('/{condition}/status', 'status')
                     ->name('status');
@@ -134,11 +158,14 @@ Route::prefix('admin')
             ->name('book.requests.')
             ->group(function () {
 
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'index')
+                    ->name('index');
 
-                Route::get('/create', 'create')->name('create');
+                Route::get('/create', 'create')
+                    ->name('create');
 
-                Route::post('/', 'store')->name('store');
+                Route::post('/', 'store')
+                    ->name('store');
 
                 Route::get('/{request}/edit', 'edit')
                     ->name('edit');
@@ -158,11 +185,14 @@ Route::prefix('admin')
             ->name('categories.')
             ->group(function () {
 
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'index')
+                    ->name('index');
 
-                Route::get('/create', 'create')->name('create');
+                Route::get('/create', 'create')
+                    ->name('create');
 
-                Route::post('/', 'store')->name('store');
+                Route::post('/', 'store')
+                    ->name('store');
 
                 Route::patch('/{category}/status', 'toggleStatus')
                     ->name('status');
@@ -188,11 +218,14 @@ Route::prefix('admin')
             ->name('authors.')
             ->group(function () {
 
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'index')
+                    ->name('index');
 
-                Route::get('/create', 'create')->name('create');
+                Route::get('/create', 'create')
+                    ->name('create');
 
-                Route::post('/', 'store')->name('store');
+                Route::post('/', 'store')
+                    ->name('store');
 
                 Route::patch('/{author}/status', 'toggleStatus')
                     ->name('status');
@@ -218,11 +251,14 @@ Route::prefix('admin')
             ->name('publishers.')
             ->group(function () {
 
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'index')
+                    ->name('index');
 
-                Route::get('/create', 'create')->name('create');
+                Route::get('/create', 'create')
+                    ->name('create');
 
-                Route::post('/', 'store')->name('store');
+                Route::post('/', 'store')
+                    ->name('store');
 
                 Route::patch('/{publisher}/status', 'toggleStatus')
                     ->name('status');
@@ -254,11 +290,14 @@ Route::prefix('admin')
             ->name('refunds.')
             ->group(function () {
 
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'index')
+                    ->name('index');
 
-                Route::get('/create', 'create')->name('create');
+                Route::get('/create', 'create')
+                    ->name('create');
 
-                Route::post('/', 'store')->name('store');
+                Route::post('/', 'store')
+                    ->name('store');
 
                 Route::get('/{refund}/edit', 'edit')
                     ->name('edit');
@@ -284,11 +323,14 @@ Route::prefix('admin')
             ->name('shipping.')
             ->group(function () {
 
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'index')
+                    ->name('index');
 
-                Route::get('/create', 'create')->name('create');
+                Route::get('/create', 'create')
+                    ->name('create');
 
-                Route::post('/', 'store')->name('store');
+                Route::post('/', 'store')
+                    ->name('store');
 
                 Route::get('/{shipping}/edit', 'edit')
                     ->name('edit');
@@ -308,11 +350,14 @@ Route::prefix('admin')
             ->name('coupons.')
             ->group(function () {
 
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'index')
+                    ->name('index');
 
-                Route::get('/create', 'create')->name('create');
+                Route::get('/create', 'create')
+                    ->name('create');
 
-                Route::post('/', 'store')->name('store');
+                Route::post('/', 'store')
+                    ->name('store');
 
                 Route::get('/{coupon}/edit', 'edit')
                     ->name('edit');
@@ -335,11 +380,14 @@ Route::prefix('admin')
             ->name('orders.')
             ->group(function () {
 
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'index')
+                    ->name('index');
 
-                Route::get('/create', 'create')->name('create');
+                Route::get('/create', 'create')
+                    ->name('create');
 
-                Route::post('/', 'store')->name('store');
+                Route::post('/', 'store')
+                    ->name('store');
 
                 Route::get('/{order}', 'show')
                     ->name('show');
@@ -362,11 +410,14 @@ Route::prefix('admin')
             ->name('payments.')
             ->group(function () {
 
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'index')
+                    ->name('index');
 
-                Route::get('/create', 'create')->name('create');
+                Route::get('/create', 'create')
+                    ->name('create');
 
-                Route::post('/', 'store')->name('store');
+                Route::post('/', 'store')
+                    ->name('store');
 
                 Route::get('/{payment}', 'show')
                     ->name('show');
@@ -395,11 +446,14 @@ Route::prefix('admin')
             ->name('users.')
             ->group(function () {
 
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'index')
+                    ->name('index');
 
-                Route::get('/create', 'create')->name('create');
+                Route::get('/create', 'create')
+                    ->name('create');
 
-                Route::post('/', 'store')->name('store');
+                Route::post('/', 'store')
+                    ->name('store');
 
                 Route::patch('/{user}/status', 'updateStatus')
                     ->name('status');
@@ -425,11 +479,14 @@ Route::prefix('admin')
             ->name('sellers.')
             ->group(function () {
 
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'index')
+                    ->name('index');
 
-                Route::get('/create', 'create')->name('create');
+                Route::get('/create', 'create')
+                    ->name('create');
 
-                Route::post('/', 'store')->name('store');
+                Route::post('/', 'store')
+                    ->name('store');
 
                 Route::patch('/{seller}/status', 'updateStatus')
                     ->name('status');
@@ -455,11 +512,14 @@ Route::prefix('admin')
             ->name('roles.')
             ->group(function () {
 
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'index')
+                    ->name('index');
 
-                Route::get('/create', 'create')->name('create');
+                Route::get('/create', 'create')
+                    ->name('create');
 
-                Route::post('/', 'store')->name('store');
+                Route::post('/', 'store')
+                    ->name('store');
 
                 Route::get('/{role}', 'show')
                     ->name('show');
@@ -488,7 +548,8 @@ Route::prefix('admin')
             ->name('reviews.')
             ->group(function () {
 
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'index')
+                    ->name('index');
 
                 Route::get('/{review}', 'show')
                     ->name('show');
@@ -522,7 +583,9 @@ Route::prefix('admin')
 
                 Route::delete('/{message}', 'destroy')
                     ->name('destroy');
+
             });
+
 
         // Banners
         Route::controller(BannerController::class)
@@ -530,11 +593,14 @@ Route::prefix('admin')
             ->name('banners.')
             ->group(function () {
 
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'index')
+                    ->name('index');
 
-                Route::get('/create', 'create')->name('create');
+                Route::get('/create', 'create')
+                    ->name('create');
 
-                Route::post('/', 'store')->name('store');
+                Route::post('/', 'store')
+                    ->name('store');
 
                 Route::get('/{banner}/edit', 'edit')
                     ->name('edit');
@@ -554,11 +620,14 @@ Route::prefix('admin')
             ->name('blogs.')
             ->group(function () {
 
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'index')
+                    ->name('index');
 
-                Route::get('/create', 'create')->name('create');
+                Route::get('/create', 'create')
+                    ->name('create');
 
-                Route::post('/', 'store')->name('store');
+                Route::post('/', 'store')
+                    ->name('store');
 
                 Route::get('/{blog}', 'edit')
                     ->name('edit');
@@ -578,11 +647,14 @@ Route::prefix('admin')
             ->name('faq.')
             ->group(function () {
 
-                Route::get('/', 'index')->name('index');
+                Route::get('/', 'index')
+                    ->name('index');
 
-                Route::get('/create', 'create')->name('create');
+                Route::get('/create', 'create')
+                    ->name('create');
 
-                Route::post('/', 'store')->name('store');
+                Route::post('/', 'store')
+                    ->name('store');
 
                 Route::get('/{faq}/edit', 'edit')
                     ->name('edit');
@@ -730,7 +802,7 @@ Route::prefix('frontend')
 
         /*
         |--------------------------------------------------------------------------
-        | Home
+        | HOME
         |--------------------------------------------------------------------------
         */
 
@@ -744,29 +816,79 @@ Route::prefix('frontend')
 
         /*
         |--------------------------------------------------------------------------
-        | Contact Us
+        | BOOKS
         |--------------------------------------------------------------------------
-        |
-        | Public page.
-        | Anyone can open the Contact Us page and send a message.
-        |
         */
 
-        Route::controller(ContactController::class)
-            ->group(function () {
+        Route::controller(FrontendBooksController::class)->group(function () {
 
-                Route::get('/contact', 'index')
-                    ->name('contact');
+            Route::get('/books', 'index')
+                ->name('books');
 
-                Route::post('/contact', 'store')
-                    ->name('contact.store');
-
-            });
+        });
 
 
         /*
         |--------------------------------------------------------------------------
-        | Authentication (Guest Only)
+        | CATEGORIES
+        |--------------------------------------------------------------------------
+        */
+
+        Route::controller(FrontendCategoriesController::class)->group(function () {
+
+            Route::get('/categories', 'index')
+                ->name('categories');
+
+        });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | AUTHORS
+        |--------------------------------------------------------------------------
+        */
+
+        Route::controller(FrontendAuthorsController::class)->group(function () {
+
+            Route::get('/authors', 'index')
+                ->name('authors');
+
+        });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | ABOUT
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/about', function () {
+
+            return view('Frontend.about');
+
+        })->name('about');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CONTACT
+        |--------------------------------------------------------------------------
+        */
+
+        Route::controller(ContactController::class)->group(function () {
+
+            Route::get('/contact', 'index')
+                ->name('contact');
+
+            Route::post('/contact', 'store')
+                ->name('contact.store');
+
+        });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | AUTHENTICATION - GUEST
         |--------------------------------------------------------------------------
         */
 
@@ -792,12 +914,7 @@ Route::prefix('frontend')
                     ->name('register.store');
 
 
-                /*
-                |--------------------------------------------------------------------------
-                | Forgot Password
-                |--------------------------------------------------------------------------
-                */
-
+                // Forgot Password
                 Route::get('/password/request', function () {
 
                     session()->forget('reset_email');
@@ -807,12 +924,7 @@ Route::prefix('frontend')
                 })->name('password.request');
 
 
-                /*
-                |--------------------------------------------------------------------------
-                | OTP Verify
-                |--------------------------------------------------------------------------
-                */
-
+                // OTP Verify Page
                 Route::get('/password/verify', function () {
 
                     if (!session()->has('reset_email')) {
@@ -827,24 +939,14 @@ Route::prefix('frontend')
                 })->name('password.verify');
 
 
-                /*
-                |--------------------------------------------------------------------------
-                | Send OTP
-                |--------------------------------------------------------------------------
-                */
-
+                // Send OTP
                 Route::post(
                     '/forgot-password/send-otp',
                     'sendOtp'
                 )->name('password.send.otp');
 
 
-                /*
-                |--------------------------------------------------------------------------
-                | Verify OTP
-                |--------------------------------------------------------------------------
-                */
-
+                // Verify OTP
                 Route::post(
                     '/password/verify',
                     'verifyOtp'
@@ -855,7 +957,7 @@ Route::prefix('frontend')
 
         /*
         |--------------------------------------------------------------------------
-        | Terms (Public)
+        | TERMS
         |--------------------------------------------------------------------------
         */
 
@@ -868,7 +970,7 @@ Route::prefix('frontend')
 
         /*
         |--------------------------------------------------------------------------
-        | Authentication (Logged Users Only)
+        | AUTHENTICATION - LOGGED USERS
         |--------------------------------------------------------------------------
         */
 
@@ -888,46 +990,101 @@ Route::prefix('frontend')
 
 /*
 |--------------------------------------------------------------------------
-| PROFILE (Authenticated Users)
+| PROFILE
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')
+    ->group(function () {
 
-    Route::get(
-        '/my-profile',
-        [AuthController::class, 'myprofile']
-    )->name('my.profile');
-
-
-    Route::get(
-        '/profile/edit',
-        [AuthController::class, 'editProfile']
-    )->name('profile.edit');
+        // My Profile
+        Route::get(
+            '/my-profile',
+            [AuthController::class, 'myprofile']
+        )->name('my.profile');
 
 
-    Route::put(
-        '/profile',
-        [AuthController::class, 'updateProfile']
-    )->name('profile.update');
+        // Edit Profile
+        Route::get(
+            '/profile/edit',
+            [AuthController::class, 'editProfile']
+        )->name('profile.edit');
 
 
-    Route::delete(
-        '/profile/photo',
-        [AuthController::class, 'removeProfilePhoto']
-    )->name('profile.photo.destroy');
+        // Update Profile
+        Route::put(
+            '/profile',
+            [AuthController::class, 'updateProfile']
+        )->name('profile.update');
 
 
-    Route::put(
-        '/profile/password',
-        [AuthController::class, 'updatePassword']
-    )->name('profile.password.update');
+        // Remove Profile Photo
+        Route::delete(
+            '/profile/photo',
+            [AuthController::class, 'removeProfilePhoto']
+        )->name('profile.photo.destroy');
 
 
-    Route::delete(
-        '/profile',
-        [AuthController::class, 'destroyProfile']
-    )->name('profile.destroy');
+        // Update Password
+        Route::put(
+            '/profile/password',
+            [AuthController::class, 'updatePassword']
+        )->name('profile.password.update');
 
-});
 
+        // Delete Account
+        Route::delete(
+            '/profile',
+            [AuthController::class, 'destroyProfile']
+        )->name('profile.destroy');
+
+    });
+
+
+/*
+|--------------------------------------------------------------------------
+| FRONTEND ACCOUNT SETTINGS
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth')
+    ->prefix('frontend/account')
+    ->name('frontend.account.')
+    ->group(function () {
+
+        /*
+        |--------------------------------------------------------------------------
+        | ACCOUNT SETTINGS
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/settings',
+            [AccountSettingsController::class, 'index']
+        )->name('settings');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | UPDATE PREFERENCES
+        |--------------------------------------------------------------------------
+        */
+
+        Route::put(
+            '/settings/preferences',
+            [AccountSettingsController::class, 'updatePreferences']
+        )->name('settings.preferences');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | UPDATE PASSWORD
+        |--------------------------------------------------------------------------
+        */
+
+        Route::put(
+            '/settings/password',
+            [AccountSettingsController::class, 'updatePassword']
+        )->name('settings.password');
+
+    });

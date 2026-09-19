@@ -16,26 +16,119 @@
 
     <div class="contact-hero">
 
+        <div class="contact-hero-decoration contact-hero-decoration-1"></div>
+        <div class="contact-hero-decoration contact-hero-decoration-2"></div>
+
         <div class="container">
 
-            <div
-                class="contact-hero-content text-center"
-                data-aos="fade-up"
-            >
+            <div class="contact-hero-inner">
 
-                <div class="title">
-                    <span>We are here to help</span>
+                {{-- =====================================================
+                    Hero Content
+                ====================================================== --}}
+
+                <div
+                    class="contact-hero-content"
+                    data-aos="fade-right"
+                >
+
+                    <div class="title">
+                        <span>
+                            <i class="bi bi-chat-square-heart"></i>
+                            We are here to help
+                        </span>
+                    </div>
+
+                    <h1 class="section-title">
+                        Let's Talk.
+                        <br>
+                        <em>We're Listening.</em>
+                    </h1>
+
+                    <p>
+                        Have a question about a book, your order, or selling on
+                        SecondBook? Send us a message and our team will get back
+                        to you.
+                    </p>
+
+                    <div class="contact-hero-meta">
+
+                        <div class="contact-hero-meta-item">
+                            <i class="bi bi-envelope"></i>
+                            <span>support@secondbook.com</span>
+                        </div>
+
+                        <div class="contact-hero-meta-item">
+                            <i class="bi bi-clock"></i>
+                            <span>Mon – Fri · 09:00 – 18:00</span>
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <h1 class="section-title">
-                    Contact Us
-                </h1>
 
-                <p>
-                    Have a question about a book, your order, or selling on
-                    SecondBook? Send us a message and our team will get back
-                    to you.
-                </p>
+                {{-- =====================================================
+                    Hero Visual
+                ====================================================== --}}
+
+                <div
+                    class="contact-hero-visual"
+                    data-aos="fade-left"
+                >
+
+                    <div class="contact-hero-orbit"></div>
+
+                    <div class="contact-hero-card contact-hero-card-main">
+
+                        <div class="contact-hero-card-icon">
+                            <i class="bi bi-chat-dots"></i>
+                        </div>
+
+                        <span class="contact-hero-card-small">
+                            Have a question?
+                        </span>
+
+                        <strong>
+                            We'd love
+                            <br>
+                            to hear from you.
+                        </strong>
+
+                        <div class="contact-hero-card-line"></div>
+
+                        <span class="contact-hero-card-bottom">
+                            <i class="bi bi-arrow-up-right"></i>
+                            Start a conversation
+                        </span>
+
+                    </div>
+
+
+                    <div class="contact-hero-floating contact-hero-floating-top">
+
+                        <i class="bi bi-envelope-heart"></i>
+
+                        <div>
+                            <strong>Quick Response</strong>
+                            <span>We're here for you</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="contact-hero-floating contact-hero-floating-bottom">
+
+                        <i class="bi bi-book-half"></i>
+
+                        <span>
+                            Your story
+                            <strong>matters.</strong>
+                        </span>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -404,22 +497,68 @@
 
                                             <i class="bi bi-chat-left-text"></i>
 
-                                            <input
-                                                type="text"
+                                            <select
                                                 id="subject"
                                                 name="subject"
-                                                value="{{ old('subject') }}"
-                                                placeholder="What is your message about?"
-                                                maxlength="255"
                                                 required
                                             >
+
+                                                <option value="" disabled {{ old('subject') ? '' : 'selected' }}>
+                                                    Select a subject
+                                                </option>
+
+                                                <option value="General Inquiry"
+                                                    {{ old('subject') === 'General Inquiry' ? 'selected' : '' }}>
+                                                    General Inquiry
+                                                </option>
+
+                                                <option value="Order Issue"
+                                                    {{ old('subject') === 'Order Issue' ? 'selected' : '' }}>
+                                                    Order Issue
+                                                </option>
+
+                                                <option value="Payment Issue"
+                                                    {{ old('subject') === 'Payment Issue' ? 'selected' : '' }}>
+                                                    Payment Issue
+                                                </option>
+
+                                                <option value="Shipping & Delivery"
+                                                    {{ old('subject') === 'Shipping & Delivery' ? 'selected' : '' }}>
+                                                    Shipping & Delivery
+                                                </option>
+
+                                                <option value="Book Information"
+                                                    {{ old('subject') === 'Book Information' ? 'selected' : '' }}>
+                                                    Book Information
+                                                </option>
+
+                                                <option value="Account Problem"
+                                                    {{ old('subject') === 'Account Problem' ? 'selected' : '' }}>
+                                                    Account Problem
+                                                </option>
+
+                                                <option value="Return & Refund"
+                                                    {{ old('subject') === 'Return & Refund' ? 'selected' : '' }}>
+                                                    Return & Refund
+                                                </option>
+
+                                                <option value="Selling on SecondBook"
+                                                    {{ old('subject') === 'Selling on SecondBook' ? 'selected' : '' }}>
+                                                    Selling on SecondBook
+                                                </option>
+
+                                                <option value="Other"
+                                                    {{ old('subject') === 'Other' ? 'selected' : '' }}>
+                                                    Other
+                                                </option>
+
+                                            </select>
 
                                         </div>
 
                                     </div>
 
                                 </div>
-
 
                                 {{-- =================================================
                                     Message
@@ -502,50 +641,112 @@
 
 
     {{-- =========================================================
-        Bottom CTA
+    Bottom CTA
     ========================================================== --}}
 
     <section class="contact-cta">
 
+        <div class="contact-cta-decoration contact-cta-decoration-1"></div>
+        <div class="contact-cta-decoration contact-cta-decoration-2"></div>
+
         <div class="container">
 
             <div
-                class="contact-cta-inner text-center"
+                class="contact-cta-inner"
                 data-aos="fade-up"
             >
 
-                <div class="title">
+                {{-- =====================================================
+                    CTA Content
+                ====================================================== --}}
 
-                    <span>
-                        SecondBook marketplace
-                    </span>
+                <div class="contact-cta-content">
+
+                    <div class="contact-cta-badge">
+
+                        <i class="bi bi-book-half"></i>
+
+                        <span>
+                            SecondBook marketplace
+                        </span>
+
+                    </div>
+
+
+                    <h2>
+                        Your next
+                        <em>great read</em>
+                        is waiting.
+                    </h2>
+
+
+                    <p>
+                        Explore affordable books from trusted sellers and
+                        discover something new for your shelf.
+                    </p>
+
+
+                    <div class="contact-cta-actions">
+
+                        <a
+                            href="{{ route('frontend.books') }}"
+                            class="contact-cta-button"
+                        >
+
+                            <span>
+                                Browse Books
+                            </span>
+
+                            <i class="bi bi-arrow-up-right"></i>
+
+                        </a>
+
+                    </div>
 
                 </div>
 
 
-                <h2>
-                    Your next great read may be waiting for you.
-                </h2>
+                {{-- =====================================================
+                    CTA Visual
+                ====================================================== --}}
+
+                <div class="contact-cta-visual">
+
+                    <div class="contact-cta-circle"></div>
+
+                    <div class="contact-cta-book">
+
+                        <div class="contact-cta-book-spine"></div>
+
+                        <div class="contact-cta-book-content">
+
+                            <i class="bi bi-book"></i>
+
+                            <span>
+                                FIND YOUR
+                            </span>
+
+                            <strong>
+                                NEXT
+                                <br>
+                                CHAPTER
+                            </strong>
+
+                        </div>
+
+                    </div>
 
 
-                <p>
-                    Explore affordable books from trusted sellers and
-                    discover something new for your shelf.
-                </p>
+                    <div class="contact-cta-floating">
 
+                        <i class="bi bi-stars"></i>
 
-                <div class="btn-wrap">
+                        <span>
+                            Discover
+                            <strong>something new.</strong>
+                        </span>
 
-                    <a
-                        href="{{ url('/') }}"
-                        class="btn btn-outline-accent btn-accent-arrow"
-                    >
-
-                        Browse Books
-
-                        <i class="icon icon-ns-arrow-right"></i>
-
-                    </a>
+                    </div>
 
                 </div>
 

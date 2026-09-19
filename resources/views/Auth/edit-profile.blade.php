@@ -3,464 +3,1452 @@
 @section('title', 'Edit Profile | SecondBook')
 
 @push('css')
-    <link rel="stylesheet" href="{{ asset('frontend/edit-profile.css') }}?v={{ filemtime(public_path('frontend/edit-profile.css')) }}">
+    <link rel="stylesheet" href="{{ asset('frontend/edit-profile.css') }}">
 @endpush
 
 @php
-    $profileUser = auth()->user() ?? $user ?? null;
-    $profileFirstName = old('first_name', $profileUser->first_name ?? trim(explode(' ', (string) ($profileUser->name ?? ''))[0] ?? ''));
-    $profileLastName = old('last_name', $profileUser->last_name ?? trim(explode(' ', (string) ($profileUser->name ?? ''))[1] ?? ''));
-    $profileUsername = old('username', $profileUser->username ?? '');
-    $profileEmail = old('email', $profileUser->email ?? '');
-    $profilePhone = old('phone', $profileUser->phone ?? '');
-    $profileDob = old('date_of_birth', optional($profileUser->date_of_birth ?? null)->format('Y-m-d'));
-    $profileGender = old('gender', $profileUser->gender ?? '');
-    $profileCountry = old('country', $profileUser->country ?? '');
-    $profileCity = old('city', $profileUser->city ?? '');
-    $profileState = old('state', $profileUser->state ?? '');
-    $profilePostalCode = old('postal_code', $profileUser->postal_code ?? '');
-    $profileAddress = old('address', $profileUser->address ?? '');
-    $profileBio = old('bio', $profileUser->bio ?? '');
-    $hasPhoto = filled($profileUser->profile_photo ?? null);
-    $profilePhotoUrl = $hasPhoto ? asset('storage/' . $profileUser->profile_photo) : null;
-    $avatarText = '';
-    $sourceName = trim(($profileUser->first_name ?? '') . ' ' . ($profileUser->last_name ?? '')) ?: ($profileUser->name ?? 'SB');
-    $nameParts = array_filter(preg_split('/\s+/', trim($sourceName)) ?: []);
-    foreach (array_slice($nameParts, 0, 2) as $part) {
-        $avatarText .= mb_strtoupper(mb_substr($part, 0, 1));
-    }
-    if ($avatarText === '') {
-        $avatarText = 'SB';
-    }
+    $user = auth()->user();
 
-    $emailNotifications = old('receive_email_notifications', $profileUser->receive_email_notifications ?? true);
-    $orderUpdates = old('receive_order_updates', $profileUser->receive_order_updates ?? true);
-    $promotionalEmails = old('receive_promotional_emails', $profileUser->receive_promotional_emails ?? false);
-    $profileVisibility = old('profile_visibility', $profileUser->profile_visibility ?? true);
-    $profileUpdatedAt = optional($profileUser->updated_at)->format('d M Y') ?? 'N/A';
-    $isEmailVerified = filled($profileUser->email_verified_at ?? null);
+    /*
+    |--------------------------------------------------------------------------
+    | Full Name
+    |--------------------------------------------------------------------------
+    */
+
+    $fullName = trim(
+        ($user->first_name ?? '') . ' ' . ($user->last_name ?? '')
+    );
+
+    $fullName = $fullName ?: ($user->name ?? 'User');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Initials
+    |--------------------------------------------------------------------------
+    */
+
+    $initials = collect(explode(' ', $fullName))
+        ->filter()
+        ->take(2)
+        ->map(fn ($word) => strtoupper(substr($word, 0, 1)))
+        ->implode('');
+
+    $initials = $initials ?: 'U';
+
+    /*
+    |--------------------------------------------------------------------------
+    | Phone
+    |--------------------------------------------------------------------------
+    */
+
+    $phone = $user->phone ?? '';
+
+    $phoneCountryCode = '+994';
+    $phoneNumber = $phone;
+
+    $countryCodes = [
+        '+994' => '🇦🇿 +994',
+        '+90'  => '🇹🇷 +90',
+        '+7'   => '🇷🇺 +7',
+        '+380' => '🇺🇦 +380',
+        '+49'  => '🇩🇪 +49',
+        '+33'  => '🇫🇷 +33',
+        '+44'  => '🇬🇧 +44',
+        '+39'  => '🇮🇹 +39',
+        '+34'  => '🇪🇸 +34',
+        '+1'   => '🇺🇸 +1',
+    ];
+
+    foreach ($countryCodes as $code => $label) {
+        if (str_starts_with($phone, $code)) {
+            $phoneCountryCode = $code;
+            $phoneNumber = substr($phone, strlen($code));
+            break;
+        }
+    }
 @endphp
 
 @section('content')
-<main class="sb-edit-profile-page">
-    <div class="container py-4 py-lg-5">
-        <nav aria-label="breadcrumb" class="mb-3 mb-lg-4">
-            <ol class="breadcrumb sb-breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="{{ route('frontend.home') }}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('my.profile') }}">My Profile</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
-            </ol>
-        </nav>
 
-        <section class="sb-profile-header mb-4 mb-lg-5">
-            <div class="d-flex align-items-center gap-3 flex-wrap">
-                <div class="sb-page-icon" aria-hidden="true"><i class="bi bi-person-gear"></i></div>
+<main class="sb-profile-page">
+
+    <div class="container">
+
+        {{-- =====================================================
+             PAGE HEADER
+        ====================================================== --}}
+
+        <div class="sb-profile-header">
+
+            <div class="sb-profile-header-left">
+
+                <a href="{{ route('my.profile') }}" class="sb-profile-back">
+                    <i class="bi bi-arrow-left"></i>
+                    <span>Back to profile</span>
+                </a>
+
+                <div class="sb-profile-heading">
+
+                    <div class="sb-profile-kicker">
+                        <span></span>
+                        ACCOUNT SETTINGS
+                    </div>
+
+                    <h1>
+                        Edit your
+                        <em>profile.</em>
+                    </h1>
+
+                    <p>
+                        Keep your personal information accurate and up to date.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="sb-profile-header-mark">
+                <i class="bi bi-person-gear"></i>
+            </div>
+
+        </div>
+
+
+        {{-- =====================================================
+             SUCCESS ALERT
+        ====================================================== --}}
+
+        @if(session('success'))
+
+            <div class="sb-profile-alert sb-profile-alert-success">
+
+                <div class="sb-profile-alert-icon">
+                    <i class="bi bi-check2"></i>
+                </div>
+
                 <div>
-                    <h1 class="sb-page-title mb-1">Edit Profile</h1>
-                    <p class="sb-page-subtitle mb-0">Update your personal information and account details.</p>
-                    <div class="d-flex align-items-center gap-2 mt-2 small text-secondary">
-                        <i class="bi bi-clock-history"></i>
-                        <span>Last updated: {{ $profileUpdatedAt }}</span>
-                    </div>
+
+                    <strong>Profile updated</strong>
+
+                    <span>
+                        {{ session('success') }}
+                    </span>
+
                 </div>
-            </div>
-        </section>
 
-        @if (session('success'))
-            <div class="alert alert-success border-0 shadow-sm rounded-4 mb-4" role="alert">
-                <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
+                <button
+                    type="button"
+                    class="sb-profile-alert-close"
+                    onclick="this.parentElement.remove()"
+                    aria-label="Close"
+                >
+                    <i class="bi bi-x"></i>
+                </button>
+
             </div>
+
         @endif
 
-        @if ($errors->profileUpdate->any())
-            <div class="alert alert-danger border-0 shadow-sm rounded-4 mb-4" role="alert">
-                <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                Please review the highlighted fields and try again.
+
+        {{-- =====================================================
+             ERROR ALERT
+        ====================================================== --}}
+
+        @if($errors->any())
+
+            <div class="sb-profile-alert sb-profile-alert-error">
+
+                <div class="sb-profile-alert-icon">
+                    <i class="bi bi-exclamation-triangle"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        Please check your information
+                    </strong>
+
+                    <ul>
+
+                        @foreach($errors->all() as $error)
+
+                            <li>
+                                {{ $error }}
+                            </li>
+
+                        @endforeach
+
+                    </ul>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="sb-profile-alert-close"
+                    onclick="this.parentElement.remove()"
+                    aria-label="Close"
+                >
+                    <i class="bi bi-x"></i>
+                </button>
+
             </div>
+
         @endif
 
-        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="sb-profile-form" id="profileUpdateForm">
-            @csrf
-            @method('PUT')
 
-            <div class="row g-4">
-                <div class="col-12">
-                    <div class="card sb-card">
-                        <div class="card-body p-4 p-xl-5">
-                            <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-4">
-                                <div>
-                                    <h2 class="h4 fw-semibold mb-1"><i class="bi bi-camera me-2"></i>Profile Photo</h2>
-                                    <p class="text-secondary mb-0">Accepted formats: JPG, PNG, WEBP. Maximum size: 2MB.</p>
-                                </div>
+        {{-- =====================================================
+             MAIN LAYOUT
+        ====================================================== --}}
+
+        <div class="sb-profile-layout">
+
+
+            {{-- =================================================
+                 MAIN
+            ================================================== --}}
+
+            <section class="sb-profile-main">
+
+                <form
+                    action="{{ route('profile.update') }}"
+                    method="POST"
+                    enctype="multipart/form-data"
+                    id="profileEditForm"
+                >
+
+                    @csrf
+                    @method('PUT')
+
+
+                    {{-- =============================================
+                         PERSONAL INFORMATION
+                    ============================================== --}}
+
+                    <div class="sb-profile-card">
+
+                        <div class="sb-profile-card-header">
+
+                            <div>
+
+                                <span class="sb-profile-card-label">
+                                    PERSONAL
+                                </span>
+
+                                <h2>
+                                    Personal information
+                                </h2>
+
+                                <p>
+                                    Update the information associated with your account.
+                                </p>
+
                             </div>
 
-                            <div class="row g-4 align-items-center">
-                                <div class="col-12 col-lg-4">
-                                    <div class="sb-photo-wrap mx-auto mx-lg-0">
-                                        <div class="sb-photo-circle" id="photoPreview">
-                                            @if ($profilePhotoUrl)
-                                                <img src="{{ $profilePhotoUrl }}" alt="Profile photo" class="sb-photo-img">
-                                            @else
-                                                <span>{{ $avatarText }}</span>
-                                            @endif
-                                        </div>
-                                        <label for="profilePhoto" class="sb-photo-camera" role="button" aria-label="Upload profile photo">
-                                            <i class="bi bi-camera-fill"></i>
-                                        </label>
-                                        <input type="file" name="profile_photo" id="profilePhoto" class="d-none" accept=".jpg,.jpeg,.png,.webp">
-                                        @error('profile_photo', 'profileUpdate')
-                                            <div class="invalid-feedback d-block mt-2">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="col-12 col-lg-8">
-                                    <div class="d-flex flex-wrap gap-2">
-                                        <label for="profilePhoto" class="btn btn-primary sb-btn-primary">
-                                            <i class="bi bi-upload me-2"></i>Upload New Photo
-                                        </label>
-                                        @if ($hasPhoto)
-                                            <button type="submit" form="removePhotoForm" class="btn btn-outline-danger sb-btn-danger">
-                                                <i class="bi bi-trash3 me-2"></i>Remove Photo
-                                            </button>
-                                        @endif
-                                        <a href="{{ route('my.profile') }}" class="btn btn-outline-secondary sb-btn-secondary">
-                                            <i class="bi bi-x-circle me-2"></i>Cancel
-                                        </a>
-                                    </div>
-                                </div>
+                            <div class="sb-profile-card-icon">
+                                <i class="bi bi-person"></i>
                             </div>
+
                         </div>
-                    </div>
-                </div>
 
-                <div class="col-12 col-lg-6">
-                    <div class="card sb-card h-100">
-                        <div class="card-body p-4 p-xl-5">
-                            <h2 class="h4 fw-semibold mb-4"><i class="bi bi-person-vcard me-2"></i>Personal Information</h2>
-                            <div class="row g-3">
-                                <div class="col-12 col-md-6">
-                                    <label class="form-label" for="firstName">First Name <span class="text-danger">*</span></label>
-                                    <div class="input-group sb-input-group">
-                                        <span class="input-group-text"><i class="bi bi-person"></i></span>
-                                        <input type="text" class="form-control @error('first_name', 'profileUpdate') is-invalid @enderror" id="firstName" name="first_name" value="{{ old('first_name', $profileFirstName) }}" placeholder="First name">
+
+                        <div class="sb-profile-card-body">
+
+
+                            {{-- =====================================
+                                 PROFILE PHOTO
+                            ====================================== --}}
+
+                            <div class="sb-profile-photo-section">
+
+                                <div class="sb-profile-photo-title">
+
+                                    <div>
+
+                                        <label>
+                                            Profile photo
+                                        </label>
+
+                                        <span>
+                                            Your profile picture helps others recognize you.
+                                        </span>
+
                                     </div>
-                                    @error('first_name', 'profileUpdate')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+
+                                    <span class="sb-profile-photo-format">
+                                        2 MB MAX
+                                    </span>
+
                                 </div>
-                                <div class="col-12 col-md-6">
-                                    <label class="form-label" for="lastName">Last Name <span class="text-danger">*</span></label>
-                                    <div class="input-group sb-input-group">
-                                        <span class="input-group-text"><i class="bi bi-person"></i></span>
-                                        <input type="text" class="form-control @error('last_name', 'profileUpdate') is-invalid @enderror" id="lastName" name="last_name" value="{{ old('last_name', $profileLastName) }}" placeholder="Last name">
-                                    </div>
-                                    @error('last_name', 'profileUpdate')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <label class="form-label" for="username">Username</label>
-                                    <div class="input-group sb-input-group">
-                                        <span class="input-group-text"><i class="bi bi-at"></i></span>
-                                        <input type="text" class="form-control @error('username', 'profileUpdate') is-invalid @enderror" id="username" name="username" value="{{ old('username', $profileUsername) }}" placeholder="username" readonly>
-                                    </div>
-                                    <div class="form-text">Username cannot be changed.</div>
-                                    @error('username', 'profileUpdate')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <label class="form-label" for="email">Email Address <span class="text-danger">*</span></label>
-                                    <div class="d-flex align-items-center justify-content-between gap-2 mb-2 flex-wrap">
-                                        <span></span>
-                                        @if ($isEmailVerified)
-                                            <span class="badge rounded-pill text-bg-success"><i class="bi bi-check-circle-fill me-1"></i>Verified</span>
+
+
+                                <div class="sb-profile-photo-row">
+
+
+                                    {{-- PHOTO --}}
+
+                                    <div class="sb-profile-photo">
+
+                                        @if($user->profile_photo)
+
+                                            <img
+                                                src="{{ asset('storage/' . $user->profile_photo) }}"
+                                                alt="{{ $fullName }}"
+                                                id="profilePhotoPreview"
+                                            >
+
                                         @else
-                                            <span class="badge rounded-pill text-bg-warning text-dark"><i class="bi bi-exclamation-triangle-fill me-1"></i>Not Verified</span>
+
+                                            <span id="profilePhotoInitials">
+                                                {{ $initials }}
+                                            </span>
+
                                         @endif
-                                    </div>
-                                    <div class="input-group sb-input-group">
-                                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                                        <input type="email" class="form-control @error('email', 'profileUpdate') is-invalid @enderror" id="email" name="email" value="{{ old('email', $profileEmail) }}" placeholder="name@example.com">
-                                    </div>
-                                    @error('email', 'profileUpdate')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <label class="form-label" for="phone">Phone Number</label>
-                                    <div class="input-group sb-input-group">
-                                        <span class="input-group-text"><i class="bi bi-telephone"></i></span>
-                                        <input type="text" class="form-control @error('phone', 'profileUpdate') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone', $profilePhone) }}" placeholder="+994 50 123 45 67">
-                                    </div>
-                                    @error('phone', 'profileUpdate')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <label class="form-label" for="dob">Date of Birth</label>
-                                    <div class="input-group sb-input-group">
-                                        <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
-                                        <input type="date" class="form-control @error('date_of_birth', 'profileUpdate') is-invalid @enderror" id="dob" name="date_of_birth" value="{{ old('date_of_birth', $profileDob) }}" min="1900-01-01" max="{{ now()->format('Y-m-d') }}">
-                                    </div>
-                                    @error('date_of_birth', 'profileUpdate')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label" for="gender">Gender</label>
-                                    <div class="input-group sb-input-group">
-                                        <span class="input-group-text"><i class="bi bi-gender-ambiguous"></i></span>
-                                        <select class="form-select @error('gender', 'profileUpdate') is-invalid @enderror" id="gender" name="gender">
-                                            <option value="">Select gender</option>
-                                            <option value="male" @selected(old('gender', $profileGender) === 'male')>Male</option>
-                                            <option value="female" @selected(old('gender', $profileGender) === 'female')>Female</option>
-                                            <option value="prefer_not_to_say" @selected(old('gender', $profileGender) === 'prefer_not_to_say')>Prefer not to say</option>
-                                        </select>
-                                    </div>
-                                    @error('gender', 'profileUpdate')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-12 col-lg-6">
-                    <div class="card sb-card h-100">
-                        <div class="card-body p-4 p-xl-5">
-                            <h2 class="h4 fw-semibold mb-4"><i class="bi bi-geo-alt me-2"></i>Address</h2>
-                            <div class="row g-3">
-                                <div class="col-12 col-md-6">
-                                    <label class="form-label" for="country">Country</label>
-                                    <div class="input-group sb-input-group">
-                                        <span class="input-group-text"><i class="bi bi-globe2"></i></span>
-                                        <input type="text" class="form-control @error('country', 'profileUpdate') is-invalid @enderror" id="country" name="country" value="{{ old('country', $profileCountry) }}" placeholder="Country">
-                                    </div>
-                                    @error('country', 'profileUpdate')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <label class="form-label" for="city">City</label>
-                                    <div class="input-group sb-input-group">
-                                        <span class="input-group-text"><i class="bi bi-building"></i></span>
-                                        <input type="text" class="form-control @error('city', 'profileUpdate') is-invalid @enderror" id="city" name="city" value="{{ old('city', $profileCity) }}" placeholder="City">
-                                    </div>
-                                    @error('city', 'profileUpdate')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <label class="form-label" for="state">State / Region</label>
-                                    <div class="input-group sb-input-group">
-                                        <span class="input-group-text"><i class="bi bi-map"></i></span>
-                                        <input type="text" class="form-control @error('state', 'profileUpdate') is-invalid @enderror" id="state" name="state" value="{{ old('state', $profileState) }}" placeholder="State or region">
-                                    </div>
-                                    @error('state', 'profileUpdate')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                                </div>
-                                <div class="col-12 col-md-6">
-                                    <label class="form-label" for="postalCode">Postal Code</label>
-                                    <div class="input-group sb-input-group">
-                                        <span class="input-group-text"><i class="bi bi-mailbox"></i></span>
-                                        <input type="text" class="form-control @error('postal_code', 'profileUpdate') is-invalid @enderror" id="postalCode" name="postal_code" value="{{ old('postal_code', $profilePostalCode) }}" placeholder="Postal code">
-                                    </div>
-                                    @error('postal_code', 'profileUpdate')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label" for="streetAddress">Street Address</label>
-                                    <div class="input-group sb-input-group">
-                                        <span class="input-group-text"><i class="bi bi-house-door"></i></span>
-                                        <input type="text" class="form-control @error('address', 'profileUpdate') is-invalid @enderror" id="streetAddress" name="address" value="{{ old('address', $profileAddress) }}" placeholder="Street address">
-                                    </div>
-                                    @error('address', 'profileUpdate')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-12 col-lg-6">
-                    <div class="card sb-card h-100">
-                        <div class="card-body p-4 p-xl-5">
-                            <h2 class="h4 fw-semibold mb-4"><i class="bi bi-file-earmark-text me-2"></i>About Me</h2>
-
-                            <div class="row g-4 align-items-start">
-                                <div class="col-12 col-lg-6">
-                                    <label class="form-label" for="bio">Bio</label>
-                                    <div class="position-relative">
-                                        <textarea class="form-control sb-textarea @error('bio', 'profileUpdate') is-invalid @enderror" id="bio" name="bio" rows="7" maxlength="300" placeholder="Write a short bio about yourself">{{ old('bio', $profileBio) }}</textarea>
-                                        <div class="sb-counter text-secondary small mt-2 text-end" id="bioCounter">0 / 300</div>
-                                    </div>
-                                    <div class="form-text mt-2">This information may appear on your public profile.</div>
-                                    @error('bio', 'profileUpdate')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                                </div>
-
-                                <div class="col-12 col-lg-6">
-                                    <div class="sb-preferences-panel h-100">
-                                        <h3 class="h6 fw-semibold mb-3"><i class="bi bi-sliders me-2"></i>Account Preferences</h3>
-                                        <div class="d-flex flex-column gap-3">
-                                            <div class="form-check form-switch sb-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch" id="emailNotifications" name="receive_email_notifications" value="1" @checked((bool) $emailNotifications)>
-                                                <label class="form-check-label" for="emailNotifications">Receive email notifications</label>
-                                            </div>
-                                            <div class="form-check form-switch sb-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch" id="orderUpdates" name="receive_order_updates" value="1" @checked((bool) $orderUpdates)>
-                                                <label class="form-check-label" for="orderUpdates">Receive order updates</label>
-                                            </div>
-                                            <div class="form-check form-switch sb-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch" id="promotionalEmails" name="receive_promotional_emails" value="1" @checked((bool) $promotionalEmails)>
-                                                <label class="form-check-label" for="promotionalEmails">Receive promotional emails</label>
-                                            </div>
-                                            <div class="form-check form-switch sb-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch" id="profileVisibility" name="profile_visibility" value="1" @checked((bool) $profileVisibility)>
-                                                <label class="form-check-label" for="profileVisibility">Profile visibility</label>
-                                            </div>
+                                        <div class="sb-profile-photo-camera">
+                                            <i class="bi bi-camera-fill"></i>
                                         </div>
+
                                     </div>
+
+
+                                    {{-- PHOTO INFO --}}
+
+                                    <div class="sb-profile-photo-info">
+
+                                        <strong>
+                                            {{ $fullName }}
+                                        </strong>
+
+                                        <span>
+                                            JPG, JPEG, PNG or WEBP
+                                        </span>
+
+
+                                        <div class="sb-profile-photo-actions">
+
+
+                                            {{-- CHANGE PHOTO --}}
+
+                                            <label
+                                                for="profile_photo"
+                                                class="sb-profile-photo-change"
+                                            >
+                                                <i class="bi bi-upload"></i>
+                                                Change photo
+                                            </label>
+
+
+                                            {{-- REMOVE PHOTO --}}
+
+                                            @if($user->profile_photo)
+
+                                                <button
+                                                    type="button"
+                                                    class="sb-profile-photo-delete"
+                                                    id="removeProfilePhotoBtn"
+                                                >
+                                                    Remove
+                                                </button>
+
+                                            @endif
+
+                                        </div>
+
+                                    </div>
+
                                 </div>
+
+
+                                {{-- FILE INPUT --}}
+
+                                <input
+                                    type="file"
+                                    name="profile_photo"
+                                    id="profile_photo"
+                                    accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                                    hidden
+                                >
+
+
+                                @error('profile_photo')
+
+                                    <small class="sb-profile-error">
+                                        {{ $message }}
+                                    </small>
+
+                                @enderror
+
                             </div>
+
+
+                            {{-- DIVIDER --}}
+
+                            <div class="sb-profile-divider"></div>
+
+
+                            {{-- =====================================
+                                 FULL NAME
+                            ====================================== --}}
+
+                            <div class="sb-profile-field">
+
+                                <label for="full_name">
+
+                                    Full name
+
+                                    <span>*</span>
+
+                                </label>
+
+
+                                <div class="sb-profile-input">
+
+                                    <i class="bi bi-person"></i>
+
+                                    <input
+                                        type="text"
+                                        id="full_name"
+                                        value="{{ old('full_name', $fullName) }}"
+                                        placeholder="Your full name"
+                                        autocomplete="name"
+                                    >
+
+                                </div>
+
+
+                                {{-- Hidden first name --}}
+
+                                <input
+                                    type="hidden"
+                                    name="first_name"
+                                    id="first_name"
+                                    value="{{ old('first_name', $user->first_name ?? '') }}"
+                                >
+
+
+                                {{-- Hidden last name --}}
+
+                                <input
+                                    type="hidden"
+                                    name="last_name"
+                                    id="last_name"
+                                    value="{{ old('last_name', $user->last_name ?? '') }}"
+                                >
+
+
+                                @error('first_name')
+
+                                    <small class="sb-profile-error">
+                                        {{ $message }}
+                                    </small>
+
+                                @enderror
+
+
+                                @error('last_name')
+
+                                    <small class="sb-profile-error">
+                                        {{ $message }}
+                                    </small>
+
+                                @enderror
+
+                            </div>
+
+
+                            {{-- =====================================
+                                 EMAIL
+                            ====================================== --}}
+
+                            <div class="sb-profile-field">
+
+                                <label for="email">
+
+                                    Email address
+
+                                    <span>*</span>
+
+                                </label>
+
+
+                                <div class="sb-profile-input">
+
+                                    <i class="bi bi-envelope"></i>
+
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        id="email"
+                                        value="{{ old('email', $user->email) }}"
+                                        placeholder="you@example.com"
+                                        autocomplete="email"
+                                    >
+
+                                </div>
+
+
+                                @error('email')
+
+                                    <small class="sb-profile-error">
+                                        {{ $message }}
+                                    </small>
+
+                                @enderror
+
+                            </div>
+
+
+                            {{-- =====================================
+                                 PHONE
+                            ====================================== --}}
+
+                            <div class="sb-profile-field">
+
+                                <label for="phone">
+                                    Phone number
+                                </label>
+
+
+                                <div class="sb-profile-phone">
+
+
+                                    {{-- COUNTRY CODE --}}
+
+                                    <div class="sb-profile-country">
+
+                                        <select
+                                            name="phone_country_code"
+                                            id="phone_country_code"
+                                            aria-label="Country code"
+                                        >
+
+                                            @foreach($countryCodes as $code => $label)
+
+                                                <option
+                                                    value="{{ $code }}"
+                                                    @selected($phoneCountryCode === $code)
+                                                >
+                                                    {{ $label }}
+                                                </option>
+
+                                            @endforeach
+
+                                        </select>
+
+                                    </div>
+
+
+                                    {{-- PHONE NUMBER --}}
+
+                                    <div class="sb-profile-input">
+
+                                        <i class="bi bi-telephone"></i>
+
+                                        <input
+                                            type="tel"
+                                            name="phone"
+                                            id="phone"
+                                            value="{{ old('phone', $phoneNumber) }}"
+                                            placeholder="501234567"
+                                            inputmode="numeric"
+                                            autocomplete="tel-national"
+                                            maxlength="15"
+                                        >
+
+                                    </div>
+
+                                </div>
+
+
+                                @error('phone')
+
+                                    <small class="sb-profile-error">
+                                        {{ $message }}
+                                    </small>
+
+                                @enderror
+
+                            </div>
+
+
+                            {{-- =====================================
+                                 DATE OF BIRTH
+                            ====================================== --}}
+
+                            <div class="sb-profile-field">
+
+                                <label for="date_of_birth">
+                                    Date of birth
+                                </label>
+
+
+                                <div class="sb-profile-input">
+
+                                    <i class="bi bi-calendar3"></i>
+
+                                    <input
+                                        type="date"
+                                        name="date_of_birth"
+                                        id="date_of_birth"
+                                        value="{{ old('date_of_birth', $user->date_of_birth ? \Illuminate\Support\Carbon::parse($user->date_of_birth)->format('Y-m-d') : '') }}"
+                                        autocomplete="bday"
+                                    >
+
+                                </div>
+
+
+                                @error('date_of_birth')
+
+                                    <small class="sb-profile-error">
+                                        {{ $message }}
+                                    </small>
+
+                                @enderror
+
+                            </div>
+
+
+                            {{-- =====================================
+                                 GENDER
+                            ====================================== --}}
+
+                            <div class="sb-profile-field">
+
+                                <label for="gender">
+                                    Gender
+                                </label>
+
+
+                                <div class="sb-profile-input sb-profile-select">
+
+                                    <i class="bi bi-person-vcard"></i>
+
+                                    <select
+                                        name="gender"
+                                        id="gender"
+                                    >
+
+                                        <option value="">
+                                            Select gender
+                                        </option>
+
+                                        <option
+                                            value="male"
+                                            @selected(old('gender', $user->gender) === 'male')
+                                        >
+                                            Male
+                                        </option>
+
+                                        <option
+                                            value="female"
+                                            @selected(old('gender', $user->gender) === 'female')
+                                        >
+                                            Female
+                                        </option>
+
+                                        <option
+                                            value="other"
+                                            @selected(old('gender', $user->gender) === 'other')
+                                        >
+                                            Other
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                @error('gender')
+
+                                    <small class="sb-profile-error">
+                                        {{ $message }}
+                                    </small>
+
+                                @enderror
+
+                            </div>
+
                         </div>
+
                     </div>
+
+
+                    {{-- =============================================
+                         LOCATION
+                    ============================================== --}}
+
+                    <div class="sb-profile-card">
+
+                        <div class="sb-profile-card-header">
+
+                            <div>
+
+                                <span class="sb-profile-card-label">
+                                    LOCATION
+                                </span>
+
+                                <h2>
+                                    Where you live
+                                </h2>
+
+                                <p>
+                                    Keep your location and delivery information current.
+                                </p>
+
+                            </div>
+
+                            <div class="sb-profile-card-icon">
+                                <i class="bi bi-geo-alt"></i>
+                            </div>
+
+                        </div>
+
+
+                        <div class="sb-profile-card-body">
+
+
+                            {{-- COUNTRY --}}
+
+                            <div class="sb-profile-field">
+
+                                <label for="country">
+                                    Country
+                                </label>
+
+                                <div class="sb-profile-input">
+
+                                    <i class="bi bi-globe2"></i>
+
+                                    <input
+                                        type="text"
+                                        name="country"
+                                        id="country"
+                                        value="{{ old('country', $user->country) }}"
+                                        placeholder="Country"
+                                        autocomplete="country-name"
+                                    >
+
+                                </div>
+
+
+                                @error('country')
+
+                                    <small class="sb-profile-error">
+                                        {{ $message }}
+                                    </small>
+
+                                @enderror
+
+                            </div>
+
+
+                            {{-- CITY --}}
+
+                            <div class="sb-profile-field">
+
+                                <label for="city">
+                                    City
+                                </label>
+
+                                <div class="sb-profile-input">
+
+                                    <i class="bi bi-buildings"></i>
+
+                                    <input
+                                        type="text"
+                                        name="city"
+                                        id="city"
+                                        value="{{ old('city', $user->city) }}"
+                                        placeholder="City"
+                                        autocomplete="address-level2"
+                                    >
+
+                                </div>
+
+
+                                @error('city')
+
+                                    <small class="sb-profile-error">
+                                        {{ $message }}
+                                    </small>
+
+                                @enderror
+
+                            </div>
+
+
+                            {{-- STATE --}}
+
+                            <div class="sb-profile-field">
+
+                                <label for="state">
+                                    State / Region
+                                </label>
+
+                                <div class="sb-profile-input">
+
+                                    <i class="bi bi-map"></i>
+
+                                    <input
+                                        type="text"
+                                        name="state"
+                                        id="state"
+                                        value="{{ old('state', $user->state) }}"
+                                        placeholder="State or region"
+                                        autocomplete="address-level1"
+                                    >
+
+                                </div>
+
+
+                                @error('state')
+
+                                    <small class="sb-profile-error">
+                                        {{ $message }}
+                                    </small>
+
+                                @enderror
+
+                            </div>
+
+
+                            {{-- POSTAL CODE --}}
+
+                            <div class="sb-profile-field">
+
+                                <label for="postal_code">
+                                    Postal code
+                                </label>
+
+                                <div class="sb-profile-input">
+
+                                    <i class="bi bi-mailbox"></i>
+
+                                    <input
+                                        type="text"
+                                        name="postal_code"
+                                        id="postal_code"
+                                        value="{{ old('postal_code', $user->postal_code) }}"
+                                        placeholder="Postal code"
+                                        autocomplete="postal-code"
+                                    >
+
+                                </div>
+
+
+                                @error('postal_code')
+
+                                    <small class="sb-profile-error">
+                                        {{ $message }}
+                                    </small>
+
+                                @enderror
+
+                            </div>
+
+
+                            {{-- ADDRESS --}}
+
+                            <div class="sb-profile-field sb-profile-field-full">
+
+                                <label for="address">
+                                    Address
+                                </label>
+
+                                <div class="sb-profile-input sb-profile-textarea">
+
+                                    <i class="bi bi-house"></i>
+
+                                    <textarea
+                                        name="address"
+                                        id="address"
+                                        placeholder="Street, building, apartment..."
+                                        autocomplete="street-address"
+                                    >{{ old('address', $user->address) }}</textarea>
+
+                                </div>
+
+
+                                @error('address')
+
+                                    <small class="sb-profile-error">
+                                        {{ $message }}
+                                    </small>
+
+                                @enderror
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- =============================================
+                         ABOUT
+                    ============================================== --}}
+
+                    <div class="sb-profile-card">
+
+                        <div class="sb-profile-card-header">
+
+                            <div>
+
+                                <span class="sb-profile-card-label">
+                                    ABOUT YOU
+                                </span>
+
+                                <h2>
+                                    A little about yourself
+                                </h2>
+
+                                <p>
+                                    Add a short introduction to your profile.
+                                </p>
+
+                            </div>
+
+                            <div class="sb-profile-card-icon">
+                                <i class="bi bi-chat-square-text"></i>
+                            </div>
+
+                        </div>
+
+
+                        <div class="sb-profile-card-body sb-profile-card-body-single">
+
+                            <div class="sb-profile-field">
+
+                                <label for="bio">
+                                    Biography
+                                </label>
+
+
+                                <div class="sb-profile-input sb-profile-textarea">
+
+                                    <i class="bi bi-pencil"></i>
+
+                                    <textarea
+                                        name="bio"
+                                        id="bio"
+                                        maxlength="1000"
+                                        placeholder="Tell us a little about yourself..."
+                                    >{{ old('bio', $user->bio) }}</textarea>
+
+                                </div>
+
+
+                                @error('bio')
+
+                                    <small class="sb-profile-error">
+                                        {{ $message }}
+                                    </small>
+
+                                @enderror
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- =============================================
+                         ACTIONS
+                    ============================================== --}}
+
+                    <div class="sb-profile-actions">
+
+                        <a
+                            href="{{ route('my.profile') }}"
+                            class="sb-profile-cancel"
+                        >
+                            Cancel
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="sb-profile-save"
+                        >
+                            <i class="bi bi-check2"></i>
+                            Save changes
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            {{-- =================================================
+                 SIDEBAR
+            ================================================== --}}
+
+            <aside class="sb-profile-sidebar">
+
+
+                {{-- =============================================
+                     PROFILE PREVIEW
+                ============================================== --}}
+
+                <div class="sb-profile-preview-card">
+
+                    <span class="sb-profile-preview-label">
+                        PROFILE PREVIEW
+                    </span>
+
+
+                    <div class="sb-profile-avatar">
+
+                        @if($user->profile_photo)
+
+                            <img
+                                src="{{ asset('storage/' . $user->profile_photo) }}"
+                                alt="{{ $fullName }}"
+                                id="sidebarProfilePreview"
+                            >
+
+                        @else
+
+                            <span id="sidebarProfileInitials">
+                                {{ $initials }}
+                            </span>
+
+                        @endif
+
+                    </div>
+
+
+                    <h3>
+                        {{ $fullName }}
+                    </h3>
+
+
+                    <p>
+                        {{ $user->email }}
+                    </p>
+
+
+                    <div class="sb-profile-role">
+
+                        <i class="bi bi-person-check"></i>
+
+                        <span>
+                            {{ ucfirst($user->role ?? 'User') }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="sb-profile-preview-line"></div>
+
+
+                    <div class="sb-profile-preview-status">
+
+                        <span class="sb-status-dot"></span>
+
+                        <span>
+                            Profile information
+                        </span>
+
+                    </div>
+
                 </div>
 
-                <div class="col-12">
-                    <div class="card sb-card">
-                        <div class="card-body p-4 p-xl-5">
-                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-                                <div>
-                                    <h2 class="h4 fw-semibold mb-1">Save Changes</h2>
-                                    <p class="text-secondary mb-0">Review your profile details before updating your account.</p>
-                                </div>
-                                <div class="d-flex flex-wrap gap-2 justify-content-md-end">
-                                    <a href="{{ route('my.profile') }}" class="btn btn-outline-secondary sb-btn-secondary">
-                                        <i class="bi bi-x-lg me-2"></i>Cancel
-                                    </a>
-                                    <button type="submit" class="btn btn-primary sb-btn-primary" id="profileUpdateBtn">
-                                        <i class="bi bi-check2-circle me-2"></i><span class="btn-text">Update Profile</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
 
-        <form action="{{ route('profile.photo.destroy') }}" method="POST" id="removePhotoForm" class="d-none">
-            @csrf
-            @method('DELETE')
-        </form>
+                {{-- =============================================
+                     SECURITY CARD
+                ============================================== --}}
 
-        <section class="mt-4 mt-lg-5">
-            <div class="card sb-card h-100">
-                <div class="card-body p-4 p-xl-5">
-                    <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-4">
-                        <div>
-                            <h2 class="h4 fw-semibold mb-1"><i class="bi bi-shield-lock me-2"></i>Account Security</h2>
-                            <p class="text-secondary mb-0">Keep your account protected with a strong password.</p>
-                        </div>
+                <div class="sb-profile-side-card">
+
+                    <div class="sb-profile-side-icon">
+                        <i class="bi bi-shield-check"></i>
                     </div>
 
-                    @if ($errors->passwordUpdate->any())
-                        <div class="alert alert-danger border-0 shadow-sm rounded-4 mb-4" role="alert">
-                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                            Please review your password details and try again.
-                        </div>
-                    @endif
+                    <div>
 
-                    <form action="{{ route('profile.password.update') }}" method="POST" id="passwordUpdateForm">
-                        @csrf
-                        @method('PUT')
+                        <span class="sb-profile-side-label">
+                            ACCOUNT SECURITY
+                        </span>
 
-                        <div class="row g-3">
-                            <div class="col-12 col-md-4">
-                                <label class="form-label" for="currentPassword">Current Password</label>
-                                <div class="input-group sb-input-group">
-                                    <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                                    <input type="password" class="form-control @error('current_password', 'passwordUpdate') is-invalid @enderror" id="currentPassword" name="current_password" placeholder="Current password" autocomplete="current-password">
-                                </div>
-                                @error('current_password', 'passwordUpdate')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <label class="form-label" for="newPassword">New Password</label>
-                                <div class="input-group sb-input-group">
-                                    <span class="input-group-text"><i class="bi bi-shield-lock-fill"></i></span>
-                                    <input type="password" class="form-control @error('password', 'passwordUpdate') is-invalid @enderror" id="newPassword" name="password" placeholder="New password" autocomplete="new-password">
-                                </div>
-                                @error('password', 'passwordUpdate')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <label class="form-label" for="confirmPassword">Confirm New Password</label>
-                                <div class="input-group sb-input-group">
-                                    <span class="input-group-text"><i class="bi bi-check2-circle"></i></span>
-                                    <input type="password" class="form-control @error('password_confirmation', 'passwordUpdate') is-invalid @enderror" id="confirmPassword" name="password_confirmation" placeholder="Confirm new password" autocomplete="new-password">
-                                </div>
-                                @error('password_confirmation', 'passwordUpdate')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                            </div>
-                        </div>
+                        <h3>
+                            Keep your account safe
+                        </h3>
 
-                        <div class="d-flex justify-content-end mt-4">
-                            <button type="submit" class="btn btn-primary sb-btn-primary">
-                                <i class="bi bi-key-fill me-2"></i>Update Password
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </section>
+                        <p>
+                            Use accurate information and keep your account details
+                            up to date.
+                        </p>
 
-        <section class="mt-4 mt-lg-5 mb-2">
-            <div class="card sb-card sb-danger-zone-card">
-                <div class="card-body p-4 p-xl-5">
-                    <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-4">
-                        <div>
-                            <h2 class="h4 fw-semibold mb-2"><i class="bi bi-exclamation-octagon-fill me-2"></i>Danger Zone</h2>
-                            <p class="mb-0 text-secondary">Once you permanently delete your account, all your books, wishlist and account information will be removed forever.</p>
-                        </div>
-                        <form action="{{ route('profile.destroy') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete your account permanently?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger sb-danger-zone-btn">
-                                <i class="bi bi-trash3-fill me-2"></i>Delete Account
-                            </button>
-                        </form>
                     </div>
+
                 </div>
-            </div>
-        </section>
+
+
+                {{-- =============================================
+                     PROFILE TIPS
+                ============================================== --}}
+
+                <div class="sb-profile-tips">
+
+                    <div class="sb-profile-tips-title">
+
+                        <i class="bi bi-stars"></i>
+
+                        <span>
+                            PROFILE TIPS
+                        </span>
+
+                    </div>
+
+
+                    <div class="sb-profile-tip">
+
+                        <i class="bi bi-check2"></i>
+
+                        <span>
+                            Use your real name
+                        </span>
+
+                    </div>
+
+
+                    <div class="sb-profile-tip">
+
+                        <i class="bi bi-check2"></i>
+
+                        <span>
+                            Keep your email updated
+                        </span>
+
+                    </div>
+
+
+                    <div class="sb-profile-tip">
+
+                        <i class="bi bi-check2"></i>
+
+                        <span>
+                            Add a clear profile photo
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </div>
+
     </div>
+
 </main>
-@endsection
 
-@push('js')
+
+{{-- =========================================================
+     REMOVE PROFILE PHOTO FORM
+========================================================= --}}
+
+@if($user->profile_photo)
+
+    <form
+        action="{{ route('profile.photo.destroy') }}"
+        method="POST"
+        id="removeProfilePhotoForm"
+        style="display: none;"
+    >
+
+        @csrf
+        @method('DELETE')
+
+    </form>
+
+@endif
+
+
+{{-- =========================================================
+     JAVASCRIPT
+========================================================= --}}
+
+@push('scripts')
+
 <script>
-    (function () {
-        var bio = document.getElementById('bio');
-        var counter = document.getElementById('bioCounter');
-        var fileInput = document.getElementById('profilePhoto');
-        var preview = document.getElementById('photoPreview');
-        var profileForm = document.getElementById('profileUpdateForm');
-        var profileButton = document.getElementById('profileUpdateBtn');
+document.addEventListener('DOMContentLoaded', function () {
 
-        function updateCounter() {
-            if (!bio || !counter) return;
-            counter.textContent = (bio.value || '').length + ' / 300';
-        }
+    const form = document.getElementById('profileEditForm');
 
-        updateCounter();
+    const fullNameInput = document.getElementById('full_name');
+    const firstNameInput = document.getElementById('first_name');
+    const lastNameInput = document.getElementById('last_name');
 
-        if (bio) {
-            bio.addEventListener('input', updateCounter);
-        }
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
 
-        if (fileInput && preview) {
-            fileInput.addEventListener('change', function () {
-                var file = this.files && this.files[0];
-                if (!file) return;
+    const photoInput = document.getElementById('profile_photo');
 
-                var reader = new FileReader();
-                reader.onload = function (event) {
-                    preview.innerHTML = '<img src="' + event.target.result + '" alt="Profile photo" class="sb-photo-img">';
-                };
-                reader.readAsDataURL(file);
-            });
-        }
+    const removeButton = document.getElementById('removeProfilePhotoBtn');
+    const removeForm = document.getElementById('removeProfilePhotoForm');
 
-        if (profileForm && profileButton) {
-            profileForm.addEventListener('submit', function (event) {
-                if (event.submitter && event.submitter !== profileButton) {
-                    return;
+
+    /*
+    |--------------------------------------------------------------------------
+    | FULL NAME
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+        form &&
+        fullNameInput &&
+        firstNameInput &&
+        lastNameInput
+    ) {
+
+        form.addEventListener('submit', function (event) {
+
+            const fullName = fullNameInput.value.trim();
+
+            const parts = fullName
+                .split(/\s+/)
+                .filter(Boolean);
+
+
+            if (parts.length < 2) {
+
+                event.preventDefault();
+
+                fullNameInput.setCustomValidity(
+                    'Please enter your first and last name.'
+                );
+
+                fullNameInput.reportValidity();
+
+                return;
+            }
+
+
+            fullNameInput.setCustomValidity('');
+
+            firstNameInput.value = parts.shift();
+
+            lastNameInput.value = parts.join(' ');
+
+        });
+
+
+        fullNameInput.addEventListener('input', function () {
+
+            this.setCustomValidity('');
+
+        });
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | EMAIL
+    |--------------------------------------------------------------------------
+    */
+
+    if (emailInput) {
+
+        emailInput.addEventListener('blur', function () {
+
+            this.value = this.value
+                .trim()
+                .toLowerCase();
+
+        });
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | PHONE
+    |--------------------------------------------------------------------------
+    */
+
+    if (phoneInput) {
+
+        phoneInput.addEventListener('input', function () {
+
+            this.value = this.value.replace(/\D/g, '');
+
+        });
+
+
+        phoneInput.addEventListener('paste', function () {
+
+            setTimeout(() => {
+
+                this.value = this.value.replace(/\D/g, '');
+
+            }, 0);
+
+        });
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | PROFILE PHOTO PREVIEW
+    |--------------------------------------------------------------------------
+    */
+
+    if (photoInput) {
+
+        photoInput.addEventListener('change', function () {
+
+            const file = this.files[0];
+
+            if (!file) {
+                return;
+            }
+
+
+            const allowedTypes = [
+                'image/jpeg',
+                'image/png',
+                'image/webp'
+            ];
+
+
+            if (!allowedTypes.includes(file.type)) {
+
+                alert(
+                    'Please select a JPG, JPEG, PNG or WEBP image.'
+                );
+
+                this.value = '';
+
+                return;
+            }
+
+
+            if (file.size > 2 * 1024 * 1024) {
+
+                alert(
+                    'The profile photo must be smaller than 2 MB.'
+                );
+
+                this.value = '';
+
+                return;
+            }
+
+
+            const reader = new FileReader();
+
+
+            reader.onload = function (event) {
+
+                const imageUrl = event.target.result;
+
+
+                /*
+                |--------------------------------------------------------------
+                | MAIN PREVIEW
+                |--------------------------------------------------------------
+                */
+
+                const currentMainPreview =
+                    document.getElementById('profilePhotoPreview');
+
+                const currentMainInitials =
+                    document.getElementById('profilePhotoInitials');
+
+
+                if (currentMainPreview) {
+
+                    currentMainPreview.src = imageUrl;
+
+                } else if (currentMainInitials) {
+
+                    currentMainInitials.outerHTML = `
+                        <img
+                            src="${imageUrl}"
+                            alt="Profile photo"
+                            id="profilePhotoPreview"
+                        >
+                    `;
+
                 }
 
-                profileButton.disabled = true;
-                profileButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span><span class="btn-text">Updating...</span>';
-            });
-        }
-    })();
+
+                /*
+                |--------------------------------------------------------------
+                | SIDEBAR PREVIEW
+                |--------------------------------------------------------------
+                */
+
+                const currentSidebarPreview =
+                    document.getElementById('sidebarProfilePreview');
+
+                const currentSidebarInitials =
+                    document.getElementById('sidebarProfileInitials');
+
+
+                if (currentSidebarPreview) {
+
+                    currentSidebarPreview.src = imageUrl;
+
+                } else if (currentSidebarInitials) {
+
+                    currentSidebarInitials.outerHTML = `
+                        <img
+                            src="${imageUrl}"
+                            alt="Profile photo"
+                            id="sidebarProfilePreview"
+                        >
+                    `;
+
+                }
+
+            };
+
+
+            reader.readAsDataURL(file);
+
+        });
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | REMOVE PROFILE PHOTO
+    |--------------------------------------------------------------------------
+    */
+
+    if (removeButton && removeForm) {
+
+        removeButton.addEventListener('click', function () {
+
+            const confirmed = confirm(
+                'Are you sure you want to remove your profile photo?'
+            );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            removeForm.submit();
+
+        });
+
+    }
+
+});
 </script>
+
 @endpush
+
+@endsection
