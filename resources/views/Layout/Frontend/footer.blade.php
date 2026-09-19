@@ -26,11 +26,11 @@
 						<h5 class="mb-3">Quick Links</h5>
 						<ul class="menu-list list-unstyled mb-0 d-flex flex-column gap-2">
 							<li class="menu-item"><a href="{{ route('frontend.home') }}">Home</a></li>
-							<li class="menu-item"><a href="#books">Books</a></li>
-							<li class="menu-item"><a href="#categories">Categories</a></li>
-							<li class="menu-item"><a href="#authors">Authors</a></li>
-							<li class="menu-item"><a href="#about">About Us</a></li>
-							<li class="menu-item"><a href="#contact">Contact</a></li>
+							<li class="menu-item"><a href="{{ route('frontend.books') }}">Books</a></li>
+							<li class="menu-item"><a href="{{ route('frontend.categories') }}">Categories</a></li>
+							<li class="menu-item"><a href="{{ route('frontend.authors') }}">Authors</a></li>
+							<li class="menu-item"><a href="{{ route('frontend.about') }}">About Us</a></li>
+							<li class="menu-item"><a href="{{ route('frontend.contact') }}">Contact</a></li>
 						</ul>
 					</div>
 				</div>
@@ -38,13 +38,41 @@
 				<div class="col-12 col-sm-6 col-lg-2">
 					<div class="footer-menu h-100">
 						<h5 class="mb-3">Customer Account</h5>
+
 						<ul class="menu-list list-unstyled mb-0 d-flex flex-column gap-2">
-							<li class="menu-item"><a href="{{ route('frontend.auth.login') }}">Login</a></li>
-							<li class="menu-item"><a href="{{ route('frontend.auth.register') }}">Register</a></li>
-							<li class="menu-item"><a href="#wishlist">Wishlist</a></li>
-							<li class="menu-item"><a href="#cart">Shopping Cart</a></li>
-							<li class="menu-item"><a href="#">My Orders</a></li>
-							<li class="menu-item"><a href="#">Order Tracking</a></li>
+
+							@guest
+								<li class="menu-item">
+									<a href="{{ route('frontend.auth.login') }}">Login</a>
+								</li>
+
+								<li class="menu-item">
+									<a href="{{ route('frontend.auth.register') }}">Register</a>
+								</li>
+							@endguest
+
+							@auth
+								<li class="menu-item">
+									<a href="">My Account</a>
+								</li>
+							@endauth
+
+							<li class="menu-item">
+								<a href="#wishlist">Wishlist</a>
+							</li>
+
+							<li class="menu-item">
+								<a href="#cart">Shopping Cart</a>
+							</li>
+
+							<li class="menu-item">
+								<a href="#">My Orders</a>
+							</li>
+
+							<li class="menu-item">
+								<a href="#">Order Tracking</a>
+							</li>
+
 						</ul>
 					</div>
 				</div>

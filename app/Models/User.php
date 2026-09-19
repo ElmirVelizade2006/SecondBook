@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
@@ -134,5 +135,9 @@ class User extends Authenticatable
     public function hasAnyPermission(array $permissions): bool
     {
         return collect($permissions)->contains(fn (string $permission) => $this->hasPermission($permission));
+    }
+    public function settings(): HasOne
+    {
+        return $this->hasOne(UserSetting::class);
     }
 }

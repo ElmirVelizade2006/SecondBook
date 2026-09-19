@@ -1,0 +1,1352 @@
+/* =========================================================
+   SecondBook - Categories Page
+========================================================= */
+
+:root {
+    --cat-brown: #8b5e3c;
+    --cat-brown-dark: #6f472d;
+    --cat-brown-light: #b88a67;
+    --cat-cream: #f6f0e9;
+    --cat-soft: #fbf9f7;
+    --cat-white: #ffffff;
+    --cat-dark: #2e2722;
+    --cat-muted: #81776f;
+    --cat-border: #e7ddd4;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+#categories-page {
+    background: var(--cat-soft);
+    color: var(--cat-dark);
+    overflow: hidden;
+}
+
+#categories-page a {
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.categories-hero {
+    position: relative;
+    min-height: 650px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 90px 0 100px;
+
+    background:
+        radial-gradient(
+            circle at 10% 30%,
+            rgba(139, 94, 60, 0.08),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #f8f2ec 0%,
+            #fbf9f7 55%,
+            #f3ebe3 100%
+        );
+
+    overflow: hidden;
+}
+
+.categories-hero-shape {
+    position: absolute;
+    border: 1px solid rgba(139, 94, 60, 0.12);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.categories-shape-one {
+    width: 400px;
+    height: 400px;
+
+    top: -240px;
+    left: -160px;
+}
+
+.categories-shape-two {
+    width: 250px;
+    height: 250px;
+
+    right: -100px;
+    bottom: -120px;
+}
+
+.categories-hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================================
+   HERO CONTENT
+========================================================= */
+
+.categories-hero-content {
+    max-width: 620px;
+}
+
+.categories-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    margin-bottom: 24px;
+
+    color: var(--cat-brown);
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+}
+
+.categories-eyebrow span {
+    width: 34px;
+    height: 1px;
+
+    background: var(--cat-brown);
+}
+
+
+.categories-hero-content h1 {
+    margin: 0 0 24px;
+
+    color: var(--cat-dark);
+
+    font-family: "Prata", Georgia, serif;
+    font-size: clamp(48px, 5.5vw, 72px);
+    font-weight: 400;
+
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+}
+
+.categories-hero-content h1 em {
+    color: var(--cat-brown);
+    font-style: normal;
+}
+
+.categories-hero-content > p {
+    max-width: 530px;
+
+    margin: 0;
+
+    color: var(--cat-muted);
+
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+
+/* =========================================================
+   HERO ACTIONS
+========================================================= */
+
+.categories-hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+
+    margin-top: 34px;
+}
+
+.categories-primary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+
+    min-height: 52px;
+    padding: 0 21px;
+
+    background: var(--cat-brown);
+    color: #fff;
+
+    border-radius: 12px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    box-shadow: 0 12px 28px rgba(139, 94, 60, 0.2);
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.categories-primary-btn i {
+    transition: transform 0.25s ease;
+}
+
+.categories-primary-btn:hover {
+    background: var(--cat-brown-dark);
+    color: #fff;
+
+    transform: translateY(-3px);
+
+    box-shadow: 0 16px 34px rgba(139, 94, 60, 0.27);
+}
+
+.categories-primary-btn:hover i {
+    transform: translateX(4px);
+}
+
+
+.categories-book-count {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.categories-book-count strong {
+    color: var(--cat-brown);
+
+    font-family: "Prata", Georgia, serif;
+    font-size: 29px;
+    font-weight: 400;
+}
+
+.categories-book-count span {
+    color: var(--cat-muted);
+
+    font-size: 10px;
+    font-weight: 600;
+
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   HERO VISUAL
+========================================================= */
+
+.categories-hero-visual {
+    position: relative;
+
+    width: 100%;
+    max-width: 530px;
+
+    height: 500px;
+
+    margin-left: auto;
+}
+
+.hero-visual-circle {
+    position: absolute;
+
+    width: 390px;
+    height: 390px;
+
+    top: 50%;
+    left: 50%;
+
+    border-radius: 50%;
+
+    background: #e8d7c8;
+
+    transform: translate(-50%, -50%);
+}
+
+
+.hero-main-image {
+    position: absolute;
+
+    width: 330px;
+    height: 420px;
+
+    top: 40px;
+    left: 50%;
+
+    overflow: hidden;
+
+    border-radius: 170px 170px 18px 18px;
+
+    transform: translateX(-50%);
+
+    box-shadow:
+        0 35px 65px rgba(65, 44, 31, 0.19);
+}
+
+.hero-main-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: transform 0.7s ease;
+}
+
+.categories-hero-visual:hover .hero-main-image img {
+    transform: scale(1.04);
+}
+
+.hero-image-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(38, 26, 19, 0.22),
+            transparent 45%
+        );
+}
+
+
+/* =========================================================
+   FLOATING CARDS
+========================================================= */
+
+.hero-floating-card {
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    padding: 12px 15px;
+
+    background: rgba(255, 255, 255, 0.92);
+
+    border: 1px solid rgba(139, 94, 60, 0.12);
+
+    border-radius: 14px;
+
+    box-shadow: 0 18px 40px rgba(55, 39, 28, 0.12);
+
+    backdrop-filter: blur(12px);
+
+    z-index: 5;
+}
+
+.hero-floating-top {
+    top: 78px;
+    left: 4px;
+}
+
+.hero-floating-bottom {
+    right: 0;
+    bottom: 55px;
+}
+
+.floating-icon {
+    width: 39px;
+    height: 39px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--cat-cream);
+    color: var(--cat-brown);
+
+    border-radius: 10px;
+
+    font-size: 16px;
+}
+
+.hero-floating-card > div:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.hero-floating-card span {
+    color: #9c9188;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+}
+
+.hero-floating-card strong {
+    color: var(--cat-dark);
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.mini-book-cover {
+    width: 39px;
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--cat-brown);
+    color: #fff;
+
+    border-radius: 4px 7px 7px 4px;
+
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   CATEGORY SECTION
+========================================================= */
+
+.categories-section {
+    padding: 110px 0;
+
+    background: var(--cat-soft);
+}
+
+.categories-section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 40px;
+
+    margin-bottom: 45px;
+}
+
+.categories-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin-bottom: 13px;
+
+    color: var(--cat-brown);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1.9px;
+    text-transform: uppercase;
+}
+
+.categories-label span {
+    width: 26px;
+    height: 1px;
+
+    background: var(--cat-brown);
+}
+
+
+.categories-section-heading h2 {
+    margin: 0;
+
+    font-family: "Prata", Georgia, serif;
+
+    color: var(--cat-dark);
+
+    font-size: clamp(32px, 4vw, 45px);
+    font-weight: 400;
+
+    line-height: 1.2;
+}
+
+.categories-section-heading h2 em {
+    color: var(--cat-brown);
+    font-style: normal;
+}
+
+.categories-section-heading > p {
+    max-width: 330px;
+
+    margin: 0 0 4px;
+
+    color: var(--cat-muted);
+
+    font-size: 12px;
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   CATEGORY GRID
+========================================================= */
+
+.categories-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 20px;
+}
+
+
+/* =========================================================
+   CATEGORY CARD
+========================================================= */
+
+.category-card {
+    display: block;
+
+    background: var(--cat-white);
+
+    border: 1px solid var(--cat-border);
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow: 0 8px 25px rgba(60, 43, 31, 0.035);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-7px);
+
+    border-color: rgba(139, 94, 60, 0.28);
+
+    box-shadow:
+        0 20px 45px rgba(60, 43, 31, 0.12);
+}
+
+
+/* =========================================================
+   CARD IMAGE
+========================================================= */
+
+.category-card-image {
+    position: relative;
+
+    height: 245px;
+
+    overflow: hidden;
+}
+
+.category-card-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: transform 0.6s ease;
+}
+
+.category-card:hover .category-card-image img {
+    transform: scale(1.07);
+}
+
+.category-image-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(35, 25, 19, 0.54),
+            rgba(35, 25, 19, 0.02) 60%
+        );
+}
+
+
+.category-card-number {
+    position: absolute;
+
+    top: 15px;
+    left: 15px;
+
+    color: rgba(255, 255, 255, 0.85);
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+
+.category-card-arrow {
+    position: absolute;
+
+    top: 13px;
+    right: 13px;
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--cat-brown);
+
+    border-radius: 50%;
+
+    font-size: 14px;
+
+    opacity: 0;
+
+    transform: translateY(-5px);
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+.category-card:hover .category-card-arrow {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   CARD BODY
+========================================================= */
+
+.category-card-body {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    min-height: 108px;
+
+    padding: 18px;
+}
+
+.category-card-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #a39a93;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+}
+
+.category-card-body h3 {
+    margin: 0;
+
+    color: var(--cat-dark);
+
+    font-family: "Prata", Georgia, serif;
+
+    font-size: 19px;
+    font-weight: 400;
+
+    line-height: 1.25;
+}
+
+.category-card-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    color: var(--cat-brown);
+
+    font-size: 9px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.category-card-link i {
+    font-size: 11px;
+
+    transition: transform 0.2s ease;
+}
+
+.category-card:hover .category-card-link i {
+    transform: translateX(3px);
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.categories-empty {
+    max-width: 600px;
+
+    margin: 0 auto;
+
+    padding: 70px 30px;
+
+    text-align: center;
+
+    background: var(--cat-white);
+
+    border: 1px solid var(--cat-border);
+    border-radius: 22px;
+}
+
+.empty-icon {
+    width: 65px;
+    height: 65px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0 auto 20px;
+
+    background: var(--cat-cream);
+    color: var(--cat-brown);
+
+    border-radius: 18px;
+
+    font-size: 25px;
+}
+
+.categories-empty h3 {
+    margin-bottom: 8px;
+
+    color: var(--cat-dark);
+
+    font-family: "Prata", Georgia, serif;
+    font-size: 25px;
+    font-weight: 400;
+}
+
+.categories-empty p {
+    margin-bottom: 25px;
+
+    color: var(--cat-muted);
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   DISCOVERY
+========================================================= */
+
+.category-discovery {
+    padding: 30px 0 110px;
+
+    background: var(--cat-soft);
+}
+
+.discovery-box {
+    position: relative;
+
+    min-height: 430px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 65px 75px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #302620 0%,
+            #201a16 100%
+        );
+
+    border-radius: 27px;
+
+    overflow: hidden;
+
+    box-shadow: 0 25px 60px rgba(44, 32, 24, 0.15);
+}
+
+.discovery-content {
+    position: relative;
+    z-index: 3;
+
+    max-width: 530px;
+}
+
+.discovery-label {
+    color: #caa78f;
+}
+
+.discovery-label span {
+    background: #caa78f;
+}
+
+.discovery-content h2 {
+    margin: 0 0 18px;
+
+    color: #fff;
+
+    font-family: "Prata", Georgia, serif;
+
+    font-size: clamp(36px, 4vw, 51px);
+    font-weight: 400;
+
+    line-height: 1.16;
+}
+
+.discovery-content h2 em {
+    color: #caa78f;
+    font-style: normal;
+}
+
+.discovery-content p {
+    max-width: 480px;
+
+    margin: 0 0 28px;
+
+    color: #a9a09a;
+
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.discovery-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+
+    height: 49px;
+
+    padding: 0 19px;
+
+    background: #fff;
+    color: var(--cat-dark);
+
+    border-radius: 11px;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.discovery-btn i {
+    transition: transform 0.2s ease;
+}
+
+.discovery-btn:hover {
+    color: var(--cat-dark);
+    background: #f0e7df;
+
+    transform: translateY(-2px);
+}
+
+.discovery-btn:hover i {
+    transform: translateX(4px);
+}
+
+
+/* =========================================================
+   DISCOVERY BOOKS
+========================================================= */
+
+.discovery-visual {
+    position: relative;
+
+    width: 340px;
+    height: 320px;
+
+    margin-right: 15px;
+}
+
+.discovery-circle {
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    top: 10px;
+    left: 20px;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+}
+
+.discovery-book {
+    position: absolute;
+
+    width: 95px;
+    height: 235px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 3px 7px 7px 3px;
+
+    box-shadow: 0 22px 35px rgba(0, 0, 0, 0.3);
+
+    transform-origin: bottom center;
+}
+
+.discovery-book span {
+    color: rgba(255, 255, 255, 0.85);
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+}
+
+.book-spine {
+    position: absolute;
+
+    top: 10px;
+    left: 9px;
+
+    width: 3px;
+    height: calc(100% - 20px);
+
+    background: rgba(255, 255, 255, 0.12);
+
+    border-radius: 10px;
+}
+
+.discovery-book-one {
+    right: 40px;
+    bottom: 15px;
+
+    background: #604937;
+
+    transform: rotate(13deg);
+}
+
+.discovery-book-two {
+    right: 105px;
+    bottom: 10px;
+
+    background: #8c6347;
+
+    transform: rotate(4deg);
+}
+
+.discovery-book-three {
+    right: 165px;
+    bottom: 8px;
+
+    background: #b08464;
+
+    transform: rotate(-7deg);
+}
+
+
+/* =========================================================
+   BOTTOM CTA
+========================================================= */
+
+.categories-bottom-cta {
+    padding: 20px 0 110px;
+
+    text-align: center;
+
+    background: var(--cat-soft);
+}
+
+.categories-cta-content {
+    max-width: 750px;
+
+    margin: 0 auto;
+}
+
+.categories-cta-content .categories-label {
+    justify-content: center;
+}
+
+.categories-cta-content h2 {
+    margin: 0 0 17px;
+
+    color: var(--cat-dark);
+
+    font-family: "Prata", Georgia, serif;
+
+    font-size: clamp(36px, 4vw, 51px);
+    font-weight: 400;
+
+    line-height: 1.18;
+}
+
+.categories-cta-content h2 em {
+    color: var(--cat-brown);
+    font-style: normal;
+}
+
+.categories-cta-content p {
+    max-width: 500px;
+
+    margin: 0 auto 27px;
+
+    color: var(--cat-muted);
+
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+[data-bs-theme="dark"] #categories-page,
+:root[data-theme="dark"] #categories-page,
+.dark-mode #categories-page,
+.dark-theme #categories-page {
+
+    --cat-brown: #b77d53;
+    --cat-brown-dark: #9d6843;
+    --cat-brown-light: #c49470;
+
+    --cat-cream: #2b211b;
+    --cat-soft: #11100f;
+    --cat-white: #1b1816;
+
+    --cat-dark: #f1ebe6;
+    --cat-muted: #aaa09a;
+
+    --cat-border: #302a26;
+}
+
+
+/* =========================================================
+   DARK HERO
+========================================================= */
+
+[data-bs-theme="dark"] #categories-page .categories-hero,
+:root[data-theme="dark"] #categories-page .categories-hero,
+.dark-mode #categories-page .categories-hero,
+.dark-theme #categories-page .categories-hero {
+
+    background:
+        radial-gradient(
+            circle at 10% 30%,
+            rgba(183, 125, 83, 0.1),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #1b1714 0%,
+            #11100f 55%,
+            #191411 100%
+        );
+}
+
+[data-bs-theme="dark"] #categories-page .hero-visual-circle,
+:root[data-theme="dark"] #categories-page .hero-visual-circle,
+.dark-mode #categories-page .hero-visual-circle,
+.dark-theme #categories-page .hero-visual-circle {
+
+    background: #30251e;
+}
+
+
+[data-bs-theme="dark"] #categories-page .hero-floating-card,
+:root[data-theme="dark"] #categories-page .hero-floating-card,
+.dark-mode #categories-page .hero-floating-card,
+.dark-theme #categories-page .hero-floating-card {
+
+    background: rgba(28, 24, 21, 0.93);
+    border-color: #39302a;
+}
+
+
+/* =========================================================
+   DARK CARDS
+========================================================= */
+
+[data-bs-theme="dark"] #categories-page .category-card,
+[data-bs-theme="dark"] #categories-page .categories-empty,
+:root[data-theme="dark"] #categories-page .category-card,
+:root[data-theme="dark"] #categories-page .categories-empty,
+.dark-mode #categories-page .category-card,
+.dark-mode #categories-page .categories-empty,
+.dark-theme #categories-page .category-card,
+.dark-theme #categories-page .categories-empty {
+
+    background: #1b1816;
+    border-color: #302a26;
+}
+
+
+/* =========================================================
+   DARK DISCOVERY
+========================================================= */
+
+[data-bs-theme="dark"] #categories-page .category-discovery,
+:root[data-theme="dark"] #categories-page .category-discovery,
+.dark-mode #categories-page .category-discovery,
+.dark-theme #categories-page .category-discovery {
+
+    background: #11100f;
+}
+
+
+/* =========================================================
+   RESPONSIVE - 1199
+========================================================= */
+
+@media (max-width: 1199px) {
+
+    .categories-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .categories-hero-visual {
+        transform: scale(0.92);
+        transform-origin: center right;
+    }
+
+    .discovery-box {
+        padding: 55px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - 991
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .categories-hero {
+        min-height: auto;
+        padding: 80px 0 85px;
+    }
+
+    .categories-hero-content {
+        max-width: 700px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .categories-eyebrow {
+        justify-content: center;
+    }
+
+    .categories-hero-content > p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .categories-hero-actions {
+        justify-content: center;
+    }
+
+    .categories-hero-visual {
+        margin: 25px auto 0;
+
+        transform: scale(0.85);
+        transform-origin: center;
+    }
+
+    .categories-section {
+        padding: 80px 0;
+    }
+
+    .categories-section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .categories-section-heading > p {
+        max-width: 550px;
+    }
+
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .category-discovery {
+        padding-bottom: 80px;
+    }
+
+    .discovery-box {
+        min-height: auto;
+        padding: 50px 45px;
+    }
+
+    .discovery-visual {
+        transform: scale(0.78);
+        margin-right: -60px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - 767
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .categories-hero {
+        padding: 65px 0 55px;
+    }
+
+    .categories-hero-content h1 {
+        font-size: 45px;
+        letter-spacing: -1px;
+    }
+
+    .categories-hero-content > p {
+        font-size: 13px;
+    }
+
+    .categories-hero-actions {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .categories-book-count {
+        justify-content: center;
+    }
+
+    .categories-hero-visual {
+        height: 420px;
+        transform: scale(0.76);
+    }
+
+    .categories-section {
+        padding: 65px 0;
+    }
+
+    .categories-grid {
+        gap: 14px;
+    }
+
+    .category-card-image {
+        height: 210px;
+    }
+
+    .category-card-body {
+        min-height: 100px;
+        padding: 15px;
+    }
+
+    .category-card-body h3 {
+        font-size: 17px;
+    }
+
+    .category-card-link {
+        display: none;
+    }
+
+    .category-discovery {
+        padding: 15px 0 65px;
+    }
+
+    .discovery-box {
+        padding: 45px 30px;
+        border-radius: 22px;
+    }
+
+    .discovery-visual {
+        display: none;
+    }
+
+    .discovery-content {
+        max-width: 100%;
+    }
+
+    .categories-bottom-cta {
+        padding-bottom: 75px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - 575
+========================================================= */
+
+@media (max-width: 575px) {
+
+    .categories-hero-content h1 {
+        font-size: 39px;
+    }
+
+    .categories-hero-content > p {
+        font-size: 12px;
+        line-height: 1.75;
+    }
+
+    .categories-hero-visual {
+        height: 360px;
+        margin-top: 5px;
+
+        transform: scale(0.65);
+    }
+
+    .categories-section-heading h2 {
+        font-size: 31px;
+    }
+
+    .categories-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .category-card-image {
+        height: 260px;
+    }
+
+    .category-card-body {
+        min-height: 95px;
+    }
+
+    .discovery-content h2 {
+        font-size: 34px;
+    }
+
+    .categories-cta-content h2 {
+        font-size: 34px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - 400
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .categories-hero {
+        padding-top: 55px;
+    }
+
+    .categories-hero-content h1 {
+        font-size: 34px;
+    }
+
+    .categories-eyebrow {
+        font-size: 9px;
+    }
+
+    .categories-hero-visual {
+        height: 320px;
+        transform: scale(0.57);
+    }
+
+    .category-card-image {
+        height: 230px;
+    }
+
+    .discovery-box {
+        padding: 38px 22px;
+    }
+
+    .discovery-content h2 {
+        font-size: 30px;
+    }
+
+}

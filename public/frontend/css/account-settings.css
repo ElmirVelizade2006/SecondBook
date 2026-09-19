@@ -1,0 +1,1155 @@
+/* =========================================================
+   SecondBook - Account Settings
+========================================================= */
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.account-settings-page {
+    padding: 85px 0 110px;
+    background: #fbf9f7;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.account-settings-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 38px;
+}
+
+.account-settings-overline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #a07859;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.account-settings-overline i {
+    font-size: 13px;
+}
+
+.account-settings-header h1 {
+    margin: 10px 0 12px;
+    color: #28231f;
+    font-size: clamp(38px, 4vw, 54px);
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -2px;
+}
+
+.account-settings-header h1 em {
+    color: #8b5e3c;
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.account-settings-header p {
+    max-width: 560px;
+    margin: 0;
+    color: #827970;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.account-back-profile {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 43px;
+    padding: 0 16px;
+    border: 1px solid #e4d9d0;
+    border-radius: 11px;
+    background: #fff;
+    color: #72543d;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.account-back-profile:hover {
+    border-color: #8b5e3c;
+    background: #8b5e3c;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   ALERTS
+========================================================= */
+
+.account-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 25px;
+    padding: 15px 18px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.account-alert-success {
+    border: 1px solid #d9eadf;
+    background: #f1f8f3;
+    color: #3d7050;
+}
+
+.account-alert-success > i {
+    margin-top: 1px;
+}
+
+.account-alert-error {
+    border: 1px solid #ead7d7;
+    background: #fff6f6;
+    color: #8d4c4c;
+}
+
+.account-alert-error strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.account-alert-error ul {
+    margin: 0;
+    padding-left: 17px;
+}
+
+.account-alert-error li {
+    margin-bottom: 2px;
+}
+
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+
+.account-settings-layout {
+    display: grid;
+    grid-template-columns: 245px minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.account-settings-sidebar {
+    position: sticky;
+    top: 30px;
+    overflow: hidden;
+    border: 1px solid #e8dfd8;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 12px 35px rgba(53, 39, 29, 0.055);
+}
+
+.account-mini-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px;
+    border-bottom: 1px solid #eee7e1;
+    background: #f9f1e9;
+}
+
+.account-avatar {
+    width: 43px;
+    height: 43px;
+    flex: 0 0 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #b07b4e;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
+    box-shadow: 0 8px 18px rgba(139, 94, 60, 0.18);
+}
+
+.account-mini-profile strong,
+.account-mini-profile span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.account-mini-profile strong {
+    max-width: 145px;
+    color: #302a26;
+    font-size: 12px;
+}
+
+.account-mini-profile span {
+    max-width: 145px;
+    margin-top: 4px;
+    color: #92877e;
+    font-size: 9px;
+}
+
+.account-settings-nav {
+    padding: 10px;
+}
+
+.account-settings-nav a {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 43px;
+    margin-bottom: 4px;
+    padding: 0 12px;
+    border-radius: 10px;
+    color: #665b53;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.account-settings-nav a i {
+    width: 18px;
+    color: #8f8279;
+    font-size: 14px;
+}
+
+.account-settings-nav a:hover {
+    background: #f8f2ed;
+    color: #8b5e3c;
+}
+
+.account-settings-nav a:hover i {
+    color: #8b5e3c;
+}
+
+.account-settings-nav a.active {
+    background: #f5ebe2;
+    color: #8b5e3c;
+}
+
+.account-settings-nav a.active i {
+    color: #8b5e3c;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.account-settings-content {
+    min-width: 0;
+}
+
+.settings-card {
+    margin-bottom: 22px;
+    overflow: hidden;
+    border: 1px solid #e8dfd8;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(53, 39, 29, 0.045);
+}
+
+.settings-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 24px 25px;
+    border-bottom: 1px solid #eee7e1;
+}
+
+.settings-card-icon {
+    width: 43px;
+    height: 43px;
+    flex: 0 0 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    background: #f5ece4;
+    color: #8b5e3c;
+    font-size: 17px;
+}
+
+.settings-card-icon.danger {
+    background: #fff0f0;
+    color: #c75c5c;
+}
+
+.settings-card-header h2 {
+    margin: 0;
+    color: #2d2824;
+    font-size: 15px;
+    font-weight: 750;
+}
+
+.settings-card-header p {
+    margin: 4px 0 0;
+    color: #948a82;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   ACCOUNT INFO
+========================================================= */
+
+.settings-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.settings-info-item {
+    padding: 20px 25px;
+    border-bottom: 1px solid #eee7e1;
+}
+
+.settings-info-item:nth-child(odd) {
+    border-right: 1px solid #eee7e1;
+}
+
+.settings-info-item:nth-child(3),
+.settings-info-item:nth-child(4) {
+    border-bottom: 0;
+}
+
+.settings-info-item span {
+    display: block;
+    margin-bottom: 7px;
+    color: #aa9d93;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+}
+
+.settings-info-item strong {
+    color: #413932;
+    font-size: 12px;
+}
+
+.settings-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #54805e !important;
+}
+
+.settings-status i {
+    font-size: 10px;
+}
+
+.settings-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 16px 25px;
+    border-top: 1px solid #eee7e1;
+    background: #fcfaf8;
+}
+
+.settings-card-footer > span {
+    color: #948a82;
+    font-size: 10px;
+}
+
+.settings-outline-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 13px;
+    border: 1px solid #ded2c8;
+    border-radius: 9px;
+    background: #fff;
+    color: #76563e;
+    font-size: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.settings-outline-btn:hover {
+    border-color: #8b5e3c;
+    background: #8b5e3c;
+    color: #fff;
+}
+
+
+/* =========================================================
+   FORMS
+========================================================= */
+
+.settings-form {
+    padding: 25px;
+}
+
+.settings-form-group {
+    margin-bottom: 19px;
+}
+
+.settings-form-group label {
+    display: block;
+    margin-bottom: 7px;
+    color: #665b53;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.settings-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.settings-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 48px;
+    border: 1px solid #e5ddd5;
+    border-radius: 11px;
+    background: #fff;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.settings-input:focus-within {
+    border-color: #8b5e3c;
+    box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.08);
+}
+
+.settings-input > i {
+    flex: 0 0 auto;
+    margin-left: 14px;
+    color: #a4968c;
+    font-size: 13px;
+}
+
+.settings-input input {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    padding: 0 52px 0 10px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #332d28;
+    font-size: 11px;
+    line-height: 1;
+}
+
+.settings-input input::placeholder {
+    color: #aaa19a;
+    opacity: 1;
+}
+
+.settings-input input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   PASSWORD TOGGLE
+========================================================= */
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+
+    background: transparent;
+    color: #9a8f87;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease;
+}
+
+.password-toggle i {
+    margin: 0 !important;
+    font-size: 14px;
+}
+
+.password-toggle:hover {
+    background: #f7f1eb;
+    color: #8b5e3c;
+}
+
+.password-toggle:focus,
+.password-toggle:active {
+    outline: none;
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   FORM FOOTER
+========================================================= */
+
+.settings-form-footer,
+.settings-preferences-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding-top: 5px;
+}
+
+.settings-form-footer > span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #988d84;
+    font-size: 9px;
+}
+
+.settings-form-footer > span i {
+    color: #a17d61;
+}
+
+
+/* =========================================================
+   PRIMARY BUTTON
+========================================================= */
+
+.settings-primary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    min-height: 42px;
+    padding: 0 15px;
+
+    border: 0;
+    border-radius: 10px;
+
+    background: #8b5e3c;
+    color: #fff;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.settings-primary-btn:hover {
+    background: #71482d;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(139, 94, 60, 0.18);
+}
+
+.settings-primary-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.15);
+}
+
+
+/* =========================================================
+   TOGGLES
+========================================================= */
+
+.settings-preferences-form,
+.privacy-form {
+    padding: 8px 25px 22px;
+}
+
+.settings-toggle-row {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+    min-height: 76px;
+
+    border-bottom: 1px solid #eee7e1;
+
+    cursor: pointer;
+}
+
+.settings-toggle-row:last-of-type {
+    border-bottom: 0;
+}
+
+.settings-toggle-text {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.settings-toggle-icon {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: #f8f1eb;
+    color: #8b5e3c;
+
+    font-size: 13px;
+}
+
+.settings-toggle-text strong,
+.settings-toggle-text span {
+    display: block;
+}
+
+.settings-toggle-text strong {
+    color: #443b34;
+    font-size: 11px;
+}
+
+.settings-toggle-text span {
+    margin-top: 4px;
+    color: #9a9088;
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+.settings-toggle-row input {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    opacity: 0;
+    pointer-events: none;
+}
+
+.settings-switch {
+    position: relative;
+
+    width: 43px;
+    height: 24px;
+    flex: 0 0 43px;
+
+    border-radius: 100px;
+
+    background: #d9d0c9;
+
+    transition: background 0.25s ease;
+}
+
+.settings-switch::after {
+    content: "";
+
+    position: absolute;
+    top: 3px;
+    left: 3px;
+
+    width: 18px;
+    height: 18px;
+
+    border-radius: 50%;
+
+    background: #fff;
+
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+
+    transition: transform 0.25s ease;
+}
+
+.settings-toggle-row input:checked + .settings-switch {
+    background: #8b5e3c;
+}
+
+.settings-toggle-row input:checked + .settings-switch::after {
+    transform: translateX(19px);
+}
+
+.settings-preferences-footer {
+    justify-content: flex-end;
+    padding-top: 18px;
+}
+
+
+/* =========================================================
+   DANGER ZONE
+========================================================= */
+
+.settings-danger-card {
+    border-color: #ead8d8;
+}
+
+.danger-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 25px;
+    padding: 23px 25px;
+
+    background: #fffafa;
+}
+
+.danger-action strong,
+.danger-action span {
+    display: block;
+}
+
+.danger-action strong {
+    margin-bottom: 5px;
+    color: #713f3f;
+    font-size: 12px;
+}
+
+.danger-action span {
+    max-width: 530px;
+    color: #9c8585;
+    font-size: 9px;
+    line-height: 1.7;
+}
+
+.danger-delete-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    min-height: 40px;
+    padding: 0 14px;
+
+    border: 1px solid #e7caca;
+    border-radius: 9px;
+
+    background: #fff;
+    color: #b34d4d;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    cursor: pointer;
+    white-space: nowrap;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.danger-delete-btn:hover {
+    border-color: #c75c5c;
+    background: #c75c5c;
+    color: #fff;
+}
+
+
+/* =========================================================
+   RESPONSIVE - TABLET
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .account-settings-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .account-settings-sidebar {
+        position: static;
+    }
+
+    .account-settings-nav {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 5px;
+    }
+
+    .account-settings-nav a {
+        justify-content: center;
+        margin-bottom: 0;
+        padding: 0 7px;
+    }
+
+    .account-settings-nav a span {
+        display: none;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .account-settings-page {
+        padding: 60px 0 75px;
+    }
+
+    .account-settings-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .account-settings-header h1 {
+        font-size: 40px;
+    }
+
+    .account-settings-layout {
+        gap: 18px;
+    }
+
+    .account-settings-nav {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .settings-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .settings-info-item,
+    .settings-info-item:nth-child(odd) {
+        border-right: 0;
+        border-bottom: 1px solid #eee7e1;
+    }
+
+    .settings-info-item:last-child {
+        border-bottom: 0;
+    }
+
+    .settings-card-header,
+    .settings-form,
+    .settings-preferences-form,
+    .privacy-form,
+    .danger-action {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .settings-form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .settings-form-footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .settings-form-footer .settings-primary-btn {
+        width: 100%;
+    }
+
+    .settings-card-footer {
+        align-items: flex-start;
+        flex-direction: column;
+
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .settings-card-footer .settings-outline-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .danger-action {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .danger-delete-btn {
+        width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .account-settings-page {
+        padding-top: 50px;
+    }
+
+    .account-settings-header {
+        margin-bottom: 28px;
+    }
+
+    .account-settings-header h1 {
+        font-size: 34px;
+        letter-spacing: -1.5px;
+    }
+
+    .account-settings-header p {
+        font-size: 12px;
+    }
+
+    .account-back-profile {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .account-settings-nav a {
+        min-height: 40px;
+    }
+
+    .settings-card {
+        border-radius: 14px;
+    }
+
+    .settings-card-header {
+        align-items: flex-start;
+        gap: 11px;
+        padding-top: 19px;
+        padding-bottom: 19px;
+    }
+
+    .settings-card-icon {
+        width: 39px;
+        height: 39px;
+        flex-basis: 39px;
+        font-size: 15px;
+    }
+
+    .settings-card-header h2 {
+        font-size: 14px;
+    }
+
+    .settings-card-header p {
+        font-size: 9px;
+    }
+
+    .settings-toggle-row {
+        gap: 10px;
+    }
+
+    .settings-toggle-text {
+        gap: 9px;
+    }
+
+    .settings-toggle-icon {
+        width: 33px;
+        height: 33px;
+        flex-basis: 33px;
+    }
+
+    .settings-toggle-text span {
+        max-width: 190px;
+    }
+
+    .settings-primary-btn {
+        width: 100%;
+    }
+
+    .settings-form-footer > span {
+        line-height: 1.5;
+    }
+
+    .settings-input {
+        height: 46px;
+    }
+
+    .password-toggle {
+        right: 8px;
+    }
+
+    /* =========================================================
+   PASSWORD INPUT - FINAL FIX
+    ========================================================= */
+
+    .settings-input {
+        position: relative !important;
+        width: 100%;
+        height: 48px;
+
+        display: flex;
+        align-items: center;
+
+        border: 1px solid #d9cec4 !important;
+        border-radius: 11px !important;
+
+        background: #fff !important;
+
+        overflow: visible;
+    }
+
+    .settings-input:focus-within {
+        border-color: #8b5e3c !important;
+        box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.08) !important;
+    }
+
+    .settings-input input,
+    .settings-input input.form-control {
+        width: 100% !important;
+        height: 100% !important;
+
+        min-width: 0;
+
+        margin: 0 !important;
+        padding: 0 52px 0 10px !important;
+
+        border: 0 !important;
+        border-width: 0 !important;
+        border-style: none !important;
+        border-color: transparent !important;
+
+        outline: none !important;
+        box-shadow: none !important;
+
+        background: transparent !important;
+
+        color: #332d28 !important;
+
+        font-size: 11px;
+        line-height: 1;
+
+        appearance: none !important;
+        -webkit-appearance: none !important;
+    }
+
+    .settings-input input:focus,
+    .settings-input input.form-control:focus {
+        border: 0 !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    .settings-input input::placeholder {
+        color: #aaa19a !important;
+        opacity: 1;
+    }
+
+
+    /* Chrome autofill */
+    .settings-input input:-webkit-autofill,
+    .settings-input input:-webkit-autofill:hover,
+    .settings-input input:-webkit-autofill:focus,
+    .settings-input input:-webkit-autofill:active {
+        -webkit-text-fill-color: #332d28 !important;
+        -webkit-box-shadow: 0 0 0 1000px #fff inset !important;
+        box-shadow: 0 0 0 1000px #fff inset !important;
+        border: 0 !important;
+        outline: none !important;
+    }
+
+
+    /* =========================================================
+    PASSWORD ICON
+    ========================================================= */
+
+    .settings-input > i {
+        position: relative;
+        z-index: 2;
+
+        flex: 0 0 auto;
+
+        margin-left: 14px !important;
+
+        color: #a4968c;
+        font-size: 13px;
+    }
+
+    .password-toggle {
+        position: absolute !important;
+
+        top: 50% !important;
+        right: 10px !important;
+
+        transform: translateY(-50%) !important;
+
+        z-index: 5;
+
+        width: 32px !important;
+        height: 32px !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        border: 0 !important;
+        outline: none !important;
+
+        border-radius: 8px !important;
+
+        background: transparent !important;
+        color: #9a8f87 !important;
+
+        box-shadow: none !important;
+
+        cursor: pointer;
+    }
+
+    .password-toggle i {
+        margin: 0 !important;
+        padding: 0 !important;
+
+        color: inherit !important;
+
+        font-size: 14px !important;
+        line-height: 1 !important;
+    }
+
+    .password-toggle:hover {
+        background: #f7f1eb !important;
+        color: #8b5e3c !important;
+    }
+
+    .password-toggle:focus,
+    .password-toggle:active {
+        outline: none !important;
+        border: 0 !important;
+        box-shadow: none !important;
+    }
+
+}

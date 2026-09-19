@@ -65,7 +65,7 @@
                                             </li>
                                         @endif
                                         <li><a class="dropdown-item" href="#"><i class="bi bi-book"></i>Sell a Book</a></li>
-                                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i>Account Settings</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('frontend.account.settings') }}"><i class="bi bi-gear"></i>Account Settings</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li class="logout-wrap">
                                             <form action="{{ route('frontend.auth.logout') }}" 
@@ -122,45 +122,29 @@
                                 <ul class="menu-list">
 
                                     <li class="menu-item {{ request()->routeIs('frontend.home') ? 'active' : '' }}">
-                                        <a href="{{ route('frontend.home') }}">
-                                            Home
-                                        </a>
+                                        <a href="{{ route('frontend.home') }}">Home</a>
                                     </li>
 
-
-                                    <li class="menu-item">
-                                        <a href="{{ route('frontend.home') }}#popular-books" class="nav-link">
-                                            Books
-                                        </a>
+                                    <li class="menu-item {{ request()->routeIs('frontend.books') ? 'active' : '' }}">
+                                        <a href="{{ route('frontend.books') }}">Books</a>
                                     </li>
 
-
-                                    <li class="menu-item">
-                                        <a href="{{ route('frontend.home') }}#categories" class="nav-link">
-                                            Categories
-                                        </a>
+                                    <li class="menu-item {{ request()->routeIs('frontend.categories') ? 'active' : '' }}">
+                                        <a href="{{ route('frontend.categories') }}">Categories</a>
                                     </li>
 
-
-                                    <li class="menu-item">
-                                        <a href="{{ route('frontend.home') }}#authors" class="nav-link">
-                                            Authors
-                                        </a>
+                                    <li class="menu-item {{ request()->routeIs('frontend.authors') ? 'active' : '' }}">
+                                        <a href="{{ route('frontend.authors') }}">Authors</a>
                                     </li>
 
-
-                                    <li class="menu-item">
-                                        <a href="{{ route('frontend.home') }}#about" class="nav-link">
-                                            About
-                                        </a>
+                                    <li class="menu-item {{ request()->routeIs('frontend.about') ? 'active' : '' }}">
+                                        <a href="{{ route('frontend.about') }}">About</a>
                                     </li>
 
-
-                                    <li class="menu-item">
-                                        <a href="{{ route('frontend.contact') }}" class="nav-link">
-                                            Contact
-                                        </a>
+                                    <li class="menu-item {{ request()->routeIs('frontend.contact') ? 'active' : '' }}">
+                                        <a href="{{ route('frontend.contact') }}">Contact</a>
                                     </li>
+
                                 </ul>
 
                                 <div class="hamburger">
