@@ -35,7 +35,7 @@
                     showCancelButton: true,
 
                     confirmButtonText: 'Logout',
-                    cancelButtonText: 'Stay signed in',
+                    cancelButtonText: 'Cancel',
 
                     buttonsStyling: false,
 

@@ -13,67 +13,110 @@ class BooksController extends Controller
         $query = Book::with(['author', 'category'])
             ->where('status', 'approved');
 
+        /*
+        |--------------------------------------------------------------------------
+        | SEARCH
+        |--------------------------------------------------------------------------
+        */
+
         if ($request->filled('search')) {
 
-            $search = $request->search;
+            $search = trim($request->input('search'));
 
-            $query->where(function ($q) use ($search) {
+            if ($search !== '') {
 
-                $q->where('title', 'like', "%{$search}%")
-                    ->orWhere('isbn', 'like', "%{$search}%")
-                    ->orWhereHas('author', function ($authorQuery) use ($search) {
+                $query->where(function ($q) use ($search) {
 
-                        $authorQuery->where(
-                            'name',
-                            'like',
-                            "%{$search}%"
-                        );
+                    $q->where('title', 'LIKE', "%{$search}%")
 
-                    });
+                        ->orWhere('isbn', 'LIKE', "%{$search}%")
 
-            });
+                        ->orWhereHas('author', function ($authorQuery) use ($search) {
+
+                            $authorQuery->where(
+                                'name',
+                                'LIKE',
+                                "%{$search}%"
+                            );
+
+                        })
+
+                        ->orWhereHas('category', function ($categoryQuery) use ($search) {
+
+                            $categoryQuery->where(
+                                'name',
+                                'LIKE',
+                                "%{$search}%"
+                            );
+
+                        });
+
+                });
+            }
         }
+
+        /*
+        |--------------------------------------------------------------------------
+        | CATEGORY
+        |--------------------------------------------------------------------------
+        */
 
         if ($request->filled('category')) {
+
             $query->where(
                 'category_id',
-                $request->category
+                $request->input('category')
             );
         }
+
+        /*
+        |--------------------------------------------------------------------------
+        | CONDITION
+        |--------------------------------------------------------------------------
+        */
 
         if ($request->filled('condition')) {
+
             $query->where(
                 'condition',
-                $request->condition
+                $request->input('condition')
             );
         }
 
-        switch ($request->get('sort')) {
+        /*
+        |--------------------------------------------------------------------------
+        | SORT
+        |--------------------------------------------------------------------------
+        */
+
+        switch ($request->input('sort')) {
 
             case 'price_low':
-
                 $query->orderBy('price', 'asc');
-
                 break;
 
             case 'price_high':
-
                 $query->orderBy('price', 'desc');
-
                 break;
 
             case 'oldest':
+                $query->orderBy('created_at', 'asc');
+                break;
 
-                $query->oldest();
-
+            case 'newest':
+                $query->orderBy('created_at', 'desc');
                 break;
 
             default:
-
                 $query->latest();
-
                 break;
         }
+
+        /*
+        |--------------------------------------------------------------------------
+        | PAGINATION
+        |--------------------------------------------------------------------------
+        */
 
         $books = $query
             ->paginate(12)

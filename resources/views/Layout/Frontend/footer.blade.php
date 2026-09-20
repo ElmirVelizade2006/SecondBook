@@ -53,20 +53,20 @@
 
 							@auth
 								<li class="menu-item">
-									<a href="">My Account</a>
+									<a href="{{  route('my.profile') }}">My Account</a>
 								</li>
 							@endauth
 
 							<li class="menu-item">
-								<a href="#wishlist">Wishlist</a>
+								<a href="{{ route('frontend.wishlist') }}">Wishlist</a>
 							</li>
 
 							<li class="menu-item">
-								<a href="#cart">Shopping Cart</a>
+								<a href="{{ route('frontend.cart') }}">Shopping Cart</a>
 							</li>
 
 							<li class="menu-item">
-								<a href="#">My Orders</a>
+								<a href="{{ route('frontend.orders') }}">My Orders</a>
 							</li>
 
 							<li class="menu-item">
@@ -81,11 +81,11 @@
 					<div class="footer-menu h-100">
 						<h5 class="mb-3">Customer Support</h5>
 						<ul class="menu-list list-unstyled mb-0 d-flex flex-column gap-2">
-							<li class="menu-item"><a href="#">Help Center</a></li>
-							<li class="menu-item"><a href="#">FAQ</a></li>
-							<li class="menu-item"><a href="#">Shipping Information</a></li>
-							<li class="menu-item"><a href="#">Return Policy</a></li>
-							<li class="menu-item"><a href="#">Privacy Policy</a></li>
+							<li class="menu-item"><a href="{{ route('frontend.help-center') }}">Help Center</a></li>
+							<li class="menu-item"><a href="{{ route('frontend.faq') }}">FAQ</a></li>
+							<li class="menu-item"><a href="{{ route('frontend.shipping-information') }}">Shipping Information</a></li>
+							<li class="menu-item"><a href="{{ route('frontend.return-policy') }}">Return Policy</a></li>
+							<li class="menu-item"><a href="{{ route('frontend.privacy-policy') }}">Privacy Policy</a></li>
 							<li class="menu-item"><a href="{{ route('frontend.auth.terms') }}">Terms &amp; Conditions</a></li>
 						</ul>
 					</div>
@@ -96,9 +96,9 @@
 						<h5 class="mb-3">Contact</h5>
 						<ul class="menu-list list-unstyled mb-0 d-flex flex-column gap-2">
 							<li class="menu-item"><span><i class="bi bi-envelope"></i> support@secondbook.com</span></li>
-							<li class="menu-item"><span><i class="bi bi-telephone"></i> +1 (800) 234-5621</span></li>
-							<li class="menu-item"><span><i class="bi bi-geo-alt"></i> 145 Paper Street, Booktown, NY</span></li>
-							<li class="menu-item"><span><i class="bi bi-clock"></i> Mon - Sat: 09:00 - 18:00</span></li>
+							<li class="menu-item"><span><i class="bi bi-telephone"></i> +944 50 123 45 67</span></li>
+							<li class="menu-item"><span><i class="bi bi-geo-alt"></i> M.S.Ordubadi, Nakhchivan, Azerbaijan</span></li>
+							<li class="menu-item"><span><i class="bi bi-clock"></i> Mon - Fri: 09:00 - 18:00</span></li>
 						</ul>
 					</div>
 				</div>

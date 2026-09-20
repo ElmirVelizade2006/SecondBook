@@ -84,9 +84,15 @@
                     </strong>
 
                     <ul>
+
                         @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
+
+                            <li>
+                                {{ $error }}
+                            </li>
+
                         @endforeach
+
                     </ul>
 
                 </div>
@@ -96,13 +102,20 @@
         @endif
 
 
+        {{-- =====================================================
+             MAIN LAYOUT
+        ====================================================== --}}
+
         <div class="account-settings-layout">
+
 
             {{-- =================================================
                  SIDEBAR
             ================================================== --}}
 
             <aside class="account-settings-sidebar">
+
+                {{-- Mini Profile --}}
 
                 <div class="account-mini-profile">
 
@@ -113,11 +126,11 @@
                     <div>
 
                         <strong>
-                            {{ $user->name }}
+                            {{ $user->name ?? 'User' }}
                         </strong>
 
                         <span>
-                            {{ $user->email }}
+                            {{ $user->email ?? '' }}
                         </span>
 
                     </div>
@@ -125,29 +138,49 @@
                 </div>
 
 
-                <nav class="account-settings-nav">
+                {{-- Navigation --}}
 
-                    <a href="#account" class="settings-nav-link active">
+                <nav
+                    class="account-settings-nav"
+                    aria-label="Account Settings Navigation"
+                >
+
+                    <a
+                        href="#account"
+                        class="settings-nav-link active"
+                    >
                         <i class="bi bi-person"></i>
                         <span>Account</span>
                     </a>
 
-                    <a href="#security" class="settings-nav-link">
+                    <a
+                        href="#security"
+                        class="settings-nav-link"
+                    >
                         <i class="bi bi-shield-lock"></i>
                         <span>Security</span>
                     </a>
 
-                    <a href="#notifications" class="settings-nav-link">
+                    <a
+                        href="#notifications"
+                        class="settings-nav-link"
+                    >
                         <i class="bi bi-bell"></i>
                         <span>Notifications</span>
                     </a>
 
-                    <a href="#privacy" class="settings-nav-link">
+                    <a
+                        href="#privacy"
+                        class="settings-nav-link"
+                    >
                         <i class="bi bi-eye"></i>
                         <span>Privacy</span>
                     </a>
 
-                    <a href="#danger" class="settings-nav-link">
+                    <a
+                        href="#danger"
+                        class="settings-nav-link"
+                    >
                         <i class="bi bi-trash3"></i>
                         <span>Danger Zone</span>
                     </a>
@@ -169,8 +202,8 @@
                 ================================================== --}}
 
                 <section
-                    class="settings-card"
                     id="account"
+                    class="settings-card"
                 >
 
                     <div class="settings-card-header">
@@ -196,6 +229,8 @@
 
                     <div class="settings-info-grid">
 
+                        {{-- Full Name --}}
+
                         <div class="settings-info-item">
 
                             <span>
@@ -203,11 +238,13 @@
                             </span>
 
                             <strong>
-                                {{ $user->name }}
+                                {{ $user->name ?? '—' }}
                             </strong>
 
                         </div>
 
+
+                        {{-- Email --}}
 
                         <div class="settings-info-item">
 
@@ -216,11 +253,13 @@
                             </span>
 
                             <strong>
-                                {{ $user->email }}
+                                {{ $user->email ?? '—' }}
                             </strong>
 
                         </div>
 
+
+                        {{-- Member Since --}}
 
                         <div class="settings-info-item">
 
@@ -234,6 +273,8 @@
 
                         </div>
 
+
+                        {{-- Account Status --}}
 
                         <div class="settings-info-item">
 
@@ -273,13 +314,14 @@
                 </section>
 
 
+
                 {{-- =================================================
                      SECURITY
                 ================================================== --}}
 
                 <section
-                    class="settings-card"
                     id="security"
+                    class="settings-card"
                 >
 
                     <div class="settings-card-header">
@@ -308,10 +350,14 @@
                         method="POST"
                         class="settings-form"
                     >
+
                         @csrf
+
                         @method('PUT')
 
+
                         {{-- Current Password --}}
+
                         <div class="settings-form-group">
 
                             <label for="current_password">
@@ -327,7 +373,7 @@
                                     id="current_password"
                                     name="current_password"
                                     placeholder="Enter your current password"
-                                    autocomplete="off"
+                                    autocomplete="current-password"
                                     required
                                 >
 
@@ -346,9 +392,12 @@
 
 
                         {{-- New Password + Confirm Password --}}
+
                         <div class="settings-form-row">
 
+
                             {{-- New Password --}}
+
                             <div class="settings-form-group">
 
                                 <label for="password">
@@ -384,6 +433,7 @@
 
 
                             {{-- Confirm Password --}}
+
                             <div class="settings-form-group">
 
                                 <label for="password_confirmation">
@@ -421,11 +471,15 @@
 
 
                         {{-- Form Footer --}}
+
                         <div class="settings-form-footer">
 
                             <span>
+
                                 <i class="bi bi-info-circle"></i>
+
                                 Use a strong password you don't use elsewhere.
+
                             </span>
 
                             <button
@@ -443,13 +497,14 @@
                 </section>
 
 
+
                 {{-- =================================================
                      NOTIFICATIONS
                 ================================================== --}}
 
                 <section
-                    class="settings-card"
                     id="notifications"
+                    class="settings-card"
                 >
 
                     <div class="settings-card-header">
@@ -480,8 +535,11 @@
                     >
 
                         @csrf
+
                         @method('PUT')
 
+
+                        {{-- Email Notifications --}}
 
                         <label class="settings-toggle-row">
 
@@ -509,13 +567,15 @@
                                 type="checkbox"
                                 name="email_notifications"
                                 value="1"
-                                {{ $settings->email_notifications ? 'checked' : '' }}
+                                {{ ($settings->email_notifications ?? false) ? 'checked' : '' }}
                             >
 
                             <span class="settings-switch"></span>
 
                         </label>
 
+
+                        {{-- Order Updates --}}
 
                         <label class="settings-toggle-row">
 
@@ -543,13 +603,15 @@
                                 type="checkbox"
                                 name="order_updates"
                                 value="1"
-                                {{ $settings->order_updates ? 'checked' : '' }}
+                                {{ ($settings->order_updates ?? false) ? 'checked' : '' }}
                             >
 
                             <span class="settings-switch"></span>
 
                         </label>
 
+
+                        {{-- Promotional Emails --}}
 
                         <label class="settings-toggle-row">
 
@@ -577,13 +639,15 @@
                                 type="checkbox"
                                 name="promotional_emails"
                                 value="1"
-                                {{ $settings->promotional_emails ? 'checked' : '' }}
+                                {{ ($settings->promotional_emails ?? false) ? 'checked' : '' }}
                             >
 
                             <span class="settings-switch"></span>
 
                         </label>
 
+
+                        {{-- Footer --}}
 
                         <div class="settings-preferences-footer">
 
@@ -602,13 +666,14 @@
                 </section>
 
 
+
                 {{-- =================================================
                      PRIVACY
                 ================================================== --}}
 
                 <section
-                    class="settings-card"
                     id="privacy"
+                    class="settings-card"
                 >
 
                     <div class="settings-card-header">
@@ -639,6 +704,7 @@
                     >
 
                         @csrf
+
                         @method('PUT')
 
 
@@ -668,7 +734,7 @@
                                 type="checkbox"
                                 name="profile_visible"
                                 value="1"
-                                {{ $settings->profile_visible ? 'checked' : '' }}
+                                {{ ($settings->profile_visible ?? false) ? 'checked' : '' }}
                             >
 
                             <span class="settings-switch"></span>
@@ -693,13 +759,14 @@
                 </section>
 
 
+
                 {{-- =================================================
                      DANGER ZONE
                 ================================================== --}}
 
                 <section
-                    class="settings-card settings-danger-card"
                     id="danger"
+                    class="settings-card settings-danger-card"
                 >
 
                     <div class="settings-card-header">
@@ -742,10 +809,11 @@
                         <form
                             action="{{ route('profile.destroy') }}"
                             method="POST"
-                            onsubmit="return confirm('Are you sure you want to permanently delete your account? This action cannot be undone.');"
+                            class="danger-delete-form"
                         >
 
                             @csrf
+
                             @method('DELETE')
 
                             <button
@@ -762,6 +830,7 @@
 
                 </section>
 
+
             </div>
 
         </div>
@@ -772,26 +841,518 @@
 
 @endsection
 
+<script>
+(function () {
+
+    'use strict';
+
+
+    /* =========================================================
+       PAGE READY
+    ========================================================= */
+
+    function initAccountSettings() {
+
+        const navLinks = Array.from(
+            document.querySelectorAll('.settings-nav-link')
+        );
+
+        const sections = Array.from(
+            document.querySelectorAll(
+                '.account-settings-content .settings-card'
+            )
+        );
+
+
+        if (!navLinks.length || !sections.length) {
+            console.warn(
+                'SecondBook Account Settings: navigation or sections not found.'
+            );
+
+            return;
+        }
+
+
+        /* =====================================================
+           ACTIVE LINK
+        ===================================================== */
+
+        function setActive(id) {
+
+            navLinks.forEach(function (link) {
+
+                const href = link.getAttribute('href');
+
+                if (href === '#' + id) {
+
+                    link.classList.add('active');
+
+                } else {
+
+                    link.classList.remove('active');
+
+                }
+
+            });
+
+        }
+
+
+        /* =====================================================
+           PASSWORD TOGGLE
+        ===================================================== */
+
+        const passwordButtons =
+            document.querySelectorAll('.password-toggle');
+
+
+        passwordButtons.forEach(function (button) {
+
+            button.addEventListener('click', function () {
+
+                const targetId =
+                    this.getAttribute('data-target');
+
+                const input =
+                    document.getElementById(targetId);
+
+                const icon =
+                    this.querySelector('i');
+
+
+                if (!input || !icon) {
+                    return;
+                }
+
+
+                if (input.type === 'password') {
+
+                    input.type = 'text';
+
+                    icon.classList.remove('bi-eye');
+                    icon.classList.add('bi-eye-slash');
+
+                    this.setAttribute(
+                        'aria-label',
+                        'Hide password'
+                    );
+
+                } else {
+
+                    input.type = 'password';
+
+                    icon.classList.remove('bi-eye-slash');
+                    icon.classList.add('bi-eye');
+
+                    this.setAttribute(
+                        'aria-label',
+                        'Show password'
+                    );
+
+                }
+
+            });
+
+        });
+
+
+        /* =====================================================
+           NAVIGATION CLICK
+        ===================================================== */
+
+        navLinks.forEach(function (link) {
+
+            link.addEventListener('click', function (event) {
+
+                event.preventDefault();
+
+
+                const href =
+                    this.getAttribute('href');
+
+
+                if (!href || href === '#') {
+                    return;
+                }
+
+
+                const targetId =
+                    href.substring(1);
+
+
+                const target =
+                    document.getElementById(targetId);
+
+
+                if (!target) {
+                    return;
+                }
+
+
+                setActive(targetId);
+
+
+                /*
+                 * Scroll manually.
+                 * This works independently from CSS scroll-margin.
+                 */
+
+                const navbar =
+                    document.querySelector(
+                        '.navbar, header, .site-header'
+                    );
+
+
+                let offset = 100;
+
+
+                if (navbar) {
+
+                    const navbarHeight =
+                        navbar.getBoundingClientRect().height;
+
+                    if (navbarHeight > 0) {
+                        offset = navbarHeight + 25;
+                    }
+
+                }
+
+
+                const targetPosition =
+                    target.getBoundingClientRect().top +
+                    window.pageYOffset -
+                    offset;
+
+
+                window.scrollTo({
+
+                    top: Math.max(
+                        0,
+                        targetPosition
+                    ),
+
+                    behavior: 'smooth'
+
+                });
+
+            });
+
+        });
+
+
+        /* =====================================================
+           FIND ACTIVE SECTION
+        ===================================================== */
+
+        function updateActiveSection() {
+
+            const detectionLine = 220;
+
+            let activeSection = sections[0];
+
+
+            sections.forEach(function (section) {
+
+                const rect =
+                    section.getBoundingClientRect();
+
+
+                if (rect.top <= detectionLine) {
+
+                    activeSection = section;
+
+                }
+
+            });
+
+
+            if (activeSection) {
+
+                setActive(
+                    activeSection.id
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           SCROLL
+        ===================================================== */
+
+        let ticking = false;
+
+
+        function onScroll() {
+
+            if (ticking) {
+                return;
+            }
+
+
+            window.requestAnimationFrame(function () {
+
+                updateActiveSection();
+
+                ticking = false;
+
+            });
+
+
+            ticking = true;
+
+        }
+
+
+        /*
+         * capture:true
+         *
+         * Bu vacibdir.
+         * Əgər səhifədə nested scroll container varsa,
+         * scroll event-i yenə tutulur.
+         */
+
+        window.addEventListener(
+            'scroll',
+            onScroll,
+            {
+                passive: true,
+                capture: true
+            }
+        );
+
+
+        /* =====================================================
+           RESIZE
+        ===================================================== */
+
+        window.addEventListener(
+            'resize',
+            updateActiveSection
+        );
+
+
+        /* =====================================================
+           INTERSECTION OBSERVER
+        ===================================================== */
+
+        /*
+         * Scroll event-dən əlavə observer də istifadə edirik.
+         * Beləliklə section ekranda dəyişəndə active link yenilənir.
+         */
+
+        if ('IntersectionObserver' in window) {
+
+            const observer =
+                new IntersectionObserver(
+                    function (entries) {
+
+                        const visibleSections =
+                            entries
+                                .filter(function (entry) {
+                                    return entry.isIntersecting;
+                                })
+                                .sort(function (a, b) {
+                                    return (
+                                        a.boundingClientRect.top -
+                                        b.boundingClientRect.top
+                                    );
+                                });
+
+
+                        if (visibleSections.length) {
+
+                            setActive(
+                                visibleSections[0].target.id
+                            );
+
+                        }
+
+                    },
+                    {
+                        root: null,
+                        rootMargin: '-15% 0px -65% 0px',
+                        threshold: 0
+                    }
+                );
+
+
+            sections.forEach(function (section) {
+
+                observer.observe(section);
+
+            });
+
+        }
+
+
+        /* =====================================================
+           INITIAL STATE
+        ===================================================== */
+
+        updateActiveSection();
+
+
+        /* =====================================================
+           PASSWORD MATCH
+        ===================================================== */
+
+        const password =
+            document.getElementById('password');
+
+        const confirmation =
+            document.getElementById(
+                'password_confirmation'
+            );
+
+
+        if (password && confirmation) {
+
+            function validatePasswords() {
+
+                if (
+                    confirmation.value &&
+                    password.value !== confirmation.value
+                ) {
+
+                    confirmation.setCustomValidity(
+                        'Passwords do not match.'
+                    );
+
+                } else {
+
+                    confirmation.setCustomValidity('');
+
+                }
+
+            }
+
+
+            password.addEventListener(
+                'input',
+                validatePasswords
+            );
+
+
+            confirmation.addEventListener(
+                'input',
+                validatePasswords
+            );
+
+        }
+
+
+        /* =====================================================
+           DELETE ACCOUNT
+        ===================================================== */
+
+        const deleteForm =
+            document.querySelector(
+                '.danger-delete-form'
+            );
+
+
+        if (deleteForm) {
+
+            deleteForm.addEventListener(
+                'submit',
+                function (event) {
+
+                    const confirmed =
+                        window.confirm(
+                            'Are you sure you want to permanently delete your account? This action cannot be undone.'
+                        );
+
+
+                    if (!confirmed) {
+
+                        event.preventDefault();
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           DEBUG
+        ===================================================== */
+
+        console.log(
+            'SecondBook Account Settings JS loaded successfully.'
+        );
+
+    }
+
+
+    /* =========================================================
+       START
+    ========================================================= */
+
+    if (
+        document.readyState === 'loading'
+    ) {
+
+        document.addEventListener(
+            'DOMContentLoaded',
+            initAccountSettings
+        );
+
+    } else {
+
+        initAccountSettings();
+
+    }
+
+})();
+</script>
+
+
+{{-- =============================================================
+     JAVASCRIPT
+============================================================== --}}
+
 @push('scripts')
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-    /* =====================================================
+    /* =========================================================
+       ELEMENTS
+    ========================================================= */
+
+    const navLinks = document.querySelectorAll(
+        '.settings-nav-link'
+    );
+
+    const sections = Array.from(
+        document.querySelectorAll(
+            '.account-settings-content > .settings-card'
+        )
+    );
+
+
+    /* =========================================================
        PASSWORD TOGGLE
-    ===================================================== */
+    ========================================================= */
 
     document.querySelectorAll('.password-toggle').forEach(function (button) {
 
         button.addEventListener('click', function () {
 
-            const targetId = this.dataset.target;
+            const targetId = this.getAttribute('data-target');
+
             const input = document.getElementById(targetId);
+
             const icon = this.querySelector('i');
 
             if (!input || !icon) {
                 return;
             }
+
 
             if (input.type === 'password') {
 
@@ -816,39 +1377,30 @@ document.addEventListener('DOMContentLoaded', function () {
                     'aria-label',
                     'Show password'
                 );
+
             }
+
         });
 
     });
 
 
-    /* =====================================================
-       ACCOUNT SETTINGS SIDEBAR
-       ACTIVE SECTION
-    ===================================================== */
+    /* =========================================================
+       ACTIVE NAV LINK
+    ========================================================= */
 
-    const sections = document.querySelectorAll(
-        '#account, #security, #notifications, #privacy, #danger'
-    );
-
-    const navLinks = document.querySelectorAll(
-        '.settings-nav-link'
-    );
-
-    if (!sections.length || !navLinks.length) {
-        return;
-    }
-
-
-    function setActiveSection(id) {
+    function setActiveLink(sectionId) {
 
         navLinks.forEach(function (link) {
 
-            const target = link.getAttribute('href');
+            const href = link.getAttribute('href');
+
+            const isActive =
+                href === '#' + sectionId;
 
             link.classList.toggle(
                 'active',
-                target === '#' + id
+                isActive
             );
 
         });
@@ -856,72 +1408,232 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    /* =====================================================
-       CLICK
-    ===================================================== */
+    /* =========================================================
+       NAVIGATION CLICK
+    ========================================================= */
 
     navLinks.forEach(function (link) {
 
-        link.addEventListener('click', function () {
+        link.addEventListener('click', function (event) {
 
-            const targetId = this
-                .getAttribute('href')
-                .substring(1);
+            event.preventDefault();
 
-            setActiveSection(targetId);
+            const href = this.getAttribute('href');
+
+            if (!href || href === '#') {
+                return;
+            }
+
+            const targetId = href.substring(1);
+
+            const targetSection =
+                document.getElementById(targetId);
+
+            if (!targetSection) {
+                return;
+            }
+
+
+            setActiveLink(targetId);
+
+
+            /*
+             * Header offset.
+             * This prevents the section from going underneath
+             * the website navbar.
+             */
+
+            const headerOffset = 110;
+
+            const targetTop =
+                targetSection.getBoundingClientRect().top +
+                window.pageYOffset -
+                headerOffset;
+
+
+            window.scrollTo({
+                top: Math.max(0, targetTop),
+                behavior: 'smooth'
+            });
 
         });
 
     });
 
 
-    /* =====================================================
-       SCROLL
-    ===================================================== */
+    /* =========================================================
+       DETECT CURRENT SECTION
+    ========================================================= */
 
-    const observer = new IntersectionObserver(
-        function (entries) {
+    function updateActiveSection() {
 
-            const visibleSections = entries
-                .filter(function (entry) {
-                    return entry.isIntersecting;
-                })
-                .sort(function (a, b) {
-
-                    return (
-                        b.intersectionRatio -
-                        a.intersectionRatio
-                    );
-
-                });
+        if (!sections.length) {
+            return;
+        }
 
 
-            if (visibleSections.length) {
+        /*
+         * Detection line.
+         *
+         * When a section crosses this point,
+         * its sidebar link becomes active.
+         */
 
-                setActiveSection(
-                    visibleSections[0].target.id
-                );
+        const detectionPoint = 180;
 
+        let currentSection = sections[0];
+
+
+        sections.forEach(function (section) {
+
+            const rect =
+                section.getBoundingClientRect();
+
+
+            if (rect.top <= detectionPoint) {
+                currentSection = section;
             }
 
-        },
+        });
+
+
+        if (currentSection) {
+
+            setActiveLink(
+                currentSection.id
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       SCROLL HANDLER
+    ========================================================= */
+
+    let scrollTicking = false;
+
+    function handleScroll() {
+
+        if (scrollTicking) {
+            return;
+        }
+
+        window.requestAnimationFrame(function () {
+
+            updateActiveSection();
+
+            scrollTicking = false;
+
+        });
+
+        scrollTicking = true;
+
+    }
+
+
+    window.addEventListener(
+        'scroll',
+        handleScroll,
         {
-            root: null,
-
-            /*
-             * Header/sidebar üçün yuxarı boşluq
-             */
-            rootMargin: '-120px 0px -55% 0px',
-
-            threshold: [0.1, 0.25, 0.5]
+            passive: true
         }
     );
 
 
-    sections.forEach(function (section) {
-        observer.observe(section);
-    });
+    /* =========================================================
+       RESIZE
+    ========================================================= */
 
+    window.addEventListener(
+        'resize',
+        updateActiveSection
+    );
+
+
+    /* =========================================================
+       INITIAL STATE
+    ========================================================= */
+
+    updateActiveSection();
+
+
+    /* =========================================================
+       DELETE ACCOUNT CONFIRMATION
+    ========================================================= */
+
+    const deleteForm =
+        document.querySelector('.danger-delete-form');
+
+
+    if (deleteForm) {
+
+        deleteForm.addEventListener(
+            'submit',
+            function (event) {
+
+                const confirmed = window.confirm(
+                    'Are you sure you want to permanently delete your account? This action cannot be undone.'
+                );
+
+
+                if (!confirmed) {
+                    event.preventDefault();
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       PASSWORD MATCH CHECK
+    ========================================================= */
+
+    const password =
+        document.getElementById('password');
+
+    const passwordConfirmation =
+        document.getElementById(
+            'password_confirmation'
+        );
+
+
+    if (password && passwordConfirmation) {
+
+        function checkPasswordMatch() {
+
+            if (
+                passwordConfirmation.value &&
+                password.value !== passwordConfirmation.value
+            ) {
+
+                passwordConfirmation.setCustomValidity(
+                    'Passwords do not match.'
+                );
+
+            } else {
+
+                passwordConfirmation.setCustomValidity('');
+
+            }
+
+        }
+
+
+        password.addEventListener(
+            'input',
+            checkPasswordMatch
+        );
+
+        passwordConfirmation.addEventListener(
+            'input',
+            checkPasswordMatch
+        );
+
+    }
 
 });
 </script>

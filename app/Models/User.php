@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\Wishlist;
 
 class User extends Authenticatable
 {
@@ -85,6 +86,11 @@ class User extends Authenticatable
     | Helpers
     |--------------------------------------------------------------------------
     */
+
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
 
     public function isAdmin(): bool
     {

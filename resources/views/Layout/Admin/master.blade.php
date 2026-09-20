@@ -233,6 +233,47 @@
             color: #cbd5e1 !important;
         }
 
+        /* =========================================================
+        GLOBAL SCROLL FIX
+        ========================================================= */
+
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 100%;
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        .main {
+            min-width: 0;
+            width: 100%;
+            flex: 1;
+            overflow-x: hidden;
+        }
+
+        .container-fluid {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+        }
+
+        .sidebar-overlay {
+            overflow: hidden;
+        }
+
     </style>
 
 </head>
@@ -417,7 +458,7 @@
 
                     confirmButtonText: 'Logout',
 
-                    cancelButtonText: 'Stay signed in',
+                    cancelButtonText: 'Cancel',
 
                     confirmButtonColor: '#8b5e3c',
 

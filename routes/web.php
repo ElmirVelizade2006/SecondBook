@@ -41,9 +41,19 @@ use App\Http\Controllers\Admin\BackupController;
 use App\Http\Controllers\Frontend\BooksController as FrontendBooksController;
 use App\Http\Controllers\Frontend\CategoriesController as FrontendCategoriesController;
 use App\Http\Controllers\Frontend\AuthorsController as FrontendAuthorsController;
+use App\Http\Controllers\Frontend\FaqController as FrontendFaqController;
+use App\Http\Controllers\Frontend\OrdersController as FrontendOrdersController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\ShippingInformationController;
+use App\Http\Controllers\Frontend\HelpCenterController;
+use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\AccountSettingsController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\SellBookController;
+use App\Http\Controllers\Frontend\CheckoutController;
+use App\Http\Controllers\Frontend\ReturnPolicyController;
+use App\Http\Controllers\Frontend\PrivacyPolicyController;
 
 // =========================================================
 // AUTH CONTROLLER
@@ -888,6 +898,33 @@ Route::prefix('frontend')
 
         /*
         |--------------------------------------------------------------------------
+        | PUBLIC INFORMATION
+        |--------------------------------------------------------------------------
+        */
+
+        // FAQ
+        Route::get('/faq', [FrontendFaqController::class, 'index'])
+            ->name('faq');
+
+        // Help Center
+        Route::get('/help-center', [HelpCenterController::class, 'index'])
+            ->name('help-center');
+
+        // Shipping Information
+        Route::get('/shipping-information', [ShippingInformationController::class, 'index'])
+            ->name('shipping-information');
+
+        // Return Policy
+        Route::get('/return-policy', [ReturnPolicyController::class, 'index'])
+            ->name('return-policy');
+
+        // Privacy Policy
+        Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])
+            ->name('privacy-policy');
+
+
+        /*
+        |--------------------------------------------------------------------------
         | AUTHENTICATION - GUEST
         |--------------------------------------------------------------------------
         */
@@ -997,46 +1034,178 @@ Route::prefix('frontend')
 Route::middleware('auth')
     ->group(function () {
 
-        // My Profile
+        /*
+        |--------------------------------------------------------------------------
+        | MY PROFILE
+        |--------------------------------------------------------------------------
+        */
+
         Route::get(
             '/my-profile',
             [AuthController::class, 'myprofile']
         )->name('my.profile');
 
 
-        // Edit Profile
+        /*
+        |--------------------------------------------------------------------------
+        | EDIT PROFILE
+        |--------------------------------------------------------------------------
+        */
+
         Route::get(
             '/profile/edit',
             [AuthController::class, 'editProfile']
         )->name('profile.edit');
 
 
-        // Update Profile
+        /*
+        |--------------------------------------------------------------------------
+        | UPDATE PROFILE
+        |--------------------------------------------------------------------------
+        */
+
         Route::put(
             '/profile',
             [AuthController::class, 'updateProfile']
         )->name('profile.update');
 
 
-        // Remove Profile Photo
+        /*
+        |--------------------------------------------------------------------------
+        | REMOVE PROFILE PHOTO
+        |--------------------------------------------------------------------------
+        */
+
         Route::delete(
             '/profile/photo',
             [AuthController::class, 'removeProfilePhoto']
         )->name('profile.photo.destroy');
 
 
-        // Update Password
+        /*
+        |--------------------------------------------------------------------------
+        | UPDATE PASSWORD
+        |--------------------------------------------------------------------------
+        */
+
         Route::put(
             '/profile/password',
             [AuthController::class, 'updatePassword']
         )->name('profile.password.update');
 
 
-        // Delete Account
+        /*
+        |--------------------------------------------------------------------------
+        | DELETE ACCOUNT
+        |--------------------------------------------------------------------------
+        */
+
         Route::delete(
             '/profile',
             [AuthController::class, 'destroyProfile']
         )->name('profile.destroy');
+
+    });
+
+
+/*
+|--------------------------------------------------------------------------
+| FRONTEND CUSTOMER ACCOUNT
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth')
+    ->prefix('frontend')
+    ->name('frontend.')
+    ->group(function () {
+
+        /*
+        |--------------------------------------------------------------------------
+        | SHOPPING CART
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/cart', [CartController::class, 'index'])
+            ->name('cart');
+
+        Route::post('/cart/add/{book}', [CartController::class, 'add'])
+            ->name('cart.add');
+
+        Route::patch('/cart/update/{book}', [CartController::class, 'update'])
+            ->name('cart.update');
+
+        Route::delete('/cart/remove/{book}', [CartController::class, 'remove'])
+            ->name('cart.remove');
+
+        Route::delete('/cart/clear', [CartController::class, 'clear'])
+            ->name('cart.clear');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CHECKOUT
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/checkout', [CheckoutController::class, 'index'])
+            ->name('checkout');
+
+        Route::post('/checkout', [CheckoutController::class, 'store'])
+            ->name('checkout.store');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | WISHLIST
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/wishlist', [WishlistController::class, 'index'])
+            ->name('wishlist');
+
+        Route::post('/wishlist/add/{book}', [WishlistController::class, 'add'])
+            ->name('wishlist.add');
+
+        Route::delete('/wishlist/remove/{book}', [WishlistController::class, 'remove'])
+            ->name('wishlist.remove');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | SELL BOOK
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/sell-book', [SellBookController::class, 'create'])
+            ->name('sell-book');
+
+        Route::post('/sell-book', [SellBookController::class, 'store'])
+            ->name('sell-book.store');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | ORDERS
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/orders', [FrontendOrdersController::class, 'index'])
+            ->name('orders');
+
+        Route::get('/orders/{order}', [FrontendOrdersController::class, 'show'])
+            ->name('orders.show');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | ORDER TRACKING
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/order-tracking/{order}',
+            [FrontendOrdersController::class, 'tracking']
+        )->name('order-tracking');
 
     });
 
@@ -1088,3 +1257,4 @@ Route::middleware('auth')
         )->name('settings.password');
 
     });
+

@@ -1,0 +1,663 @@
+/* =========================================================
+   SecondBook - Terms & Conditions
+========================================================= */
+
+.terms-page {
+    position: relative;
+    padding: 95px 0 110px;
+    background: #fbf8f5;
+    overflow: hidden;
+}
+
+.terms-page::before {
+    content: "";
+    position: absolute;
+    top: -180px;
+    left: -180px;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    background: rgba(139, 94, 60, 0.035);
+    pointer-events: none;
+}
+
+.terms-page::after {
+    content: "";
+    position: absolute;
+    right: -180px;
+    bottom: 180px;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    background: rgba(139, 94, 60, 0.025);
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.terms-hero {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto 58px;
+    text-align: center;
+}
+
+.terms-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    color: #a07859;
+
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+}
+
+.terms-eyebrow i {
+    font-size: 13px;
+}
+
+.terms-eyebrow-line {
+    width: 28px;
+    height: 1px;
+    background: #d9c5b4;
+}
+
+.terms-hero h1 {
+    margin: 18px 0 15px;
+
+    color: #29231f;
+
+    font-size: clamp(42px, 5vw, 62px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -2.5px;
+}
+
+.terms-hero h1 em {
+    color: #8b5e3c;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.terms-hero > p {
+    max-width: 590px;
+    margin: 0 auto;
+
+    color: #877b72;
+
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.terms-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+
+    margin-top: 23px;
+
+    color: #9a8d83;
+
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.terms-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.terms-meta i {
+    color: #8b5e3c;
+    font-size: 11px;
+}
+
+.terms-meta-divider {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #cdb9a8;
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.terms-intro {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    gap: 22px;
+
+    max-width: 950px;
+    margin: 0 auto 35px;
+    padding: 25px 28px;
+
+    border: 1px solid #e7ddd5;
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fffdfa 0%,
+            #f8f0e9 100%
+        );
+
+    box-shadow:
+        0 15px 40px rgba(53, 39, 29, 0.045);
+}
+
+.terms-intro-icon {
+    width: 55px;
+    height: 55px;
+    flex: 0 0 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background: #8b5e3c;
+    color: #fff;
+
+    font-size: 21px;
+
+    box-shadow: 0 10px 22px rgba(139, 94, 60, 0.18);
+}
+
+.terms-intro-label {
+    display: block;
+    margin-bottom: 5px;
+
+    color: #a07859;
+
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 1.7px;
+}
+
+.terms-intro h2 {
+    margin: 0 0 5px;
+
+    color: #302923;
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.terms-intro p {
+    max-width: 760px;
+    margin: 0;
+
+    color: #8c8178;
+
+    font-size: 10px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   TERMS GRID
+========================================================= */
+
+.terms-grid {
+    position: relative;
+    z-index: 1;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+
+    max-width: 950px;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   TERM CARD
+========================================================= */
+
+.terms-card {
+    position: relative;
+
+    min-height: 245px;
+
+    padding: 28px;
+
+    border: 1px solid #e9dfd7;
+    border-radius: 17px;
+
+    background: #fff;
+
+    box-shadow:
+        0 9px 30px rgba(53, 39, 29, 0.035);
+
+    overflow: hidden;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.terms-card:hover {
+    border-color: #dbc8b8;
+
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 17px 38px rgba(53, 39, 29, 0.07);
+}
+
+.terms-card-wide {
+    grid-column: 1 / -1;
+    min-height: auto;
+}
+
+.terms-number {
+    position: absolute;
+    top: 20px;
+    right: 23px;
+
+    color: #eaded4;
+
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.terms-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 17px;
+
+    border-radius: 11px;
+
+    background: #f6eee7;
+    color: #8b5e3c;
+
+    font-size: 16px;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease;
+}
+
+.terms-card:hover .terms-icon {
+    background: #8b5e3c;
+    color: #fff;
+}
+
+.terms-card h2 {
+    position: relative;
+    z-index: 1;
+
+    margin: 0 0 10px;
+
+    color: #332c27;
+
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.terms-card p {
+    position: relative;
+    z-index: 1;
+
+    margin: 0;
+
+    color: #8b8179;
+
+    font-size: 10.5px;
+    line-height: 1.85;
+}
+
+.terms-card p a {
+    color: #8b5e3c;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.terms-card p a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   WIDE CARD
+========================================================= */
+
+.terms-card-wide .terms-card-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+}
+
+.terms-card-wide .terms-icon {
+    flex: 0 0 42px;
+    margin-bottom: 0;
+}
+
+.terms-card-wide h2 {
+    margin-top: 1px;
+}
+
+
+/* =========================================================
+   FOOTER NOTE
+========================================================= */
+
+.terms-footer {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    max-width: 950px;
+    margin: 34px auto 0;
+    padding: 20px 23px;
+
+    border: 1px solid #e5d9d0;
+    border-radius: 15px;
+
+    background: #f8f1eb;
+}
+
+.terms-footer-icon {
+    width: 39px;
+    height: 39px;
+    flex: 0 0 39px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #fff;
+    color: #8b5e3c;
+
+    font-size: 15px;
+}
+
+.terms-footer strong {
+    display: block;
+    margin-bottom: 3px;
+
+    color: #443932;
+
+    font-size: 11px;
+}
+
+.terms-footer p {
+    margin: 0;
+
+    color: #92857b;
+
+    font-size: 9px;
+    line-height: 1.6;
+}
+
+.terms-contact-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    height: 34px;
+    margin-left: auto;
+    padding: 0 13px;
+
+    flex: 0 0 auto;
+
+    border-radius: 8px;
+
+    background: #8b5e3c;
+    color: #fff;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.terms-contact-btn i {
+    font-size: 10px;
+}
+
+.terms-contact-btn:hover {
+    background: #71482d;
+    color: #fff;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   BOTTOM META
+========================================================= */
+
+.terms-bottom {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    max-width: 950px;
+    margin: 20px auto 0;
+    padding: 0 3px;
+
+    color: #a09288;
+
+    font-size: 8px;
+}
+
+.terms-bottom span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.terms-bottom i {
+    color: #8b5e3c;
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .terms-page {
+        padding: 75px 0 90px;
+    }
+
+    .terms-grid,
+    .terms-intro,
+    .terms-footer,
+    .terms-bottom {
+        max-width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .terms-page {
+        padding: 60px 0 75px;
+    }
+
+    .terms-hero {
+        margin-bottom: 40px;
+    }
+
+    .terms-hero h1 {
+        font-size: 40px;
+        letter-spacing: -1.7px;
+    }
+
+    .terms-hero > p {
+        padding: 0 10px;
+        font-size: 12px;
+    }
+
+    .terms-meta {
+        flex-direction: column;
+        gap: 7px;
+    }
+
+    .terms-meta-divider {
+        display: none !important;
+    }
+
+    .terms-intro {
+        align-items: flex-start;
+        gap: 15px;
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    .terms-intro-icon {
+        width: 45px;
+        height: 45px;
+        flex-basis: 45px;
+        border-radius: 12px;
+        font-size: 17px;
+    }
+
+    .terms-intro h2 {
+        font-size: 14px;
+    }
+
+    .terms-intro p {
+        font-size: 9.5px;
+    }
+
+    .terms-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .terms-card,
+    .terms-card-wide {
+        grid-column: auto;
+        min-height: auto;
+        padding: 23px;
+    }
+
+    .terms-card-wide .terms-card-content {
+        gap: 14px;
+    }
+
+    .terms-number {
+        top: 17px;
+        right: 18px;
+        font-size: 24px;
+    }
+
+    .terms-footer {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        padding: 18px;
+    }
+
+    .terms-footer p {
+        max-width: 100%;
+    }
+
+    .terms-contact-btn {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 4px;
+    }
+
+    .terms-bottom {
+        align-items: center;
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .terms-page {
+        padding-top: 50px;
+    }
+
+    .terms-eyebrow {
+        font-size: 8px;
+        letter-spacing: 2px;
+    }
+
+    .terms-eyebrow-line {
+        width: 20px;
+    }
+
+    .terms-hero h1 {
+        font-size: 34px;
+    }
+
+    .terms-intro {
+        flex-direction: column;
+    }
+
+    .terms-card-wide .terms-card-content {
+        flex-direction: column;
+    }
+
+    .terms-card-wide .terms-icon {
+        margin-bottom: 0;
+    }
+
+    .terms-card h2 {
+        font-size: 13px;
+    }
+
+    .terms-card p {
+        font-size: 10px;
+        line-height: 1.8;
+    }
+
+}

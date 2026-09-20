@@ -594,7 +594,6 @@
 
 /* =========================================================
    FILTER FORM
-   ONE CONNECTED ROW
 ========================================================= */
 
 .books-filter-form {
@@ -666,7 +665,8 @@
     width: 100%;
     min-width: 0;
     height: 100%;
-    padding: 0 16px 0 11px;
+    margin: 20px;
+    
     border: 0;
     outline: 0;
     background: transparent;
@@ -737,7 +737,8 @@
     min-width: 112px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: top;
+    margin-bottom: 24px;
     gap: 8px;
     padding: 0 17px;
     border: 0;
@@ -772,6 +773,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 24px;
     gap: 7px;
     padding: 0 13px;
     border: 1px solid #e5ddd5;
@@ -957,6 +959,17 @@
     transform: scale(1.08);
 }
 
+.book-wishlist-form {
+    margin: 0;
+}
+
+.book-wishlist.active {
+    color: #8b5e3c;
+}
+
+.book-wishlist.active i {
+    color: #8b5e3c;
+}
 
 /* =========================================================
    COVER HOVER
@@ -1054,14 +1067,19 @@
 
 
 /* =========================================================
-   PRICE + VIEW
+   PRICE + ACTIONS
 ========================================================= */
 
 .book-bottom {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 10px;
+    gap: 12px;
+}
+
+.book-price-box {
+    min-width: 0;
+    flex: 1 1 auto;
 }
 
 .book-price-label {
@@ -1081,17 +1099,28 @@
     font-weight: 800;
 }
 
+.book-card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px;
+    flex: 0 0 auto;
+}
+
 .book-view-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 7px;
-    padding: 9px 11px;
+    min-height: 34px;
+    padding: 0 11px;
     border-radius: 9px;
     background: #f5eee8;
     color: #795437;
     font-size: 10px;
     font-weight: 700;
     text-decoration: none;
+    white-space: nowrap;
     transition: all 0.25s ease;
 }
 
@@ -1106,6 +1135,70 @@
 
 .book-view-btn:hover i {
     transform: translateX(3px);
+}
+
+
+/* =========================================================
+   ADD TO CART
+========================================================= */
+
+.book-cart-form {
+    margin: 0;
+    padding: 0;
+}
+
+.book-cart-btn {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid #e2d5cb;
+    border-radius: 9px;
+    outline: none;
+    background: #fff;
+    color: #8b5e3c;
+    font-size: 14px;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: none;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.book-cart-btn:hover {
+    border-color: #8b5e3c;
+    background: #8b5e3c;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(139, 94, 60, 0.18);
+}
+
+.book-cart-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.12);
+}
+
+.book-cart-btn i {
+    pointer-events: none;
+}
+
+.book-cart-btn-disabled,
+.book-cart-btn-disabled:hover,
+.book-cart-btn-disabled:focus {
+    border-color: #e5dfda;
+    background: #f4f1ef;
+    color: #aaa09a;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 
@@ -1363,6 +1456,431 @@
 
 
 /* =========================================================
+   DARK MODE
+========================================================= */
+
+[data-theme="dark"] .books-hero,
+.dark-mode .books-hero,
+.dark-theme .books-hero {
+    background: #111827;
+}
+
+[data-theme="dark"] .books-hero-bg,
+.dark-mode .books-hero-bg,
+.dark-theme .books-hero-bg {
+    background:
+        radial-gradient(
+            circle at 80% 35%,
+            rgba(139, 94, 60, 0.20),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(139, 94, 60, 0.12),
+            transparent 30%
+        );
+}
+
+[data-theme="dark"] .books-overline,
+.dark-mode .books-overline,
+.dark-theme .books-overline {
+    border-color: rgba(139, 94, 60, 0.35);
+    background: rgba(31, 41, 55, 0.75);
+}
+
+[data-theme="dark"] .books-hero h1,
+.dark-mode .books-hero h1,
+.dark-theme .books-hero h1 {
+    color: #f3f4f6;
+}
+
+[data-theme="dark"] .books-hero-content > p,
+.dark-mode .books-hero-content > p,
+.dark-theme .books-hero-content > p {
+    color: #aeb6c2;
+}
+
+[data-theme="dark"] .books-hero-trust,
+.dark-mode .books-hero-trust,
+.dark-theme .books-hero-trust {
+    color: #9ca3af;
+}
+
+[data-theme="dark"] .books-trust-icons i,
+.dark-mode .books-trust-icons i,
+.dark-theme .books-trust-icons i {
+    border-color: #111827;
+    background: #1f2937;
+}
+
+[data-theme="dark"] .hero-floating-card,
+.dark-mode .hero-floating-card,
+.dark-theme .hero-floating-card {
+    border-color: rgba(255, 255, 255, 0.08);
+    background: rgba(31, 41, 55, 0.94);
+}
+
+[data-theme="dark"] .hero-floating-card strong,
+.dark-mode .hero-floating-card strong,
+.dark-theme .hero-floating-card strong {
+    color: #f3f4f6;
+}
+
+[data-theme="dark"] .hero-floating-card span,
+.dark-mode .hero-floating-card span,
+.dark-theme .hero-floating-card span {
+    color: #9ca3af;
+}
+
+[data-theme="dark"] .hero-floating-card i,
+.dark-mode .hero-floating-card i,
+.dark-theme .hero-floating-card i {
+    background: #2f3745;
+}
+
+[data-theme="dark"] .books-stats-section,
+.dark-mode .books-stats-section,
+.dark-theme .books-stats-section {
+    background: #0f172a;
+}
+
+[data-theme="dark"] .books-stats,
+.dark-mode .books-stats,
+.dark-theme .books-stats {
+    border-color: #293344;
+    background: #172033;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.20);
+}
+
+[data-theme="dark"] .books-stat-item,
+.dark-mode .books-stat-item,
+.dark-theme .books-stat-item {
+    border-color: #293344;
+}
+
+[data-theme="dark"] .books-stat-icon,
+.dark-mode .books-stat-icon,
+.dark-theme .books-stat-icon {
+    background: #252f40;
+}
+
+[data-theme="dark"] .books-stat-item strong,
+.dark-mode .books-stat-item strong,
+.dark-theme .books-stat-item strong {
+    color: #f3f4f6;
+}
+
+[data-theme="dark"] .books-stat-item span,
+.dark-mode .books-stat-item span,
+.dark-theme .books-stat-item span {
+    color: #9ca3af;
+}
+
+[data-theme="dark"] .books-section,
+.dark-mode .books-section,
+.dark-theme .books-section {
+    background: #111827;
+}
+
+[data-theme="dark"] .books-section-heading h2,
+[data-theme="dark"] .books-results-header h2,
+.dark-mode .books-section-heading h2,
+.dark-mode .books-results-header h2,
+.dark-theme .books-section-heading h2,
+.dark-theme .books-results-header h2 {
+    color: #f3f4f6;
+}
+
+[data-theme="dark"] .books-section-heading > p,
+.dark-mode .books-section-heading > p,
+.dark-theme .books-section-heading > p {
+    color: #9ca3af;
+}
+
+
+/* =========================================================
+   DARK MODE - FILTER
+========================================================= */
+
+[data-theme="dark"] .books-toolbar,
+.dark-mode .books-toolbar,
+.dark-theme .books-toolbar {
+    border-color: #293344;
+    background: #172033;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+}
+
+[data-theme="dark"] .books-toolbar-header,
+.dark-mode .books-toolbar-header,
+.dark-theme .books-toolbar-header {
+    border-color: #293344;
+}
+
+[data-theme="dark"] .toolbar-icon,
+.dark-mode .toolbar-icon,
+.dark-theme .toolbar-icon {
+    background: #252f40;
+}
+
+[data-theme="dark"] .books-toolbar-title strong,
+.dark-mode .books-toolbar-title strong,
+.dark-theme .books-toolbar-title strong {
+    color: #f3f4f6;
+}
+
+[data-theme="dark"] .books-toolbar-title span,
+[data-theme="dark"] .books-total,
+.dark-mode .books-toolbar-title span,
+.dark-mode .books-total,
+.dark-theme .books-toolbar-title span,
+.dark-theme .books-total {
+    color: #9ca3af;
+}
+
+[data-theme="dark"] .books-filter-column > label,
+.dark-mode .books-filter-column > label,
+.dark-theme .books-filter-column > label {
+    color: #9ca3af;
+}
+
+[data-theme="dark"] .books-search,
+.dark-mode .books-search,
+.dark-theme .books-search {
+    border-color: #374151;
+    background: #1f2937;
+}
+
+[data-theme="dark"] .books-search input,
+.dark-mode .books-search input,
+.dark-theme .books-search input {
+    color: #f3f4f6;
+}
+
+[data-theme="dark"] .books-search input::placeholder,
+.dark-mode .books-search input::placeholder,
+.dark-theme .books-search input::placeholder {
+    color: #6b7280;
+}
+
+[data-theme="dark"] .books-search > i,
+.dark-mode .books-search > i,
+.dark-theme .books-search > i {
+    color: #8b94a3;
+}
+
+[data-theme="dark"] .books-select,
+.dark-mode .books-select,
+.dark-theme .books-select {
+    border-color: #374151;
+    background-color: #1f2937;
+    color: #e5e7eb;
+}
+
+[data-theme="dark"] .books-clear-filter,
+.dark-mode .books-clear-filter,
+.dark-theme .books-clear-filter {
+    border-color: #374151;
+    background: #1a2332;
+    color: #9ca3af;
+}
+
+[data-theme="dark"] .books-clear-filter:hover,
+.dark-mode .books-clear-filter:hover,
+.dark-theme .books-clear-filter:hover {
+    background: #252f40;
+    color: #c49a7a;
+    border-color: #4b5563;
+}
+
+
+/* =========================================================
+   DARK MODE - BOOK CARD
+========================================================= */
+
+[data-theme="dark"] .book-card,
+.dark-mode .book-card,
+.dark-theme .book-card {
+    border-color: #293344;
+    background: #172033;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+[data-theme="dark"] .book-card:hover,
+.dark-mode .book-card:hover,
+.dark-theme .book-card:hover {
+    border-color: #4b5563;
+    box-shadow: 0 22px 45px rgba(0, 0, 0, 0.30);
+}
+
+[data-theme="dark"] .book-cover,
+.dark-mode .book-cover,
+.dark-theme .book-cover {
+    background: #202a3a;
+}
+
+[data-theme="dark"] .book-cover-placeholder,
+.dark-mode .book-cover-placeholder,
+.dark-theme .book-cover-placeholder {
+    background: linear-gradient(
+        135deg,
+        #252f40,
+        #1f2937
+    );
+    color: #a9876d;
+}
+
+[data-theme="dark"] .book-condition,
+.dark-mode .book-condition,
+.dark-theme .book-condition {
+    border-color: rgba(255, 255, 255, 0.08);
+    background: rgba(31, 41, 55, 0.94);
+    color: #d5b69d;
+}
+
+[data-theme="dark"] .book-wishlist,
+.dark-mode .book-wishlist,
+.dark-theme .book-wishlist {
+    border-color: rgba(255, 255, 255, 0.08);
+    background: rgba(31, 41, 55, 0.94);
+    color: #c0b8b1;
+}
+
+[data-theme="dark"] .book-content h3,
+.dark-mode .book-content h3,
+.dark-theme .book-content h3 {
+    color: #f3f4f6;
+}
+
+[data-theme="dark"] .book-author,
+.dark-mode .book-author,
+.dark-theme .book-author {
+    color: #9ca3af;
+}
+
+[data-theme="dark"] .book-card-divider,
+.dark-mode .book-card-divider,
+.dark-theme .book-card-divider {
+    background: #293344;
+}
+
+[data-theme="dark"] .book-price-label,
+.dark-mode .book-price-label,
+.dark-theme .book-price-label {
+    color: #7f8998;
+}
+
+[data-theme="dark"] .book-view-btn,
+.dark-mode .book-view-btn,
+.dark-theme .book-view-btn {
+    background: #252f40;
+    color: #caa98f;
+}
+
+[data-theme="dark"] .book-view-btn:hover,
+.dark-mode .book-view-btn:hover,
+.dark-theme .book-view-btn:hover {
+    background: #8b5e3c;
+    color: #fff;
+}
+
+
+/* =========================================================
+   DARK MODE - CART BUTTON
+========================================================= */
+
+[data-theme="dark"] .book-cart-btn,
+.dark-mode .book-cart-btn,
+.dark-theme .book-cart-btn {
+    border-color: #3b4657;
+    background: #1f2937;
+    color: #caa98f;
+}
+
+[data-theme="dark"] .book-cart-btn:hover,
+.dark-mode .book-cart-btn:hover,
+.dark-theme .book-cart-btn:hover {
+    border-color: #8b5e3c;
+    background: #8b5e3c;
+    color: #fff;
+}
+
+[data-theme="dark"] .book-cart-btn-disabled,
+[data-theme="dark"] .book-cart-btn-disabled:hover,
+.dark-mode .book-cart-btn-disabled,
+.dark-mode .book-cart-btn-disabled:hover,
+.dark-theme .book-cart-btn-disabled,
+.dark-theme .book-cart-btn-disabled:hover {
+    border-color: #374151;
+    background: #252f40;
+    color: #667085;
+}
+
+
+/* =========================================================
+   DARK MODE - PAGINATION
+========================================================= */
+
+[data-theme="dark"] .books-pagination .page-item .page-link,
+.dark-mode .books-pagination .page-item .page-link,
+.dark-theme .books-pagination .page-item .page-link {
+    border-color: #374151;
+    background: #172033;
+    color: #9ca3af;
+}
+
+[data-theme="dark"] .books-pagination .page-item .page-link:hover,
+.dark-mode .books-pagination .page-item .page-link:hover,
+.dark-theme .books-pagination .page-item .page-link:hover {
+    border-color: #8b5e3c;
+    background: #252f40;
+    color: #caa98f;
+}
+
+[data-theme="dark"] .books-pagination .page-item.active .page-link,
+.dark-mode .books-pagination .page-item.active .page-link,
+.dark-theme .books-pagination .page-item.active .page-link {
+    border-color: #8b5e3c;
+    background: #8b5e3c;
+    color: #fff;
+}
+
+
+/* =========================================================
+   DARK MODE - EMPTY
+========================================================= */
+
+[data-theme="dark"] .books-empty,
+.dark-mode .books-empty,
+.dark-theme .books-empty {
+    border-color: #293344;
+    background: #172033;
+}
+
+[data-theme="dark"] .books-empty h3,
+.dark-mode .books-empty h3,
+.dark-theme .books-empty h3 {
+    color: #f3f4f6;
+}
+
+[data-theme="dark"] .books-empty p,
+.dark-mode .books-empty p,
+.dark-theme .books-empty p {
+    color: #9ca3af;
+}
+
+
+/* =========================================================
+   DARK MODE - SELL SECTION
+========================================================= */
+
+[data-theme="dark"] .books-sell-section,
+.dark-mode .books-sell-section,
+.dark-theme .books-sell-section {
+    background: #111827;
+}
+
+
+/* =========================================================
    RESPONSIVE — 1199px
 ========================================================= */
 
@@ -1394,7 +1912,6 @@
     .books-filter-column:not(.books-search-column) {
         flex: 0 0 180px;
     }
-
 }
 
 
@@ -1509,7 +2026,6 @@
         width: 62%;
         padding: 35px;
     }
-
 }
 
 
@@ -1672,6 +2188,14 @@
         height: 350px;
     }
 
+    .book-bottom {
+        align-items: center;
+    }
+
+    .book-card-actions {
+        gap: 6px;
+    }
+
     .books-sell-section {
         padding-bottom: 70px;
     }
@@ -1693,7 +2217,6 @@
     .books-sell-content h2 {
         font-size: 28px;
     }
-
 }
 
 
@@ -1791,4 +2314,32 @@
         height: 330px;
     }
 
+    .book-content {
+        padding: 18px 16px 17px;
+    }
+
+    .book-bottom {
+        gap: 8px;
+    }
+
+    .book-price {
+        font-size: 18px;
+    }
+
+    .book-card-actions {
+        gap: 5px;
+    }
+
+    .book-view-btn {
+        min-height: 32px;
+        padding: 0 9px;
+        font-size: 9px;
+    }
+
+    .book-cart-btn {
+        width: 32px;
+        height: 32px;
+        flex-basis: 32px;
+        font-size: 13px;
+    }
 }

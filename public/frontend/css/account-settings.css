@@ -63,20 +63,40 @@
     line-height: 1.8;
 }
 
+
+/* =========================================================
+   BACK TO PROFILE
+========================================================= */
+
 .account-back-profile {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    min-height: 43px;
-    padding: 0 16px;
+    justify-content: center;
+    gap: 7px;
+    box-sizing: border-box;
+    height: 34px;
+    min-height: 34px;
+    max-height: 34px;
+    padding: 0 12px;
     border: 1px solid #e4d9d0;
-    border-radius: 11px;
+    border-radius: 9px;
     background: #fff;
     color: #72543d;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
+    line-height: 1 !important;
     text-decoration: none;
-    transition: all 0.25s ease;
+    white-space: nowrap;
+    transition:
+        border-color 0.25s ease,
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.account-back-profile i {
+    font-size: 12px;
+    line-height: 1;
 }
 
 .account-back-profile:hover {
@@ -219,7 +239,9 @@
     font-size: 11px;
     font-weight: 600;
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
 }
 
 .account-settings-nav a i {
@@ -368,19 +390,50 @@
     font-size: 10px;
 }
 
-.settings-outline-btn {
+
+/* =========================================================
+   BUTTON BASE
+========================================================= */
+
+.account-back-profile,
+.settings-outline-btn,
+.settings-primary-btn,
+.danger-delete-btn {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    padding: 9px 13px;
+    justify-content: center;
+    box-sizing: border-box;
+    line-height: 1 !important;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   OUTLINE BUTTON
+========================================================= */
+
+.settings-outline-btn {
+    gap: 6px;
+    height: 32px !important;
+    min-height: 32px !important;
+    max-height: 32px !important;
+    padding: 0 11px !important;
     border: 1px solid #ded2c8;
-    border-radius: 9px;
+    border-radius: 8px;
     background: #fff;
     color: #76563e;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.settings-outline-btn i {
+    font-size: 11px;
+    line-height: 1;
 }
 
 .settings-outline-btn:hover {
@@ -480,23 +533,17 @@
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
-
     width: 32px;
     height: 32px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     padding: 0;
     border: 0;
     border-radius: 8px;
-
     background: transparent;
     color: #9a8f87;
-
     cursor: pointer;
-
     transition:
         color 0.2s ease,
         background 0.2s ease;
@@ -550,30 +597,28 @@
 ========================================================= */
 
 .settings-primary-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-
-    min-height: 42px;
-    padding: 0 15px;
-
+    gap: 7px;
+    height: 34px !important;
+    min-height: 34px !important;
+    max-height: 34px !important;
+    padding: 0 12px !important;
     border: 0;
-    border-radius: 10px;
-
+    border-radius: 8px;
     background: #8b5e3c;
     color: #fff;
-
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
-
     cursor: pointer;
-
     transition:
         background 0.25s ease,
         color 0.25s ease,
         transform 0.25s ease,
         box-shadow 0.25s ease;
+}
+
+.settings-primary-btn i {
+    font-size: 11px;
+    line-height: 1;
 }
 
 .settings-primary-btn:hover {
@@ -600,16 +645,12 @@
 
 .settings-toggle-row {
     position: relative;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     gap: 20px;
     min-height: 76px;
-
     border-bottom: 1px solid #eee7e1;
-
     cursor: pointer;
 }
 
@@ -628,16 +669,12 @@
     width: 36px;
     height: 36px;
     flex: 0 0 36px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     border-radius: 9px;
-
     background: #f8f1eb;
     color: #8b5e3c;
-
     font-size: 13px;
 }
 
@@ -660,44 +697,32 @@
 
 .settings-toggle-row input {
     position: absolute;
-
     width: 1px;
     height: 1px;
-
     opacity: 0;
     pointer-events: none;
 }
 
 .settings-switch {
     position: relative;
-
     width: 43px;
     height: 24px;
     flex: 0 0 43px;
-
     border-radius: 100px;
-
     background: #d9d0c9;
-
     transition: background 0.25s ease;
 }
 
 .settings-switch::after {
     content: "";
-
     position: absolute;
     top: 3px;
     left: 3px;
-
     width: 18px;
     height: 18px;
-
     border-radius: 50%;
-
     background: #fff;
-
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-
     transition: transform 0.25s ease;
 }
 
@@ -727,10 +752,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     gap: 25px;
     padding: 23px 25px;
-
     background: #fffafa;
 }
 
@@ -752,31 +775,34 @@
     line-height: 1.7;
 }
 
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
+
 .danger-delete-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-
-    min-height: 40px;
-    padding: 0 14px;
-
+    gap: 6px;
+    height: 33px !important;
+    min-height: 33px !important;
+    max-height: 33px !important;
+    padding: 0 11px !important;
     border: 1px solid #e7caca;
-    border-radius: 9px;
-
+    border-radius: 8px;
     background: #fff;
     color: #b34d4d;
-
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
-
     cursor: pointer;
     white-space: nowrap;
-
     transition:
         border-color 0.2s ease,
         background 0.2s ease,
         color 0.2s ease;
+}
+
+.danger-delete-btn i {
+    font-size: 11px;
+    line-height: 1;
 }
 
 .danger-delete-btn:hover {
@@ -815,7 +841,6 @@
     .account-settings-nav a span {
         display: none;
     }
-
 }
 
 
@@ -882,19 +907,30 @@
 
     .settings-form-footer .settings-primary-btn {
         width: 100%;
+        height: 36px !important;
+        min-height: 36px !important;
+        max-height: 36px !important;
     }
 
     .settings-card-footer {
         align-items: flex-start;
         flex-direction: column;
-
         padding-left: 18px;
         padding-right: 18px;
     }
 
     .settings-card-footer .settings-outline-btn {
         width: 100%;
+        height: 34px !important;
+        min-height: 34px !important;
+        max-height: 34px !important;
         justify-content: center;
+    }
+
+    .settings-preferences-footer .settings-primary-btn {
+        height: 36px !important;
+        min-height: 36px !important;
+        max-height: 36px !important;
     }
 
     .danger-action {
@@ -904,8 +940,150 @@
 
     .danger-delete-btn {
         width: 100%;
+        height: 35px !important;
+        min-height: 35px !important;
+        max-height: 35px !important;
     }
 
+
+    /* =====================================================
+       PASSWORD INPUT
+    ===================================================== */
+
+    .settings-input {
+        position: relative !important;
+        width: 100%;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        border: 1px solid #d9cec4 !important;
+        border-radius: 11px !important;
+        background: #fff !important;
+        overflow: visible;
+    }
+
+    .settings-input:focus-within {
+        border-color: #8b5e3c !important;
+        box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.08) !important;
+    }
+
+    .settings-input input,
+    .settings-input input.form-control {
+        width: 100% !important;
+        height: 100% !important;
+        min-width: 0;
+        margin: 0 !important;
+        padding: 0 52px 0 10px !important;
+        border: 0 !important;
+        border-width: 0 !important;
+        border-style: none !important;
+        border-color: transparent !important;
+        outline: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        color: #332d28 !important;
+        font-size: 11px;
+        line-height: 1;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+    }
+
+    .settings-input input:focus,
+    .settings-input input.form-control:focus {
+        border: 0 !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    .settings-input input::placeholder {
+        color: #aaa19a !important;
+        opacity: 1;
+    }
+
+
+    /* =====================================================
+       CHROME AUTOFILL
+    ===================================================== */
+
+    .settings-input input:-webkit-autofill,
+    .settings-input input:-webkit-autofill:hover,
+    .settings-input input:-webkit-autofill:focus,
+    .settings-input input:-webkit-autofill:active {
+        -webkit-text-fill-color: #332d28 !important;
+        -webkit-box-shadow: 0 0 0 1000px #fff inset !important;
+        box-shadow: 0 0 0 1000px #fff inset !important;
+        border: 0 !important;
+        outline: none !important;
+    }
+
+
+    /* =====================================================
+       PASSWORD ICON
+    ===================================================== */
+
+    .settings-input > i {
+        position: relative;
+        z-index: 2;
+        flex: 0 0 auto;
+        margin-left: 14px !important;
+        color: #a4968c;
+        font-size: 13px;
+    }
+
+    .password-toggle {
+        position: absolute !important;
+        top: 50% !important;
+        right: 10px !important;
+        transform: translateY(-50%) !important;
+        z-index: 5;
+        width: 32px !important;
+        height: 32px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        outline: none !important;
+        border-radius: 8px !important;
+        background: transparent !important;
+        color: #9a8f87 !important;
+        box-shadow: none !important;
+        cursor: pointer;
+    }
+
+    .password-toggle i {
+        margin: 0 !important;
+        padding: 0 !important;
+        color: inherit !important;
+        font-size: 14px !important;
+        line-height: 1 !important;
+    }
+
+    .password-toggle:hover {
+        background: #f7f1eb !important;
+        color: #8b5e3c !important;
+    }
+
+    .password-toggle:focus,
+    .password-toggle:active {
+        outline: none !important;
+        border: 0 !important;
+        box-shadow: none !important;
+    }
+
+
+    /* =====================================================
+       SCROLL TARGET
+    ===================================================== */
+
+    #account,
+    #security,
+    #notifications,
+    #privacy,
+    #danger {
+        scroll-margin-top: 120px;
+    }
 }
 
 
@@ -934,6 +1112,9 @@
 
     .account-back-profile {
         width: 100%;
+        height: 35px !important;
+        min-height: 35px !important;
+        max-height: 35px !important;
         justify-content: center;
     }
 
@@ -987,6 +1168,9 @@
 
     .settings-primary-btn {
         width: 100%;
+        height: 36px !important;
+        min-height: 36px !important;
+        max-height: 36px !important;
     }
 
     .settings-form-footer > span {
@@ -1001,155 +1185,9 @@
         right: 8px;
     }
 
-    /* =========================================================
-   PASSWORD INPUT - FINAL FIX
-    ========================================================= */
-
-    .settings-input {
-        position: relative !important;
-        width: 100%;
-        height: 48px;
-
-        display: flex;
-        align-items: center;
-
-        border: 1px solid #d9cec4 !important;
-        border-radius: 11px !important;
-
-        background: #fff !important;
-
-        overflow: visible;
+    .danger-delete-btn {
+        height: 35px !important;
+        min-height: 35px !important;
+        max-height: 35px !important;
     }
-
-    .settings-input:focus-within {
-        border-color: #8b5e3c !important;
-        box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.08) !important;
-    }
-
-    .settings-input input,
-    .settings-input input.form-control {
-        width: 100% !important;
-        height: 100% !important;
-
-        min-width: 0;
-
-        margin: 0 !important;
-        padding: 0 52px 0 10px !important;
-
-        border: 0 !important;
-        border-width: 0 !important;
-        border-style: none !important;
-        border-color: transparent !important;
-
-        outline: none !important;
-        box-shadow: none !important;
-
-        background: transparent !important;
-
-        color: #332d28 !important;
-
-        font-size: 11px;
-        line-height: 1;
-
-        appearance: none !important;
-        -webkit-appearance: none !important;
-    }
-
-    .settings-input input:focus,
-    .settings-input input.form-control:focus {
-        border: 0 !important;
-        outline: none !important;
-        box-shadow: none !important;
-    }
-
-    .settings-input input::placeholder {
-        color: #aaa19a !important;
-        opacity: 1;
-    }
-
-
-    /* Chrome autofill */
-    .settings-input input:-webkit-autofill,
-    .settings-input input:-webkit-autofill:hover,
-    .settings-input input:-webkit-autofill:focus,
-    .settings-input input:-webkit-autofill:active {
-        -webkit-text-fill-color: #332d28 !important;
-        -webkit-box-shadow: 0 0 0 1000px #fff inset !important;
-        box-shadow: 0 0 0 1000px #fff inset !important;
-        border: 0 !important;
-        outline: none !important;
-    }
-
-
-    /* =========================================================
-    PASSWORD ICON
-    ========================================================= */
-
-    .settings-input > i {
-        position: relative;
-        z-index: 2;
-
-        flex: 0 0 auto;
-
-        margin-left: 14px !important;
-
-        color: #a4968c;
-        font-size: 13px;
-    }
-
-    .password-toggle {
-        position: absolute !important;
-
-        top: 50% !important;
-        right: 10px !important;
-
-        transform: translateY(-50%) !important;
-
-        z-index: 5;
-
-        width: 32px !important;
-        height: 32px !important;
-
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-
-        margin: 0 !important;
-        padding: 0 !important;
-
-        border: 0 !important;
-        outline: none !important;
-
-        border-radius: 8px !important;
-
-        background: transparent !important;
-        color: #9a8f87 !important;
-
-        box-shadow: none !important;
-
-        cursor: pointer;
-    }
-
-    .password-toggle i {
-        margin: 0 !important;
-        padding: 0 !important;
-
-        color: inherit !important;
-
-        font-size: 14px !important;
-        line-height: 1 !important;
-    }
-
-    .password-toggle:hover {
-        background: #f7f1eb !important;
-        color: #8b5e3c !important;
-    }
-
-    .password-toggle:focus,
-    .password-toggle:active {
-        outline: none !important;
-        border: 0 !important;
-        box-shadow: none !important;
-    }
-
 }

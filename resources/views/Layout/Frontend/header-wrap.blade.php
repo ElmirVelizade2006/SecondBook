@@ -20,8 +20,8 @@
                     </div>
                     <div class="col-lg-4 col-md-6">
                         <div class="right-element">
-                            <a href="#wishlist" class="user-account for-buy"><i class="bi bi-heart" aria-hidden="true"></i><span>Wishlist</span></a>
-                            <a href="#cart" class="cart for-buy"><i class="bi bi-cart3" aria-hidden="true"></i><span>Cart</span></a>
+                            <a href="{{ route('frontend.wishlist') }}" class="user-account for-buy"><i class="bi bi-heart" aria-hidden="true"></i><span>Wishlist</span></a>
+                            <a href="{{  route('frontend.cart') }}" class="cart for-buy"><i class="bi bi-cart3" aria-hidden="true"></i><span>Cart</span></a>
 
                             @guest
                                 <a href="{{ route('frontend.auth.login') }}" class="user-account for-buy"><i class="bi bi-person" aria-hidden="true"></i><span>Login</span></a>
@@ -54,8 +54,8 @@
                                             </div>
                                         </li>
                                         <li><a class="dropdown-item" href="{{ route('my.profile') }}"><i class="bi bi-person-circle"></i>My Profile</a></li>
-                                        <li><a class="dropdown-item" href="#"><i class="bi bi-bag-check"></i>My Orders</a></li>
-                                        <li><a class="dropdown-item" href="#"><i class="bi bi-heart"></i>Wishlist</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('frontend.orders') }}"><i class="bi bi-bag-check"></i>My Orders</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('frontend.wishlist') }}"><i class="bi bi-heart"></i>Wishlist</a></li>
                                         @if(Auth::user()->role === 'admin')
                                             <li>
                                                 <a class="dropdown-item admin-panel-item" href="{{ route('admin.dashboard') }}">
@@ -64,7 +64,7 @@
                                                 </a>
                                             </li>
                                         @endif
-                                        <li><a class="dropdown-item" href="#"><i class="bi bi-book"></i>Sell a Book</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('frontend.sell-book') }}"><i class="bi bi-book"></i>Sell a Book</a></li>
                                         <li><a class="dropdown-item" href="{{ route('frontend.account.settings') }}"><i class="bi bi-gear"></i>Account Settings</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li class="logout-wrap">

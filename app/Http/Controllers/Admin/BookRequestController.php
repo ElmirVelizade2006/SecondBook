@@ -3,137 +3,162 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Book;
 use Illuminate\Http\Request;
 
 class BookRequestController extends Controller
 {
-    protected function getBookRequests(): array
-    {
-        $requests = session('admin_book_requests', []);
-
-        if (!is_array($requests) || empty($requests)) {
-            $requests = [[
-                'id' => 'req_1',
-                'title' => 'Atomic Habits',
-                'requester' => 'Nigar Hasanli',
-                'category' => 'self_development',
-                'budget' => '18.00',
-                'note' => 'Looking for a used copy with good condition.',
-                'status' => 'pending',
-                'created_at' => now()->format('Y-m-d'),
-                'updated_at' => now()->format('Y-m-d'),
-            ]];
-
-            session(['admin_book_requests' => $requests]);
-        }
-
-        return $requests;
-    }
-
-    protected function saveBookRequests(array $requests): void
-    {
-        session(['admin_book_requests' => $requests]);
-    }
-
+    /**
+     * Display pending seller book requests.
+     */
     public function index(Request $request)
     {
-        $bookRequests = $this->getBookRequests();
+        $query = Book::with([
+            'seller',
+            'category',
+            'author',
+            'publisher',
+        ])
+            ->whereNotNull('seller_id')
+            ->where('status', 'pending')
+            ->latest();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Search
+        |--------------------------------------------------------------------------
+        */
 
         if ($request->filled('search')) {
-            $search = strtolower($request->search);
-            $bookRequests = array_values(array_filter($bookRequests, function ($item) use ($search) {
-                return str_contains(strtolower($item['title']), $search)
-                    || str_contains(strtolower($item['requester']), $search);
-            }));
+            $search = trim($request->input('search'));
+
+            if ($search !== '') {
+                $query->where(function ($q) use ($search) {
+
+                    $q->where('title', 'LIKE', '%' . $search . '%')
+                        ->orWhere('isbn', 'LIKE', '%' . $search . '%')
+
+                        ->orWhereHas('seller', function ($sellerQuery) use ($search) {
+                            $sellerQuery->where('name', 'LIKE', '%' . $search . '%');
+                        })
+
+                        ->orWhereHas('author', function ($authorQuery) use ($search) {
+                            $authorQuery->where('name', 'LIKE', '%' . $search . '%');
+                        });
+                });
+            }
         }
 
-        if ($request->filled('status')) {
-            $bookRequests = array_values(array_filter($bookRequests, fn ($item) => $item['status'] === $request->status));
+        /*
+        |--------------------------------------------------------------------------
+        | Category Filter
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->input('category'));
         }
 
-        return view('admin.book-requests.index', compact('bookRequests'));
+        /*
+        |--------------------------------------------------------------------------
+        | Results
+        |--------------------------------------------------------------------------
+        */
+
+        $bookRequests = $query->get();
+
+        return view(
+            'admin.book-requests.index',
+            compact('bookRequests')
+        );
     }
 
+    /**
+     * Create page.
+     *
+     * Book Requests are created from the frontend
+     * through Sell a Book, so admin does not need
+     * to manually create a request.
+     */
     public function create()
     {
-        return view('admin.book-requests.create');
+        return redirect()
+            ->route('admin.book.requests.index');
     }
 
+    /**
+     * Store is not used for admin book requests.
+     *
+     * Seller creates the request from Sell a Book.
+     */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'requester' => 'nullable|string|max:255',
-            'category' => 'nullable|string|max:255',
-            'budget' => 'nullable|numeric|min:0',
-            'note' => 'nullable|string|max:2000',
-            'status' => 'nullable|in:pending,approved,rejected',
+        return redirect()
+            ->route('admin.book.requests.index')
+            ->with(
+                'error',
+                'Book requests are created by sellers from the Sell a Book page.'
+            );
+    }
+
+    /**
+     * Show/edit a seller book request.
+     */
+    public function edit(Book $request)
+    {
+        $request->load([
+            'seller',
+            'category',
+            'author',
+            'publisher',
         ]);
 
-        $requests = $this->getBookRequests();
-        $requests[] = [
-            'id' => 'req_' . uniqid(),
-            'title' => $request->title,
-            'requester' => $request->requester ?? 'Unknown',
-            'category' => $request->category ?? 'general',
-            'budget' => $request->budget ?? '0',
-            'note' => $request->note,
-            'status' => $request->status ?? 'pending',
-            'created_at' => now()->format('Y-m-d'),
-            'updated_at' => now()->format('Y-m-d'),
-        ];
-
-        $this->saveBookRequests($requests);
-
-        return redirect()->route('admin.book.requests.index')->with('success', 'Book request created successfully.');
+        return view(
+            'admin.book-requests.edit',
+            [
+                'bookRequest' => $request,
+            ]
+        );
     }
 
-    public function edit($requestId)
+    /**
+     * Update seller book request.
+     */
+    public function update(Request $request, Book $book)
     {
-        $bookRequests = $this->getBookRequests();
-        $bookRequest = collect($bookRequests)->firstWhere('id', $requestId);
-
-        if (!$bookRequest) {
-            abort(404);
-        }
-
-        return view('admin.book-requests.edit', compact('bookRequest'));
-    }
-
-    public function update(Request $request, $requestId)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'requester' => 'nullable|string|max:255',
-            'category' => 'nullable|string|max:255',
-            'budget' => 'nullable|numeric|min:0',
-            'note' => 'nullable|string|max:2000',
-            'status' => 'nullable|in:pending,approved,rejected',
+        $validated = $request->validate([
+            'status' => [
+                'required',
+                'in:pending,approved,rejected',
+            ],
         ]);
 
-        $requests = $this->getBookRequests();
-        $index = collect($requests)->search(fn ($item) => $item['id'] === $requestId);
+        $book->update([
+            'status' => $validated['status'],
+        ]);
 
-        if ($index !== false) {
-            $requests[$index]['title'] = $request->title;
-            $requests[$index]['requester'] = $request->requester ?? $requests[$index]['requester'];
-            $requests[$index]['category'] = $request->category ?? $requests[$index]['category'];
-            $requests[$index]['budget'] = $request->budget ?? $requests[$index]['budget'];
-            $requests[$index]['note'] = $request->note;
-            $requests[$index]['status'] = $request->status ?? $requests[$index]['status'];
-            $requests[$index]['updated_at'] = now()->format('Y-m-d');
-            $this->saveBookRequests($requests);
-        }
-
-        return redirect()->route('admin.book.requests.index')->with('success', 'Book request #' . $requestId . ' updated successfully.');
+        return redirect()
+            ->route('admin.book.requests.index')
+            ->with(
+                'success',
+                'Book request status updated successfully.'
+            );
     }
 
-    public function destroy($requestId)
+    /**
+     * Delete a seller book request.
+     *
+     * This deletes the actual book submission.
+     */
+    public function destroy(Book $book)
     {
-        $requests = $this->getBookRequests();
-        $requests = array_values(array_filter($requests, fn ($item) => $item['id'] !== $requestId));
-        $this->saveBookRequests($requests);
+        $book->delete();
 
-        return redirect()->route('admin.book.requests.index')->with('success', 'Book request #' . $requestId . ' deleted successfully.');
+        return redirect()
+            ->route('admin.book.requests.index')
+            ->with(
+                'success',
+                'Book request deleted successfully.'
+            );
     }
 }

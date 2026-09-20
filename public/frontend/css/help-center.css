@@ -1,0 +1,1340 @@
+/* =========================================================
+   SecondBook - Help Center
+========================================================= */
+
+
+/* =========================================================
+   BASE
+========================================================= */
+
+.sb-help-page {
+    --sb-brown: #8B5E3C;
+    --sb-brown-dark: #70472d;
+    --sb-brown-light: #f4ebe4;
+    --sb-brown-soft: #faf6f2;
+
+    --sb-text: #211a16;
+    --sb-text-soft: #6f6863;
+    --sb-border: #e9e1db;
+    --sb-white: #ffffff;
+    --sb-bg: #ffffff;
+    --sb-section-bg: #fbf8f5;
+
+    background: var(--sb-bg);
+    color: var(--sb-text);
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.sb-help-hero {
+    position: relative;
+    padding: 105px 0 90px;
+    background:
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(139, 94, 60, 0.13),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #f9f5f1 0%,
+            #f5eee8 100%
+        );
+    overflow: hidden;
+}
+
+.sb-help-hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 850px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+/* =========================================================
+   HERO DECORATIONS
+========================================================= */
+
+.sb-help-hero-decoration {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.sb-help-decoration-one {
+    width: 310px;
+    height: 310px;
+    top: -170px;
+    right: -70px;
+    border: 1px solid rgba(139, 94, 60, 0.13);
+}
+
+.sb-help-decoration-two {
+    width: 190px;
+    height: 190px;
+    bottom: -105px;
+    left: -65px;
+    border: 1px solid rgba(139, 94, 60, 0.12);
+}
+
+.sb-help-decoration-three {
+    width: 10px;
+    height: 10px;
+    top: 28%;
+    left: 11%;
+    background: rgba(139, 94, 60, 0.3);
+    box-shadow:
+        22px 28px 0 rgba(139, 94, 60, 0.12),
+        46px -8px 0 rgba(139, 94, 60, 0.08);
+}
+
+
+/* =========================================================
+   EYEBROW
+========================================================= */
+
+.sb-help-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    padding: 8px 14px 8px 9px;
+    border: 1px solid rgba(139, 94, 60, 0.16);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.72);
+    color: var(--sb-brown);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.sb-help-eyebrow-icon {
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--sb-brown);
+    color: #ffffff;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   HERO TITLE
+========================================================= */
+
+.sb-help-hero h1 {
+    margin: 0;
+    color: #211a16;
+    font-size: clamp(42px, 5vw, 70px);
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -0.045em;
+}
+
+.sb-help-hero h1 span {
+    color: var(--sb-brown);
+}
+
+.sb-help-hero p {
+    max-width: 680px;
+    margin: 25px auto 0;
+    color: var(--sb-text-soft);
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.sb-help-search-wrapper {
+    max-width: 720px;
+    margin: 38px auto 0;
+}
+
+.sb-help-search {
+    display: flex;
+    align-items: center;
+    min-height: 68px;
+    padding: 7px 7px 7px 21px;
+    border: 1px solid rgba(139, 94, 60, 0.15);
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow:
+        0 18px 45px rgba(70, 48, 33, 0.09),
+        0 2px 8px rgba(70, 48, 33, 0.04);
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.sb-help-search:focus-within {
+    border-color: rgba(139, 94, 60, 0.42);
+    box-shadow:
+        0 20px 48px rgba(70, 48, 33, 0.12),
+        0 0 0 4px rgba(139, 94, 60, 0.07);
+}
+
+.sb-help-search-icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 13px;
+    color: var(--sb-brown);
+    font-size: 20px;
+}
+
+.sb-help-search input {
+    width: 100%;
+    min-width: 0;
+    height: 52px;
+    padding: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: #211a16;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.sb-help-search input::placeholder {
+    color: #aaa19b;
+}
+
+.sb-help-search-button {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-width: 118px;
+    height: 52px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 13px;
+    background: var(--sb-brown);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+}
+
+.sb-help-search-button:hover {
+    background: var(--sb-brown-dark);
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   POPULAR SEARCH LINKS
+========================================================= */
+
+.sb-help-popular {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 18px;
+    color: #8c837d;
+    font-size: 13px;
+}
+
+.sb-help-popular > span {
+    font-weight: 600;
+}
+
+.sb-help-popular a {
+    color: var(--sb-brown);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.sb-help-popular a:hover {
+    color: var(--sb-brown-dark);
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   GENERAL SECTION
+========================================================= */
+
+.sb-help-categories-section,
+.sb-help-popular-section,
+.sb-help-guides-section {
+    padding: 100px 0;
+}
+
+.sb-help-categories-section {
+    background: #ffffff;
+}
+
+.sb-help-popular-section {
+    background: var(--sb-section-bg);
+}
+
+.sb-help-guides-section {
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   SECTION HEADING
+========================================================= */
+
+.sb-help-section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 48px;
+}
+
+.sb-help-section-heading > div {
+    max-width: 620px;
+}
+
+.sb-help-section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    color: var(--sb-brown);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.sb-help-section-label i {
+    font-size: 14px;
+}
+
+.sb-help-section-heading h2,
+.sb-help-popular-intro h2 {
+    margin: 0;
+    color: #211a16;
+    font-size: clamp(30px, 3.4vw, 46px);
+    line-height: 1.12;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+}
+
+.sb-help-section-heading h2 span,
+.sb-help-popular-intro h2 span {
+    color: var(--sb-brown);
+}
+
+.sb-help-section-heading > p {
+    max-width: 390px;
+    margin: 0;
+    color: var(--sb-text-soft);
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   CATEGORY CARDS
+========================================================= */
+
+.sb-help-category-card {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    height: 100%;
+    min-height: 225px;
+    padding: 28px;
+    border: 1px solid var(--sb-border);
+    border-radius: 22px;
+    background: #ffffff;
+    color: inherit;
+    text-decoration: none;
+    overflow: hidden;
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.sb-help-category-card::after {
+    content: "";
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    right: -65px;
+    bottom: -65px;
+    border-radius: 50%;
+    background: rgba(139, 94, 60, 0.05);
+    transition: transform 0.35s ease;
+}
+
+.sb-help-category-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(139, 94, 60, 0.27);
+    box-shadow: 0 20px 45px rgba(60, 40, 26, 0.09);
+    color: inherit;
+}
+
+.sb-help-category-card:hover::after {
+    transform: scale(1.4);
+}
+
+.sb-help-category-icon {
+    position: relative;
+    z-index: 2;
+    flex: 0 0 auto;
+    width: 54px;
+    height: 54px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: var(--sb-brown-light);
+    color: var(--sb-brown);
+    font-size: 21px;
+    transition:
+        background 0.3s ease,
+        color 0.3s ease;
+}
+
+.sb-help-category-card:hover .sb-help-category-icon {
+    background: var(--sb-brown);
+    color: #ffffff;
+}
+
+.sb-help-category-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.sb-help-category-content strong {
+    margin-bottom: 9px;
+    color: #211a16;
+    font-size: 18px;
+    font-weight: 750;
+}
+
+.sb-help-category-content > span {
+    color: var(--sb-text-soft);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.sb-help-category-content small {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: auto;
+    padding-top: 19px;
+    color: var(--sb-brown);
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.sb-help-category-content small i {
+    font-size: 13px;
+    transition: transform 0.25s ease;
+}
+
+.sb-help-category-card:hover .sb-help-category-content small i {
+    transform: translate(2px, -2px);
+}
+
+
+/* =========================================================
+   POPULAR QUESTIONS LAYOUT
+========================================================= */
+
+.sb-help-popular-layout {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.15fr);
+    gap: 75px;
+    align-items: center;
+}
+
+.sb-help-popular-intro {
+    max-width: 500px;
+}
+
+.sb-help-popular-intro h2 {
+    margin-bottom: 22px;
+}
+
+.sb-help-popular-intro p {
+    margin: 0;
+    color: var(--sb-text-soft);
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   OUTLINE BUTTON
+========================================================= */
+
+.sb-help-outline-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 28px;
+    padding: 13px 18px;
+    border: 1px solid var(--sb-border);
+    border-radius: 12px;
+    background: #ffffff;
+    color: var(--sb-text);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+        color 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.sb-help-outline-btn:hover {
+    color: var(--sb-brown);
+    border-color: rgba(139, 94, 60, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(60, 40, 26, 0.07);
+}
+
+
+/* =========================================================
+   QUESTION LIST
+========================================================= */
+
+.sb-help-question-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sb-help-question {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 20px;
+    border: 1px solid var(--sb-border);
+    border-radius: 16px;
+    background: #ffffff;
+    color: inherit;
+    text-decoration: none;
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.sb-help-question:hover {
+    transform: translateX(5px);
+    border-color: rgba(139, 94, 60, 0.25);
+    box-shadow: 0 12px 30px rgba(60, 40, 26, 0.07);
+    color: inherit;
+}
+
+.sb-help-question-icon {
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: var(--sb-brown-light);
+    color: var(--sb-brown);
+    font-size: 18px;
+}
+
+.sb-help-question > span:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.sb-help-question strong {
+    margin-bottom: 4px;
+    color: #211a16;
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.sb-help-question small {
+    color: #8a817b;
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.sb-help-question > i:last-child {
+    color: #aaa19b;
+    font-size: 14px;
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.sb-help-question:hover > i:last-child {
+    color: var(--sb-brown);
+    transform: translateX(3px);
+}
+
+
+/* =========================================================
+   GUIDE CARDS
+========================================================= */
+
+.sb-help-guide-card {
+    position: relative;
+    height: 100%;
+    min-height: 340px;
+    padding: 31px;
+    border: 1px solid var(--sb-border);
+    border-radius: 22px;
+    background: #ffffff;
+    overflow: hidden;
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.sb-help-guide-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(139, 94, 60, 0.25);
+    box-shadow: 0 20px 45px rgba(60, 40, 26, 0.08);
+}
+
+.sb-help-guide-number {
+    position: absolute;
+    top: 23px;
+    right: 26px;
+    color: rgba(139, 94, 60, 0.13);
+    font-size: 44px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+}
+
+.sb-help-guide-icon {
+    width: 55px;
+    height: 55px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 27px;
+    border-radius: 16px;
+    background: var(--sb-brown-light);
+    color: var(--sb-brown);
+    font-size: 21px;
+}
+
+.sb-help-guide-card h3 {
+    margin: 0 0 13px;
+    color: #211a16;
+    font-size: 20px;
+    font-weight: 750;
+}
+
+.sb-help-guide-card p {
+    margin: 0;
+    color: var(--sb-text-soft);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.sb-help-guide-card a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    color: var(--sb-brown);
+    font-size: 13px;
+    font-weight: 750;
+    text-decoration: none;
+}
+
+.sb-help-guide-card a i {
+    transition: transform 0.2s ease;
+}
+
+.sb-help-guide-card a:hover i {
+    transform: translateX(4px);
+}
+
+
+/* =========================================================
+   CONTACT CTA
+========================================================= */
+
+.sb-help-contact {
+    padding: 30px 0 105px;
+    background: #ffffff;
+}
+
+.sb-help-contact-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 43px 48px;
+    border-radius: 25px;
+    background:
+        linear-gradient(
+            135deg,
+            #2d2119 0%,
+            #463022 100%
+        );
+    color: #ffffff;
+    overflow: hidden;
+}
+
+.sb-help-contact-decoration {
+    position: absolute;
+    width: 290px;
+    height: 290px;
+    right: -120px;
+    top: -145px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 50%;
+}
+
+.sb-help-contact-decoration::after {
+    content: "";
+    position: absolute;
+    inset: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 50%;
+}
+
+.sb-help-contact-icon {
+    position: relative;
+    z-index: 2;
+    flex: 0 0 auto;
+    width: 64px;
+    height: 64px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    font-size: 24px;
+}
+
+.sb-help-contact-content {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    min-width: 0;
+}
+
+.sb-help-contact-content > span {
+    display: block;
+    margin-bottom: 6px;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.sb-help-contact-content h2 {
+    margin: 0 0 8px;
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+}
+
+.sb-help-contact-content p {
+    max-width: 600px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.sb-help-contact-btn {
+    position: relative;
+    z-index: 2;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    padding: 14px 20px;
+    border-radius: 13px;
+    background: #ffffff;
+    color: #2d2119;
+    font-size: 13px;
+    font-weight: 750;
+    text-decoration: none;
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.sb-help-contact-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+    color: #2d2119;
+}
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+[data-theme="dark"] .sb-help-page,
+.dark-mode .sb-help-page,
+.dark-theme .sb-help-page {
+    --sb-text: #f3eee9;
+    --sb-text-soft: #aaa39d;
+    --sb-border: #2b3039;
+    --sb-bg: #11151c;
+    --sb-section-bg: #151a22;
+
+    background: #11151c;
+    color: #f3eee9;
+}
+
+
+/* Hero */
+
+[data-theme="dark"] .sb-help-hero,
+.dark-mode .sb-help-hero,
+.dark-theme .sb-help-hero {
+    background:
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(139, 94, 60, 0.17),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #171b22 0%,
+            #14181f 100%
+        );
+}
+
+[data-theme="dark"] .sb-help-hero h1,
+.dark-mode .sb-help-hero h1,
+.dark-theme .sb-help-hero h1 {
+    color: #f7f3ef;
+}
+
+[data-theme="dark"] .sb-help-hero p,
+.dark-mode .sb-help-hero p,
+.dark-theme .sb-help-hero p {
+    color: #aaa39d;
+}
+
+[data-theme="dark"] .sb-help-eyebrow,
+.dark-mode .sb-help-eyebrow,
+.dark-theme .sb-help-eyebrow {
+    border-color: rgba(139, 94, 60, 0.25);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+
+/* Search */
+
+[data-theme="dark"] .sb-help-search,
+.dark-mode .sb-help-search,
+.dark-theme .sb-help-search {
+    border-color: #303640;
+    background: #1b2028;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .sb-help-search:focus-within,
+.dark-mode .sb-help-search:focus-within,
+.dark-theme .sb-help-search:focus-within {
+    border-color: rgba(139, 94, 60, 0.55);
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.25),
+        0 0 0 4px rgba(139, 94, 60, 0.09);
+}
+
+[data-theme="dark"] .sb-help-search input,
+.dark-mode .sb-help-search input,
+.dark-theme .sb-help-search input {
+    color: #f3eee9;
+}
+
+[data-theme="dark"] .sb-help-search input::placeholder,
+.dark-mode .sb-help-search input::placeholder,
+.dark-theme .sb-help-search input::placeholder {
+    color: #777f89;
+}
+
+
+/* Sections */
+
+[data-theme="dark"] .sb-help-categories-section,
+.dark-mode .sb-help-categories-section,
+.dark-theme .sb-help-categories-section,
+[data-theme="dark"] .sb-help-guides-section,
+.dark-mode .sb-help-guides-section,
+.dark-theme .sb-help-guides-section {
+    background: #11151c;
+}
+
+[data-theme="dark"] .sb-help-popular-section,
+.dark-mode .sb-help-popular-section,
+.dark-theme .sb-help-popular-section {
+    background: #151a22;
+}
+
+[data-theme="dark"] .sb-help-section-heading h2,
+.dark-mode .sb-help-section-heading h2,
+.dark-theme .sb-help-section-heading h2,
+[data-theme="dark"] .sb-help-popular-intro h2,
+.dark-mode .sb-help-popular-intro h2,
+.dark-theme .sb-help-popular-intro h2 {
+    color: #f3eee9;
+}
+
+[data-theme="dark"] .sb-help-section-heading > p,
+.dark-mode .sb-help-section-heading > p,
+.dark-theme .sb-help-section-heading > p,
+[data-theme="dark"] .sb-help-popular-intro p,
+.dark-mode .sb-help-popular-intro p,
+.dark-theme .sb-help-popular-intro p {
+    color: #aaa39d;
+}
+
+
+/* Category Cards */
+
+[data-theme="dark"] .sb-help-category-card,
+.dark-mode .sb-help-category-card,
+.dark-theme .sb-help-category-card {
+    border-color: #2b3039;
+    background: #181d25;
+}
+
+[data-theme="dark"] .sb-help-category-card:hover,
+.dark-mode .sb-help-category-card:hover,
+.dark-theme .sb-help-category-card:hover {
+    border-color: rgba(139, 94, 60, 0.48);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.22);
+}
+
+[data-theme="dark"] .sb-help-category-content strong,
+.dark-mode .sb-help-category-content strong,
+.dark-theme .sb-help-category-content strong {
+    color: #f3eee9;
+}
+
+[data-theme="dark"] .sb-help-category-content > span,
+.dark-mode .sb-help-category-content > span,
+.dark-theme .sb-help-category-content > span {
+    color: #999fa8;
+}
+
+
+/* Questions */
+
+[data-theme="dark"] .sb-help-question,
+.dark-mode .sb-help-question,
+.dark-theme .sb-help-question {
+    border-color: #2b3039;
+    background: #181d25;
+}
+
+[data-theme="dark"] .sb-help-question:hover,
+.dark-mode .sb-help-question:hover,
+.dark-theme .sb-help-question:hover {
+    border-color: rgba(139, 94, 60, 0.45);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .sb-help-question strong,
+.dark-mode .sb-help-question strong,
+.dark-theme .sb-help-question strong {
+    color: #f3eee9;
+}
+
+[data-theme="dark"] .sb-help-question small,
+.dark-mode .sb-help-question small,
+.dark-theme .sb-help-question small {
+    color: #8e969f;
+}
+
+
+/* Guide Cards */
+
+[data-theme="dark"] .sb-help-guide-card,
+.dark-mode .sb-help-guide-card,
+.dark-theme .sb-help-guide-card {
+    border-color: #2b3039;
+    background: #181d25;
+}
+
+[data-theme="dark"] .sb-help-guide-card:hover,
+.dark-mode .sb-help-guide-card:hover,
+.dark-theme .sb-help-guide-card:hover {
+    border-color: rgba(139, 94, 60, 0.45);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.22);
+}
+
+[data-theme="dark"] .sb-help-guide-card h3,
+.dark-mode .sb-help-guide-card h3,
+.dark-theme .sb-help-guide-card h3 {
+    color: #f3eee9;
+}
+
+[data-theme="dark"] .sb-help-guide-card p,
+.dark-mode .sb-help-guide-card p,
+.dark-theme .sb-help-guide-card p {
+    color: #999fa8;
+}
+
+[data-theme="dark"] .sb-help-guide-number,
+.dark-mode .sb-help-guide-number,
+.dark-theme .sb-help-guide-number {
+    color: rgba(139, 94, 60, 0.2);
+}
+
+
+/* Outline Button */
+
+[data-theme="dark"] .sb-help-outline-btn,
+.dark-mode .sb-help-outline-btn,
+.dark-theme .sb-help-outline-btn {
+    border-color: #303640;
+    background: #1b2028;
+    color: #f3eee9;
+}
+
+[data-theme="dark"] .sb-help-outline-btn:hover,
+.dark-mode .sb-help-outline-btn:hover,
+.dark-theme .sb-help-outline-btn:hover {
+    border-color: rgba(139, 94, 60, 0.5);
+    color: #d6a47f;
+}
+
+
+/* Contact */
+
+[data-theme="dark"] .sb-help-contact,
+.dark-mode .sb-help-contact,
+.dark-theme .sb-help-contact {
+    background: #11151c;
+}
+
+
+/* =========================================================
+   RESPONSIVE - 991px
+========================================================= */
+
+@media (max-width: 991.98px) {
+
+    .sb-help-hero {
+        padding: 85px 0 75px;
+    }
+
+    .sb-help-categories-section,
+    .sb-help-popular-section,
+    .sb-help-guides-section {
+        padding: 80px 0;
+    }
+
+    .sb-help-section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 38px;
+    }
+
+    .sb-help-section-heading > p {
+        max-width: 620px;
+    }
+
+    .sb-help-popular-layout {
+        grid-template-columns: 1fr;
+        gap: 45px;
+    }
+
+    .sb-help-popular-intro {
+        max-width: 680px;
+    }
+
+    .sb-help-contact {
+        padding-bottom: 80px;
+    }
+
+    .sb-help-contact-box {
+        padding: 36px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - 767px
+========================================================= */
+
+@media (max-width: 767.98px) {
+
+    .sb-help-hero {
+        padding: 72px 0 65px;
+    }
+
+    .sb-help-hero h1 {
+        font-size: clamp(38px, 10vw, 52px);
+    }
+
+    .sb-help-hero p {
+        font-size: 15px;
+        line-height: 1.75;
+    }
+
+    .sb-help-search {
+        min-height: 62px;
+        padding-left: 16px;
+    }
+
+    .sb-help-search input {
+        height: 48px;
+        font-size: 14px;
+    }
+
+    .sb-help-search-button {
+        min-width: 50px;
+        width: 50px;
+        height: 48px;
+        padding: 0;
+    }
+
+    .sb-help-search-button span {
+        display: none;
+    }
+
+    .sb-help-popular {
+        line-height: 1.8;
+    }
+
+    .sb-help-categories-section,
+    .sb-help-popular-section,
+    .sb-help-guides-section {
+        padding: 65px 0;
+    }
+
+    .sb-help-section-heading h2,
+    .sb-help-popular-intro h2 {
+        font-size: 32px;
+    }
+
+    .sb-help-category-card {
+        min-height: 205px;
+    }
+
+    .sb-help-contact {
+        padding: 15px 0 65px;
+    }
+
+    .sb-help-contact-box {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 32px 27px;
+        border-radius: 22px;
+    }
+
+    .sb-help-contact-content h2 {
+        font-size: 25px;
+    }
+
+    .sb-help-contact-btn {
+        margin-top: 4px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - 575px
+========================================================= */
+
+@media (max-width: 575.98px) {
+
+    .sb-help-hero {
+        padding: 60px 0 55px;
+    }
+
+    .sb-help-eyebrow {
+        font-size: 10px;
+        letter-spacing: 0.06em;
+    }
+
+    .sb-help-eyebrow-icon {
+        width: 27px;
+        height: 27px;
+        font-size: 12px;
+    }
+
+    .sb-help-hero h1 {
+        font-size: 39px;
+    }
+
+    .sb-help-hero p {
+        margin-top: 19px;
+        font-size: 14px;
+    }
+
+    .sb-help-search-wrapper {
+        margin-top: 28px;
+    }
+
+    .sb-help-search {
+        padding: 6px 6px 6px 14px;
+        border-radius: 15px;
+    }
+
+    .sb-help-search-icon {
+        margin-right: 9px;
+        font-size: 17px;
+    }
+
+    .sb-help-search-button {
+        border-radius: 11px;
+    }
+
+    .sb-help-popular {
+        gap: 5px 8px;
+        font-size: 11px;
+    }
+
+    .sb-help-categories-section,
+    .sb-help-popular-section,
+    .sb-help-guides-section {
+        padding: 55px 0;
+    }
+
+    .sb-help-section-heading {
+        margin-bottom: 30px;
+    }
+
+    .sb-help-section-heading h2,
+    .sb-help-popular-intro h2 {
+        font-size: 29px;
+    }
+
+    .sb-help-section-heading > p {
+        font-size: 13px;
+    }
+
+    .sb-help-category-card {
+        min-height: 190px;
+        padding: 23px;
+        border-radius: 18px;
+        gap: 15px;
+    }
+
+    .sb-help-category-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        font-size: 18px;
+    }
+
+    .sb-help-category-content strong {
+        font-size: 16px;
+    }
+
+    .sb-help-category-content > span {
+        font-size: 12px;
+    }
+
+    .sb-help-question {
+        grid-template-columns: 42px minmax(0, 1fr) auto;
+        gap: 12px;
+        padding: 15px;
+        border-radius: 14px;
+    }
+
+    .sb-help-question-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        font-size: 16px;
+    }
+
+    .sb-help-question strong {
+        font-size: 13px;
+    }
+
+    .sb-help-question small {
+        font-size: 11px;
+    }
+
+    .sb-help-guide-card {
+        min-height: 300px;
+        padding: 26px;
+        border-radius: 19px;
+    }
+
+    .sb-help-contact-box {
+        padding: 27px 22px;
+    }
+
+    .sb-help-contact-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 15px;
+        font-size: 20px;
+    }
+
+    .sb-help-contact-content h2 {
+        font-size: 23px;
+    }
+
+    .sb-help-contact-content p {
+        font-size: 12px;
+    }
+
+    .sb-help-contact-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.sb-help-category-card:focus-visible,
+.sb-help-question:focus-visible,
+.sb-help-outline-btn:focus-visible,
+.sb-help-contact-btn:focus-visible,
+.sb-help-guide-card a:focus-visible,
+.sb-help-popular a:focus-visible,
+.sb-help-search-button:focus-visible {
+    outline: 3px solid rgba(139, 94, 60, 0.28);
+    outline-offset: 3px;
+}
+

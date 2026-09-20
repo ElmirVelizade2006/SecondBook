@@ -1,0 +1,1513 @@
+/* =========================================================
+   SecondBook - Shipping Information
+   Premium Darker Color Version
+========================================================= */
+
+.sb-shipping-page {
+    --shipping-brown: #8B5E3C;
+    --shipping-brown-dark: #70472d;
+    --shipping-brown-light: #a8734d;
+    --shipping-brown-soft: #ead8ca;
+
+    --shipping-white: #ffffff;
+    --shipping-bg: #f3eee9;
+    --shipping-section: #e9e1da;
+    --shipping-card: #ffffff;
+
+    --shipping-border: #d5c8be;
+
+    --shipping-text: #241d18;
+    --shipping-heading: #1d1713;
+    --shipping-muted: #665b54;
+
+    --shipping-shadow:
+        0 18px 45px rgba(50, 35, 25, 0.12);
+
+    background: var(--shipping-bg);
+    color: var(--shipping-text);
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.sb-shipping-hero {
+    position: relative;
+    padding: 110px 0 100px;
+
+    background:
+        radial-gradient(
+            circle at 10% 15%,
+            rgba(139, 94, 60, 0.18),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 85%,
+            rgba(112, 71, 45, 0.14),
+            transparent 32%
+        ),
+        #e9e0d8;
+
+    overflow: hidden;
+}
+
+.sb-shipping-hero-content {
+    position: relative;
+    z-index: 2;
+
+    max-width: 820px;
+    margin: 0 auto;
+
+    text-align: center;
+}
+
+.sb-shipping-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    margin-bottom: 23px;
+    padding: 8px 16px 8px 9px;
+
+    border: 1px solid rgba(112, 71, 45, 0.25);
+    border-radius: 50px;
+
+    background: rgba(255, 255, 255, 0.78);
+
+    color: var(--shipping-brown-dark);
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.sb-shipping-eyebrow-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    border-radius: 50%;
+
+    background: var(--shipping-brown-dark);
+    color: #ffffff;
+
+    font-size: 14px;
+}
+
+.sb-shipping-hero h1 {
+    margin: 0;
+
+    color: var(--shipping-heading);
+
+    font-size: clamp(48px, 6vw, 78px);
+    line-height: 1.02;
+
+    font-weight: 850;
+    letter-spacing: -0.05em;
+}
+
+.sb-shipping-hero h1 span {
+    color: var(--shipping-brown);
+}
+
+.sb-shipping-hero p {
+    max-width: 690px;
+
+    margin: 27px auto 0;
+
+    color: #554a43;
+
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   HERO DECORATIONS
+========================================================= */
+
+.sb-shipping-decoration {
+    position: absolute;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+.sb-shipping-decoration-one {
+    top: -130px;
+    left: -110px;
+
+    width: 320px;
+    height: 320px;
+
+    border: 1px solid rgba(112, 71, 45, 0.20);
+}
+
+.sb-shipping-decoration-two {
+    right: -140px;
+    bottom: -170px;
+
+    width: 390px;
+    height: 390px;
+
+    border: 1px solid rgba(112, 71, 45, 0.18);
+}
+
+
+/* =========================================================
+   SECTION HEADINGS
+========================================================= */
+
+.sb-shipping-overview,
+.sb-shipping-faq {
+    padding: 105px 0;
+}
+
+.sb-shipping-overview {
+    background: #ffffff;
+}
+
+.sb-shipping-faq {
+    background: #f3eee9;
+}
+
+.sb-shipping-section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 40px;
+
+    margin-bottom: 48px;
+}
+
+.sb-shipping-section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 14px;
+
+    color: var(--shipping-brown);
+
+    font-size: 12px;
+    font-weight: 850;
+
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.sb-shipping-section-label i {
+    font-size: 14px;
+}
+
+.sb-shipping-section-heading h2 {
+    max-width: 670px;
+
+    margin: 0;
+
+    color: var(--shipping-heading);
+
+    font-size: clamp(34px, 4vw, 49px);
+    line-height: 1.08;
+
+    font-weight: 850;
+    letter-spacing: -0.04em;
+}
+
+.sb-shipping-section-heading h2 span {
+    color: var(--shipping-brown);
+}
+
+.sb-shipping-section-heading > p {
+    max-width: 380px;
+
+    margin: 0;
+
+    color: var(--shipping-muted);
+
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   SHIPPING STEPS
+========================================================= */
+
+.sb-shipping-step {
+    position: relative;
+
+    height: 100%;
+    min-height: 285px;
+
+    padding: 32px;
+
+    border: 1px solid var(--shipping-border);
+    border-radius: 22px;
+
+    background: var(--shipping-card);
+
+    overflow: hidden;
+
+    box-shadow: 0 7px 24px rgba(48, 34, 24, 0.06);
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.sb-shipping-step::after {
+    content: "";
+
+    position: absolute;
+
+    right: -45px;
+    bottom: -55px;
+
+    width: 145px;
+    height: 145px;
+
+    border-radius: 50%;
+
+    background: rgba(139, 94, 60, 0.08);
+
+    transition: transform 0.3s ease;
+}
+
+.sb-shipping-step:hover {
+    border-color: rgba(112, 71, 45, 0.40);
+
+    box-shadow: var(--shipping-shadow);
+
+    transform: translateY(-7px);
+}
+
+.sb-shipping-step:hover::after {
+    transform: scale(1.35);
+}
+
+.sb-shipping-step-number {
+    position: absolute;
+
+    top: 21px;
+    right: 25px;
+
+    color: rgba(112, 71, 45, 0.17);
+
+    font-size: 44px;
+    line-height: 1;
+
+    font-weight: 900;
+}
+
+.sb-shipping-step-icon {
+    position: relative;
+    z-index: 1;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 58px;
+    height: 58px;
+
+    margin-bottom: 28px;
+
+    border-radius: 16px;
+
+    background: var(--shipping-brown);
+    color: #ffffff;
+
+    font-size: 21px;
+
+    box-shadow:
+        0 8px 20px rgba(112, 71, 45, 0.20);
+
+    transition: all 0.3s ease;
+}
+
+.sb-shipping-step:hover .sb-shipping-step-icon {
+    background: var(--shipping-brown-dark);
+    transform: scale(1.04);
+}
+
+.sb-shipping-step h3 {
+    position: relative;
+    z-index: 1;
+
+    margin: 0 0 12px;
+
+    color: var(--shipping-heading);
+
+    font-size: 19px;
+    font-weight: 850;
+}
+
+.sb-shipping-step p {
+    position: relative;
+    z-index: 1;
+
+    margin: 0;
+
+    color: var(--shipping-muted);
+
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   SHIPPING DETAILS
+========================================================= */
+
+.sb-shipping-details {
+    padding: 105px 0;
+
+    background: #e9e1da;
+}
+
+.sb-shipping-details-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 22px;
+}
+
+.sb-shipping-info-card {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 21px;
+
+    min-height: 195px;
+
+    padding: 31px;
+
+    border: 1px solid #d2c3b8;
+    border-radius: 22px;
+
+    background: #ffffff;
+
+    box-shadow: 0 7px 24px rgba(48, 34, 24, 0.06);
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.sb-shipping-info-card:hover {
+    border-color: rgba(112, 71, 45, 0.38);
+
+    box-shadow: var(--shipping-shadow);
+
+    transform: translateY(-5px);
+}
+
+.sb-shipping-info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 57px;
+    height: 57px;
+
+    flex: 0 0 57px;
+
+    border-radius: 16px;
+
+    background: var(--shipping-brown);
+    color: #ffffff;
+
+    font-size: 20px;
+
+    box-shadow:
+        0 8px 18px rgba(112, 71, 45, 0.18);
+}
+
+.sb-shipping-info-label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: var(--shipping-brown);
+
+    font-size: 11px;
+    font-weight: 850;
+
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.sb-shipping-info-card h3 {
+    margin: 0 0 11px;
+
+    color: var(--shipping-heading);
+
+    font-size: 18px;
+    line-height: 1.35;
+
+    font-weight: 850;
+}
+
+.sb-shipping-info-card p {
+    margin: 0;
+
+    color: var(--shipping-muted);
+
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   GOOD TO KNOW
+========================================================= */
+
+.sb-shipping-notes {
+    padding: 105px 0;
+
+    background: #ffffff;
+}
+
+.sb-shipping-notes-box {
+    position: relative;
+
+    display: flex;
+    align-items: flex-start;
+
+    gap: 32px;
+
+    padding: 45px;
+
+    border: 1px solid #d7c7bb;
+    border-radius: 26px;
+
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(139, 94, 60, 0.13),
+            transparent 30%
+        ),
+        #eee5de;
+
+    box-shadow: 0 10px 35px rgba(48, 34, 24, 0.07);
+
+    overflow: hidden;
+}
+
+.sb-shipping-notes-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 68px;
+    height: 68px;
+
+    flex: 0 0 68px;
+
+    border-radius: 19px;
+
+    background: var(--shipping-brown);
+    color: #ffffff;
+
+    font-size: 25px;
+
+    box-shadow:
+        0 9px 20px rgba(112, 71, 45, 0.20);
+}
+
+.sb-shipping-notes-content {
+    flex: 1;
+}
+
+.sb-shipping-notes-content > span {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: var(--shipping-brown);
+
+    font-size: 12px;
+    font-weight: 850;
+
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.sb-shipping-notes-content h2 {
+    margin: 0 0 27px;
+
+    color: var(--shipping-heading);
+
+    font-size: 31px;
+    line-height: 1.2;
+
+    font-weight: 850;
+}
+
+.sb-shipping-notes-list {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 15px 32px;
+}
+
+.sb-shipping-note {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 10px;
+
+    color: #5d5149;
+
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.sb-shipping-note i {
+    flex: 0 0 auto;
+
+    margin-top: 2px;
+
+    color: var(--shipping-brown);
+
+    font-size: 16px;
+}
+
+
+/* =========================================================
+   FAQ
+========================================================= */
+
+.sb-shipping-faq-grid {
+    display: flex;
+    flex-direction: column;
+
+    gap: 13px;
+
+    max-width: 900px;
+
+    margin: 0 auto;
+}
+
+.sb-shipping-faq-card {
+    display: grid;
+
+    grid-template-columns: 51px minmax(0, 1fr) auto;
+
+    align-items: center;
+
+    gap: 18px;
+
+    min-height: 84px;
+
+    padding: 16px 19px;
+
+    border: 1px solid #d5c8be;
+    border-radius: 17px;
+
+    background: #ffffff;
+
+    color: inherit;
+    text-decoration: none;
+
+    box-shadow: 0 7px 22px rgba(48, 34, 24, 0.06);
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.sb-shipping-faq-card:hover {
+    border-color: rgba(112, 71, 45, 0.40);
+
+    box-shadow: 0 15px 32px rgba(48, 34, 24, 0.10);
+
+    transform: translateX(5px);
+
+    color: inherit;
+}
+
+.sb-shipping-faq-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 51px;
+    height: 51px;
+
+    border-radius: 14px;
+
+    background: var(--shipping-brown);
+    color: #ffffff;
+
+    font-size: 16px;
+}
+
+.sb-shipping-faq-card > span:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+}
+
+.sb-shipping-faq-card strong {
+    margin-bottom: 4px;
+
+    color: var(--shipping-heading);
+
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.sb-shipping-faq-card small {
+    color: var(--shipping-muted);
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.sb-shipping-faq-card > i {
+    color: #806f63;
+
+    font-size: 14px;
+
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.sb-shipping-faq-card:hover > i {
+    color: var(--shipping-brown);
+
+    transform: translate(2px, -2px);
+}
+
+
+/* =========================================================
+   CONTACT CTA
+========================================================= */
+
+.sb-shipping-contact {
+    padding: 0 0 105px;
+
+    background: #f3eee9;
+}
+
+.sb-shipping-contact-box {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    gap: 30px;
+
+    min-height: 215px;
+
+    padding: 40px 46px;
+
+    border-radius: 27px;
+
+    background:
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(255, 255, 255, 0.11),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #694329,
+            #8B5E3C
+        );
+
+    color: #ffffff;
+
+    box-shadow:
+        0 20px 45px rgba(74, 47, 31, 0.20);
+
+    overflow: hidden;
+}
+
+.sb-shipping-contact-decoration {
+    position: absolute;
+
+    right: -90px;
+    bottom: -115px;
+
+    width: 280px;
+    height: 280px;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    border-radius: 50%;
+}
+
+.sb-shipping-contact-icon {
+    position: relative;
+    z-index: 1;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 72px;
+    height: 72px;
+
+    flex: 0 0 72px;
+
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 20px;
+
+    background: rgba(255, 255, 255, 0.13);
+
+    font-size: 27px;
+}
+
+.sb-shipping-contact-content {
+    position: relative;
+    z-index: 1;
+
+    flex: 1;
+}
+
+.sb-shipping-contact-content > span {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: rgba(255, 255, 255, 0.74);
+
+    font-size: 12px;
+    font-weight: 750;
+
+    letter-spacing: 0.04em;
+}
+
+.sb-shipping-contact-content h2 {
+    margin: 0 0 8px;
+
+    color: #ffffff;
+
+    font-size: 32px;
+    line-height: 1.15;
+
+    font-weight: 850;
+}
+
+.sb-shipping-contact-content p {
+    max-width: 610px;
+
+    margin: 0;
+
+    color: rgba(255, 255, 255, 0.80);
+
+    font-size: 13px;
+    line-height: 1.75;
+}
+
+.sb-shipping-contact-btn {
+    position: relative;
+    z-index: 1;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    min-width: 170px;
+    height: 53px;
+
+    padding: 0 21px;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+    color: #6e462e;
+
+    font-size: 13px;
+    font-weight: 850;
+
+    text-decoration: none;
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        color 0.25s ease;
+}
+
+.sb-shipping-contact-btn:hover {
+    background: #f2e9e2;
+    color: #593720;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   FOCUS
+========================================================= */
+
+.sb-shipping-page a:focus-visible {
+    outline: 3px solid rgba(139, 94, 60, 0.30);
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+[data-theme="dark"] .sb-shipping-page,
+.dark-mode .sb-shipping-page,
+.dark-theme .sb-shipping-page {
+    --shipping-brown: #b9784d;
+    --shipping-brown-dark: #9b603b;
+    --shipping-brown-light: #c99168;
+    --shipping-brown-soft: rgba(185, 120, 77, 0.18);
+
+    --shipping-bg: #0d1420;
+    --shipping-section: #111a29;
+    --shipping-card: #172234;
+
+    --shipping-border: #29374a;
+
+    --shipping-text: #d8dee7;
+    --shipping-heading: #f4f6f8;
+    --shipping-muted: #a6b0bf;
+
+    --shipping-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.28);
+
+    background: var(--shipping-bg);
+    color: var(--shipping-text);
+}
+
+
+/* =========================================================
+   DARK - HERO
+========================================================= */
+
+[data-theme="dark"] .sb-shipping-hero,
+.dark-mode .sb-shipping-hero,
+.dark-theme .sb-shipping-hero {
+    background:
+        radial-gradient(
+            circle at 10% 15%,
+            rgba(185, 120, 77, 0.15),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 85%,
+            rgba(112, 71, 45, 0.12),
+            transparent 32%
+        ),
+        #0d1420;
+}
+
+[data-theme="dark"] .sb-shipping-eyebrow,
+.dark-mode .sb-shipping-eyebrow,
+.dark-theme .sb-shipping-eyebrow {
+    border-color: #334155;
+
+    background: #172234;
+
+    color: #d19a72;
+}
+
+[data-theme="dark"] .sb-shipping-eyebrow-icon,
+.dark-mode .sb-shipping-eyebrow-icon,
+.dark-theme .sb-shipping-eyebrow-icon {
+    background: #9b603b;
+}
+
+[data-theme="dark"] .sb-shipping-hero h1,
+.dark-mode .sb-shipping-hero h1,
+.dark-theme .sb-shipping-hero h1 {
+    color: #f4f6f8;
+}
+
+[data-theme="dark"] .sb-shipping-hero h1 span,
+.dark-mode .sb-shipping-hero h1 span,
+.dark-theme .sb-shipping-hero h1 span {
+    color: #c99168;
+}
+
+[data-theme="dark"] .sb-shipping-hero p,
+.dark-mode .sb-shipping-hero p,
+.dark-theme .sb-shipping-hero p {
+    color: #a6b0bf;
+}
+
+
+/* =========================================================
+   DARK - SECTIONS
+========================================================= */
+
+[data-theme="dark"] .sb-shipping-overview,
+.dark-mode .sb-shipping-overview,
+.dark-theme .sb-shipping-overview {
+    background: #0d1420;
+}
+
+[data-theme="dark"] .sb-shipping-details,
+.dark-mode .sb-shipping-details,
+.dark-theme .sb-shipping-details {
+    background: #111a29;
+}
+
+[data-theme="dark"] .sb-shipping-notes,
+.dark-mode .sb-shipping-notes,
+.dark-theme .sb-shipping-notes {
+    background: #0d1420;
+}
+
+[data-theme="dark"] .sb-shipping-faq,
+.dark-mode .sb-shipping-faq,
+.dark-theme .sb-shipping-faq {
+    background: #111a29;
+}
+
+[data-theme="dark"] .sb-shipping-contact,
+.dark-mode .sb-shipping-contact,
+.dark-theme .sb-shipping-contact {
+    background: #0d1420;
+}
+
+[data-theme="dark"] .sb-shipping-section-heading h2,
+.dark-mode .sb-shipping-section-heading h2,
+.dark-theme .sb-shipping-section-heading h2 {
+    color: #f4f6f8;
+}
+
+[data-theme="dark"] .sb-shipping-section-heading h2 span,
+.dark-mode .sb-shipping-section-heading h2 span,
+.dark-theme .sb-shipping-section-heading h2 span {
+    color: #c99168;
+}
+
+[data-theme="dark"] .sb-shipping-section-heading > p,
+.dark-mode .sb-shipping-section-heading > p,
+.dark-theme .sb-shipping-section-heading > p {
+    color: #a6b0bf;
+}
+
+[data-theme="dark"] .sb-shipping-section-label,
+.dark-mode .sb-shipping-section-label,
+.dark-theme .sb-shipping-section-label {
+    color: #c99168;
+}
+
+
+/* =========================================================
+   DARK - STEP CARDS
+========================================================= */
+
+[data-theme="dark"] .sb-shipping-step,
+.dark-mode .sb-shipping-step,
+.dark-theme .sb-shipping-step {
+    border-color: #29374a;
+
+    background: #172234;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+[data-theme="dark"] .sb-shipping-step:hover,
+.dark-mode .sb-shipping-step:hover,
+.dark-theme .sb-shipping-step:hover {
+    border-color: #8b5a3b;
+
+    box-shadow:
+        0 20px 42px rgba(0, 0, 0, 0.27);
+}
+
+[data-theme="dark"] .sb-shipping-step-number,
+.dark-mode .sb-shipping-step-number,
+.dark-theme .sb-shipping-step-number {
+    color: rgba(201, 145, 104, 0.14);
+}
+
+[data-theme="dark"] .sb-shipping-step-icon,
+.dark-mode .sb-shipping-step-icon,
+.dark-theme .sb-shipping-step-icon {
+    background: #8B5E3C;
+
+    color: #ffffff;
+}
+
+[data-theme="dark"] .sb-shipping-step h3,
+.dark-mode .sb-shipping-step h3,
+.dark-theme .sb-shipping-step h3 {
+    color: #f4f6f8;
+}
+
+[data-theme="dark"] .sb-shipping-step p,
+.dark-mode .sb-shipping-step p,
+.dark-theme .sb-shipping-step p {
+    color: #a6b0bf;
+}
+
+
+/* =========================================================
+   DARK - INFORMATION CARDS
+========================================================= */
+
+[data-theme="dark"] .sb-shipping-info-card,
+.dark-mode .sb-shipping-info-card,
+.dark-theme .sb-shipping-info-card {
+    border-color: #29374a;
+
+    background: #172234;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+[data-theme="dark"] .sb-shipping-info-card:hover,
+.dark-mode .sb-shipping-info-card:hover,
+.dark-theme .sb-shipping-info-card:hover {
+    border-color: #8b5a3b;
+
+    box-shadow:
+        0 20px 42px rgba(0, 0, 0, 0.27);
+}
+
+[data-theme="dark"] .sb-shipping-info-icon,
+.dark-mode .sb-shipping-info-icon,
+.dark-theme .sb-shipping-info-icon {
+    background: #8B5E3C;
+
+    color: #ffffff;
+}
+
+[data-theme="dark"] .sb-shipping-info-label,
+.dark-mode .sb-shipping-info-label,
+.dark-theme .sb-shipping-info-label {
+    color: #c99168;
+}
+
+[data-theme="dark"] .sb-shipping-info-card h3,
+.dark-mode .sb-shipping-info-card h3,
+.dark-theme .sb-shipping-info-card h3 {
+    color: #f4f6f8;
+}
+
+[data-theme="dark"] .sb-shipping-info-card p,
+.dark-mode .sb-shipping-info-card p,
+.dark-theme .sb-shipping-info-card p {
+    color: #a6b0bf;
+}
+
+
+/* =========================================================
+   DARK - NOTES
+========================================================= */
+
+[data-theme="dark"] .sb-shipping-notes-box,
+.dark-mode .sb-shipping-notes-box,
+.dark-theme .sb-shipping-notes-box {
+    border-color: #29374a;
+
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(185, 120, 77, 0.13),
+            transparent 30%
+        ),
+        #172234;
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.20);
+}
+
+[data-theme="dark"] .sb-shipping-notes-content > span,
+.dark-mode .sb-shipping-notes-content > span,
+.dark-theme .sb-shipping-notes-content > span {
+    color: #c99168;
+}
+
+[data-theme="dark"] .sb-shipping-notes-content h2,
+.dark-mode .sb-shipping-notes-content h2,
+.dark-theme .sb-shipping-notes-content h2 {
+    color: #f4f6f8;
+}
+
+[data-theme="dark"] .sb-shipping-note,
+.dark-mode .sb-shipping-note,
+.dark-theme .sb-shipping-note {
+    color: #a6b0bf;
+}
+
+[data-theme="dark"] .sb-shipping-note i,
+.dark-mode .sb-shipping-note i,
+.dark-theme .sb-shipping-note i {
+    color: #c99168;
+}
+
+
+/* =========================================================
+   DARK - FAQ
+========================================================= */
+
+[data-theme="dark"] .sb-shipping-faq-card,
+.dark-mode .sb-shipping-faq-card,
+.dark-theme .sb-shipping-faq-card {
+    border-color: #29374a;
+
+    background: #172234;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+[data-theme="dark"] .sb-shipping-faq-card:hover,
+.dark-mode .sb-shipping-faq-card:hover,
+.dark-theme .sb-shipping-faq-card:hover {
+    border-color: #8b5a3b;
+
+    box-shadow:
+        0 16px 35px rgba(0, 0, 0, 0.27);
+}
+
+[data-theme="dark"] .sb-shipping-faq-icon,
+.dark-mode .sb-shipping-faq-icon,
+.dark-theme .sb-shipping-faq-icon {
+    background: #8B5E3C;
+
+    color: #ffffff;
+}
+
+[data-theme="dark"] .sb-shipping-faq-card strong,
+.dark-mode .sb-shipping-faq-card strong,
+.dark-theme .sb-shipping-faq-card strong {
+    color: #f4f6f8;
+}
+
+[data-theme="dark"] .sb-shipping-faq-card small,
+.dark-mode .sb-shipping-faq-card small,
+.dark-theme .sb-shipping-faq-card small {
+    color: #98a5b6;
+}
+
+[data-theme="dark"] .sb-shipping-faq-card > i,
+.dark-mode .sb-shipping-faq-card > i,
+.dark-theme .sb-shipping-faq-card > i {
+    color: #77869a;
+}
+
+
+/* =========================================================
+   DARK - CONTACT
+========================================================= */
+
+[data-theme="dark"] .sb-shipping-contact-box,
+.dark-mode .sb-shipping-contact-box,
+.dark-theme .sb-shipping-contact-box {
+    background:
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(255, 255, 255, 0.08),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #553521,
+            #794b30
+        );
+
+    box-shadow:
+        0 20px 45px rgba(0, 0, 0, 0.30);
+}
+
+
+/* =========================================================
+   RESPONSIVE - 992px
+========================================================= */
+
+@media (max-width: 991.98px) {
+
+    .sb-shipping-hero {
+        padding: 85px 0 80px;
+    }
+
+    .sb-shipping-overview,
+    .sb-shipping-faq {
+        padding: 80px 0;
+    }
+
+    .sb-shipping-details,
+    .sb-shipping-notes {
+        padding: 80px 0;
+    }
+
+    .sb-shipping-section-heading {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+    .sb-shipping-section-heading > p {
+        max-width: 600px;
+    }
+
+    .sb-shipping-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sb-shipping-contact-box {
+        padding: 35px;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE - 768px
+========================================================= */
+
+@media (max-width: 767.98px) {
+
+    .sb-shipping-hero {
+        padding: 70px 0 65px;
+    }
+
+    .sb-shipping-hero h1 {
+        font-size: 48px;
+    }
+
+    .sb-shipping-hero p {
+        font-size: 15px;
+
+        line-height: 1.7;
+    }
+
+    .sb-shipping-section-heading h2 {
+        font-size: 36px;
+    }
+
+    .sb-shipping-step {
+        min-height: 230px;
+
+        padding: 27px;
+    }
+
+    .sb-shipping-info-card {
+        min-height: auto;
+
+        padding: 25px;
+    }
+
+    .sb-shipping-notes-box {
+        flex-direction: column;
+
+        padding: 32px;
+    }
+
+    .sb-shipping-notes-list {
+        grid-template-columns: 1fr;
+    }
+
+    .sb-shipping-faq-card {
+        grid-template-columns:
+            46px
+            minmax(0, 1fr)
+            auto;
+
+        gap: 13px;
+    }
+
+    .sb-shipping-faq-icon {
+        width: 46px;
+        height: 46px;
+    }
+
+    .sb-shipping-faq-card small {
+        display: none;
+    }
+
+    .sb-shipping-contact-box {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        padding: 30px;
+    }
+
+    .sb-shipping-contact-content h2 {
+        font-size: 28px;
+    }
+
+    .sb-shipping-contact-btn {
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE - 576px
+========================================================= */
+
+@media (max-width: 575.98px) {
+
+    .sb-shipping-hero {
+        padding: 58px 0 55px;
+    }
+
+    .sb-shipping-hero h1 {
+        font-size: 40px;
+    }
+
+    .sb-shipping-hero p {
+        margin-top: 18px;
+
+        font-size: 14px;
+    }
+
+    .sb-shipping-overview,
+    .sb-shipping-faq {
+        padding: 65px 0;
+    }
+
+    .sb-shipping-details,
+    .sb-shipping-notes {
+        padding: 65px 0;
+    }
+
+    .sb-shipping-section-heading {
+        margin-bottom: 32px;
+    }
+
+    .sb-shipping-section-heading h2 {
+        font-size: 31px;
+    }
+
+    .sb-shipping-step {
+        min-height: 0;
+
+        padding: 23px;
+
+        border-radius: 18px;
+    }
+
+    .sb-shipping-step-icon {
+        width: 49px;
+        height: 49px;
+
+        margin-bottom: 22px;
+
+        border-radius: 14px;
+    }
+
+    .sb-shipping-step h3 {
+        font-size: 16px;
+    }
+
+    .sb-shipping-step p {
+        font-size: 12px;
+    }
+
+    .sb-shipping-info-card {
+        gap: 15px;
+
+        padding: 22px;
+
+        border-radius: 18px;
+    }
+
+    .sb-shipping-info-icon {
+        width: 48px;
+        height: 48px;
+
+        flex-basis: 48px;
+
+        border-radius: 14px;
+
+        font-size: 18px;
+    }
+
+    .sb-shipping-info-card h3 {
+        font-size: 16px;
+    }
+
+    .sb-shipping-info-card p {
+        font-size: 12px;
+    }
+
+    .sb-shipping-notes-box {
+        padding: 25px;
+
+        border-radius: 21px;
+    }
+
+    .sb-shipping-notes-icon {
+        width: 57px;
+        height: 57px;
+
+        flex-basis: 57px;
+
+        border-radius: 17px;
+    }
+
+    .sb-shipping-notes-content h2 {
+        font-size: 25px;
+    }
+
+    .sb-shipping-faq-card {
+        grid-template-columns:
+            42px
+            minmax(0, 1fr)
+            15px;
+
+        gap: 11px;
+
+        padding: 14px;
+    }
+
+    .sb-shipping-faq-icon {
+        width: 42px;
+        height: 42px;
+    }
+
+    .sb-shipping-faq-card strong {
+        font-size: 13px;
+    }
+
+    .sb-shipping-contact {
+        padding-bottom: 65px;
+    }
+
+    .sb-shipping-contact-box {
+        padding: 26px;
+
+        border-radius: 21px;
+    }
+
+    .sb-shipping-contact-icon {
+        width: 58px;
+        height: 58px;
+
+        flex-basis: 58px;
+
+        border-radius: 17px;
+
+        font-size: 22px;
+    }
+
+    .sb-shipping-contact-content h2 {
+        font-size: 25px;
+    }
+}
+
