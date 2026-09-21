@@ -101,14 +101,28 @@
 
                             <td>
                                 @if(!empty($author->photo))
+
+                                    @php
+                                        $authorPhotoUrl = filter_var(
+                                            $author->photo,
+                                            FILTER_VALIDATE_URL
+                                        )
+                                            ? $author->photo
+                                            : asset('storage/' . $author->photo);
+                                    @endphp
+
                                     <img
-                                        src="{{ asset('storage/' . $author->photo) }}"
+                                        src="{{ $authorPhotoUrl }}"
                                         alt="{{ $author->name }}"
-                                        class="author-thumb rounded border">
+                                        class="author-thumb rounded border"
+                                        loading="lazy">
+
                                 @else
+
                                     <div class="book-cover-thumb">
                                         <i class="bi bi-person"></i>
                                     </div>
+
                                 @endif
                             </td>
 

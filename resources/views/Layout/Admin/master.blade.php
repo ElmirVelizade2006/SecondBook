@@ -534,6 +534,43 @@
 
 </script>
 
+{{-- Session Alerts --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: @json(session('success')),
+                confirmButtonColor: '#8b5e3c',
+                confirmButtonText: 'OK'
+            });
+        @endif
+
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: @json(session('error')),
+                confirmButtonColor: '#8b5e3c',
+                confirmButtonText: 'OK'
+            });
+        @endif
+
+        @if(session('warning'))
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: @json(session('warning')),
+                confirmButtonColor: '#8b5e3c',
+                confirmButtonText: 'OK'
+            });
+        @endif
+
+    });
+</script>
+
 
 {{-- Page Specific Scripts --}}
 @stack('scripts')

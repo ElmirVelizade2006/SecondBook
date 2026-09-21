@@ -23,6 +23,7 @@ class OrdersController extends Controller
         return view('Frontend.orders', compact('orders'));
     }
 
+
     /*
     |--------------------------------------------------------------------------
     | Order Details
@@ -36,11 +37,23 @@ class OrdersController extends Controller
             403
         );
 
-        $order->load('book.author');
+        $order->load([
+            'book.author',
+            'payment',
+        ]);
 
-        return view('Frontend.order-details', compact('order'));
+        return view(
+            'Frontend.order-details',
+            compact('order')
+        );
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Order Tracking
+    |--------------------------------------------------------------------------
+    */
 
     public function tracking(Order $order)
     {
@@ -77,9 +90,12 @@ class OrdersController extends Controller
             ],
         ];
 
-        return view('Frontend.order-tracking', compact(
-            'order',
-            'statuses'
-        ));
+        return view(
+            'Frontend.order-tracking',
+            compact(
+                'order',
+                'statuses'
+            )
+        );
     }
 }

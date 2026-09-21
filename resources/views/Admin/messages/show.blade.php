@@ -17,7 +17,6 @@
     <div class="messages-header mb-4">
 
         <div>
-
             <h1 class="messages-title">
                 Message Details
             </h1>
@@ -25,9 +24,7 @@
             <p class="messages-subtitle">
                 View customer message details and manage its status.
             </p>
-
         </div>
-
 
         <a
             href="{{ route('admin.messages.index') }}"
@@ -46,13 +43,11 @@
 
     <div class="message-detail-card">
 
-
         {{-- =====================================================
             Top Section
         ====================================================== --}}
 
         <div class="message-detail-top">
-
 
             {{-- Sender --}}
 
@@ -84,21 +79,15 @@
                 @if($message->status === 'unread')
 
                     <span class="message-status unread">
-
                         <i class="bi bi-envelope"></i>
-
                         Unread
-
                     </span>
 
                 @else
 
                     <span class="message-status read">
-
                         <i class="bi bi-envelope-open"></i>
-
                         Read
-
                     </span>
 
                 @endif
@@ -135,7 +124,6 @@
         ====================================================== --}}
 
         <div class="message-detail-meta">
-
 
             {{-- Received --}}
 
@@ -213,11 +201,8 @@
                         type="submit"
                         class="btn btn-outline-secondary mark-unread-btn"
                     >
-
                         <i class="bi bi-envelope"></i>
-
                         Mark as Unread
-
                     </button>
 
                 </form>
@@ -226,16 +211,34 @@
 
 
             {{-- =================================================
-                Reply via Email
+                Reply via Gmail
             ================================================== --}}
 
             <a
                 href="{{ route('admin.messages.reply', $message) }}"
                 class="btn btn-primary"
             >
-                <i class="bi bi-reply"></i>
-                Reply
+                <i class="bi bi-envelope"></i>
+                Reply via Gmail
             </a>
+
+
+            {{-- =================================================
+                Reply in Site
+                Available when the sender has a SecondBook account
+            ================================================== --}}
+
+            @if($messageUser)
+
+                <a
+                    href="{{ route('admin.messages.site-reply', $message) }}"
+                    class="btn btn-outline-primary"
+                >
+                    <i class="bi bi-chat-left-text"></i>
+                    Reply in Site
+                </a>
+
+            @endif
 
 
             {{-- =================================================
@@ -256,11 +259,8 @@
                     type="button"
                     class="btn btn-outline-danger delete-message-btn"
                 >
-
                     <i class="bi bi-trash"></i>
-
                     Delete
-
                 </button>
 
             </form>
@@ -281,9 +281,7 @@
 @push('scripts')
 
 <script>
-
 document.addEventListener('DOMContentLoaded', function () {
-
 
     /* =========================================================
        Delete Message
@@ -300,21 +298,32 @@ document.addEventListener('DOMContentLoaded', function () {
                 const form =
                     button.closest('.delete-message-form');
 
-
                 if (!form) {
                     return;
                 }
 
 
+                /* -------------------------------------------------
+                   Fallback confirmation
+                ------------------------------------------------- */
+
                 if (typeof Swal === 'undefined') {
 
-                    if (confirm('Are you sure you want to delete this message?')) {
+                    if (
+                        confirm(
+                            'Are you sure you want to delete this message?'
+                        )
+                    ) {
                         form.submit();
                     }
 
                     return;
                 }
 
+
+                /* -------------------------------------------------
+                   SweetAlert confirmation
+                ------------------------------------------------- */
 
                 Swal.fire({
 
@@ -341,9 +350,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }).then(function (result) {
 
                     if (result.isConfirmed) {
-
                         form.submit();
-
                     }
 
                 });
@@ -361,28 +368,27 @@ document.addEventListener('DOMContentLoaded', function () {
         .querySelectorAll('.mark-unread-form')
         .forEach(function (form) {
 
-            form.addEventListener('submit', function (event) {
+            form.addEventListener('submit', function () {
 
                 const button =
                     form.querySelector('.mark-unread-btn');
 
-
-                if (button) {
-
-                    button.disabled = true;
-
-                    button.innerHTML =
-                        '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>' +
-                        'Marking as Unread...';
-
+                if (!button) {
+                    return;
                 }
+
+                button.disabled = true;
+
+                button.innerHTML =
+                    '<span class="spinner-border spinner-border-sm me-2" ' +
+                    'role="status" aria-hidden="true"></span>' +
+                    'Marking as Unread...';
 
             });
 
         });
 
 });
-
 </script>
 
 @endpush

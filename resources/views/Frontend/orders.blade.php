@@ -11,7 +11,7 @@
 <main class="sb-orders-page">
 
     {{-- =====================================================
-       PAGE HEADER
+       HERO
     ====================================================== --}}
 
     <section class="orders-hero">
@@ -21,28 +21,61 @@
             <div class="orders-breadcrumb">
 
                 <a href="{{ route('frontend.home') }}">
+                    <i class="bi bi-house-door"></i>
                     Home
                 </a>
 
                 <i class="bi bi-chevron-right"></i>
 
-                <span>My Orders</span>
+                <span>
+                    Orders
+                </span>
 
             </div>
 
 
-            <div class="orders-header">
+            <div class="orders-intro">
 
-                <span class="orders-eyebrow">
-                    <i class="bi bi-bag-check"></i>
-                    Your Purchases
-                </span>
+                <div class="orders-intro-content">
 
-                <h1>My Orders</h1>
+                    <span class="orders-label">
+                        <i class="bi bi-box-seam"></i>
+                        Order History
+                    </span>
 
-                <p>
-                    View and manage all your SecondBook orders in one place.
-                </p>
+                    <h1>
+                        Your Orders
+                    </h1>
+
+                    <p>
+                        Keep track of your purchases, delivery status,
+                        and order details all in one place.
+                    </p>
+
+                </div>
+
+
+                <div class="orders-intro-card">
+
+                    <div class="orders-intro-icon">
+                        <i class="bi bi-bag-heart"></i>
+                    </div>
+
+                    <div class="orders-intro-info">
+
+                        <span>
+                            Everything you've ordered
+                        </span>
+
+                        <strong>
+                            My Purchases
+                        </strong>
+
+                    </div>
+
+                    <i class="bi bi-arrow-up-right orders-intro-arrow"></i>
+
+                </div>
 
             </div>
 
@@ -52,22 +85,22 @@
 
 
     {{-- =====================================================
-       ORDERS CONTENT
+       CONTENT
     ====================================================== --}}
 
     <section class="orders-section">
 
         <div class="container">
 
-            {{-- =================================================
-               ALERTS
-            ================================================== --}}
+            {{-- Alerts --}}
 
             @if(session('success'))
 
                 <div class="orders-alert orders-alert-success">
 
-                    <i class="bi bi-check-circle-fill"></i>
+                    <div class="orders-alert-icon">
+                        <i class="bi bi-check-lg"></i>
+                    </div>
 
                     <span>
                         {{ session('success') }}
@@ -82,7 +115,9 @@
 
                 <div class="orders-alert orders-alert-error">
 
-                    <i class="bi bi-exclamation-circle-fill"></i>
+                    <div class="orders-alert-icon">
+                        <i class="bi bi-exclamation-lg"></i>
+                    </div>
 
                     <span>
                         {{ session('error') }}
@@ -102,6 +137,46 @@
                 <div class="orders-list">
 
                     @foreach($orders as $order)
+
+                        @php
+
+                            $statusClass = match($order->order_status) {
+
+                                'pending' =>
+                                    'status-pending',
+
+                                'processing' =>
+                                    'status-processing',
+
+                                'shipped' =>
+                                    'status-shipped',
+
+                                'delivered' =>
+                                    'status-delivered',
+
+                                'cancelled' =>
+                                    'status-cancelled',
+
+                                default =>
+                                    'status-pending',
+                            };
+
+                            $paymentMethod = $order->payment_method
+                                ? ucwords(
+                                    str_replace(
+                                        '_',
+                                        ' ',
+                                        $order->payment_method
+                                    )
+                                )
+                                : 'Not selected';
+
+                            $paymentStatus = $order->payment_status
+                                ? ucfirst($order->payment_status)
+                                : 'Pending';
+
+                        @endphp
+
 
                         <article class="order-card">
 
@@ -143,17 +218,41 @@
 
                             <div class="order-card-body">
 
-                                {{-- Book --}}
+
+                                {{-- BOOK --}}
+
                                 <div class="order-book">
 
                                     <div class="order-book-image">
 
                                         @if($order->book && !empty($order->book->cover))
 
+                                            @php
+
+                                                $cover = $order->book->cover;
+
+                                                $coverUrl = filter_var(
+                                                    $cover,
+                                                    FILTER_VALIDATE_URL
+                                                )
+                                                    ? $cover
+                                                    : asset('storage/' . ltrim($cover, '/'));
+
+                                            @endphp
+
                                             <img
-                                                src="{{ asset('storage/' . $order->book->cover) }}"
+                                                src="{{ $coverUrl }}"
                                                 alt="{{ $order->book->title }}"
+                                                loading="lazy"
+                                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
                                             >
+
+                                            <div
+                                                class="order-book-placeholder"
+                                                style="display: none;"
+                                            >
+                                                <i class="bi bi-book"></i>
+                                            </div>
 
                                         @else
 
@@ -181,6 +280,7 @@
                                         <div class="order-book-meta">
 
                                             <span>
+                                                <i class="bi bi-box-seam"></i>
                                                 Qty: {{ $order->quantity }}
                                             </span>
 
@@ -198,7 +298,8 @@
                                 </div>
 
 
-                                {{-- Order Info --}}
+                                {{-- ORDER INFO --}}
+
                                 <div class="order-info">
 
                                     <div class="order-info-item">
@@ -221,15 +322,7 @@
                                         </span>
 
                                         <strong class="payment-method">
-
-                                            {{ ucwords(
-                                                str_replace(
-                                                    '_',
-                                                    ' ',
-                                                    $order->payment_method
-                                                )
-                                            ) }}
-
+                                            {{ $paymentMethod }}
                                         </strong>
 
                                     </div>
@@ -237,23 +330,13 @@
                                 </div>
 
 
-                                {{-- Status --}}
+                                {{-- STATUS --}}
+
                                 <div class="order-status-wrapper">
 
                                     <span class="order-status-label">
                                         Status
                                     </span>
-
-                                    @php
-                                        $statusClass = match($order->order_status) {
-                                            'pending' => 'status-pending',
-                                            'processing' => 'status-processing',
-                                            'shipped' => 'status-shipped',
-                                            'delivered' => 'status-delivered',
-                                            'cancelled' => 'status-cancelled',
-                                            default => 'status-pending',
-                                        };
-                                    @endphp
 
                                     <span class="order-status {{ $statusClass }}">
 
@@ -276,15 +359,21 @@
 
                                 <div class="order-payment-status">
 
-                                    <i class="bi bi-credit-card"></i>
+                                    <div class="order-payment-icon">
+                                        <i class="bi bi-credit-card-2-front"></i>
+                                    </div>
 
-                                    <span>
-                                        Payment:
-                                    </span>
+                                    <div>
 
-                                    <strong>
-                                        {{ ucfirst($order->payment_status) }}
-                                    </strong>
+                                        <span>
+                                            Payment Status
+                                        </span>
+
+                                        <strong>
+                                            {{ $paymentStatus }}
+                                        </strong>
+
+                                    </div>
 
                                 </div>
 
@@ -339,16 +428,20 @@
                 <div class="orders-empty">
 
                     <div class="orders-empty-icon">
-
                         <i class="bi bi-bag-x"></i>
-
                     </div>
 
-                    <h2>No Orders Yet</h2>
+                    <span class="orders-empty-label">
+                        Your shopping journey starts here
+                    </span>
+
+                    <h2>
+                        No Orders Yet
+                    </h2>
 
                     <p>
                         You haven't placed any orders yet.
-                        Start exploring our collection and find your next book.
+                        Explore our collection and find your next book.
                     </p>
 
                     <a
@@ -361,6 +454,8 @@
                         <span>
                             Browse Books
                         </span>
+
+                        <i class="bi bi-arrow-right"></i>
 
                     </a>
 
@@ -375,3 +470,4 @@
 </main>
 
 @endsection
+

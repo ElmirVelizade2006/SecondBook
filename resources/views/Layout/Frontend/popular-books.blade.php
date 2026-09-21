@@ -1,419 +1,826 @@
-	<section id="popular-books" class="bookshelf py-5 my-5">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
+<section id="popular-books" class="bookshelf py-5 my-5">
 
-					<div class="section-header align-center">
-						<div class="title">
-							<span>Top picks from our marketplace</span>
-						</div>
-						<h2 class="section-title">Popular Books</h2>
-					</div>
+    <div class="container">
 
-					<ul class="tabs">
-						<li data-tab-target="#all-genre" class="active tab">Best Selling</li>
-						<li data-tab-target="#business" class="tab">Trending Now</li>
-						<li data-tab-target="#technology" class="tab">New Arrivals</li>
-						<li data-tab-target="#romantic" class="tab">Editor Picks</li>
-						<li data-tab-target="#adventure" class="tab">Most Loved</li>
-						<li data-tab-target="#fictional" class="tab">Budget Deals</li>
-					</ul>
+        <div class="row">
 
-					<div class="tab-content">
-						<div id="all-genre" data-tab-content class="active">
-							<div class="row">
+            <div class="col-md-12">
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item1.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Portrait photography</h3>
-											<span>Adam Silber</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item2.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Once upon a time</h3>
-											<span>Klien Marry</span>
-											<div class="item-price">$ 35.00</div>
-										</figcaption>
-									</div>
-								</div>
+                <div class="section-header align-center">
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item3.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Tips of simple lifestyle</h3>
-											<span>Bratt Smith</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+                    <div class="title">
+                        <span>Top picks from our marketplace</span>
+                    </div>
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item4.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Just felt from outside</h3>
-											<span>Nicole Wilson</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+                    <h2 class="section-title">
+                        Popular Books
+                    </h2>
 
-							</div>
-							<div class="row">
+                </div>
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item5.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Peaceful Enlightment</h3>
-											<span>Marmik Lama</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item6.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Great travel at desert</h3>
-											<span>Sanchit Howdy</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+                <ul class="tabs">
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item7.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Life among the pirates</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+                    <li
+                        data-tab-target="#all-genre"
+                        class="active tab"
+                    >
+                        Best Selling
+                    </li>
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item8.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Simple way of piece life</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+                    <li
+                        data-tab-target="#business"
+                        class="tab"
+                    >
+                        Trending Now
+                    </li>
 
-							</div>
+                    <li
+                        data-tab-target="#technology"
+                        class="tab"
+                    >
+                        New Arrivals
+                    </li>
 
-						</div>
-						<div id="business" data-tab-content>
-							<div class="row">
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item2.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Peaceful Enlightment</h3>
-											<span>Marmik Lama</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+                    <li
+                        data-tab-target="#romantic"
+                        class="tab"
+                    >
+                        Editor Picks
+                    </li>
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item4.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Great travel at desert</h3>
-											<span>Sanchit Howdy</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+                    <li
+                        data-tab-target="#adventure"
+                        class="tab"
+                    >
+                        Most Loved
+                    </li>
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item6.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Life among the pirates</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+                    <li
+                        data-tab-target="#fictional"
+                        class="tab"
+                    >
+                        Budget Deals
+                    </li>
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item8.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Simple way of piece life</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+                </ul>
 
-							</div>
-						</div>
 
-						<div id="technology" data-tab-content>
-							<div class="row">
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item1.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Peaceful Enlightment</h3>
-											<span>Marmik Lama</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+                <div class="tab-content">
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item3.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Great travel at desert</h3>
-											<span>Sanchit Howdy</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item5.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Life among the pirates</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+                    {{-- =====================================================
+                        BEST SELLING
+                    ====================================================== --}}
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item7.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Simple way of piece life</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
-							</div>
-						</div>
+                    <div
+                        id="all-genre"
+                        data-tab-content
+                        class="active"
+                    >
 
-						<div id="romantic" data-tab-content>
-							<div class="row">
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item1.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Peaceful Enlightment</h3>
-											<span>Marmik Lama</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+                        <div class="row">
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item3.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Great travel at desert</h3>
-											<span>Sanchit Howdy</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+                            @forelse($bestSellingBooks as $book)
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item5.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Life among the pirates</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+                                @php
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item7.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Simple way of piece life</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
-							</div>
-						</div>
+                                    $bookImage = null;
 
-						<div id="adventure" data-tab-content>
-							<div class="row">
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item5.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Life among the pirates</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+                                    if (!empty($book->cover)) {
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item7.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Simple way of piece life</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
-							</div>
-						</div>
+                                        $bookImage = filter_var(
+                                            $book->cover,
+                                            FILTER_VALIDATE_URL
+                                        )
+                                            ? $book->cover
+                                            : asset('storage/' . $book->cover);
 
-						<div id="fictional" data-tab-content>
-							<div class="row">
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item5.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Life among the pirates</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
+                                    }
 
-								<div class="col-md-3">
-									<div class="product-item">
-										<figure class="product-style">
-											<img src="images/tab-item7.jpg" alt="Books" class="product-item">
-											<button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-												Cart</button>
-										</figure>
-										<figcaption>
-											<h3>Simple way of piece life</h3>
-											<span>Armor Ramsey</span>
-											<div class="item-price">$ 40.00</div>
-										</figcaption>
-									</div>
-								</div>
-							</div>
-						</div>
+                                @endphp
 
-					</div>
 
-				</div><!--inner-tabs-->
+                                <div class="col-md-3">
 
-			</div>
-		</div>
-	</section>
+                                    <div class="product-item">
+
+                                        <figure class="product-style">
+
+                                            @if($bookImage)
+
+                                                <img
+                                                    src="{{ $bookImage }}"
+                                                    alt="{{ $book->title }}"
+                                                    class="product-item"
+                                                    loading="lazy"
+                                                >
+
+                                            @else
+
+                                                <img
+                                                    src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=90"
+                                                    alt="{{ $book->title }}"
+                                                    class="product-item"
+                                                    loading="lazy"
+                                                >
+
+                                            @endif
+
+
+                                            <form
+                                                action="{{ route('frontend.cart.add', $book) }}"
+                                                method="POST"
+                                                class="add-to-cart-form"
+                                            >
+
+                                                @csrf
+
+                                                <input
+                                                    type="hidden"
+                                                    name="quantity"
+                                                    value="1"
+                                                >
+
+                                                <button
+                                                    type="submit"
+                                                    class="add-to-cart"
+                                                >
+                                                    Add to Cart
+                                                </button>
+
+                                            </form>
+
+                                        </figure>
+
+
+                                        <figcaption>
+
+                                            <h3>
+                                                {{ $book->title }}
+                                            </h3>
+
+                                            <span>
+                                                {{ $book->author->name ?? 'Unknown Author' }}
+                                            </span>
+
+                                            <div class="item-price">
+                                                $ {{ number_format($book->price, 2) }}
+                                            </div>
+
+                                        </figcaption>
+
+                                    </div>
+
+                                </div>
+
+                            @empty
+
+                                <div class="col-12 text-center py-5">
+
+                                    <i class="bi bi-book fs-1 text-muted"></i>
+
+                                    <h4 class="mt-3">
+                                        No best selling books available
+                                    </h4>
+
+                                </div>
+
+                            @endforelse
+
+                        </div>
+
+                    </div>
+
+
+
+                    {{-- =====================================================
+                        TRENDING NOW
+                    ====================================================== --}}
+
+                    <div
+                        id="business"
+                        data-tab-content
+                    >
+
+                        <div class="row">
+
+                            @forelse($trendingBooks as $book)
+
+                                @php
+
+                                    $bookImage = null;
+
+                                    if (!empty($book->cover)) {
+
+                                        $bookImage = filter_var(
+                                            $book->cover,
+                                            FILTER_VALIDATE_URL
+                                        )
+                                            ? $book->cover
+                                            : asset('storage/' . $book->cover);
+
+                                    }
+
+                                @endphp
+
+
+                                <div class="col-md-3">
+
+                                    <div class="product-item">
+
+                                        <figure class="product-style">
+
+                                            @if($bookImage)
+
+                                                <img
+                                                    src="{{ $bookImage }}"
+                                                    alt="{{ $book->title }}"
+                                                    class="product-item"
+                                                    loading="lazy"
+                                                >
+
+                                            @else
+
+                                                <img
+                                                    src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=90"
+                                                    alt="{{ $book->title }}"
+                                                    class="product-item"
+                                                    loading="lazy"
+                                                >
+
+                                            @endif
+
+
+                                            <form
+                                                action="{{ route('frontend.cart.add', $book) }}"
+                                                method="POST"
+                                                class="add-to-cart-form"
+                                            >
+
+                                                @csrf
+
+                                                <input
+                                                    type="hidden"
+                                                    name="quantity"
+                                                    value="1"
+                                                >
+
+                                                <button
+                                                    type="submit"
+                                                    class="add-to-cart"
+                                                >
+                                                    Add to Cart
+                                                </button>
+
+                                            </form>
+
+                                        </figure>
+
+
+                                        <figcaption>
+
+                                            <h3>
+                                                {{ $book->title }}
+                                            </h3>
+
+                                            <span>
+                                                {{ $book->author->name ?? 'Unknown Author' }}
+                                            </span>
+
+                                            <div class="item-price">
+                                                $ {{ number_format($book->price, 2) }}
+                                            </div>
+
+                                        </figcaption>
+
+                                    </div>
+
+                                </div>
+
+                            @empty
+
+                                <div class="col-12 text-center py-5">
+
+                                    <i class="bi bi-graph-up-arrow fs-1 text-muted"></i>
+
+                                    <h4 class="mt-3">
+                                        No trending books available
+                                    </h4>
+
+                                </div>
+
+                            @endforelse
+
+                        </div>
+
+                    </div>
+
+
+
+                    {{-- =====================================================
+                        NEW ARRIVALS
+                    ====================================================== --}}
+
+                    <div
+                        id="technology"
+                        data-tab-content
+                    >
+
+                        <div class="row">
+
+                            @forelse($newArrivals as $book)
+
+                                @php
+
+                                    $bookImage = null;
+
+                                    if (!empty($book->cover)) {
+
+                                        $bookImage = filter_var(
+                                            $book->cover,
+                                            FILTER_VALIDATE_URL
+                                        )
+                                            ? $book->cover
+                                            : asset('storage/' . $book->cover);
+
+                                    }
+
+                                @endphp
+
+
+                                <div class="col-md-3">
+
+                                    <div class="product-item">
+
+                                        <figure class="product-style">
+
+                                            @if($bookImage)
+
+                                                <img
+                                                    src="{{ $bookImage }}"
+                                                    alt="{{ $book->title }}"
+                                                    class="product-item"
+                                                    loading="lazy"
+                                                >
+
+                                            @else
+
+                                                <img
+                                                    src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=90"
+                                                    alt="{{ $book->title }}"
+                                                    class="product-item"
+                                                    loading="lazy"
+                                                >
+
+                                            @endif
+
+
+                                            <form
+                                                action="{{ route('frontend.cart.add', $book) }}"
+                                                method="POST"
+                                                class="add-to-cart-form"
+                                            >
+
+                                                @csrf
+
+                                                <input
+                                                    type="hidden"
+                                                    name="quantity"
+                                                    value="1"
+                                                >
+
+                                                <button
+                                                    type="submit"
+                                                    class="add-to-cart"
+                                                >
+                                                    Add to Cart
+                                                </button>
+
+                                            </form>
+
+                                        </figure>
+
+
+                                        <figcaption>
+
+                                            <h3>
+                                                {{ $book->title }}
+                                            </h3>
+
+                                            <span>
+                                                {{ $book->author->name ?? 'Unknown Author' }}
+                                            </span>
+
+                                            <div class="item-price">
+                                                $ {{ number_format($book->price, 2) }}
+                                            </div>
+
+                                        </figcaption>
+
+                                    </div>
+
+                                </div>
+
+                            @empty
+
+                                <div class="col-12 text-center py-5">
+
+                                    <i class="bi bi-stars fs-1 text-muted"></i>
+
+                                    <h4 class="mt-3">
+                                        No new arrivals available
+                                    </h4>
+
+                                </div>
+
+                            @endforelse
+
+                        </div>
+
+                    </div>
+
+
+
+                    {{-- =====================================================
+                        EDITOR PICKS
+                    ====================================================== --}}
+
+                    <div
+                        id="romantic"
+                        data-tab-content
+                    >
+
+                        <div class="row">
+
+                            @forelse($editorPicks as $book)
+
+                                @php
+
+                                    $bookImage = null;
+
+                                    if (!empty($book->cover)) {
+
+                                        $bookImage = filter_var(
+                                            $book->cover,
+                                            FILTER_VALIDATE_URL
+                                        )
+                                            ? $book->cover
+                                            : asset('storage/' . $book->cover);
+
+                                    }
+
+                                @endphp
+
+
+                                <div class="col-md-3">
+
+                                    <div class="product-item">
+
+                                        <figure class="product-style">
+
+                                            @if($bookImage)
+
+                                                <img
+                                                    src="{{ $bookImage }}"
+                                                    alt="{{ $book->title }}"
+                                                    class="product-item"
+                                                    loading="lazy"
+                                                >
+
+                                            @else
+
+                                                <img
+                                                    src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=90"
+                                                    alt="{{ $book->title }}"
+                                                    class="product-item"
+                                                    loading="lazy"
+                                                >
+
+                                            @endif
+
+
+                                            <form
+                                                action="{{ route('frontend.cart.add', $book) }}"
+                                                method="POST"
+                                                class="add-to-cart-form"
+                                            >
+
+                                                @csrf
+
+                                                <input
+                                                    type="hidden"
+                                                    name="quantity"
+                                                    value="1"
+                                                >
+
+                                                <button
+                                                    type="submit"
+                                                    class="add-to-cart"
+                                                >
+                                                    Add to Cart
+                                                </button>
+
+                                            </form>
+
+                                        </figure>
+
+
+                                        <figcaption>
+
+                                            <h3>
+                                                {{ $book->title }}
+                                            </h3>
+
+                                            <span>
+                                                {{ $book->author->name ?? 'Unknown Author' }}
+                                            </span>
+
+                                            <div class="item-price">
+                                                $ {{ number_format($book->price, 2) }}
+                                            </div>
+
+                                        </figcaption>
+
+                                    </div>
+
+                                </div>
+
+                            @empty
+
+                                <div class="col-12 text-center py-5">
+
+                                    <i class="bi bi-pencil-square fs-1 text-muted"></i>
+
+                                    <h4 class="mt-3">
+                                        No editor picks available
+                                    </h4>
+
+                                </div>
+
+                            @endforelse
+
+                        </div>
+
+                    </div>
+
+
+
+                    {{-- =====================================================
+                        MOST LOVED
+                    ====================================================== --}}
+
+                    <div
+                        id="adventure"
+                        data-tab-content
+                    >
+
+                        <div class="row">
+
+                            @forelse($mostLovedBooks as $book)
+
+                                @php
+
+                                    $bookImage = null;
+
+                                    if (!empty($book->cover)) {
+
+                                        $bookImage = filter_var(
+                                            $book->cover,
+                                            FILTER_VALIDATE_URL
+                                        )
+                                            ? $book->cover
+                                            : asset('storage/' . $book->cover);
+
+                                    }
+
+                                @endphp
+
+
+                                <div class="col-md-3">
+
+                                    <div class="product-item">
+
+                                        <figure class="product-style">
+
+                                            @if($bookImage)
+
+                                                <img
+                                                    src="{{ $bookImage }}"
+                                                    alt="{{ $book->title }}"
+                                                    class="product-item"
+                                                    loading="lazy"
+                                                >
+
+                                            @else
+
+                                                <img
+                                                    src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=90"
+                                                    alt="{{ $book->title }}"
+                                                    class="product-item"
+                                                    loading="lazy"
+                                                >
+
+                                            @endif
+
+
+                                            <form
+                                                action="{{ route('frontend.cart.add', $book) }}"
+                                                method="POST"
+                                                class="add-to-cart-form"
+                                            >
+
+                                                @csrf
+
+                                                <input
+                                                    type="hidden"
+                                                    name="quantity"
+                                                    value="1"
+                                                >
+
+                                                <button
+                                                    type="submit"
+                                                    class="add-to-cart"
+                                                >
+                                                    Add to Cart
+                                                </button>
+
+                                            </form>
+
+                                        </figure>
+
+
+                                        <figcaption>
+
+                                            <h3>
+                                                {{ $book->title }}
+                                            </h3>
+
+                                            <span>
+                                                {{ $book->author->name ?? 'Unknown Author' }}
+                                            </span>
+
+                                            <div class="item-price">
+                                                $ {{ number_format($book->price, 2) }}
+                                            </div>
+
+                                        </figcaption>
+
+                                    </div>
+
+                                </div>
+
+                            @empty
+
+                                <div class="col-12 text-center py-5">
+
+                                    <i class="bi bi-heart fs-1 text-muted"></i>
+
+                                    <h4 class="mt-3">
+                                        No loved books available
+                                    </h4>
+
+                                </div>
+
+                            @endforelse
+
+                        </div>
+
+                    </div>
+
+
+
+                    {{-- =====================================================
+                        BUDGET DEALS
+                    ====================================================== --}}
+
+                    <div
+                        id="fictional"
+                        data-tab-content
+                    >
+
+                        <div class="row">
+
+                            @forelse($budgetDeals as $book)
+
+                                @php
+
+                                    $bookImage = null;
+
+                                    if (!empty($book->cover)) {
+
+                                        $bookImage = filter_var(
+                                            $book->cover,
+                                            FILTER_VALIDATE_URL
+                                        )
+                                            ? $book->cover
+                                            : asset('storage/' . $book->cover);
+
+                                    }
+
+                                @endphp
+
+
+                                <div class="col-md-3">
+
+                                    <div class="product-item">
+
+                                        <figure class="product-style">
+
+                                            @if($bookImage)
+
+                                                <img
+                                                    src="{{ $bookImage }}"
+                                                    alt="{{ $book->title }}"
+                                                    class="product-item"
+                                                    loading="lazy"
+                                                >
+
+                                            @else
+
+                                                <img
+                                                    src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=90"
+                                                    alt="{{ $book->title }}"
+                                                    class="product-item"
+                                                    loading="lazy"
+                                                >
+
+                                            @endif
+
+
+                                            <form
+                                                action="{{ route('frontend.cart.add', $book) }}"
+                                                method="POST"
+                                                class="add-to-cart-form"
+                                            >
+
+                                                @csrf
+
+                                                <input
+                                                    type="hidden"
+                                                    name="quantity"
+                                                    value="1"
+                                                >
+
+                                                <button
+                                                    type="submit"
+                                                    class="add-to-cart"
+                                                >
+                                                    Add to Cart
+                                                </button>
+
+                                            </form>
+
+                                        </figure>
+
+
+                                        <figcaption>
+
+                                            <h3>
+                                                {{ $book->title }}
+                                            </h3>
+
+                                            <span>
+                                                {{ $book->author->name ?? 'Unknown Author' }}
+                                            </span>
+
+                                            <div class="item-price">
+                                                $ {{ number_format($book->price, 2) }}
+                                            </div>
+
+                                        </figcaption>
+
+                                    </div>
+
+                                </div>
+
+                            @empty
+
+                                <div class="col-12 text-center py-5">
+
+                                    <i class="bi bi-tags fs-1 text-muted"></i>
+
+                                    <h4 class="mt-3">
+                                        No budget deals available
+                                    </h4>
+
+                                </div>
+
+                            @endforelse
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+

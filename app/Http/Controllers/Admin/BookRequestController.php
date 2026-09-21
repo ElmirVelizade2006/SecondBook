@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Book;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class BookRequestController extends Controller
@@ -34,16 +35,21 @@ class BookRequestController extends Controller
 
             if ($search !== '') {
                 $query->where(function ($q) use ($search) {
-
                     $q->where('title', 'LIKE', '%' . $search . '%')
                         ->orWhere('isbn', 'LIKE', '%' . $search . '%')
-
                         ->orWhereHas('seller', function ($sellerQuery) use ($search) {
-                            $sellerQuery->where('name', 'LIKE', '%' . $search . '%');
+                            $sellerQuery->where(
+                                'name',
+                                'LIKE',
+                                '%' . $search . '%'
+                            );
                         })
-
                         ->orWhereHas('author', function ($authorQuery) use ($search) {
-                            $authorQuery->where('name', 'LIKE', '%' . $search . '%');
+                            $authorQuery->where(
+                                'name',
+                                'LIKE',
+                                '%' . $search . '%'
+                            );
                         });
                 });
             }
@@ -56,7 +62,10 @@ class BookRequestController extends Controller
         */
 
         if ($request->filled('category')) {
-            $query->where('category_id', $request->input('category'));
+            $query->where(
+                'category_id',
+                $request->input('category')
+            );
         }
 
         /*
@@ -75,10 +84,6 @@ class BookRequestController extends Controller
 
     /**
      * Create page.
-     *
-     * Book Requests are created from the frontend
-     * through Sell a Book, so admin does not need
-     * to manually create a request.
      */
     public function create()
     {
@@ -88,8 +93,6 @@ class BookRequestController extends Controller
 
     /**
      * Store is not used for admin book requests.
-     *
-     * Seller creates the request from Sell a Book.
      */
     public function store(Request $request)
     {
@@ -104,9 +107,9 @@ class BookRequestController extends Controller
     /**
      * Show/edit a seller book request.
      */
-    public function edit(Book $request)
+    public function edit(Book $book)
     {
-        $request->load([
+        $book->load([
             'seller',
             'category',
             'author',
@@ -116,7 +119,7 @@ class BookRequestController extends Controller
         return view(
             'admin.book-requests.edit',
             [
-                'bookRequest' => $request,
+                'bookRequest' => $book,
             ]
         );
     }
@@ -129,26 +132,78 @@ class BookRequestController extends Controller
         $validated = $request->validate([
             'status' => [
                 'required',
-                'in:pending,approved,rejected',
+                'in:pending,approved,rejected,changes_requested',
+            ],
+
+            'message' => [
+                'nullable',
+                'string',
+                'max:2000',
             ],
         ]);
 
+        $book->load('seller');
+
+        $status = $validated['status'];
+        $message = trim($validated['message'] ?? '');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Update Book Status
+        |--------------------------------------------------------------------------
+        */
+
         $book->update([
-            'status' => $validated['status'],
+            'status' => $status,
         ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Create User Notification
+        |--------------------------------------------------------------------------
+        */
+
+        if ($book->seller_id && $message !== '') {
+
+            $title = match ($status) {
+                'approved' => 'Book Request Approved',
+                'rejected' => 'Book Request Rejected',
+                'changes_requested' => 'Changes Requested',
+                default => 'Book Request Updated',
+            };
+
+            Notification::create([
+                'user_id' => $book->seller_id,
+                'type' => 'book_request',
+                'title' => $title,
+                'message' => $message,
+                'read_at' => null,
+            ]);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Success Message
+        |--------------------------------------------------------------------------
+        */
+
+        $successMessage = match ($status) {
+            'approved' => 'Book request approved successfully.',
+            'rejected' => 'Book request rejected and seller notified.',
+            'changes_requested' => 'Changes requested and seller notified.',
+            default => 'Book request status updated successfully.',
+        };
 
         return redirect()
             ->route('admin.book.requests.index')
             ->with(
                 'success',
-                'Book request status updated successfully.'
+                $successMessage
             );
     }
 
     /**
      * Delete a seller book request.
-     *
-     * This deletes the actual book submission.
      */
     public function destroy(Book $book)
     {

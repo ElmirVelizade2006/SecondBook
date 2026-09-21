@@ -8,6 +8,25 @@
 
 @section('content')
 
+@php
+    $paymentMethod = $order->payment_method
+        ? ucwords(str_replace('_', ' ', $order->payment_method))
+        : 'Not selected';
+
+    $paymentStatus = $order->payment_status ?? 'pending';
+
+    $orderStatus = $order->order_status ?? 'pending';
+
+    $coverUrl = null;
+
+    if ($order->book && !empty($order->book->cover)) {
+        $coverUrl = filter_var($order->book->cover, FILTER_VALIDATE_URL)
+            ? $order->book->cover
+            : asset('storage/' . ltrim($order->book->cover, '/'));
+    }
+@endphp
+
+
 <main class="sb-order-details-page">
 
     {{-- =========================================================
@@ -17,9 +36,11 @@
 
         <div class="container">
 
+            {{-- Breadcrumb --}}
             <div class="order-details-breadcrumb">
 
                 <a href="{{ route('frontend.home') }}">
+                    <i class="bi bi-house"></i>
                     Home
                 </a>
 
@@ -37,10 +58,14 @@
 
             </div>
 
+
+            {{-- Hero Content --}}
             <div class="order-details-heading">
 
-                <div>
+                <div class="order-details-heading-content">
+
                     <span class="order-details-eyebrow">
+                        <i class="bi bi-receipt"></i>
                         ORDER INFORMATION
                     </span>
 
@@ -51,7 +76,9 @@
                     <p>
                         Review your order, shipping information and payment status.
                     </p>
+
                 </div>
+
 
                 <a
                     href="{{ route('frontend.orders') }}"
@@ -75,36 +102,54 @@
 
         <div class="container">
 
-            {{-- Success Message --}}
+            {{-- =================================================
+                ALERTS
+            ================================================== --}}
+
             @if(session('success'))
 
                 <div class="order-alert order-alert-success">
-                    <i class="bi bi-check-circle-fill"></i>
 
-                    <span>
-                        {{ session('success') }}
-                    </span>
+                    <div class="order-alert-icon">
+                        <i class="bi bi-check-lg"></i>
+                    </div>
+
+                    <div>
+                        <strong>Success</strong>
+
+                        <span>
+                            {{ session('success') }}
+                        </span>
+                    </div>
+
                 </div>
 
             @endif
 
 
-            {{-- Error Message --}}
             @if(session('error'))
 
                 <div class="order-alert order-alert-error">
-                    <i class="bi bi-exclamation-circle-fill"></i>
 
-                    <span>
-                        {{ session('error') }}
-                    </span>
+                    <div class="order-alert-icon">
+                        <i class="bi bi-exclamation-lg"></i>
+                    </div>
+
+                    <div>
+                        <strong>Something went wrong</strong>
+
+                        <span>
+                            {{ session('error') }}
+                        </span>
+                    </div>
+
                 </div>
 
             @endif
 
 
             {{-- =================================================
-                ORDER HEADER
+                ORDER OVERVIEW
             ================================================== --}}
             <div class="order-main-card">
 
@@ -116,11 +161,21 @@
                             ORDER NUMBER
                         </span>
 
-                        <h2>
-                            #{{ $order->order_number }}
-                        </h2>
+                        <div class="order-number-row">
+
+                            <h2>
+                                #{{ $order->order_number }}
+                            </h2>
+
+                            <span class="order-copy-badge">
+                                <i class="bi bi-hash"></i>
+                                Order
+                            </span>
+
+                        </div>
 
                     </div>
+
 
                     <div class="order-status-area">
 
@@ -128,8 +183,12 @@
                             ORDER STATUS
                         </span>
 
-                        <span class="order-status status-{{ $order->order_status }}">
-                            {{ ucfirst(str_replace('_', ' ', $order->order_status)) }}
+                        <span class="order-status status-{{ $orderStatus }}">
+
+                            <span class="status-dot"></span>
+
+                            {{ ucfirst(str_replace('_', ' ', $orderStatus)) }}
+
                         </span>
 
                     </div>
@@ -139,9 +198,11 @@
 
                 <div class="order-meta-grid">
 
+                    {{-- Order Date --}}
                     <div class="order-meta-item">
 
                         <span class="order-label">
+                            <i class="bi bi-calendar3"></i>
                             ORDER DATE
                         </span>
 
@@ -152,35 +213,45 @@
                     </div>
 
 
+                    {{-- Payment Method --}}
                     <div class="order-meta-item">
 
                         <span class="order-label">
+                            <i class="bi bi-wallet2"></i>
                             PAYMENT METHOD
                         </span>
 
                         <strong>
-                            {{ ucwords(str_replace('_', ' ', $order->payment_method)) }}
+                            {{ $paymentMethod }}
                         </strong>
 
                     </div>
 
 
+                    {{-- Payment Status --}}
                     <div class="order-meta-item">
 
                         <span class="order-label">
+                            <i class="bi bi-shield-check"></i>
                             PAYMENT STATUS
                         </span>
 
-                        <span class="payment-status payment-{{ $order->payment_status }}">
-                            {{ ucfirst($order->payment_status) }}
+                        <span class="payment-status payment-{{ $paymentStatus }}">
+
+                            <span class="status-dot"></span>
+
+                            {{ ucfirst(str_replace('_', ' ', $paymentStatus)) }}
+
                         </span>
 
                     </div>
 
 
+                    {{-- Total --}}
                     <div class="order-meta-item">
 
                         <span class="order-label">
+                            <i class="bi bi-cash-stack"></i>
                             TOTAL
                         </span>
 
@@ -207,33 +278,49 @@
 
                     <div class="section-card-header">
 
-                        <div class="section-card-icon">
-                            <i class="bi bi-book"></i>
+                        <div class="section-card-heading">
+
+                            <div class="section-card-icon">
+                                <i class="bi bi-book-half"></i>
+                            </div>
+
+                            <div>
+                                <h3>
+                                    Ordered Book
+                                </h3>
+
+                                <p>
+                                    Product information
+                                </p>
+                            </div>
+
                         </div>
 
-                        <div>
-                            <h3>Ordered Book</h3>
-                            <p>Product information</p>
-                        </div>
+                        <span class="section-card-number">
+                            01
+                        </span>
 
                     </div>
 
 
                     <div class="order-product">
 
+                        {{-- Book Cover --}}
                         <div class="order-product-image">
 
-                            @if($order->book && $order->book->cover)
+                            @if($coverUrl)
 
                                 <img
-                                    src="{{ asset('storage/' . $order->book->cover) }}"
+                                    src="{{ $coverUrl }}"
                                     alt="{{ $order->book->title }}"
                                 >
 
                             @else
 
                                 <div class="order-product-placeholder">
+
                                     <i class="bi bi-book"></i>
+
                                 </div>
 
                             @endif
@@ -241,24 +328,41 @@
                         </div>
 
 
+                        {{-- Book Info --}}
                         <div class="order-product-info">
 
                             @if($order->book)
+
+                                <span class="product-eyebrow">
+                                    BOOK
+                                </span>
 
                                 <h4>
                                     {{ $order->book->title }}
                                 </h4>
 
+
                                 @if($order->book->author)
 
                                     <p class="order-product-author">
-                                        <i class="bi bi-person"></i>
-                                        {{ $order->book->author->name }}
+
+                                        <span class="author-icon">
+                                            <i class="bi bi-person"></i>
+                                        </span>
+
+                                        <span>
+                                            {{ $order->book->author->name }}
+                                        </span>
+
                                     </p>
 
                                 @endif
 
                             @else
+
+                                <span class="product-eyebrow">
+                                    PRODUCT
+                                </span>
 
                                 <h4>
                                     Book no longer available
@@ -266,41 +370,46 @@
 
                             @endif
 
-                            <div class="product-info-row">
 
-                                <span>
-                                    Unit Price
-                                </span>
+                            <div class="product-info-list">
 
-                                <strong>
-                                    ₼{{ number_format($order->book_price, 2) }}
-                                </strong>
+                                <div class="product-info-row">
 
-                            </div>
+                                    <span>
+                                        Unit Price
+                                    </span>
 
+                                    <strong>
+                                        ₼{{ number_format($order->book_price, 2) }}
+                                    </strong>
 
-                            <div class="product-info-row">
-
-                                <span>
-                                    Quantity
-                                </span>
-
-                                <strong>
-                                    {{ $order->quantity }}
-                                </strong>
-
-                            </div>
+                                </div>
 
 
-                            <div class="product-info-row product-total-row">
+                                <div class="product-info-row">
 
-                                <span>
-                                    Total
-                                </span>
+                                    <span>
+                                        Quantity
+                                    </span>
 
-                                <strong>
-                                    ₼{{ number_format($order->total_price, 2) }}
-                                </strong>
+                                    <strong>
+                                        ×{{ $order->quantity }}
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="product-info-row product-total-row">
+
+                                    <span>
+                                        Product Total
+                                    </span>
+
+                                    <strong>
+                                        ₼{{ number_format($order->total_price, 2) }}
+                                    </strong>
+
+                                </div>
 
                             </div>
 
@@ -318,14 +427,27 @@
 
                     <div class="section-card-header">
 
-                        <div class="section-card-icon">
-                            <i class="bi bi-geo-alt"></i>
+                        <div class="section-card-heading">
+
+                            <div class="section-card-icon">
+                                <i class="bi bi-geo-alt"></i>
+                            </div>
+
+                            <div>
+                                <h3>
+                                    Shipping Information
+                                </h3>
+
+                                <p>
+                                    Delivery details
+                                </p>
+                            </div>
+
                         </div>
 
-                        <div>
-                            <h3>Shipping Information</h3>
-                            <p>Delivery details</p>
-                        </div>
+                        <span class="section-card-number">
+                            02
+                        </span>
 
                     </div>
 
@@ -363,7 +485,7 @@
                         <div class="shipping-row">
 
                             <span>
-                                <i class="bi bi-globe"></i>
+                                <i class="bi bi-globe2"></i>
                                 Country
                             </span>
 
@@ -427,23 +549,38 @@
 
 
             {{-- =================================================
-                ORDER SUMMARY + NOTE
+                BOTTOM GRID
             ================================================== --}}
             <div class="order-bottom-grid">
 
-                {{-- Order Summary --}}
+                {{-- =================================================
+                    ORDER SUMMARY
+                ================================================== --}}
                 <div class="order-summary-card">
 
                     <div class="section-card-header">
 
-                        <div class="section-card-icon">
-                            <i class="bi bi-receipt"></i>
+                        <div class="section-card-heading">
+
+                            <div class="section-card-icon">
+                                <i class="bi bi-receipt"></i>
+                            </div>
+
+                            <div>
+                                <h3>
+                                    Order Summary
+                                </h3>
+
+                                <p>
+                                    Payment breakdown
+                                </p>
+                            </div>
+
                         </div>
 
-                        <div>
-                            <h3>Order Summary</h3>
-                            <p>Payment breakdown</p>
-                        </div>
+                        <span class="section-card-number">
+                            03
+                        </span>
 
                     </div>
 
@@ -476,14 +613,33 @@
                         </div>
 
 
+                        <div class="summary-row">
+
+                            <span>
+                                Shipping
+                            </span>
+
+                            <strong class="summary-free">
+                                FREE
+                            </strong>
+
+                        </div>
+
+
                         <div class="summary-divider"></div>
 
 
                         <div class="summary-row summary-total">
 
-                            <span>
-                                Total
-                            </span>
+                            <div>
+                                <span>
+                                    Total Amount
+                                </span>
+
+                                <small>
+                                    Including shipping
+                                </small>
+                            </div>
 
                             <strong>
                                 ₼{{ number_format($order->total_price, 2) }}
@@ -496,19 +652,34 @@
                 </div>
 
 
-                {{-- Customer Note --}}
+                {{-- =================================================
+                    ORDER NOTE
+                ================================================== --}}
                 <div class="order-note-card">
 
                     <div class="section-card-header">
 
-                        <div class="section-card-icon">
-                            <i class="bi bi-chat-left-text"></i>
+                        <div class="section-card-heading">
+
+                            <div class="section-card-icon">
+                                <i class="bi bi-chat-left-text"></i>
+                            </div>
+
+                            <div>
+                                <h3>
+                                    Order Note
+                                </h3>
+
+                                <p>
+                                    Additional information
+                                </p>
+                            </div>
+
                         </div>
 
-                        <div>
-                            <h3>Order Note</h3>
-                            <p>Additional information</p>
-                        </div>
+                        <span class="section-card-number">
+                            04
+                        </span>
 
                     </div>
 
@@ -516,22 +687,34 @@
                     @if($order->note)
 
                         <div class="order-note-content">
-                            <i class="bi bi-quote"></i>
+
+                            <div class="order-note-quote">
+                                <i class="bi bi-quote"></i>
+                            </div>
 
                             <p>
                                 {{ $order->note }}
                             </p>
+
                         </div>
 
                     @else
 
                         <div class="order-note-empty">
 
-                            <i class="bi bi-chat-square-text"></i>
+                            <div class="order-note-empty-icon">
+                                <i class="bi bi-chat-square-text"></i>
+                            </div>
 
-                            <span>
-                                No additional note was provided for this order.
-                            </span>
+                            <div>
+                                <strong>
+                                    No additional note
+                                </strong>
+
+                                <span>
+                                    No additional note was provided for this order.
+                                </span>
+                            </div>
 
                         </div>
 
@@ -540,6 +723,54 @@
                 </div>
 
             </div>
+
+
+            {{-- =================================================
+                PAYMENT REMINDER
+            ================================================== --}}
+            @if($paymentStatus !== 'paid')
+
+                <div class="order-payment-banner">
+
+                    <div class="order-payment-banner-icon">
+                        <i class="bi bi-credit-card"></i>
+                    </div>
+
+                    <div class="order-payment-banner-content">
+
+                        <strong>
+                            Payment is still pending
+                        </strong>
+
+                        <span>
+                            Complete your payment to confirm this order.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            @else
+
+                <div class="order-payment-complete">
+
+                    <div class="order-payment-complete-icon">
+                        <i class="bi bi-check-lg"></i>
+                    </div>
+
+                    <div>
+                        <strong>
+                            Payment completed
+                        </strong>
+
+                        <span>
+                            Your payment for this order has been successfully completed.
+                        </span>
+                    </div>
+
+                </div>
+
+            @endif
 
 
             {{-- =================================================
@@ -552,15 +783,36 @@
                     class="order-action secondary"
                 >
                     <i class="bi bi-arrow-left"></i>
-                    Back to My Orders
+
+                    <span>
+                        Back to My Orders
+                    </span>
                 </a>
+                
+                @if($paymentStatus !== 'paid')
+
+                    <a
+                        href="{{ url('/frontend/payment/' . $order->id) }}"
+                        class="order-action payment"
+                    >
+                        <i class="bi bi-credit-card"></i>
+
+                        <span>
+                            Pay Now
+                        </span>
+                    </a>
+
+                @endif
 
                 <a
                     href="{{ route('frontend.order-tracking', $order->id) }}"
                     class="order-action primary"
                 >
                     <i class="bi bi-truck"></i>
-                    Track Order
+
+                    <span>
+                        Track Order
+                    </span>
                 </a>
 
             </div>
@@ -572,3 +824,4 @@
 </main>
 
 @endsection
+

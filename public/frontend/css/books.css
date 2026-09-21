@@ -2342,4 +2342,23 @@
         flex-basis: 32px;
         font-size: 13px;
     }
+
+    .book-wishlist.wishlist-loading {
+    pointer-events: none;
+    opacity: 0.65;
+    }
+
+    .book-wishlist.wishlist-loading i {
+        animation: wishlistPulse 0.7s ease-in-out infinite alternate;
+    }
+
+    @keyframes wishlistPulse {
+        from {
+            transform: scale(0.85);
+        }
+
+        to {
+            transform: scale(1.15);
+        }
+    }
 }

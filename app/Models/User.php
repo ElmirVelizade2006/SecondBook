@@ -9,43 +9,35 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\Wishlist;
+use App\Models\Notification;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
-
         'name',
         'first_name',
         'last_name',
         'username',
-
         'email',
         'password',
-
         'role',
         'status',
-
         'phone',
         'profile_photo',
-
         'date_of_birth',
         'gender',
-
         'country',
         'city',
         'state',
         'postal_code',
         'address',
-
         'bio',
-
         'receive_email_notifications',
         'receive_order_updates',
         'receive_promotional_emails',
         'profile_visibility',
-
         'last_login_at',
     ];
 
@@ -55,15 +47,10 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-
         'email_verified_at' => 'datetime',
-
         'password' => 'hashed',
-
         'date_of_birth' => 'date',
-
         'last_login_at' => 'datetime',
-
         'receive_email_notifications' => 'boolean',
         'receive_order_updates' => 'boolean',
         'receive_promotional_emails' => 'boolean',
@@ -124,26 +111,51 @@ class User extends Authenticatable
 
     public function hasRole(string $role): bool
     {
-        return $this->roles()->where('name', $role)->exists();
+        return $this->roles()
+            ->where('name', $role)
+            ->exists();
     }
 
     public function hasPermission(string $permission): bool
     {
-        if ($this->hasRole('super-admin')) {
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Access
+        |--------------------------------------------------------------------------
+        |
+        | Users with the "admin" role have access to all admin permissions.
+        | Super-admin also has full access.
+        |
+        */
+
+        if ($this->isAdmin() || $this->hasRole('super-admin')) {
             return true;
         }
 
         return $this->roles()
-            ->whereHas('permissions', fn ($query) => $query->where('name', $permission))
+            ->whereHas(
+                'permissions',
+                fn ($query) => $query->where('name', $permission)
+            )
             ->exists();
     }
 
     public function hasAnyPermission(array $permissions): bool
     {
-        return collect($permissions)->contains(fn (string $permission) => $this->hasPermission($permission));
+        return collect($permissions)
+            ->contains(
+                fn (string $permission) => $this->hasPermission($permission)
+            );
     }
+
     public function settings(): HasOne
     {
         return $this->hasOne(UserSetting::class);
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
 }
+

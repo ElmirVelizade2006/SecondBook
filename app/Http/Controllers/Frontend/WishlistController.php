@@ -22,9 +22,17 @@ class WishlistController extends Controller
         return view('Frontend.wishlist', compact('wishlists'));
     }
 
-    public function add(Book $book)
+    public function add(Request $request, Book $book)
     {
         if ($book->status !== 'approved') {
+
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'This book is not available.',
+                ], 422);
+            }
+
             return back()->with(
                 'error',
                 'This book is not available.'
@@ -36,17 +44,31 @@ class WishlistController extends Controller
             'book_id' => $book->id,
         ]);
 
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Book added to your wishlist.',
+            ]);
+        }
+
         return back()->with(
             'success',
             'Book added to your wishlist.'
         );
     }
 
-    public function remove(Book $book)
+    public function remove(Request $request, Book $book)
     {
         Wishlist::where('user_id', auth()->id())
             ->where('book_id', $book->id)
             ->delete();
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Book removed from your wishlist.',
+            ]);
+        }
 
         return back()->with(
             'success',

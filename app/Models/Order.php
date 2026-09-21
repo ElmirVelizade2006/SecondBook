@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Payment;
+use App\Models\Refund;
 
 class Order extends Model
 {
@@ -40,15 +42,13 @@ class Order extends Model
 
         // Extra
         'note',
-
     ];
 
     protected $casts = [
-
         'book_price' => 'decimal:2',
         'total_price' => 'decimal:2',
-
     ];
+
 
     /*
     |--------------------------------------------------------------------------
@@ -75,5 +75,4 @@ class Order extends Model
     {
         return $this->hasMany(Refund::class);
     }
-
 }

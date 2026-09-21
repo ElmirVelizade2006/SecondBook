@@ -15,9 +15,9 @@
 								<p>SecondBook helps readers find quality second-hand books and gives sellers a trusted
 									marketplace to reach thousands of book lovers.</p>
 								<div class="btn-wrap hero-btn-wrap">
-									<a href="#featured-books" class="btn btn-outline-accent btn-accent-arrow">Browse Books<i
+									<a href="#popular-books" class="btn btn-outline-accent btn-accent-arrow">Browse Books<i
 											class="icon icon-ns-arrow-right"></i></a>
-									<a href="#special-offer" class="btn btn-outline-accent btn-accent-arrow">Sell Your Book<i
+									<a href="{{ route('frontend.sell-book') }}" class="btn btn-outline-accent btn-accent-arrow">Sell Your Book<i
 											class="icon icon-ns-arrow-right"></i></a>
 								</div>
 							</div><!--banner-content-->

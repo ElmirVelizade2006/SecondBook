@@ -43,6 +43,8 @@ use App\Http\Controllers\Frontend\CategoriesController as FrontendCategoriesCont
 use App\Http\Controllers\Frontend\AuthorsController as FrontendAuthorsController;
 use App\Http\Controllers\Frontend\FaqController as FrontendFaqController;
 use App\Http\Controllers\Frontend\OrdersController as FrontendOrdersController;
+use App\Http\Controllers\Frontend\PaymentController as FrontendPaymentController;
+use App\Http\Controllers\Frontend\NotificationController as FrontendNotificationController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ShippingInformationController;
 use App\Http\Controllers\Frontend\HelpCenterController;
@@ -177,13 +179,13 @@ Route::prefix('admin')
                 Route::post('/', 'store')
                     ->name('store');
 
-                Route::get('/{request}/edit', 'edit')
+                Route::get('/{book}/edit', 'edit')
                     ->name('edit');
 
-                Route::put('/{request}', 'update')
+                Route::put('/{book}', 'update')
                     ->name('update');
 
-                Route::delete('/{request}', 'destroy')
+                Route::delete('/{book}', 'destroy')
                     ->name('destroy');
 
             });
@@ -576,24 +578,37 @@ Route::prefix('admin')
             ->name('messages.')
             ->group(function () {
 
+                // Messages List
                 Route::get('/', 'index')
                     ->name('index');
 
+                // Gmail Reply Page
                 Route::get('/{message}/reply', 'reply')
                     ->name('reply');
 
+                // Send Gmail Reply
                 Route::post('/{message}/reply', 'sendReply')
                     ->name('sendReply');
 
+                // Site Reply Page
+                Route::get('/{message}/site-reply', 'siteReply')
+                    ->name('site-reply');
+
+                // Send Site Reply
+                Route::post('/{message}/site-reply', 'sendSiteReply')
+                    ->name('send-site-reply');
+
+                // Mark as Unread
                 Route::patch('/{message}/unread', 'markAsUnread')
                     ->name('unread');
 
+                // Message Details
                 Route::get('/{message}', 'show')
                     ->name('show');
 
+                // Delete Message
                 Route::delete('/{message}', 'destroy')
                     ->name('destroy');
-
             });
 
 
@@ -834,6 +849,9 @@ Route::prefix('frontend')
 
             Route::get('/books', 'index')
                 ->name('books');
+
+            Route::get('/books/{book}', 'show')
+                ->name('books.show');
 
         });
 
@@ -1152,6 +1170,41 @@ Route::middleware('auth')
 
         Route::post('/checkout', [CheckoutController::class, 'store'])
             ->name('checkout.store');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Frontend Payments
+        |--------------------------------------------------------------------------
+        */
+
+        Route::middleware('auth')->group(function () {
+
+            Route::get('/payment/{order}', [FrontendPaymentController::class,'show'])
+                ->name('payment');
+
+            Route::post('/payment/{order}', [FrontendPaymentController::class,'process'])
+                ->name('payment.process');
+
+        });
+
+        // =========================================================
+        // NOTIFICATIONS
+        // =========================================================
+
+        Route::controller(FrontendNotificationController::class)
+            ->prefix('notifications')
+            ->name('notifications.')
+            ->group(function () {
+
+                Route::get('/', 'index')
+                    ->name('index');
+
+                Route::post('/{notification}/read', 'markAsRead')
+                    ->name('read');
+
+                Route::post('/read-all', 'markAllAsRead')
+                    ->name('read-all');
+            });
 
 
         /*

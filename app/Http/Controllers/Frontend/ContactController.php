@@ -19,7 +19,6 @@ class ContactController extends Controller
         return view('Frontend.contact');
     }
 
-
     /*
     |--------------------------------------------------------------------------
     | Store Contact Message
@@ -69,15 +68,15 @@ class ContactController extends Controller
             'message.max' => 'Your message may not exceed 5000 characters.',
         ]);
 
-
         Message::create([
+            'user_id' => auth()->id(),
+
             'name' => $validated['name'],
             'email' => $validated['email'],
             'subject' => $validated['subject'],
             'message' => $validated['message'],
             'status' => 'unread',
         ]);
-
 
         return redirect()
             ->route('frontend.contact')
@@ -87,4 +86,3 @@ class ContactController extends Controller
             );
     }
 }
-

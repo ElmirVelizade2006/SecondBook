@@ -1,0 +1,107 @@
+/* =====================================================
+   HEADER CART
+===================================================== */
+
+.header-cart-link {
+    position: relative;
+}
+
+.header-cart-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+}
+
+.header-cart-icon > i {
+    font-size: 18px;
+    line-height: 1;
+}
+
+
+/* =====================================================
+   CART COUNT BADGE
+===================================================== */
+
+.cart-count-badge {
+    position: absolute;
+
+    top: -9px;
+    right: -10px;
+
+    min-width: 18px;
+    width: auto;
+    height: 18px;
+
+    padding: 0 4px;
+    margin: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50px;
+
+    background: #8B5E3C;
+    color: #ffffff;
+
+    border: 2px solid #ffffff;
+
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+
+    white-space: nowrap;
+    text-align: center;
+
+    box-sizing: border-box;
+
+    pointer-events: none;
+    z-index: 20;
+
+    /* Badge header layout-una təsir etməsin */
+    transform: translateZ(0);
+}
+
+
+/* =====================================================
+   DARK MODE
+===================================================== */
+
+.dark-mode .cart-count-badge,
+.dark-theme .cart-count-badge,
+[data-theme="dark"] .cart-count-badge {
+    border-color: #172033;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 576px) {
+
+    .header-cart-icon {
+        width: 21px;
+        height: 21px;
+    }
+
+    .header-cart-icon > i {
+        font-size: 17px;
+    }
+
+    .cart-count-badge {
+        top: -8px;
+        right: -9px;
+
+        min-width: 17px;
+        height: 17px;
+
+        padding: 0 4px;
+
+        font-size: 8px;
+    }
+}

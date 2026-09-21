@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Message;
+use App\Models\User;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MessageReplyMail;
@@ -28,10 +30,7 @@ class MessagesController extends Controller
 
         // Status filter
         if ($request->filled('status')) {
-            $query->where(
-                'status',
-                $request->status
-            );
+            $query->where('status', $request->status);
         }
 
         $messages = $query
@@ -40,20 +39,16 @@ class MessagesController extends Controller
             ->withQueryString();
 
         // Statistics
-        $totalMessages =
-            Message::count();
+        $totalMessages = Message::count();
 
-        $unreadMessages =
-            Message::where('status', 'unread')->count();
+        $unreadMessages = Message::where('status', 'unread')->count();
 
-        $readMessages =
-            Message::where('status', 'read')->count();
+        $readMessages = Message::where('status', 'read')->count();
 
-        $todayMessages =
-            Message::whereDate(
-                'created_at',
-                today()
-            )->count();
+        $todayMessages = Message::whereDate(
+            'created_at',
+            today()
+        )->count();
 
         return view(
             'admin.messages.index',
@@ -80,9 +75,32 @@ class MessagesController extends Controller
             $message->save();
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | Find the user connected to this message
+        |--------------------------------------------------------------------------
+        |
+        | New messages should already have user_id.
+        | For older messages where user_id is NULL,
+        | try to find the user by email.
+        |
+        */
+
+        $messageUser = $message->user;
+
+        if (!$messageUser) {
+            $messageUser = User::where(
+                'email',
+                $message->email
+            )->first();
+        }
+
         return view(
             'admin.messages.show',
-            compact('message')
+            compact(
+                'message',
+                'messageUser'
+            )
         );
     }
 
@@ -99,6 +117,12 @@ class MessagesController extends Controller
             );
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Reply via Gmail
+    |--------------------------------------------------------------------------
+    */
+
     public function reply(Message $message)
     {
         return view(
@@ -110,8 +134,16 @@ class MessagesController extends Controller
     public function sendReply(Request $request, Message $message)
     {
         $validated = $request->validate([
-            'subject' => ['required', 'string', 'max:255'],
-            'reply' => ['required', 'string', 'max:10000'],
+            'subject' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'reply' => [
+                'required',
+                'string',
+                'max:10000',
+            ],
         ]);
 
         Mail::to($message->email)->send(
@@ -129,6 +161,12 @@ class MessagesController extends Controller
             );
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Delete
+    |--------------------------------------------------------------------------
+    */
+
     public function destroy(Message $message)
     {
         $message->delete();
@@ -140,4 +178,130 @@ class MessagesController extends Controller
                 'Message deleted successfully.'
             );
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Reply in Site
+    |--------------------------------------------------------------------------
+    */
+
+    public function siteReply(Message $message)
+    {
+        /*
+        |--------------------------------------------------------------------------
+        | Find the recipient user
+        |--------------------------------------------------------------------------
+        */
+
+        $messageUser = $message->user;
+
+        if (!$messageUser) {
+            $messageUser = User::where(
+                'email',
+                $message->email
+            )->first();
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | If the sender does not have a registered account,
+        | an in-site notification cannot be sent.
+        |--------------------------------------------------------------------------
+        */
+
+        abort_unless($messageUser, 403);
+
+        return view(
+            'admin.messages.site-reply',
+            compact(
+                'message',
+                'messageUser'
+            )
+        );
+    }
+
+    public function sendSiteReply(
+        Request $request,
+        Message $message
+    ) {
+        /*
+        |--------------------------------------------------------------------------
+        | Find the recipient user
+        |--------------------------------------------------------------------------
+        */
+
+        $messageUser = $message->user;
+
+        if (!$messageUser) {
+            $messageUser = User::where(
+                'email',
+                $message->email
+            )->first();
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | User must have a SecondBook account
+        |--------------------------------------------------------------------------
+        */
+
+        abort_unless($messageUser, 403);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Validate reply
+        |--------------------------------------------------------------------------
+        */
+
+        $validated = $request->validate([
+            'reply' => [
+                'required',
+                'string',
+                'min:2',
+                'max:10000',
+            ],
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Save site reply
+        |--------------------------------------------------------------------------
+        */
+
+        $messageReply = $message->replies()->create([
+            'user_id' => auth()->id(),
+            'sender_type' => 'admin',
+            'reply' => $validated['reply'],
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Send notification to message owner
+        |--------------------------------------------------------------------------
+        */
+
+        Notification::create([
+        'user_id' => $messageUser->id,
+        'type' => 'contact_reply',
+        'title' => 'Contact Message Reply',
+        'message' => 'Reply to "' .
+            $message->subject .
+            '": ' .
+            $messageReply->reply,
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Success
+        |--------------------------------------------------------------------------
+        */
+
+        return redirect()
+            ->route('admin.messages.show', $message)
+            ->with(
+                'success',
+                'Reply sent successfully in site.'
+            );
+    }
 }
+

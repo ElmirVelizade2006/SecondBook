@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Book;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class BooksController extends Controller
@@ -20,37 +21,26 @@ class BooksController extends Controller
         */
 
         if ($request->filled('search')) {
-
             $search = trim($request->input('search'));
 
             if ($search !== '') {
-
                 $query->where(function ($q) use ($search) {
-
                     $q->where('title', 'LIKE', "%{$search}%")
-
                         ->orWhere('isbn', 'LIKE', "%{$search}%")
-
                         ->orWhereHas('author', function ($authorQuery) use ($search) {
-
                             $authorQuery->where(
                                 'name',
                                 'LIKE',
                                 "%{$search}%"
                             );
-
                         })
-
                         ->orWhereHas('category', function ($categoryQuery) use ($search) {
-
                             $categoryQuery->where(
                                 'name',
                                 'LIKE',
                                 "%{$search}%"
                             );
-
                         });
-
                 });
             }
         }
@@ -62,7 +52,6 @@ class BooksController extends Controller
         */
 
         if ($request->filled('category')) {
-
             $query->where(
                 'category_id',
                 $request->input('category')
@@ -76,7 +65,6 @@ class BooksController extends Controller
         */
 
         if ($request->filled('condition')) {
-
             $query->where(
                 'condition',
                 $request->input('condition')
@@ -122,9 +110,53 @@ class BooksController extends Controller
             ->paginate(12)
             ->withQueryString();
 
+        /*
+        |--------------------------------------------------------------------------
+        | CATEGORIES
+        |--------------------------------------------------------------------------
+        */
+
+        $categories = Category::orderBy('name', 'asc')->get();
+
         return view(
             'Frontend.books',
-            compact('books')
+            compact(
+                'books',
+                'categories'
+            )
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | BOOK DETAILS
+    |--------------------------------------------------------------------------
+    */
+
+    public function show(Book $book)
+    {
+        /*
+        | Only approved books can be viewed.
+        */
+
+        if ($book->status !== 'approved') {
+            abort(404);
+        }
+
+        /*
+        | Load relationships needed for the details page.
+        */
+
+        $book->load([
+            'author',
+            'category',
+            'publisher',
+            'seller',
+        ]);
+
+        return view(
+            'Frontend.book-details',
+            compact('book')
         );
     }
 }

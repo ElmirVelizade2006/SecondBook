@@ -86,8 +86,9 @@
                         <div class="hero-main-image">
 
                             <img
-                                src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1000&q=85"
+                                src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1400&q=90"
                                 alt="Books collection"
+                                loading="eager"
                             >
 
                             <div class="hero-image-overlay"></div>
@@ -175,34 +176,61 @@
 
                 <div class="categories-grid">
 
-                    @php
-                        $categoryImages = [
-                            'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=85',
-                            'https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=900&q=85',
-                            'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=900&q=85',
-                            'https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=900&q=85',
-                            'https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=900&q=85',
-                            'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=900&q=85',
-                            'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=900&q=85',
-                            'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=900&q=85',
-                        ];
-                    @endphp
-
-
                     @foreach($categories as $index => $category)
 
+                        @php
+
+                            /*
+                            |--------------------------------------------------------------------------
+                            | Category Image
+                            |--------------------------------------------------------------------------
+                            | Supports:
+                            | 1. External image URLs
+                            | 2. Local storage images
+                            */
+
+                            $categoryImage = null;
+
+                            if (!empty($category->image)) {
+
+                                $categoryImage = filter_var(
+                                    $category->image,
+                                    FILTER_VALIDATE_URL
+                                )
+                                    ? $category->image
+                                    : asset('storage/' . $category->image);
+
+                            }
+
+                        @endphp
+
+
                         <a
-                            href="{{ route('frontend.books', ['category' => $category->id]) }}"
+                            href="{{ route('frontend.books', ['search' => $category->name]) }}"
                             class="category-card"
                         >
 
+                            {{-- =================================================
+                                CATEGORY IMAGE
+                            ================================================== --}}
+
                             <div class="category-card-image">
 
-                                <img
-                                    src="{{ $categoryImages[$index % count($categoryImages)] }}"
-                                    alt="{{ $category->name }}"
-                                    loading="lazy"
-                                >
+                                @if($categoryImage)
+
+                                    <img
+                                        src="{{ $categoryImage }}"
+                                        alt="{{ $category->name }}"
+                                        loading="lazy"
+                                    >
+
+                                @else
+
+                                    <div class="category-card-placeholder">
+                                        <i class="bi bi-book"></i>
+                                    </div>
+
+                                @endif
 
                                 <div class="category-image-overlay"></div>
 
@@ -216,6 +244,10 @@
 
                             </div>
 
+
+                            {{-- =================================================
+                                CATEGORY CONTENT
+                            ================================================== --}}
 
                             <div class="category-card-body">
 
@@ -391,3 +423,4 @@
 </section>
 
 @endsection
+

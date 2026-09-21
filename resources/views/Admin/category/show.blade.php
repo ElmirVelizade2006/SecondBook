@@ -39,10 +39,20 @@
                 <h6 class="mb-3">Image</h6>
 
                 @if(!empty($category->image))
+                    @php
+                        $categoryImageUrl = filter_var(
+                            $category->image,
+                            FILTER_VALIDATE_URL
+                        )
+                            ? $category->image
+                            : asset('storage/' . $category->image);
+                    @endphp
+
                     <img
-                        src="{{ asset('storage/' . $category->image) }}"
+                        src="{{ $categoryImageUrl }}"
                         alt="{{ $category->name }}"
-                        class="img-fluid rounded border w-100 category-detail-image-large">
+                        class="img-fluid rounded border w-100 category-detail-image-large"
+                        loading="lazy">
                 @else
                     <div class="chart-placeholder category-detail-placeholder">
                         <i class="bi bi-image"></i>

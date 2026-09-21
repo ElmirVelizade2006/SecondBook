@@ -1,160 +1,293 @@
-(function($) {
+(function ($) {
 
-  "use strict";
+    "use strict";
 
-  const tabs = document.querySelectorAll('[data-tab-target]')
-  const tabContents = document.querySelectorAll('[data-tab-content]')
+    $(document).ready(function () {
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const target = document.querySelector(tab.dataset.tabTarget)
-      tabContents.forEach(tabContent => {
-        tabContent.classList.remove('active')
-      })
-      tabs.forEach(tab => {
-        tab.classList.remove('active')
-      })
-      tab.classList.add('active')
-      target.classList.add('active')
-    })
-  });
+        /* =========================================================
+           TABS
+        ========================================================= */
 
-  // Responsive Navigation with Button
+        const tabs = document.querySelectorAll('[data-tab-target]');
+        const tabContents = document.querySelectorAll('[data-tab-content]');
 
-  const hamburger = document.querySelector(".hamburger");
-  const navMenu = document.querySelector(".menu-list");
+        tabs.forEach(tab => {
 
-  hamburger.addEventListener("click", mobileMenu);
+            tab.addEventListener('click', function () {
 
-  function mobileMenu() {
-      hamburger.classList.toggle("active");
-      navMenu.classList.toggle("responsive");
-  }
+                const targetSelector = tab.dataset.tabTarget;
+                const target = document.querySelector(targetSelector);
 
-  const navLink = document.querySelectorAll(".nav-link");
+                if (!target) {
+                    return;
+                }
 
-  navLink.forEach(n => n.addEventListener("click", closeMenu));
+                tabContents.forEach(tabContent => {
+                    tabContent.classList.remove('active');
+                });
 
-  function closeMenu() {
-      hamburger.classList.remove("active");
-      navMenu.classList.remove("responsive");
-  }
+                tabs.forEach(item => {
+                    item.classList.remove('active');
+                });
 
-  var initScrollNav = function() {
-    var scroll = $(window).scrollTop();
+                tab.classList.add('active');
+                target.classList.add('active');
+            });
 
-    if (scroll >= 200) {
-      $('#header').addClass("fixed-top");
-    }else{
-      $('#header').removeClass("fixed-top");
-    }
-  }
+        });
 
-  $(window).scroll(function() {    
-    initScrollNav();
-  }); 
 
-  $(document).ready(function(){
-    initScrollNav();
-    
-    Chocolat(document.querySelectorAll('.image-link'), {
-        imageSize: 'contain',
-        loop: true,
-    })
+        /* =========================================================
+           RESPONSIVE NAVIGATION
+        ========================================================= */
 
-    $('#header-wrap').on('click', '.search-toggle', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.menu-list');
 
-      var $wrap = $('#header-wrap');
-      var $toggle = $(this);
-      var isOpen = $wrap.hasClass('show');
+        function closeMenu() {
 
-      if (isOpen) {
-        $wrap.removeClass('show');
-        $toggle.removeClass('active');
-        return;
-      }
-
-      $wrap.addClass('show');
-      $toggle.addClass('active');
-      $wrap.find('.search-input').focus();
-    });
-
-    $(document).on('click touchstart', function (e) {
-      var $target = $(e.target);
-
-      if ($target.closest('.search-bar').length || $target.closest('.search-toggle').length || $target.closest('.search-box').length) {
-        return;
-      }
-
-      $('.search-toggle').removeClass('active');
-      $('#header-wrap').removeClass('show');
-    });
-
-    $(document).on('keydown', function (e) {
-      if (e.key === 'Escape') {
-        $('.search-toggle').removeClass('active');
-        $('#header-wrap').removeClass('show');
-      }
-    });
-
-    $('.main-slider').slick({
-        autoplay: false,
-        autoplaySpeed: 4000,
-        fade: true,
-        dots: true,
-        prevArrow: $('.prev'),
-        nextArrow: $('.next'),
-    }); 
-
-    $('.product-grid').slick({
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        autoplay: false,
-        autoplaySpeed: 2000,
-        dots: true,
-        arrows: false,
-        responsive: [
-          {
-            breakpoint: 1400,
-            settings: {
-              slidesToShow: 3,
-              slidesToScroll: 1
+            if (!hamburger || !navMenu) {
+                return;
             }
-          },
-          {
-            breakpoint: 999,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 1
+
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('responsive');
+        }
+
+        function mobileMenu() {
+
+            if (!hamburger || !navMenu) {
+                return;
             }
-          },
-          {
-            breakpoint: 660,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1
+
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('responsive');
+        }
+
+        if (hamburger && navMenu) {
+            hamburger.addEventListener('click', mobileMenu);
+        }
+
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        navLinks.forEach(link => {
+
+            link.addEventListener('click', closeMenu);
+
+        });
+
+
+        /* =========================================================
+           SCROLL NAVIGATION
+        ========================================================= */
+
+        function initScrollNav() {
+
+            const scroll = $(window).scrollTop();
+
+            if (scroll >= 200) {
+                $('#header').addClass('fixed-top');
+            } else {
+                $('#header').removeClass('fixed-top');
             }
-          }
-          // You can unslick at a given breakpoint now by adding:
-          // settings: "unslick"
-          // instead of a settings object
-        ]
+        }
+
+        initScrollNav();
+
+        $(window).on('scroll', function () {
+            initScrollNav();
+        });
+
+
+        /* =========================================================
+           CHOCOLAT
+        ========================================================= */
+
+        if (
+            typeof Chocolat !== 'undefined' &&
+            document.querySelectorAll('.image-link').length
+        ) {
+
+            Chocolat(
+                document.querySelectorAll('.image-link'),
+                {
+                    imageSize: 'contain',
+                    loop: true
+                }
+            );
+
+        }
+
+
+        /* =========================================================
+           SEARCH
+        ========================================================= */
+
+        $('#header-wrap').on(
+            'click',
+            '.search-toggle',
+            function (e) {
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                const $wrap = $('#header-wrap');
+                const $toggle = $(this);
+                const isOpen = $wrap.hasClass('show');
+
+                if (isOpen) {
+
+                    $wrap.removeClass('show');
+                    $toggle.removeClass('active');
+
+                    return;
+                }
+
+                $wrap.addClass('show');
+                $toggle.addClass('active');
+
+                $wrap.find('.search-input').trigger('focus');
+
+            }
+        );
+
+
+        $(document).on('click touchstart', function (e) {
+
+            const $target = $(e.target);
+
+            if (
+                $target.closest('.search-bar').length ||
+                $target.closest('.search-toggle').length ||
+                $target.closest('.search-box').length
+            ) {
+                return;
+            }
+
+            $('.search-toggle').removeClass('active');
+            $('#header-wrap').removeClass('show');
+
+        });
+
+
+        $(document).on('keydown', function (e) {
+
+            if (e.key === 'Escape') {
+
+                $('.search-toggle').removeClass('active');
+                $('#header-wrap').removeClass('show');
+
+            }
+
+        });
+
+
+        /* =========================================================
+           MAIN SLIDER
+        ========================================================= */
+
+        if (
+            $.fn.slick &&
+            $('.main-slider').length
+        ) {
+
+            $('.main-slider').slick({
+
+                autoplay: false,
+                autoplaySpeed: 4000,
+                fade: true,
+                dots: true,
+                prevArrow: $('.prev'),
+                nextArrow: $('.next')
+
+            });
+
+        }
+
+
+        /* =========================================================
+           PRODUCT GRID
+        ========================================================= */
+
+        if (
+            $.fn.slick &&
+            $('.product-grid').length
+        ) {
+
+            $('.product-grid').slick({
+
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                autoplay: false,
+                autoplaySpeed: 2000,
+                dots: true,
+                arrows: false,
+
+                responsive: [
+
+                    {
+                        breakpoint: 1400,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 1
+                        }
+                    },
+
+                    {
+                        breakpoint: 999,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 1
+                        }
+                    },
+
+                    {
+                        breakpoint: 660,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1
+                        }
+                    }
+
+                ]
+
+            });
+
+        }
+
+
+        /* =========================================================
+           AOS
+        ========================================================= */
+
+        if (typeof AOS !== 'undefined') {
+
+            AOS.init({
+                duration: 1200,
+                once: true
+            });
+
+        }
+
+
+        /* =========================================================
+           STELLARNAV
+        ========================================================= */
+
+        if (
+            $.fn.stellarNav &&
+            $('.stellarnav').length
+        ) {
+
+            $('.stellarnav').stellarNav({
+
+                theme: 'plain',
+                closingDelay: 250
+
+            });
+
+        }
+
     });
-
-    AOS.init({
-      duration: 1200,
-      once: true,
-    })
-
-    jQuery('.stellarnav').stellarNav({
-      theme: 'plain',
-      closingDelay: 250,
-      // mobileMode: false,
-    });
-
-  }); // End of a document
-
 
 })(jQuery);
