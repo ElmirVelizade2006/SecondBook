@@ -1,9 +1,559 @@
 @extends('layout.admin.master')
+
 @section('title', 'Refund Details')
+
+@push('css')
+    <link rel="stylesheet" href="{{ asset('admin/css/refunds.css') }}">
+@endpush
+
 @section('content')
-<div class="dashboard-section refunds-page">@if(session('success'))<div class="alert alert-success">{{ session('success') }}</div>@endif @if(session('error'))<div class="alert alert-danger">{{ session('error') }}</div>@endif
-<div class="dashboard-panel refund-detail-hero mb-4"><div><span class="eyebrow">Refund details</span><h2>{{ $refund->refund_number }}</h2><p>{{ $refund->requested_at?->format('d M Y H:i') }}</p></div><div class="refund-detail-actions"><span class="refund-status status-{{ $refund->status }}"><i class="bi bi-circle-fill"></i>{{ ucfirst($refund->status) }}</span><a href="{{ route('admin.refunds.index') }}" class="btn btn-light border">Back</a></div></div>
-<div class="row g-4"><div class="col-12 col-xl-8"><div class="dashboard-panel refund-detail-panel"><div class="panel-header"><h5>Refund information</h5></div><div class="refund-detail-grid"><div><small>Amount</small><strong>${{ number_format($refund->amount, 2) }}</strong></div><div><small>Reason</small><strong>{{ $refund->reason }}</strong></div><div><small>Requested at</small><strong>{{ $refund->requested_at?->format('d M Y H:i') }}</strong></div><div><small>Processed at</small><strong>{{ $refund->processed_at?->format('d M Y H:i') ?: '-' }}</strong></div><div class="wide"><small>Note</small><strong>{{ $refund->note ?: '-' }}</strong></div></div></div><div class="dashboard-panel refund-detail-panel mt-4"><div class="panel-header"><h5>Order & customer</h5></div><div class="refund-detail-grid"><div><small>Order</small><strong>#{{ $refund->order?->order_number }}</strong></div><div><small>Order status</small><strong>{{ ucfirst($refund->order?->order_status ?? '-') }}</strong></div><div><small>Customer</small><strong>{{ $refund->user?->name }}</strong></div><div><small>Email</small><strong>{{ $refund->user?->email }}</strong></div><div><small>Phone</small><strong>{{ $refund->order?->phone ?: $refund->user?->phone ?: '-' }}</strong></div></div></div></div><div class="col-12 col-xl-4"><div class="dashboard-panel refund-side-panel"><div class="panel-header"><h5>Payment</h5></div><div class="refund-side-detail"><small>Transaction ID</small><strong>{{ $refund->payment?->transaction_id ?: '-' }}</strong></div><div class="refund-side-detail"><small>Method</small><strong>{{ ucwords(str_replace('_', ' ', $refund->payment?->payment_method ?? '-')) }}</strong></div><div class="refund-side-detail"><small>Payment status</small><strong>{{ ucfirst($refund->payment?->payment_status ?? '-') }}</strong></div><div class="refund-side-detail"><small>Paid at</small><strong>{{ $refund->payment?->paid_at?->format('d M Y H:i') ?: '-' }}</strong></div>@if($refund->status !== 'processed')<a href="{{ route('admin.refunds.edit', $refund) }}" class="btn btn-warning w-100 mt-3"><i class="bi bi-pencil me-2"></i>Edit refund</a>@endif</div></div></div>
-@if(in_array($refund->status, ['pending','approved'], true))<div class="dashboard-panel refund-workflow mt-4"><div><span class="eyebrow">Workflow</span><h5>Update refund status</h5></div><div class="refund-workflow-actions">@if($refund->status === 'pending')<form method="POST" action="{{ route('admin.refunds.status', $refund) }}">@csrf @method('PATCH')<input type="hidden" name="status" value="approved"><button class="btn btn-success"><i class="bi bi-check-circle me-2"></i>Approve</button></form><form method="POST" action="{{ route('admin.refunds.status', $refund) }}">@csrf @method('PATCH')<input type="hidden" name="status" value="rejected"><button class="btn btn-danger"><i class="bi bi-x-circle me-2"></i>Reject</button></form>@else<form method="POST" action="{{ route('admin.refunds.status', $refund) }}">@csrf @method('PATCH')<input type="hidden" name="status" value="processed"><button class="btn btn-primary"><i class="bi bi-arrow-repeat me-2"></i>Process refund</button></form>@endif</div></div>@endif
+
+<div class="dashboard-section refunds-page">
+
+    {{-- Hero --}}
+    <div class="refund-form-hero mb-4">
+
+        <div class="refund-form-hero-content">
+
+            <a href="{{ route('admin.refunds.index') }}" class="refund-back-link">
+                <i class="bi bi-arrow-left"></i>
+                Back to Refunds
+            </a>
+
+            <div class="refund-hero-badge">
+                <i class="bi bi-receipt"></i>
+                Payments Recovery
+            </div>
+
+            <h1>Refund Details</h1>
+
+            <p>
+                Review refund information, order details and processing status.
+            </p>
+
+        </div>
+
+        <div class="refund-hero-icon">
+            <i class="bi bi-receipt-cutoff"></i>
+        </div>
+
+    </div>
+
+
+    {{-- Main Grid --}}
+    <div class="refund-show-grid">
+
+        {{-- Left Column --}}
+        <div class="refund-show-main">
+
+            {{-- Refund Overview --}}
+            <div class="dashboard-panel refund-details-panel mb-4">
+
+                <div class="refund-details-header">
+
+                    <div>
+                        <span class="refund-section-kicker">
+                            REFUND
+                        </span>
+
+                        <h5>
+                            {{ $refund->refund_number }}
+                        </h5>
+
+                        <p>
+                            Refund request overview
+                        </p>
+                    </div>
+
+                    <div>
+                        <span class="refund-status status-{{ $refund->status }}">
+                            {{ ucfirst($refund->status) }}
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="refund-details-grid">
+
+                    <div class="refund-detail-item">
+                        <span class="refund-detail-label">
+                            Refund Number
+                        </span>
+
+                        <strong>
+                            {{ $refund->refund_number }}
+                        </strong>
+                    </div>
+
+
+                    <div class="refund-detail-item">
+                        <span class="refund-detail-label">
+                            Amount
+                        </span>
+
+                        <strong class="refund-detail-amount">
+                            ${{ number_format($refund->amount, 2) }}
+                        </strong>
+                    </div>
+
+
+                    <div class="refund-detail-item">
+                        <span class="refund-detail-label">
+                            Status
+                        </span>
+
+                        <span class="refund-status status-{{ $refund->status }}">
+                            {{ ucfirst($refund->status) }}
+                        </span>
+                    </div>
+
+
+                    <div class="refund-detail-item">
+                        <span class="refund-detail-label">
+                            Requested At
+                        </span>
+
+                        <strong>
+                            {{ $refund->requested_at?->format('M d, Y H:i') ?? '—' }}
+                        </strong>
+                    </div>
+
+
+                    <div class="refund-detail-item">
+                        <span class="refund-detail-label">
+                            Processed At
+                        </span>
+
+                        <strong>
+                            {{ $refund->processed_at?->format('M d, Y H:i') ?? '—' }}
+                        </strong>
+                    </div>
+
+
+                    <div class="refund-detail-item">
+                        <span class="refund-detail-label">
+                            Processed By
+                        </span>
+
+                        <strong>
+                            {{ $refund->processor?->name ?? '—' }}
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {{-- Reason --}}
+            <div class="dashboard-panel refund-content-panel mb-4">
+
+                <div class="refund-content-heading">
+                    <div class="refund-content-icon">
+                        <i class="bi bi-chat-left-text"></i>
+                    </div>
+
+                    <div>
+                        <h5>Refund Reason</h5>
+                        <p>Reason provided for this refund request.</p>
+                    </div>
+                </div>
+
+                <div class="refund-content-box">
+                    {{ $refund->reason }}
+                </div>
+
+                @if($refund->note)
+
+                    <div class="refund-note-block">
+
+                        <div class="refund-note-title">
+                            <i class="bi bi-sticky"></i>
+                            Additional Note
+                        </div>
+
+                        <p>
+                            {{ $refund->note }}
+                        </p>
+
+                    </div>
+
+                @endif
+
+            </div>
+
+
+            {{-- Order Information --}}
+            <div class="dashboard-panel refund-content-panel">
+
+                <div class="refund-content-heading">
+
+                    <div class="refund-content-icon">
+                        <i class="bi bi-bag-check"></i>
+                    </div>
+
+                    <div>
+                        <h5>Order Information</h5>
+                        <p>Order connected to this refund.</p>
+                    </div>
+
+                </div>
+
+
+                @if($refund->order)
+
+                    <div class="refund-order-card">
+
+                        <div class="refund-order-main">
+
+                            <div class="refund-order-icon">
+                                <i class="bi bi-box-seam"></i>
+                            </div>
+
+                            <div>
+                                <span>Order Number</span>
+
+                                <strong>
+                                    #{{ $refund->order->order_number }}
+                                </strong>
+                            </div>
+
+                        </div>
+
+
+                        <div class="refund-order-meta">
+
+                            <div>
+                                <span>Order Total</span>
+
+                                <strong>
+                                    ${{ number_format($refund->order->total_price, 2) }}
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>Order Status</span>
+
+                                <strong>
+                                    {{ ucfirst(str_replace('_', ' ', $refund->order->order_status)) }}
+                                </strong>
+                            </div>
+
+                            <div>
+                                <span>Payment Status</span>
+
+                                <strong>
+                                    {{ ucfirst(str_replace('_', ' ', $refund->order->payment_status)) }}
+                                </strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                @else
+
+                    <div class="refund-empty-inline">
+                        <i class="bi bi-exclamation-circle"></i>
+                        Order information is unavailable.
+                    </div>
+
+                @endif
+
+            </div>
+
+        </div>
+
+
+        {{-- Right Column --}}
+        <div class="refund-show-sidebar">
+
+            {{-- Customer --}}
+            <div class="dashboard-panel refund-sidebar-panel mb-4">
+
+                <div class="refund-sidebar-heading">
+                    <div class="refund-sidebar-icon">
+                        <i class="bi bi-person"></i>
+                    </div>
+
+                    <div>
+                        <h5>Customer</h5>
+                        <p>Refund requester</p>
+                    </div>
+                </div>
+
+
+                @if($refund->user)
+
+                    <div class="refund-customer-profile">
+
+                        <div class="refund-customer-avatar">
+                            {{ strtoupper(substr($refund->user->name ?? 'U', 0, 1)) }}
+                        </div>
+
+                        <div>
+                            <strong>
+                                {{ $refund->user->name }}
+                            </strong>
+
+                            <span>
+                                {{ $refund->user->email }}
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="refund-customer-info">
+
+                        <div>
+                            <span>Username</span>
+                            <strong>
+                                {{ $refund->user->username ?? '—' }}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Phone</span>
+                            <strong>
+                                {{ $refund->user->phone ?? '—' }}
+                            </strong>
+                        </div>
+
+                    </div>
+
+                @else
+
+                    <div class="refund-empty-inline">
+                        Customer unavailable.
+                    </div>
+
+                @endif
+
+            </div>
+
+
+            {{-- Payment --}}
+            <div class="dashboard-panel refund-sidebar-panel mb-4">
+
+                <div class="refund-sidebar-heading">
+
+                    <div class="refund-sidebar-icon">
+                        <i class="bi bi-credit-card"></i>
+                    </div>
+
+                    <div>
+                        <h5>Payment</h5>
+                        <p>Payment information</p>
+                    </div>
+
+                </div>
+
+
+                @if($refund->payment)
+
+                    <div class="refund-payment-info">
+
+                        <div>
+                            <span>Transaction ID</span>
+
+                            <strong>
+                                {{ $refund->payment->transaction_id ?? '—' }}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Payment Amount</span>
+
+                            <strong>
+                                ${{ number_format($refund->payment->amount, 2) }}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Method</span>
+
+                            <strong>
+                                {{ ucfirst(str_replace('_', ' ', $refund->payment->payment_method ?? '—')) }}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Status</span>
+
+                            <strong>
+                                {{ ucfirst(str_replace('_', ' ', $refund->payment->payment_status ?? '—')) }}
+                            </strong>
+                        </div>
+
+                    </div>
+
+                @else
+
+                    <div class="refund-empty-inline">
+                        <i class="bi bi-credit-card-2-front"></i>
+                        No payment record linked to this refund.
+                    </div>
+
+                @endif
+
+            </div>
+
+
+            {{-- Actions --}}
+            <div class="dashboard-panel refund-sidebar-panel">
+
+                <div class="refund-sidebar-heading">
+
+                    <div class="refund-sidebar-icon">
+                        <i class="bi bi-lightning"></i>
+                    </div>
+
+                    <div>
+                        <h5>Actions</h5>
+                        <p>Manage this refund</p>
+                    </div>
+
+                </div>
+
+
+                <div class="refund-show-actions">
+
+                    @if($refund->status === 'pending')
+
+                        <form method="POST"
+                              action="{{ route('admin.refunds.status', $refund) }}">
+
+                            @csrf
+                            @method('PATCH')
+
+                            <input type="hidden" name="status" value="approved">
+
+                            <button type="submit"
+                                    class="refund-action-large refund-action-approve">
+                                <i class="bi bi-check-circle"></i>
+                                Approve Refund
+                            </button>
+
+                        </form>
+
+
+                        <form method="POST"
+                              action="{{ route('admin.refunds.status', $refund) }}">
+
+                            @csrf
+                            @method('PATCH')
+
+                            <input type="hidden" name="status" value="rejected">
+
+                            <button type="submit"
+                                    class="refund-action-large refund-action-reject">
+                                <i class="bi bi-x-circle"></i>
+                                Reject Refund
+                            </button>
+
+                        </form>
+
+                    @elseif($refund->status === 'approved')
+
+                        <form method="POST"
+                              action="{{ route('admin.refunds.status', $refund) }}">
+
+                            @csrf
+                            @method('PATCH')
+
+                            <input type="hidden" name="status" value="processed">
+
+                            <button type="submit"
+                                    class="refund-action-large refund-action-process">
+                                <i class="bi bi-arrow-repeat"></i>
+                                Process Refund
+                            </button>
+
+                        </form>
+
+
+                        <form method="POST"
+                              action="{{ route('admin.refunds.status', $refund) }}">
+
+                            @csrf
+                            @method('PATCH')
+
+                            <input type="hidden" name="status" value="cancelled">
+
+                            <button type="submit"
+                                    class="refund-action-large refund-action-cancel">
+                                <i class="bi bi-slash-circle"></i>
+                                Cancel Refund
+                            </button>
+
+                        </form>
+
+                    @elseif($refund->status === 'processed')
+
+                        <div class="refund-processed-message">
+                            <i class="bi bi-check-circle-fill"></i>
+
+                            <div>
+                                <strong>Refund Processed</strong>
+                                <span>
+                                    This refund has been successfully processed.
+                                </span>
+                            </div>
+                        </div>
+
+                    @elseif($refund->status === 'rejected')
+
+                        <div class="refund-status-message refund-status-message-danger">
+                            <i class="bi bi-x-circle-fill"></i>
+
+                            <div>
+                                <strong>Refund Rejected</strong>
+                                <span>
+                                    This refund request was rejected.
+                                </span>
+                            </div>
+                        </div>
+
+                    @elseif($refund->status === 'cancelled')
+
+                        <div class="refund-status-message">
+                            <i class="bi bi-slash-circle-fill"></i>
+
+                            <div>
+                                <strong>Refund Cancelled</strong>
+                                <span>
+                                    This refund request has been cancelled.
+                                </span>
+                            </div>
+                        </div>
+
+                    @endif
+
+
+                    <a href="{{ route('admin.refunds.edit', $refund) }}"
+                       class="refund-action-large refund-action-edit
+                       {{ in_array($refund->status, ['processed']) ? 'disabled' : '' }}">
+                        <i class="bi bi-pencil-square"></i>
+                        Edit Refund
+                    </a>
+
+
+                    <a href="{{ route('admin.refunds.index') }}"
+                       class="refund-action-large refund-action-back">
+                        <i class="bi bi-arrow-left"></i>
+                        Back to Refunds
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
+
 @endsection

@@ -157,5 +157,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Notification::class);
     }
+
+    public function sellerApplications()
+    {
+        return $this->hasMany(SellerApplication::class);
+    }
+
+    public function store(): HasOne
+    {
+        return $this->hasOne(Store::class, 'seller_id');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }
 

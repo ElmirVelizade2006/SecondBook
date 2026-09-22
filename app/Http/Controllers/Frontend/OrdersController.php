@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Review;
 
 class OrdersController extends Controller
 {
@@ -20,7 +21,23 @@ class OrdersController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('Frontend.orders', compact('orders'));
+        /*
+        |--------------------------------------------------------------------------
+        | Reviewed Books
+        |--------------------------------------------------------------------------
+        */
+
+        $reviewedBookIds = Review::where('user_id', auth()->id())
+            ->pluck('book_id')
+            ->toArray();
+
+        return view(
+            'Frontend.orders',
+            compact(
+                'orders',
+                'reviewedBookIds'
+            )
+        );
     }
 
 

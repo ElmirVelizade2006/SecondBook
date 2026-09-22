@@ -38,60 +38,88 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.authors.update', $author->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.authors.update', $author->id) }}"
+              method="POST"
+              enctype="multipart/form-data">
 
             @csrf
             @method('PUT')
 
+            {{-- Author Name --}}
             <div class="mb-3">
-                <label class="form-label fw-semibold">Author Name <span class="text-danger">*</span></label>
+                <label class="form-label fw-semibold">
+                    Author Name <span class="text-danger">*</span>
+                </label>
+
                 <input
                     type="text"
                     name="name"
                     class="form-control @error('name') is-invalid @enderror"
                     value="{{ old('name', $author->name) }}"
                     placeholder="Enter author name">
+
                 @error('name')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
 
+            {{-- Bio --}}
             <div class="mb-3">
-                <label class="form-label fw-semibold">Bio</label>
+                <label class="form-label fw-semibold">
+                    Bio
+                </label>
+
                 <textarea
                     name="bio"
                     rows="4"
                     class="form-control @error('bio') is-invalid @enderror"
                     placeholder="Write short bio for author...">{{ old('bio', $author->bio) }}</textarea>
+
                 @error('bio')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
 
+            {{-- Current Photo --}}
+            @if (!empty($author->photo))
+
+                <div class="mb-4">
+                    <small class="text-muted d-block mb-2">
+                        Current Photo
+                    </small>
+
+                    <div class="author-detail-image-wrapper">
+                        <img
+                            src="{{ str_starts_with($author->photo, 'http')
+                                ? $author->photo
+                                : asset('storage/' . ltrim($author->photo, '/')) }}"
+                            alt="{{ $author->name }}"
+                            class="author-detail-image">
+                    </div>
+                </div>
+
+            @endif
+
+            {{-- Photo --}}
             <div class="mb-3">
-                <label class="form-label fw-semibold">Photo</label>
+                <label class="form-label fw-semibold">
+                    Photo
+                </label>
+
                 <input
                     type="file"
                     name="photo"
                     accept="image/*"
                     class="form-control @error('photo') is-invalid @enderror">
+
                 @error('photo')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
 
-            @if(!empty($author->photo))
-                <div class="mb-3">
-                    <small class="text-muted d-block mb-2">Current Photo</small>
-                    <img
-                        src="{{ asset('storage/' . $author->photo) }}"
-                        alt="{{ $author->name }}"
-                        class="img-fluid rounded border"
-                        class="author-detail-image">
-                </div>
-            @endif
-
+            {{-- Status --}}
             <div class="form-check mb-3">
+
                 <input
                     class="form-check-input"
                     type="checkbox"
@@ -99,20 +127,26 @@
                     value="1"
                     id="status"
                     {{ old('status', $author->status) ? 'checked' : '' }}>
+
                 <label class="form-check-label" for="status">
                     Active author
                 </label>
+
             </div>
 
+            {{-- Buttons --}}
             <div class="d-flex gap-2 mt-4">
+
                 <button type="submit" class="btn btn-primary px-4">
                     <i class="bi bi-check2-circle me-2"></i>
                     Update Author
                 </button>
 
-                <a href="{{ route('admin.authors.index') }}" class="btn btn-light border">
+                <a href="{{ route('admin.authors.index') }}"
+                   class="btn btn-light border">
                     Cancel
                 </a>
+
             </div>
 
         </form>

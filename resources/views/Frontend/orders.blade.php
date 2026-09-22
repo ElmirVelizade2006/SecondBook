@@ -384,14 +384,26 @@
                                         href="{{ route('frontend.orders.show', $order->id) }}"
                                         class="order-details-btn"
                                     >
-
-                                        <span>
-                                            View Details
-                                        </span>
-
+                                        <span>View Details</span>
                                         <i class="bi bi-arrow-right"></i>
-
                                     </a>
+
+
+                                    @if(
+                                        $order->order_status === 'delivered' &&
+                                        $order->book &&
+                                        !in_array($order->book_id, $reviewedBookIds)
+                                    )
+
+                                        <a
+                                            href="{{ route('frontend.reviews.create', $order->id) }}"
+                                            class="order-review-btn"
+                                        >
+                                            <i class="bi bi-star"></i>
+                                            <span>Write Review</span>
+                                        </a>
+
+                                    @endif
 
                                 </div>
 

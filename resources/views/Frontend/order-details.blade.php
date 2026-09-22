@@ -653,74 +653,125 @@
 
 
                 {{-- =================================================
-                    ORDER NOTE
+    CUSTOMER ORDER NOTE
+================================================== --}}
+<div class="order-note-card">
+
+    <div class="section-card-header">
+
+        <div class="section-card-heading">
+
+            <div class="section-card-icon">
+                <i class="bi bi-chat-left-text"></i>
+            </div>
+
+            <div>
+                <h3>
+                    Customer Order Note
+                </h3>
+
+                <p>
+                    Additional information
+                </p>
+            </div>
+
+        </div>
+
+        <span class="section-card-number">
+            04
+        </span>
+
+    </div>
+
+
+    @if($order->note)
+
+        <div class="order-note-content">
+
+            <div class="order-note-quote">
+                <i class="bi bi-quote"></i>
+            </div>
+
+            <p>
+                {{ $order->note }}
+            </p>
+
+        </div>
+
+    @else
+
+        <div class="order-note-empty">
+
+            <div class="order-note-empty-icon">
+                <i class="bi bi-chat-square-text"></i>
+            </div>
+
+            <div>
+                <strong>
+                    No additional note
+                </strong>
+
+                <span>
+                    No additional note was provided for this order.
+                </span>
+            </div>
+
+        </div>
+
+    @endif
+
+</div>
+
+
+                {{-- =================================================
+                    STORE ORDER NOTE
                 ================================================== --}}
-                <div class="order-note-card">
+                @if($order->order_note)
 
-                    <div class="section-card-header">
+                    <div class="order-note-card">
 
-                        <div class="section-card-heading">
+                        <div class="section-card-header">
 
-                            <div class="section-card-icon">
-                                <i class="bi bi-chat-left-text"></i>
+                            <div class="section-card-heading">
+
+                                <div class="section-card-icon">
+                                    <i class="bi bi-shop"></i>
+                                </div>
+
+                                <div>
+                                    <h3>
+                                        Store Order Note
+                                    </h3>
+
+                                    <p>
+                                        Information provided by the seller
+                                    </p>
+                                </div>
+
                             </div>
 
-                            <div>
-                                <h3>
-                                    Order Note
-                                </h3>
-
-                                <p>
-                                    Additional information
-                                </p>
-                            </div>
+                            <span class="section-card-number">
+                                05
+                            </span>
 
                         </div>
 
-                        <span class="section-card-number">
-                            04
-                        </span>
-
-                    </div>
-
-
-                    @if($order->note)
 
                         <div class="order-note-content">
 
                             <div class="order-note-quote">
-                                <i class="bi bi-quote"></i>
+                                <i class="bi bi-info-circle"></i>
                             </div>
 
                             <p>
-                                {{ $order->note }}
+                                {{ $order->order_note }}
                             </p>
 
                         </div>
 
-                    @else
+                    </div>
 
-                        <div class="order-note-empty">
-
-                            <div class="order-note-empty-icon">
-                                <i class="bi bi-chat-square-text"></i>
-                            </div>
-
-                            <div>
-                                <strong>
-                                    No additional note
-                                </strong>
-
-                                <span>
-                                    No additional note was provided for this order.
-                                </span>
-                            </div>
-
-                        </div>
-
-                    @endif
-
-                </div>
+                @endif
 
             </div>
 

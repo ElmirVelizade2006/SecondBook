@@ -1,0 +1,406 @@
+/* =========================================================
+   MY STORE
+========================================================= */
+
+.seller-page-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.seller-page-heading h1 {
+    margin: 0 0 6px;
+    color: var(--seller-text);
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.seller-page-heading p {
+    margin: 0;
+    color: var(--seller-muted);
+    font-size: 13px;
+}
+
+.seller-outline-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 0 16px;
+    border: 1px solid var(--seller-border);
+    border-radius: 10px;
+    background: var(--seller-card);
+    color: var(--seller-text);
+    font-size: 12px;
+    font-weight: 600;
+    transition: all .2s ease;
+}
+
+.seller-outline-button:hover {
+    border-color: var(--seller-primary);
+    color: var(--seller-primary);
+}
+
+.seller-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 13px 15px;
+    border-radius: 11px;
+    font-size: 12px;
+}
+
+.seller-alert-success {
+    background: #ecfdf3;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.seller-alert-danger {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+.seller-store-card,
+.seller-store-form-card {
+    background: var(--seller-card);
+    border: 1px solid var(--seller-border);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.seller-store-cover {
+    height: 105px;
+    background: var(--seller-primary-light);
+}
+
+.seller-store-profile {
+    padding: 0 22px 20px;
+    margin-top: -34px;
+}
+
+.seller-store-logo {
+    width: 68px;
+    height: 68px;
+    border: 4px solid var(--seller-card);
+    border-radius: 17px;
+    background: var(--seller-primary-light);
+    color: var(--seller-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.seller-store-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.seller-store-logo i {
+    font-size: 27px;
+}
+
+.seller-store-info {
+    margin-top: 14px;
+}
+
+.seller-store-info h4 {
+    margin: 0 0 5px;
+    color: var(--seller-text);
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.seller-store-info span {
+    color: var(--seller-muted);
+    font-size: 11px;
+}
+
+.seller-store-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    border-top: 1px solid var(--seller-border);
+}
+
+.seller-store-meta > div {
+    padding: 16px 22px;
+    background: var(--seller-card);
+}
+
+.seller-store-meta span {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--seller-muted);
+    font-size: 10px;
+}
+
+.seller-store-meta strong {
+    color: var(--seller-text);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.seller-store-meta strong.active {
+    color: var(--seller-success);
+}
+
+.seller-store-meta strong.inactive {
+    color: var(--seller-muted);
+}
+
+.seller-store-meta strong i {
+    margin-right: 4px;
+    font-size: 7px;
+}
+
+.seller-form-header {
+    padding: 21px 24px;
+    border-bottom: 1px solid var(--seller-border);
+}
+
+.seller-form-header h5 {
+    margin: 0 0 4px;
+    color: var(--seller-text);
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.seller-form-header p {
+    margin: 0;
+    color: var(--seller-muted);
+    font-size: 12px;
+}
+
+.seller-form-body {
+    padding: 24px;
+}
+
+.seller-form-group {
+    margin-bottom: 20px;
+}
+
+.seller-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--seller-text);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.seller-form-group label span {
+    color: #dc2626;
+}
+
+.seller-form-group input,
+.seller-form-group textarea {
+    width: 100%;
+    border: 1px solid var(--seller-border);
+    border-radius: 11px;
+    outline: none;
+    background: var(--seller-card);
+    color: var(--seller-text);
+    padding: 11px 13px;
+    font-family: inherit;
+    font-size: 12px;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.seller-form-group input {
+    min-height: 43px;
+}
+
+.seller-form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.seller-form-group input::placeholder,
+.seller-form-group textarea::placeholder {
+    color: var(--seller-muted);
+}
+
+.seller-form-group input:focus,
+.seller-form-group textarea:focus {
+    border-color: var(--seller-primary);
+    box-shadow: 0 0 0 3px var(--seller-primary-light);
+}
+
+.seller-logo-upload {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border: 1px dashed var(--seller-border);
+    border-radius: 12px;
+}
+
+.seller-logo-preview {
+    width: 58px;
+    height: 58px;
+    flex: 0 0 58px;
+    border-radius: 13px;
+    background: var(--seller-primary-light);
+    color: var(--seller-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.seller-logo-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.seller-logo-preview i {
+    font-size: 21px;
+}
+
+.seller-logo-content {
+    min-width: 0;
+}
+
+.seller-upload-button {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 7px;
+    margin: 0 !important;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: var(--seller-primary-light);
+    color: var(--seller-primary) !important;
+    cursor: pointer;
+    font-size: 11px !important;
+}
+
+.seller-logo-content input[type="file"] {
+    display: none;
+}
+
+.seller-logo-content p {
+    margin: 7px 0 0;
+    color: var(--seller-muted);
+    font-size: 10px;
+}
+
+.seller-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 5px;
+}
+
+.seller-cancel-button,
+.seller-save-button {
+    min-height: 42px;
+    padding: 0 17px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 700;
+    transition: all .2s ease;
+}
+
+.seller-cancel-button {
+    border: 1px solid var(--seller-border);
+    background: var(--seller-card);
+    color: var(--seller-muted);
+}
+
+.seller-cancel-button:hover {
+    color: var(--seller-text);
+}
+
+.seller-save-button {
+    border: 1px solid var(--seller-primary);
+    background: var(--seller-primary);
+    color: #ffffff;
+}
+
+.seller-save-button:hover {
+    opacity: .9;
+}
+
+/* =========================================================
+   MY STORE - DARK MODE
+========================================================= */
+
+:root[data-theme="dark"] .seller-alert-success {
+    background: rgba(21, 128, 61, .14);
+    border-color: rgba(74, 222, 128, .18);
+    color: #86efac;
+}
+
+:root[data-theme="dark"] .seller-alert-danger {
+    background: rgba(220, 38, 38, .14);
+    border-color: rgba(248, 113, 113, .18);
+    color: #fca5a5;
+}
+
+/* =========================================================
+   MY STORE - RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+
+    .seller-page-heading h1 {
+        font-size: 22px;
+    }
+
+}
+
+@media (max-width: 576px) {
+
+    .seller-page-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .seller-page-heading h1 {
+        font-size: 20px;
+    }
+
+    .seller-outline-button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .seller-store-profile {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .seller-store-meta > div {
+        padding: 14px 18px;
+    }
+
+    .seller-form-header,
+    .seller-form-body {
+        padding: 18px;
+    }
+
+    .seller-logo-upload {
+        align-items: flex-start;
+    }
+
+    .seller-form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .seller-cancel-button,
+    .seller-save-button {
+        width: 100%;
+    }
+
+}

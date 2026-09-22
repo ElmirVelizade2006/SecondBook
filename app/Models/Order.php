@@ -13,6 +13,8 @@ class Order extends Model
 
     protected $fillable = [
 
+        'processing_deadline',
+
         // Order Information
         'order_number',
 
@@ -31,6 +33,7 @@ class Order extends Model
 
         // Order Status
         'order_status',
+        'order_note',
 
         // Shipping
         'full_name',
@@ -47,6 +50,7 @@ class Order extends Model
     protected $casts = [
         'book_price' => 'decimal:2',
         'total_price' => 'decimal:2',
+        'processing_deadline' => 'datetime',
     ];
 
 

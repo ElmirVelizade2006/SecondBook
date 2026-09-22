@@ -503,10 +503,6 @@
                                                 required
                                             >
 
-                                                <option value="" disabled {{ old('subject') ? '' : 'selected' }}>
-                                                    Select a subject
-                                                </option>
-
                                                 <option value="General Inquiry"
                                                     {{ old('subject') === 'General Inquiry' ? 'selected' : '' }}>
                                                     General Inquiry
@@ -537,6 +533,16 @@
                                                     Account Problem
                                                 </option>
 
+                                                <option value="Wishlist Issue"
+                                                    {{ old('subject') === 'Wishlist Issue' ? 'selected' : '' }}>
+                                                    Wishlist Issue
+                                                </option>
+
+                                                <option value="Cart Issue"
+                                                    {{ old('subject') === 'Cart Issue' ? 'selected' : '' }}>
+                                                    Cart Issue
+                                                </option>
+
                                                 <option value="Return & Refund"
                                                     {{ old('subject') === 'Return & Refund' ? 'selected' : '' }}>
                                                     Return & Refund
@@ -545,6 +551,36 @@
                                                 <option value="Selling on SecondBook"
                                                     {{ old('subject') === 'Selling on SecondBook' ? 'selected' : '' }}>
                                                     Selling on SecondBook
+                                                </option>
+
+                                                <option value="Seller Support"
+                                                    {{ old('subject') === 'Seller Support' ? 'selected' : '' }}>
+                                                    Seller Support
+                                                </option>
+
+                                                <option value="Technical Issue"
+                                                    {{ old('subject') === 'Technical Issue' ? 'selected' : '' }}>
+                                                    Technical Issue
+                                                </option>
+
+                                                <option value="Suggestion / Feedback"
+                                                    {{ old('subject') === 'Suggestion / Feedback' ? 'selected' : '' }}>
+                                                    Suggestion / Feedback
+                                                </option>
+
+                                                <option value="Report a Problem"
+                                                    {{ old('subject') === 'Report a Problem' ? 'selected' : '' }}>
+                                                    Report a Problem
+                                                </option>
+
+                                                <option value="Privacy & Security"
+                                                    {{ old('subject') === 'Privacy & Security' ? 'selected' : '' }}>
+                                                    Privacy & Security
+                                                </option>
+
+                                                <option value="Partnership / Business Inquiry"
+                                                    {{ old('subject') === 'Partnership / Business Inquiry' ? 'selected' : '' }}>
+                                                    Partnership / Business Inquiry
                                                 </option>
 
                                                 <option value="Other"

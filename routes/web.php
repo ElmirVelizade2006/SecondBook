@@ -33,6 +33,7 @@ use App\Http\Controllers\Admin\EmailSettingController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\BackupController;
+use App\Http\Controllers\Admin\SellerApplicationsController;
 
 // =========================================================
 // FRONTEND CONTROLLERS
@@ -51,11 +52,25 @@ use App\Http\Controllers\Frontend\HelpCenterController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\AccountSettingsController;
+use App\Http\Controllers\Frontend\SellerApplicationController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\SellBookController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\ReturnPolicyController;
+use App\Http\Controllers\Frontend\ReviewController;
 use App\Http\Controllers\Frontend\PrivacyPolicyController;
+
+// =========================================================
+// SELLER CONTROLLERS
+// =========================================================
+
+use App\Http\Controllers\Seller\SellerDashboardController;
+use App\Http\Controllers\Seller\StoreController;
+use App\Http\Controllers\Seller\OrderController;
+use App\Http\Controllers\Seller\BookController;
+use App\Http\Controllers\Seller\SalesController;
+use App\Http\Controllers\Seller\ReviewController as SellerReviewController;
+use App\Http\Controllers\Seller\StoreSettingsController;
 
 // =========================================================
 // AUTH CONTROLLER
@@ -94,7 +109,6 @@ Route::prefix('admin')
 
             Route::get('/dashboard', 'dashboard')
                 ->name('dashboard');
-
         });
 
 
@@ -105,6 +119,7 @@ Route::prefix('admin')
         */
 
         // Books
+
         Route::controller(BooksController::class)
             ->prefix('books')
             ->name('books.')
@@ -130,11 +145,11 @@ Route::prefix('admin')
 
                 Route::delete('/{book}', 'destroy')
                     ->name('destroy');
-
             });
 
 
         // Book Conditions
+
         Route::controller(BookConditionController::class)
             ->prefix('book-conditions')
             ->name('book.conditions.')
@@ -160,11 +175,11 @@ Route::prefix('admin')
 
                 Route::delete('/{condition}', 'destroy')
                     ->name('destroy');
-
             });
 
 
         // Book Requests
+
         Route::controller(BookRequestController::class)
             ->prefix('book-requests')
             ->name('book.requests.')
@@ -187,11 +202,11 @@ Route::prefix('admin')
 
                 Route::delete('/{book}', 'destroy')
                     ->name('destroy');
-
             });
 
 
         // Categories
+
         Route::controller(CategoryController::class)
             ->prefix('categories')
             ->name('categories.')
@@ -220,11 +235,11 @@ Route::prefix('admin')
 
                 Route::delete('/{category}', 'destroy')
                     ->name('destroy');
-
             });
 
 
         // Authors
+
         Route::controller(AuthorsController::class)
             ->prefix('authors')
             ->name('authors.')
@@ -253,11 +268,11 @@ Route::prefix('admin')
 
                 Route::delete('/{author}', 'destroy')
                     ->name('destroy');
-
             });
 
 
         // Publishers
+
         Route::controller(PublishersController::class)
             ->prefix('publishers')
             ->name('publishers.')
@@ -286,7 +301,6 @@ Route::prefix('admin')
 
                 Route::delete('/{publisher}', 'destroy')
                     ->name('destroy');
-
             });
 
 
@@ -297,6 +311,7 @@ Route::prefix('admin')
         */
 
         // Refunds
+
         Route::controller(RefundsController::class)
             ->prefix('refunds')
             ->name('refunds.')
@@ -325,11 +340,11 @@ Route::prefix('admin')
 
                 Route::delete('/{refund}', 'destroy')
                     ->name('destroy');
-
             });
 
 
         // Shipping
+
         Route::controller(ShippingController::class)
             ->prefix('shipping')
             ->name('shipping.')
@@ -352,11 +367,11 @@ Route::prefix('admin')
 
                 Route::delete('/{shipping}', 'destroy')
                     ->name('destroy');
-
             });
 
 
         // Coupons
+
         Route::controller(CouponsController::class)
             ->prefix('coupons')
             ->name('coupons.')
@@ -382,11 +397,11 @@ Route::prefix('admin')
 
                 Route::delete('/{coupon}', 'destroy')
                     ->name('destroy');
-
             });
 
 
         // Orders
+
         Route::controller(OrdersController::class)
             ->prefix('orders')
             ->name('orders.')
@@ -412,11 +427,11 @@ Route::prefix('admin')
 
                 Route::delete('/{order}', 'destroy')
                     ->name('destroy');
-
             });
 
 
         // Payments
+
         Route::controller(PaymentsController::class)
             ->prefix('payments')
             ->name('payments.')
@@ -442,7 +457,31 @@ Route::prefix('admin')
 
                 Route::delete('/{payment}', 'destroy')
                     ->name('destroy');
+            });
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | SELLER APPLICATIONS
+        |--------------------------------------------------------------------------
+        */
+
+        Route::controller(SellerApplicationsController::class)
+            ->prefix('seller-applications')
+            ->name('seller-applications.')
+            ->group(function () {
+
+                Route::get('/', 'index')
+                    ->name('index');
+
+                Route::get('/{application}', 'show')
+                    ->name('show');
+
+                Route::patch('/{application}/approve', 'approve')
+                    ->name('approve');
+
+                Route::patch('/{application}/reject', 'reject')
+                    ->name('reject');
             });
 
 
@@ -453,6 +492,7 @@ Route::prefix('admin')
         */
 
         // Users
+
         Route::controller(UsersController::class)
             ->prefix('users')
             ->name('users.')
@@ -481,11 +521,11 @@ Route::prefix('admin')
 
                 Route::delete('/{user}', 'destroy')
                     ->name('destroy');
-
             });
 
 
         // Sellers
+
         Route::controller(SellersController::class)
             ->prefix('sellers')
             ->name('sellers.')
@@ -514,11 +554,11 @@ Route::prefix('admin')
 
                 Route::delete('/{seller}', 'destroy')
                     ->name('destroy');
-
             });
 
 
         // Roles
+
         Route::controller(RoleController::class)
             ->prefix('roles')
             ->name('roles.')
@@ -544,7 +584,6 @@ Route::prefix('admin')
 
                 Route::delete('/{role}', 'destroy')
                     ->name('destroy');
-
             });
 
 
@@ -555,64 +594,62 @@ Route::prefix('admin')
         */
 
         // Reviews
+
         Route::controller(ReviewsController::class)
             ->prefix('reviews')
             ->name('reviews.')
             ->group(function () {
-
-                Route::get('/', 'index')
-                    ->name('index');
+                Route::get('/', 'index')->name('index');
 
                 Route::get('/{review}', 'show')
                     ->name('show');
 
+                Route::patch('/{review}/approve', 'approve')
+                    ->name('approve');
+
+                Route::patch('/{review}/reject', 'reject')
+                    ->name('reject');
+
                 Route::delete('/{review}', 'destroy')
                     ->name('destroy');
-
             });
 
 
         // Messages
+
         Route::controller(MessagesController::class)
             ->prefix('messages')
             ->name('messages.')
             ->group(function () {
 
-                // Messages List
                 Route::get('/', 'index')
                     ->name('index');
 
-                // Gmail Reply Page
                 Route::get('/{message}/reply', 'reply')
                     ->name('reply');
 
-                // Send Gmail Reply
                 Route::post('/{message}/reply', 'sendReply')
                     ->name('sendReply');
 
-                // Site Reply Page
                 Route::get('/{message}/site-reply', 'siteReply')
                     ->name('site-reply');
 
-                // Send Site Reply
                 Route::post('/{message}/site-reply', 'sendSiteReply')
                     ->name('send-site-reply');
 
-                // Mark as Unread
                 Route::patch('/{message}/unread', 'markAsUnread')
                     ->name('unread');
 
-                // Message Details
                 Route::get('/{message}', 'show')
                     ->name('show');
 
-                // Delete Message
                 Route::delete('/{message}', 'destroy')
                     ->name('destroy');
             });
 
 
         // Banners
+
         Route::controller(BannerController::class)
             ->prefix('banners')
             ->name('banners.')
@@ -635,11 +672,11 @@ Route::prefix('admin')
 
                 Route::delete('/{banner}', 'destroy')
                     ->name('destroy');
-
             });
 
 
         // Blogs
+
         Route::controller(BlogController::class)
             ->prefix('blogs')
             ->name('blogs.')
@@ -662,11 +699,11 @@ Route::prefix('admin')
 
                 Route::delete('/{blog}', 'destroy')
                     ->name('destroy');
-
             });
 
 
         // FAQ
+
         Route::controller(FaqController::class)
             ->prefix('faq')
             ->name('faq.')
@@ -689,7 +726,6 @@ Route::prefix('admin')
 
                 Route::delete('/{faq}', 'destroy')
                     ->name('destroy');
-
             });
 
 
@@ -700,6 +736,7 @@ Route::prefix('admin')
         */
 
         // Reports
+
         Route::controller(ReportsController::class)
             ->prefix('reports')
             ->name('reports.')
@@ -716,11 +753,11 @@ Route::prefix('admin')
 
                 Route::get('/books', 'books')
                     ->name('books');
-
             });
 
 
         // Analytics
+
         Route::controller(AnalyticsController::class)
             ->prefix('analytics')
             ->name('analytics.')
@@ -728,7 +765,6 @@ Route::prefix('admin')
 
                 Route::get('/', 'index')
                     ->name('index');
-
             });
 
 
@@ -739,6 +775,7 @@ Route::prefix('admin')
         */
 
         // Settings
+
         Route::controller(SettingsController::class)
             ->prefix('settings')
             ->name('settings.')
@@ -749,11 +786,11 @@ Route::prefix('admin')
 
                 Route::put('/', 'update')
                     ->name('update');
-
             });
 
 
         // Email Settings
+
         Route::controller(EmailSettingController::class)
             ->prefix('email-settings')
             ->name('email.settings.')
@@ -764,11 +801,11 @@ Route::prefix('admin')
 
                 Route::put('/', 'update')
                     ->name('update');
-
             });
 
 
         // Notifications
+
         Route::controller(NotificationController::class)
             ->prefix('notifications')
             ->name('notifications.')
@@ -779,11 +816,11 @@ Route::prefix('admin')
 
                 Route::post('/send', 'send')
                     ->name('send');
-
             });
 
 
         // Activity Logs
+
         Route::controller(ActivityLogController::class)
             ->prefix('activity-logs')
             ->name('activity.logs.')
@@ -791,11 +828,11 @@ Route::prefix('admin')
 
                 Route::get('/', 'index')
                     ->name('index');
-
             });
 
 
         // Backup
+
         Route::controller(BackupController::class)
             ->prefix('backup')
             ->name('backup.')
@@ -809,9 +846,158 @@ Route::prefix('admin')
 
                 Route::get('/download/{file}', 'download')
                     ->name('download');
-
             });
+    });
 
+
+/*
+|--------------------------------------------------------------------------
+| SELLER PANEL
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('seller')
+    ->middleware(['auth', 'seller'])
+    ->name('seller.')
+    ->group(function () {
+
+        /*
+        |--------------------------------------------------------------------------
+        | DASHBOARD
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/dashboard',
+            [SellerDashboardController::class, 'index']
+        )->name('dashboard');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | STORE
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/store',
+            [StoreController::class, 'edit']
+        )->name('store');
+
+        Route::put(
+            '/store',
+            [StoreController::class, 'update']
+        )->name('store.update');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | BOOKS
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/books',
+            [BookController::class, 'index']
+        )->name('books.index');
+
+        Route::get(
+            '/books/create',
+            [BookController::class, 'create']
+        )->name('books.create');
+
+        Route::post(
+            '/books',
+            [BookController::class, 'store']
+        )->name('books.store');
+
+        Route::get(
+            '/books/{book}/edit',
+            [BookController::class, 'edit']
+        )->name('books.edit');
+
+        Route::put(
+            '/books/{book}',
+            [BookController::class, 'update']
+        )->name('books.update');
+
+        Route::get(
+            '/books/{book}',
+            [BookController::class, 'show']
+        )->name('books.show');
+
+        Route::delete(
+            '/books/{book}',
+            [BookController::class, 'destroy']
+        )->name('books.destroy');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | ORDERS
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/orders',
+            [OrderController::class, 'index']
+        )->name('orders.index');
+
+        Route::get(
+            '/orders/{order}',
+            [OrderController::class, 'show']
+        )->name('orders.show');
+
+        Route::patch(
+            '/orders/{order}/status',
+            [OrderController::class, 'updateStatus']
+        )->name('orders.update-status');
+
+        Route::delete(
+            '/orders/{order}',
+            [OrderController::class, 'destroy']
+        )->name('orders.destroy');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | SALES
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/sales',
+            [SalesController::class, 'index']
+        )->name('sales.index');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | REVIEWS
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/reviews',
+            [SellerReviewController::class, 'index']
+        )->name('reviews.index');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | SETTINGS
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/settings',
+            [StoreSettingsController::class, 'index']
+        )->name('settings');
+
+        Route::put(
+            '/settings',
+            [StoreSettingsController::class, 'update']
+        )->name('settings.update');
     });
 
 
@@ -835,7 +1021,6 @@ Route::prefix('frontend')
 
             Route::get('/', 'index')
                 ->name('home');
-
         });
 
 
@@ -852,7 +1037,6 @@ Route::prefix('frontend')
 
             Route::get('/books/{book}', 'show')
                 ->name('books.show');
-
         });
 
 
@@ -866,7 +1050,6 @@ Route::prefix('frontend')
 
             Route::get('/categories', 'index')
                 ->name('categories');
-
         });
 
 
@@ -880,7 +1063,6 @@ Route::prefix('frontend')
 
             Route::get('/authors', 'index')
                 ->name('authors');
-
         });
 
 
@@ -891,9 +1073,7 @@ Route::prefix('frontend')
         */
 
         Route::get('/about', function () {
-
             return view('Frontend.about');
-
         })->name('about');
 
 
@@ -910,7 +1090,22 @@ Route::prefix('frontend')
 
             Route::post('/contact', 'store')
                 ->name('contact.store');
+        });
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | BECOME A SELLER
+        |--------------------------------------------------------------------------
+        */
+
+        Route::controller(SellerApplicationController::class)->group(function () {
+
+            Route::get('/become-a-seller', 'create')
+                ->name('seller-application');
+
+            Route::post('/become-a-seller', 'store')
+                ->name('seller-application.store');
         });
 
 
@@ -921,24 +1116,43 @@ Route::prefix('frontend')
         */
 
         // FAQ
-        Route::get('/faq', [FrontendFaqController::class, 'index'])
-            ->name('faq');
+
+        Route::get(
+            '/faq',
+            [FrontendFaqController::class, 'index']
+        )->name('faq');
+
 
         // Help Center
-        Route::get('/help-center', [HelpCenterController::class, 'index'])
-            ->name('help-center');
+
+        Route::get(
+            '/help-center',
+            [HelpCenterController::class, 'index']
+        )->name('help-center');
+
 
         // Shipping Information
-        Route::get('/shipping-information', [ShippingInformationController::class, 'index'])
-            ->name('shipping-information');
+
+        Route::get(
+            '/shipping-information',
+            [ShippingInformationController::class, 'index']
+        )->name('shipping-information');
+
 
         // Return Policy
-        Route::get('/return-policy', [ReturnPolicyController::class, 'index'])
-            ->name('return-policy');
+
+        Route::get(
+            '/return-policy',
+            [ReturnPolicyController::class, 'index']
+        )->name('return-policy');
+
 
         // Privacy Policy
-        Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])
-            ->name('privacy-policy');
+
+        Route::get(
+            '/privacy-policy',
+            [PrivacyPolicyController::class, 'index']
+        )->name('privacy-policy');
 
 
         /*
@@ -954,6 +1168,7 @@ Route::prefix('frontend')
             ->group(function () {
 
                 // Login
+
                 Route::get('/login', 'login')
                     ->name('login');
 
@@ -962,6 +1177,7 @@ Route::prefix('frontend')
 
 
                 // Register
+
                 Route::get('/register', 'register')
                     ->name('register');
 
@@ -970,6 +1186,7 @@ Route::prefix('frontend')
 
 
                 // Forgot Password
+
                 Route::get('/password/request', function () {
 
                     session()->forget('reset_email');
@@ -980,13 +1197,13 @@ Route::prefix('frontend')
 
 
                 // OTP Verify Page
+
                 Route::get('/password/verify', function () {
 
                     if (!session()->has('reset_email')) {
 
                         return redirect()
                             ->route('frontend.auth.password.request');
-
                     }
 
                     return view('auth.password-verify');
@@ -995,6 +1212,7 @@ Route::prefix('frontend')
 
 
                 // Send OTP
+
                 Route::post(
                     '/forgot-password/send-otp',
                     'sendOtp'
@@ -1002,11 +1220,11 @@ Route::prefix('frontend')
 
 
                 // Verify OTP
+
                 Route::post(
                     '/password/verify',
                     'verifyOtp'
                 )->name('password.verify.otp');
-
             });
 
 
@@ -1017,9 +1235,7 @@ Route::prefix('frontend')
         */
 
         Route::get('/auth/terms', function () {
-
             return view('auth.terms');
-
         })->name('auth.terms');
 
 
@@ -1037,9 +1253,7 @@ Route::prefix('frontend')
 
                 Route::post('/logout', 'logout')
                     ->name('logout');
-
             });
-
     });
 
 
@@ -1122,7 +1336,6 @@ Route::middleware('auth')
             '/profile',
             [AuthController::class, 'destroyProfile']
         )->name('profile.destroy');
-
     });
 
 
@@ -1143,20 +1356,30 @@ Route::middleware('auth')
         |--------------------------------------------------------------------------
         */
 
-        Route::get('/cart', [CartController::class, 'index'])
-            ->name('cart');
+        Route::get(
+            '/cart',
+            [CartController::class, 'index']
+        )->name('cart');
 
-        Route::post('/cart/add/{book}', [CartController::class, 'add'])
-            ->name('cart.add');
+        Route::post(
+            '/cart/add/{book}',
+            [CartController::class, 'add']
+        )->name('cart.add');
 
-        Route::patch('/cart/update/{book}', [CartController::class, 'update'])
-            ->name('cart.update');
+        Route::patch(
+            '/cart/update/{book}',
+            [CartController::class, 'update']
+        )->name('cart.update');
 
-        Route::delete('/cart/remove/{book}', [CartController::class, 'remove'])
-            ->name('cart.remove');
+        Route::delete(
+            '/cart/remove/{book}',
+            [CartController::class, 'remove']
+        )->name('cart.remove');
 
-        Route::delete('/cart/clear', [CartController::class, 'clear'])
-            ->name('cart.clear');
+        Route::delete(
+            '/cart/clear',
+            [CartController::class, 'clear']
+        )->name('cart.clear');
 
 
         /*
@@ -1165,31 +1388,39 @@ Route::middleware('auth')
         |--------------------------------------------------------------------------
         */
 
-        Route::get('/checkout', [CheckoutController::class, 'index'])
-            ->name('checkout');
+        Route::get(
+            '/checkout',
+            [CheckoutController::class, 'index']
+        )->name('checkout');
 
-        Route::post('/checkout', [CheckoutController::class, 'store'])
-            ->name('checkout.store');
+        Route::post(
+            '/checkout',
+            [CheckoutController::class, 'store']
+        )->name('checkout.store');
+
 
         /*
         |--------------------------------------------------------------------------
-        | Frontend Payments
+        | FRONTEND PAYMENTS
         |--------------------------------------------------------------------------
         */
 
-        Route::middleware('auth')->group(function () {
+        Route::get(
+            '/payment/{order}',
+            [FrontendPaymentController::class, 'show']
+        )->name('payment');
 
-            Route::get('/payment/{order}', [FrontendPaymentController::class,'show'])
-                ->name('payment');
+        Route::post(
+            '/payment/{order}',
+            [FrontendPaymentController::class, 'process']
+        )->name('payment.process');
 
-            Route::post('/payment/{order}', [FrontendPaymentController::class,'process'])
-                ->name('payment.process');
 
-        });
-
-        // =========================================================
-        // NOTIFICATIONS
-        // =========================================================
+        /*
+        |--------------------------------------------------------------------------
+        | NOTIFICATIONS
+        |--------------------------------------------------------------------------
+        */
 
         Route::controller(FrontendNotificationController::class)
             ->prefix('notifications')
@@ -1213,14 +1444,20 @@ Route::middleware('auth')
         |--------------------------------------------------------------------------
         */
 
-        Route::get('/wishlist', [WishlistController::class, 'index'])
-            ->name('wishlist');
+        Route::get(
+            '/wishlist',
+            [WishlistController::class, 'index']
+        )->name('wishlist');
 
-        Route::post('/wishlist/add/{book}', [WishlistController::class, 'add'])
-            ->name('wishlist.add');
+        Route::post(
+            '/wishlist/add/{book}',
+            [WishlistController::class, 'add']
+        )->name('wishlist.add');
 
-        Route::delete('/wishlist/remove/{book}', [WishlistController::class, 'remove'])
-            ->name('wishlist.remove');
+        Route::delete(
+            '/wishlist/remove/{book}',
+            [WishlistController::class, 'remove']
+        )->name('wishlist.remove');
 
 
         /*
@@ -1229,11 +1466,15 @@ Route::middleware('auth')
         |--------------------------------------------------------------------------
         */
 
-        Route::get('/sell-book', [SellBookController::class, 'create'])
-            ->name('sell-book');
+        Route::get(
+            '/sell-book',
+            [SellBookController::class, 'create']
+        )->name('sell-book');
 
-        Route::post('/sell-book', [SellBookController::class, 'store'])
-            ->name('sell-book.store');
+        Route::post(
+            '/sell-book',
+            [SellBookController::class, 'store']
+        )->name('sell-book.store');
 
 
         /*
@@ -1242,11 +1483,32 @@ Route::middleware('auth')
         |--------------------------------------------------------------------------
         */
 
-        Route::get('/orders', [FrontendOrdersController::class, 'index'])
-            ->name('orders');
+        Route::get(
+            '/orders',
+            [FrontendOrdersController::class, 'index']
+        )->name('orders');
 
-        Route::get('/orders/{order}', [FrontendOrdersController::class, 'show'])
-            ->name('orders.show');
+        Route::get(
+            '/orders/{order}',
+            [FrontendOrdersController::class, 'show']
+        )->name('orders.show');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | WRITE REVIEW
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/orders/{order}/review',
+            [ReviewController::class, 'create']
+        )->name('reviews.create');
+
+        Route::post(
+            '/orders/{order}/review',
+            [ReviewController::class, 'store']
+        )->name('reviews.store');
 
 
         /*
@@ -1259,7 +1521,6 @@ Route::middleware('auth')
             '/order-tracking/{order}',
             [FrontendOrdersController::class, 'tracking']
         )->name('order-tracking');
-
     });
 
 
@@ -1308,6 +1569,5 @@ Route::middleware('auth')
             '/settings/password',
             [AccountSettingsController::class, 'updatePassword']
         )->name('settings.password');
-
     });
 

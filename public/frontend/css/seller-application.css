@@ -1,0 +1,432 @@
+/* =========================================================
+   SELLER APPLICATION
+========================================================= */
+
+.seller-application-page {
+    min-height: 70vh;
+    padding: 30px 0 80px;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.seller-application-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 15px;
+    border-radius: 50px;
+    background: rgba(139, 94, 60, 0.10);
+    color: #8b5e3c;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+}
+
+.seller-application-title {
+    color: #1f2937;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.seller-application-subtitle {
+    max-width: 650px;
+    margin: 15px auto 0;
+    color: #6b7280;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.seller-info-card,
+.seller-form-card,
+.seller-status-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 22px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.04);
+}
+
+.seller-info-card {
+    padding: 35px;
+}
+
+.seller-form-card {
+    padding: 35px;
+}
+
+/* =========================================================
+   INFORMATION CARD
+========================================================= */
+
+.seller-info-icon {
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: #8b5e3c;
+    color: #ffffff;
+    font-size: 25px;
+    margin-bottom: 22px;
+}
+
+.seller-info-card h3 {
+    margin-bottom: 12px;
+    color: #1f2937;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.seller-info-card > p {
+    color: #6b7280;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+/* =========================================================
+   BENEFITS
+========================================================= */
+
+.seller-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.seller-benefit {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.benefit-icon {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #f5eee9;
+    color: #8b5e3c;
+    font-size: 18px;
+}
+
+.seller-benefit h6 {
+    margin: 1px 0 4px;
+    color: #1f2937;
+    font-weight: 700;
+}
+
+.seller-benefit span {
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* =========================================================
+   FORM HEADER
+========================================================= */
+
+.seller-form-header {
+    margin-bottom: 30px;
+}
+
+.seller-form-header h3 {
+    margin-bottom: 7px;
+    color: #1f2937;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.seller-form-header p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.seller-form-card .form-label {
+    color: #374151;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 9px;
+}
+
+.seller-input-wrapper {
+    position: relative;
+}
+
+.seller-input-wrapper > i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    color: #9ca3af;
+}
+
+.seller-input-wrapper .form-control {
+    height: 50px;
+    padding-left: 44px;
+    border: 1px solid #e5e7eb;
+    border-radius: 13px;
+    color: #1f2937;
+    background: #ffffff;
+    box-shadow: none;
+}
+
+.seller-form-card .form-control:focus {
+    border-color: #8b5e3c;
+    box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.10);
+}
+
+.seller-form-card .form-control::placeholder {
+    color: #9ca3af;
+}
+
+.seller-textarea {
+    resize: vertical;
+    min-height: 130px;
+    padding: 14px 15px !important;
+    border-radius: 13px;
+}
+
+/* =========================================================
+   FORM FOOTER
+========================================================= */
+
+.seller-form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 10px;
+}
+
+.seller-privacy {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #6b7280;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.seller-privacy i {
+    color: #8b5e3c;
+    font-size: 17px;
+}
+
+.seller-submit-btn {
+    border: 0;
+    border-radius: 13px;
+    padding: 13px 22px;
+    background: #8b5e3c;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: 0.2s ease;
+}
+
+.seller-submit-btn:hover {
+    background: #754d31;
+    transform: translateY(-1px);
+}
+
+/* =========================================================
+   STATUS CARD
+========================================================= */
+
+.seller-status-card {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 35px;
+    display: flex;
+    align-items: flex-start;
+    gap: 22px;
+}
+
+.seller-status-icon {
+    width: 58px;
+    height: 58px;
+    flex: 0 0 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    background: #fff7ed;
+    color: #ea580c;
+    font-size: 24px;
+}
+
+.seller-status-card.rejected .seller-status-icon {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.seller-status-label {
+    display: block;
+    margin-bottom: 6px;
+    color: #8b5e3c;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.seller-status-content h3 {
+    margin-bottom: 10px;
+    color: #1f2937;
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.seller-status-content p {
+    margin-bottom: 15px;
+    color: #6b7280;
+    line-height: 1.7;
+}
+
+.seller-status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.seller-status-badge.pending {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+.rejection-reason {
+    padding: 14px 16px;
+    margin-top: 15px;
+    border-radius: 12px;
+    background: #fef2f2;
+    color: #991b1b;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   ALERTS
+========================================================= */
+
+.seller-alert {
+    max-width: 850px;
+    margin: 0 auto 25px;
+    border-radius: 13px;
+}
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+.dark-mode .seller-application-title,
+.dark-mode .seller-info-card h3,
+.dark-mode .seller-form-header h3,
+.dark-mode .seller-benefit h6,
+.dark-mode .seller-status-content h3 {
+    color: #f3f4f6;
+}
+
+.dark-mode .seller-application-subtitle,
+.dark-mode .seller-info-card > p,
+.dark-mode .seller-benefit span,
+.dark-mode .seller-form-header p,
+.dark-mode .seller-status-content p,
+.dark-mode .seller-privacy {
+    color: #9ca3af;
+}
+
+.dark-mode .seller-info-card,
+.dark-mode .seller-form-card,
+.dark-mode .seller-status-card {
+    background: #172033;
+    border-color: #263247;
+    box-shadow: none;
+}
+
+.dark-mode .seller-form-card .form-label {
+    color: #d1d5db;
+}
+
+.dark-mode .seller-input-wrapper .form-control,
+.dark-mode .seller-textarea {
+    background: #111827;
+    border-color: #334155;
+    color: #f3f4f6;
+}
+
+.dark-mode .seller-input-wrapper .form-control::placeholder,
+.dark-mode .seller-textarea::placeholder {
+    color: #6b7280;
+}
+
+.dark-mode .seller-benefit .benefit-icon {
+    background: #202b3d;
+    color: #c89b78;
+}
+
+.dark-mode .seller-application-badge {
+    background: rgba(200, 155, 120, 0.12);
+    color: #c89b78;
+}
+
+.dark-mode .seller-status-icon {
+    background: #2a251f;
+}
+
+.dark-mode .seller-status-card.rejected .seller-status-icon {
+    background: #2a2020;
+}
+
+.dark-mode .rejection-reason {
+    background: #2a2020;
+    color: #fca5a5;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 767.98px) {
+
+    .seller-application-title {
+        font-size: 32px;
+    }
+
+    .seller-info-card,
+    .seller-form-card,
+    .seller-status-card {
+        padding: 25px;
+    }
+
+    .seller-form-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .seller-submit-btn {
+        width: 100%;
+    }
+
+    .seller-status-card {
+        flex-direction: column;
+    }
+}

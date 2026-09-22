@@ -1201,6 +1201,128 @@
     box-shadow: none;
 }
 
+/* =========================================================
+   ADD TO CART - LOADING ANIMATION
+========================================================= */
+
+.book-cart-btn.is-adding {
+    transform: scale(0.92);
+    pointer-events: none;
+    cursor: wait;
+    opacity: 0.9;
+}
+
+.book-cart-btn.is-adding:hover {
+    transform: scale(0.92);
+    box-shadow: none;
+}
+
+.cart-loading-spinner {
+    width: 17px;
+    height: 17px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-loading-spinner i {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 1;
+    transform-origin: center;
+    animation: cartSpinner 0.65s linear infinite;
+}
+
+@keyframes cartSpinner {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =========================================================
+   CART LOADING / SUCCESS
+========================================================= */
+
+.book-cart-btn.is-adding {
+    pointer-events: none;
+    cursor: wait;
+    opacity: 0.85;
+}
+
+.cart-loading-spinner {
+    width: 16px;
+    height: 16px;
+    display: block;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: cartSpinner 0.7s linear infinite;
+}
+
+@keyframes cartSpinner {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.cart-success-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    animation: cartSuccess 0.25s ease-out;
+}
+
+@keyframes cartSuccess {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    70% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+/* =========================================================
+   CART COUNT ANIMATION
+========================================================= */
+
+#header-cart-count.cart-count-bump {
+    animation: cartCountBump 0.45s ease;
+}
+
+@keyframes cartCountBump {
+    0% {
+        transform: scale(1);
+    }
+
+    40% {
+        transform: scale(1.4);
+    }
+
+    70% {
+        transform: scale(0.92);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
 
 /* =========================================================
    PAGINATION
@@ -2360,5 +2482,135 @@
         to {
             transform: scale(1.15);
         }
+    }
+}
+
+/* =========================================================
+   BOOKS PAGINATION
+========================================================= */
+
+.books-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 4px 4px;
+    margin-top: 4px;
+    border-top: 1px solid #eef2f7;
+}
+
+.books-pagination-info {
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.books-pagination-info strong {
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.books-pagination-links .pagination {
+    margin: 0;
+    gap: 6px;
+}
+
+.books-pagination-links .page-link {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 10px !important;
+
+    background: #fff;
+    color: #64748b;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    box-shadow: none;
+}
+
+.books-pagination-links .page-link:hover {
+    background: #f8fafc;
+    color: #8b5e3c;
+    border-color: #cbd5e1;
+}
+
+.books-pagination-links .page-item.active .page-link {
+    background: #8b5e3c;
+    border-color: #8b5e3c;
+    color: #fff;
+}
+
+.books-pagination-links .page-item.disabled .page-link {
+    color: #cbd5e1;
+    background: #f8fafc;
+}
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+:root[data-theme="dark"] .books-pagination {
+    border-top-color: #334155;
+}
+
+:root[data-theme="dark"] .books-pagination-info {
+    color: #94a3b8;
+}
+
+:root[data-theme="dark"] .books-pagination-info strong {
+    color: #e6edf7;
+}
+
+:root[data-theme="dark"] .books-pagination-links .page-link {
+    background: #111827;
+    border-color: #334155;
+    color: #cbd5e1;
+}
+
+:root[data-theme="dark"] .books-pagination-links .page-link:hover {
+    background: #1e293b;
+    border-color: #475569;
+    color: #c08457;
+}
+
+:root[data-theme="dark"] .books-pagination-links .page-item.active .page-link {
+    background: #8b5e3c;
+    border-color: #8b5e3c;
+    color: #fff;
+}
+
+:root[data-theme="dark"] .books-pagination-links .page-item.disabled .page-link {
+    background: #0f172a;
+    border-color: #334155;
+    color: #475569;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .books-pagination {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .books-pagination-info {
+        font-size: 12px;
+    }
+
+    .books-pagination-links {
+        width: 100%;
+        overflow-x: auto;
     }
 }

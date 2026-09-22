@@ -1,15 +1,214 @@
-/* Publishers */
-.publishers-page .book-cover-thumb { width: 44px; height: 56px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: linear-gradient(135deg, #eff6ff, #e0e7ff); color: #2563eb; font-size: 18px; }
-.publishers-page .publisher-logo-thumb { width: 44px; height: 56px; object-fit: cover; display: block; }
-.publishers-page .input-group-text { border-radius: 14px 0 0 14px; }
-.publishers-page .input-group .form-control { border-radius: 0; padding: 12px 14px; }
-.publishers-page .input-group .btn { border-radius: 0 14px 14px 0; }
-.publishers-page .dashboard-panel .btn-sm { width: 36px; height: 36px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 10px; }
-.publishers-page input[type="file"].form-control { padding: 6px; background: #f8fafc; color: #0f172a; border-color: #cbd5e1; }
+/* =========================================================
+   Publishers
+========================================================= */
+
+/* ---------------------------------------------------------
+   Logo
+--------------------------------------------------------- */
+
+.publishers-page .publisher-logo-wrapper {
+    width: 52px;
+    height: 64px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.publishers-page .publisher-logo-thumb {
+    width: 52px;
+    height: 64px;
+    display: block;
+    object-fit: contain;
+    padding: 5px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.publishers-page .publisher-logo-placeholder {
+    width: 52px;
+    height: 64px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #eff6ff, #e0e7ff);
+    color: #2563eb;
+    font-size: 20px;
+}
+
+
+/* ---------------------------------------------------------
+   Search
+--------------------------------------------------------- */
+
+.publishers-page .input-group-text {
+    border-radius: 14px 0 0 14px;
+    border-color: #dbe1ea;
+}
+
+.publishers-page .input-group .form-control {
+    border-radius: 0;
+    padding: 12px 14px;
+    border-color: #dbe1ea;
+}
+
+.publishers-page .input-group .btn {
+    border-radius: 0 14px 14px 0;
+}
+
+
+/* ---------------------------------------------------------
+   Action Buttons
+--------------------------------------------------------- */
+
+.publishers-page .dashboard-panel .btn-sm {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+
+/* ---------------------------------------------------------
+   File Input
+--------------------------------------------------------- */
+
+.publishers-page input[type="file"].form-control {
+    padding: 6px;
+    background: #f8fafc;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
 .publishers-page input[type="file"]::file-selector-button,
-.publishers-page input[type="file"]::-webkit-file-upload-button { margin: 0 10px 0 0; padding: 10px 14px; border: 0; border-right: 1px solid #cbd5e1; border-radius: 10px; background: #e2e8f0; color: #0f172a; font-weight: 600; }
-.publishers-page .publisher-detail-image { max-height: 180px; object-fit: cover; }
-.publishers-page .publishers-empty-state { height: auto; padding: 30px 0; }
-:root[data-theme="dark"] .publishers-page input[type="file"].form-control { background: #0b1220 !important; color: #e5e7eb !important; border-color: #334155 !important; }
+.publishers-page input[type="file"]::-webkit-file-upload-button {
+    margin: 0 10px 0 0;
+    padding: 10px 14px;
+    border: 0;
+    border-right: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: #e2e8f0;
+    color: #0f172a;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+/* ---------------------------------------------------------
+   Publisher Detail Image
+--------------------------------------------------------- */
+
+.publishers-page .publisher-detail-image {
+    width: 180px;
+    height: 180px;
+    max-width: 100%;
+    object-fit: contain;
+    padding: 8px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+}
+
+
+/* ---------------------------------------------------------
+   Empty State
+--------------------------------------------------------- */
+
+.publishers-page .publishers-empty-state {
+    height: auto;
+    padding: 30px 0;
+}
+
+
+/* =========================================================
+   Dark Mode
+========================================================= */
+
+:root[data-theme="dark"] .publishers-page .publisher-logo-thumb {
+    background: #172033;
+    border-color: #334155;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.20);
+}
+
+:root[data-theme="dark"] .publishers-page .publisher-logo-placeholder {
+    background: #172033;
+    border-color: #334155;
+    color: #60a5fa;
+}
+
+:root[data-theme="dark"] .publishers-page .input-group-text {
+    background: #172033 !important;
+    color: #94a3b8;
+    border-color: #334155;
+}
+
+:root[data-theme="dark"] .publishers-page .input-group .form-control {
+    background: #0b1220;
+    color: #e5e7eb;
+    border-color: #334155;
+}
+
+:root[data-theme="dark"] .publishers-page .input-group .form-control::placeholder {
+    color: #64748b;
+}
+
+:root[data-theme="dark"] .publishers-page input[type="file"].form-control {
+    background: #0b1220 !important;
+    color: #e5e7eb !important;
+    border-color: #334155 !important;
+}
+
 :root[data-theme="dark"] .publishers-page input[type="file"]::file-selector-button,
-:root[data-theme="dark"] .publishers-page input[type="file"]::-webkit-file-upload-button { background: #1e293b; color: #e5e7eb; border-right-color: #334155; }
+:root[data-theme="dark"] .publishers-page input[type="file"]::-webkit-file-upload-button {
+    background: #1e293b;
+    color: #e5e7eb;
+    border-right-color: #334155;
+}
+
+:root[data-theme="dark"] .publishers-page .publisher-detail-image {
+    background: #172033;
+    border-color: #334155;
+}
+
+
+/* =========================================================
+   Responsive
+========================================================= */
+
+@media (max-width: 767.98px) {
+
+    .publishers-page .publisher-logo-wrapper,
+    .publishers-page .publisher-logo-thumb,
+    .publishers-page .publisher-logo-placeholder {
+        width: 46px;
+        height: 58px;
+    }
+
+    .publishers-page .publisher-logo-thumb {
+        padding: 4px;
+    }
+
+}
+
+@media (max-width: 575.98px) {
+
+    .publishers-page .publisher-logo-wrapper,
+    .publishers-page .publisher-logo-thumb,
+    .publishers-page .publisher-logo-placeholder {
+        width: 42px;
+        height: 54px;
+    }
+
+    .publishers-page .publisher-logo-placeholder {
+        font-size: 17px;
+    }
+
+}

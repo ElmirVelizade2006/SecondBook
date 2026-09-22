@@ -1,0 +1,732 @@
+/* =========================================================
+   REVIEWS PAGE
+========================================================= */
+
+.reviews-page {
+    width: 100%;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.reviews-page .dashboard-panel {
+    border-radius: 16px;
+}
+
+.reviews-page .panel-header {
+    margin-bottom: 0;
+}
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+.reviews-page .review-stat-card {
+    min-height: 108px;
+    padding: 20px 22px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    transition: 0.2s ease;
+}
+
+.reviews-page .review-stat-card:hover {
+    transform: translateY(-2px);
+    border-color: #d6c1b1;
+}
+
+.reviews-page .review-stat-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+    background: #f7eee8;
+    color: #8b5e3c;
+    font-size: 20px;
+}
+
+.reviews-page .review-stat-card span {
+    display: block;
+    margin-bottom: 5px;
+    color: #8a8f98;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.reviews-page .review-stat-card strong {
+    display: block;
+    color: #171a1f;
+    font-size: 23px;
+    line-height: 1;
+    font-weight: 700;
+}
+
+/* =========================================================
+   FILTER PANEL
+========================================================= */
+
+.reviews-page .review-filter-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.reviews-page .review-search-group {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    align-items: stretch;
+}
+
+.reviews-page .review-search-input {
+    position: relative;
+    flex: 1;
+}
+
+.reviews-page .review-search-input i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    z-index: 2;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.reviews-page .review-search-input .form-control {
+    width: 100%;
+    height: 46px;
+    padding: 0 15px 0 42px;
+    border: 1px solid #e3e6ea;
+    border-right: 0;
+    border-radius: 13px 0 0 13px;
+    background: #ffffff;
+    color: #1f2937;
+    font-size: 13px;
+    box-shadow: none;
+}
+
+.reviews-page .review-search-input .form-control:focus {
+    border-color: #8b5e3c;
+    box-shadow: none;
+}
+
+.reviews-page .review-search-input .form-control::placeholder {
+    color: #a0a5ad;
+}
+
+.reviews-page .review-search-btn {
+    height: 46px;
+    padding: 0 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: 1px solid #8b5e3c;
+    border-radius: 0 13px 13px 0;
+    background: #8b5e3c;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.reviews-page .review-search-btn:hover {
+    background: #754b30;
+    border-color: #754b30;
+}
+
+.reviews-page .review-filter-select {
+    width: 155px;
+    min-width: 155px;
+}
+
+.reviews-page .review-filter-select .form-select {
+    width: 100%;
+    height: 46px;
+    padding: 0 38px 0 14px;
+    border: 1px solid #e3e6ea;
+    border-radius: 13px;
+    background-color: #ffffff;
+    color: #374151;
+    font-size: 12px;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.reviews-page .review-filter-select .form-select:focus {
+    border-color: #8b5e3c;
+    box-shadow: none;
+}
+
+.reviews-page .review-reset-btn {
+    height: 46px;
+    padding: 0 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: 1px solid #e3e6ea;
+    border-radius: 13px;
+    background: #ffffff;
+    color: #6b7280;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: 0.2s ease;
+}
+
+.reviews-page .review-reset-btn:hover {
+    border-color: #8b5e3c;
+    color: #8b5e3c;
+}
+
+/* =========================================================
+   REVIEW LIST
+========================================================= */
+
+.reviews-page .review-card {
+    margin-bottom: 14px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    transition: 0.2s ease;
+}
+
+.reviews-page .review-card:hover {
+    border-color: #d8c6b9;
+}
+
+/* =========================================================
+   REVIEW HEADER
+========================================================= */
+
+.reviews-page .review-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.reviews-page .review-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.reviews-page .review-avatar {
+    width: 43px;
+    height: 43px;
+    min-width: 43px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f3e8df;
+    color: #8b5e3c;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.reviews-page .review-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.reviews-page .review-user h6 {
+    margin: 0 0 3px;
+    color: #20242a;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.reviews-page .review-user span {
+    display: block;
+    color: #9aa0a8;
+    font-size: 11px;
+}
+
+/* =========================================================
+   STATUS BADGES
+========================================================= */
+
+.reviews-page .review-status-badge {
+    height: 29px;
+    padding: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.reviews-page .review-status-badge i {
+    font-size: 11px;
+}
+
+.reviews-page .review-status-badge.approved {
+    background: #edf8f1;
+    color: #27834b;
+}
+
+.reviews-page .review-status-badge.pending {
+    background: #fff6e9;
+    color: #b86a14;
+}
+
+.reviews-page .review-status-badge.rejected {
+    background: #fef0f0;
+    color: #c63c3c;
+}
+
+/* =========================================================
+   BOOK INFORMATION
+========================================================= */
+
+.reviews-page .review-book {
+    margin-top: 17px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    border: 1px solid #edf0f2;
+    border-radius: 12px;
+    background: #fafafa;
+}
+
+.reviews-page .review-book-cover {
+    width: 52px;
+    height: 70px;
+    min-width: 52px;
+    overflow: hidden;
+    border-radius: 7px;
+    background: #eeeeee;
+}
+
+.reviews-page .review-book-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.reviews-page .review-book-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a4a9af;
+    font-size: 19px;
+}
+
+.reviews-page .review-book-label {
+    display: block;
+    margin-bottom: 4px;
+    color: #a0a5ad;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+.reviews-page .review-book-info h6 {
+    margin: 0 0 5px;
+    color: #252930;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.reviews-page .review-book-info p {
+    margin: 0;
+    color: #8b9199;
+    font-size: 11px;
+}
+
+.reviews-page .review-book-info p i {
+    margin-right: 4px;
+    color: #8b5e3c;
+}
+
+/* =========================================================
+   RATING
+========================================================= */
+
+.reviews-page .review-rating {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.reviews-page .review-stars {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.reviews-page .review-stars i {
+    color: #e7a83e;
+    font-size: 14px;
+}
+
+.reviews-page .review-rating > span {
+    color: #777e87;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   COMMENT
+========================================================= */
+
+.reviews-page .review-comment {
+    margin-top: 13px;
+    padding: 13px 15px;
+    border-left: 3px solid #8b5e3c;
+    border-radius: 0 10px 10px 0;
+    background: #faf7f5;
+}
+
+.reviews-page .review-comment p {
+    margin: 0;
+    color: #555c65;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.reviews-page .review-comment .review-no-comment {
+    color: #a0a5ad;
+    font-style: italic;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.reviews-page .review-card-footer {
+    margin-top: 17px;
+    padding-top: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    border-top: 1px solid #edf0f2;
+}
+
+.reviews-page .review-date {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #9ba1a9;
+    font-size: 10px;
+}
+
+.reviews-page .review-date i {
+    font-size: 11px;
+}
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.reviews-page .review-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.reviews-page .review-actions form {
+    margin: 0;
+}
+
+.reviews-page .review-action-btn {
+    min-height: 34px;
+    padding: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.reviews-page .review-action-btn i {
+    font-size: 11px;
+}
+
+.reviews-page .review-action-btn.view {
+    border: 1px solid #e1e5e9;
+    background: #ffffff;
+    color: #626a74;
+}
+
+.reviews-page .review-action-btn.view:hover {
+    border-color: #8b5e3c;
+    color: #8b5e3c;
+}
+
+.reviews-page .review-action-btn.approve {
+    border: 1px solid #c9ead4;
+    background: #f2fbf5;
+    color: #27834b;
+}
+
+.reviews-page .review-action-btn.approve:hover {
+    background: #27834b;
+    border-color: #27834b;
+    color: #ffffff;
+}
+
+.reviews-page .review-action-btn.reject {
+    border: 1px solid #f3d5b6;
+    background: #fff8f0;
+    color: #b86a14;
+}
+
+.reviews-page .review-action-btn.reject:hover {
+    background: #b86a14;
+    border-color: #b86a14;
+    color: #ffffff;
+}
+
+.reviews-page .review-action-btn.delete {
+    border: 1px solid #f0cccc;
+    background: #fff5f5;
+    color: #c63c3c;
+}
+
+.reviews-page .review-action-btn.delete:hover {
+    background: #c63c3c;
+    border-color: #c63c3c;
+    color: #ffffff;
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.reviews-page .reviews-empty {
+    padding: 65px 20px;
+    text-align: center;
+}
+
+.reviews-page .reviews-empty-icon {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    background: #f7eee8;
+    color: #8b5e3c;
+    font-size: 23px;
+}
+
+.reviews-page .reviews-empty h5 {
+    margin: 0 0 6px;
+    color: #252930;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.reviews-page .reviews-empty p {
+    margin: 0;
+    color: #999fa7;
+    font-size: 12px;
+}
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+
+.reviews-page .reviews-pagination {
+    margin-top: 18px;
+}
+
+.reviews-page .reviews-pagination .pagination {
+    margin-bottom: 0;
+}
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+.dark-mode .reviews-page .review-stat-card,
+.dark-theme .reviews-page .review-stat-card,
+[data-theme="dark"] .reviews-page .review-stat-card,
+
+.dark-mode .reviews-page .review-card,
+.dark-theme .reviews-page .review-card,
+[data-theme="dark"] .reviews-page .review-card,
+
+.dark-mode .reviews-page .review-reset-btn,
+.dark-theme .reviews-page .review-reset-btn,
+[data-theme="dark"] .reviews-page .review-reset-btn,
+
+.dark-mode .reviews-page .review-action-btn.view,
+.dark-theme .reviews-page .review-action-btn.view,
+[data-theme="dark"] .reviews-page .review-action-btn.view {
+    background: #172033;
+    border-color: #263248;
+}
+
+.dark-mode .reviews-page .review-stat-card strong,
+.dark-theme .reviews-page .review-stat-card strong,
+[data-theme="dark"] .reviews-page .review-stat-card strong,
+
+.dark-mode .reviews-page .review-user h6,
+.dark-theme .reviews-page .review-user h6,
+[data-theme="dark"] .reviews-page .review-user h6,
+
+.dark-mode .reviews-page .review-book-info h6,
+.dark-theme .reviews-page .review-book-info h6,
+[data-theme="dark"] .reviews-page .review-book-info h6,
+
+.dark-mode .reviews-page .reviews-empty h5,
+.dark-theme .reviews-page .reviews-empty h5,
+[data-theme="dark"] .reviews-page .reviews-empty h5 {
+    color: #f3f4f6;
+}
+
+.dark-mode .reviews-page .review-search-input .form-control,
+.dark-theme .reviews-page .review-search-input .form-control,
+[data-theme="dark"] .reviews-page .review-search-input .form-control,
+
+.dark-mode .reviews-page .review-filter-select .form-select,
+.dark-theme .reviews-page .review-filter-select .form-select,
+[data-theme="dark"] .reviews-page .review-filter-select .form-select {
+    background: #172033;
+    border-color: #263248;
+    color: #f3f4f6;
+}
+
+.dark-mode .reviews-page .review-search-input .form-control::placeholder,
+.dark-theme .reviews-page .review-search-input .form-control::placeholder,
+[data-theme="dark"] .reviews-page .review-search-input .form-control::placeholder {
+    color: #7f8a9d;
+}
+
+.dark-mode .reviews-page .review-book,
+.dark-theme .reviews-page .review-book,
+[data-theme="dark"] .reviews-page .review-book {
+    background: #111827;
+    border-color: #263248;
+}
+
+.dark-mode .reviews-page .review-comment,
+.dark-theme .reviews-page .review-comment,
+[data-theme="dark"] .reviews-page .review-comment {
+    background: #111827;
+}
+
+.dark-mode .reviews-page .review-comment p,
+.dark-theme .reviews-page .review-comment p,
+[data-theme="dark"] .reviews-page .review-comment p {
+    color: #d1d5db;
+}
+
+.dark-mode .reviews-page .review-card-footer,
+.dark-theme .reviews-page .review-card-footer,
+[data-theme="dark"] .reviews-page .review-card-footer {
+    border-top-color: #263248;
+}
+
+.dark-mode .reviews-page .review-reset-btn,
+.dark-theme .reviews-page .review-reset-btn,
+[data-theme="dark"] .reviews-page .review-reset-btn {
+    color: #d1d5db;
+}
+
+.dark-mode .reviews-page .review-action-btn.view,
+.dark-theme .reviews-page .review-action-btn.view,
+[data-theme="dark"] .reviews-page .review-action-btn.view {
+    color: #d1d5db;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+
+    .reviews-page .review-filter-form {
+        align-items: stretch;
+        flex-wrap: wrap;
+    }
+
+    .reviews-page .review-search-group {
+        flex: 1 1 100%;
+    }
+
+    .reviews-page .review-filter-select {
+        flex: 1;
+        width: auto;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .reviews-page .review-card-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .reviews-page .review-status {
+        width: 100%;
+    }
+
+    .reviews-page .review-card-footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .reviews-page .review-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .reviews-page .review-filter-select {
+        flex: 1 1 100%;
+    }
+
+    .reviews-page .review-reset-btn {
+        width: 100%;
+    }
+
+    .reviews-page .review-card {
+        padding: 16px;
+    }
+
+    .reviews-page .review-actions {
+        gap: 6px;
+    }
+
+    .reviews-page .review-action-btn {
+        flex: 1;
+    }
+}

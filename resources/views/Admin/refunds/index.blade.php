@@ -11,28 +11,10 @@
 <div class="dashboard-section refunds-page">
 
     {{-- =========================================================
-        ALERTS
-    ========================================================= --}}
-    @if(session('success'))
-        <div class="alert alert-success refund-alert">
-            <i class="bi bi-check-circle-fill"></i>
-            <span>{{ session('success') }}</span>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-danger refund-alert">
-            <i class="bi bi-exclamation-circle-fill"></i>
-            <span>{{ session('error') }}</span>
-        </div>
-    @endif
-
-
-    {{-- =========================================================
         HERO
     ========================================================= --}}
-    <div class="refunds-hero">
 
+    <div class="refunds-hero mb-4">
         <div class="refunds-hero-content">
 
             <span class="hero-badge">
@@ -49,28 +31,52 @@
 
         </div>
 
-        <div class="refunds-hero-action">
-            <a href="{{ route('admin.refunds.create') }}" class="btn btn-light">
-                <i class="bi bi-plus-circle"></i>
-                <span>Add Refund</span>
-            </a>
+        <div class="refunds-hero-mark">
+            <i class="bi bi-arrow-counterclockwise"></i>
         </div>
 
+        <a
+            href="{{ route('admin.refunds.create') }}"
+            class="refunds-hero-button"
+        >
+            <i class="bi bi-plus-lg"></i>
+            <span>Add Refund</span>
+        </a>
     </div>
+
+
+    {{-- =========================================================
+        ALERTS
+    ========================================================= --}}
+
+    @if(session('success'))
+        <div class="refund-alert refund-alert-success">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>{{ session('success') }}</span>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="refund-alert refund-alert-danger">
+            <i class="bi bi-exclamation-circle-fill"></i>
+            <span>{{ session('error') }}</span>
+        </div>
+    @endif
 
 
     {{-- =========================================================
         STATISTICS
     ========================================================= --}}
-    <div class="row g-4 refund-stats">
+
+    <div class="row g-4 mb-4">
 
         {{-- Total --}}
         <div class="col-12 col-sm-6 col-xl-3">
-            <div class="refund-stat">
+            <div class="refund-stat-card stat-blue">
 
                 <div class="refund-stat-content">
-                    <span>Total Refunds</span>
-                    <strong>{{ $stats['total'] }}</strong>
+                    <span>Total refunds</span>
+                    <strong>{{ number_format($stats['total']) }}</strong>
                 </div>
 
                 <div class="refund-stat-icon">
@@ -83,11 +89,11 @@
 
         {{-- Pending --}}
         <div class="col-12 col-sm-6 col-xl-3">
-            <div class="refund-stat stat-orange">
+            <div class="refund-stat-card stat-orange">
 
                 <div class="refund-stat-content">
                     <span>Pending</span>
-                    <strong>{{ $stats['pending'] }}</strong>
+                    <strong>{{ number_format($stats['pending']) }}</strong>
                 </div>
 
                 <div class="refund-stat-icon">
@@ -100,11 +106,11 @@
 
         {{-- Processed --}}
         <div class="col-12 col-sm-6 col-xl-3">
-            <div class="refund-stat stat-green">
+            <div class="refund-stat-card stat-green">
 
                 <div class="refund-stat-content">
                     <span>Processed</span>
-                    <strong>{{ $stats['processed'] }}</strong>
+                    <strong>{{ number_format($stats['processed']) }}</strong>
                 </div>
 
                 <div class="refund-stat-icon">
@@ -117,10 +123,11 @@
 
         {{-- Amount --}}
         <div class="col-12 col-sm-6 col-xl-3">
-            <div class="refund-stat stat-purple">
+            <div class="refund-stat-card stat-purple">
 
                 <div class="refund-stat-content">
-                    <span>Refunded Amount</span>
+                    <span>Refunded amount</span>
+
                     <strong>
                         ${{ number_format($stats['amount'], 2) }}
                     </strong>
@@ -139,24 +146,22 @@
     {{-- =========================================================
         REFUND DIRECTORY
     ========================================================= --}}
+
     <div class="dashboard-panel refunds-panel">
 
-        {{-- Panel Header --}}
+        {{-- Header --}}
         <div class="panel-header refunds-panel-header">
 
-            <div class="refunds-panel-title">
-
+            <div>
                 <span class="eyebrow">
-                    Refund Directory
+                    Refund directory
                 </span>
 
-                <h5>All Refunds</h5>
+                <h5>All refunds</h5>
 
                 <p>
-                    Review refund requests, decisions,
-                    and processed payments.
+                    Review refund requests, decisions, and processed payments.
                 </p>
-
             </div>
 
         </div>
@@ -165,7 +170,12 @@
         {{-- =====================================================
             FILTERS
         ===================================================== --}}
-        <form method="GET" class="refund-filters">
+
+        <form
+            method="GET"
+            action="{{ route('admin.refunds.index') }}"
+            class="refund-filters"
+        >
 
             {{-- Search --}}
             <div class="refund-search">
@@ -173,7 +183,7 @@
                 <i class="bi bi-search"></i>
 
                 <input
-                    type="text"
+                    type="search"
                     name="search"
                     value="{{ $search }}"
                     placeholder="Search refund, order or customer..."
@@ -184,93 +194,88 @@
 
 
             {{-- Status --}}
-            <div class="refund-filter-select">
+            <select
+                name="status"
+                class="form-select refund-select"
+                aria-label="Filter by status"
+            >
+                <option value="">All statuses</option>
 
-                <select
-                    name="status"
-                    class="form-select"
-                    aria-label="Filter by status"
-                >
-                    <option value="">All Statuses</option>
+                @foreach([
+                    'pending',
+                    'approved',
+                    'rejected',
+                    'processed',
+                    'cancelled'
+                ] as $item)
 
-                    @foreach([
-                        'pending',
-                        'approved',
-                        'rejected',
-                        'processed',
-                        'cancelled'
-                    ] as $item)
+                    <option
+                        value="{{ $item }}"
+                        @selected($status === $item)
+                    >
+                        {{ ucfirst($item) }}
+                    </option>
 
-                        <option
-                            value="{{ $item }}"
-                            @selected($status === $item)
-                        >
-                            {{ ucfirst($item) }}
-                        </option>
-
-                    @endforeach
-
-                </select>
-
-            </div>
+                @endforeach
+            </select>
 
 
             {{-- Sort --}}
-            <div class="refund-filter-select">
-
-                <select
-                    name="sort"
-                    class="form-select"
-                    aria-label="Sort refunds"
+            <select
+                name="sort"
+                class="form-select refund-select"
+                aria-label="Sort refunds"
+            >
+                <option
+                    value="newest"
+                    @selected($sort === 'newest')
                 >
-                    <option
-                        value="newest"
-                        @selected($sort === 'newest')
-                    >
-                        Newest
-                    </option>
+                    Newest
+                </option>
 
-                    <option
-                        value="oldest"
-                        @selected($sort === 'oldest')
-                    >
-                        Oldest
-                    </option>
+                <option
+                    value="oldest"
+                    @selected($sort === 'oldest')
+                >
+                    Oldest
+                </option>
 
-                    <option
-                        value="highest"
-                        @selected($sort === 'highest')
-                    >
-                        Highest Amount
-                    </option>
+                <option
+                    value="highest"
+                    @selected($sort === 'highest')
+                >
+                    Highest amount
+                </option>
 
-                    <option
-                        value="lowest"
-                        @selected($sort === 'lowest')
-                    >
-                        Lowest Amount
-                    </option>
-
-                </select>
-
-            </div>
+                <option
+                    value="lowest"
+                    @selected($sort === 'lowest')
+                >
+                    Lowest amount
+                </option>
+            </select>
 
 
             {{-- Filter --}}
-            <button type="submit" class="btn btn-primary refund-filter-btn">
+            <button
+                type="submit"
+                class="btn btn-primary refund-filter-button"
+            >
                 <i class="bi bi-funnel"></i>
                 <span>Filter</span>
             </button>
 
 
             {{-- Reset --}}
-            <a
-                href="{{ route('admin.refunds.index') }}"
-                class="refund-reset"
-            >
-                <i class="bi bi-arrow-counterclockwise"></i>
-                Reset
-            </a>
+            @if($search || $status || $sort !== 'newest')
+                <a
+                    href="{{ route('admin.refunds.index') }}"
+                    class="refund-reset-button"
+                >
+                    <i class="bi bi-arrow-counterclockwise"></i>
+                    <span>Reset</span>
+                </a>
+            @endif
 
         </form>
 
@@ -278,9 +283,21 @@
         {{-- =====================================================
             TABLE
         ===================================================== --}}
+
         <div class="table-responsive refunds-table-wrap">
 
             <table class="table refunds-table align-middle">
+
+                <colgroup>
+                    <col class="refund-col-number">
+                    <col class="refund-col-order">
+                    <col class="refund-col-customer">
+                    <col class="refund-col-amount">
+                    <col class="refund-col-reason">
+                    <col class="refund-col-status">
+                    <col class="refund-col-date">
+                    <col class="refund-col-actions">
+                </colgroup>
 
                 <thead>
                     <tr>
@@ -304,33 +321,51 @@
 
                             {{-- Refund --}}
                             <td>
-                                <div class="refund-number">
-                                    <span class="refund-number-icon">
-                                        <i class="bi bi-receipt"></i>
-                                    </span>
 
-                                    <strong>
-                                        {{ $refund->refund_number }}
-                                    </strong>
+                                <div class="refund-number-cell">
+
+                                    <div class="refund-number-icon">
+                                        <i class="bi bi-receipt"></i>
+                                    </div>
+
+                                    <div>
+                                        <strong>
+                                            {{ $refund->refund_number }}
+                                        </strong>
+
+                                        <small>
+                                            Refund request
+                                        </small>
+                                    </div>
+
                                 </div>
+
                             </td>
 
 
                             {{-- Order --}}
                             <td>
+
                                 <span class="refund-order-number">
                                     #{{ $refund->order?->order_number ?? '-' }}
                                 </span>
+
                             </td>
 
 
                             {{-- Customer --}}
                             <td>
 
-                                <div class="refund-customer">
+                                <div class="refund-customer-cell">
 
                                     <div class="refund-customer-avatar">
-                                        <i class="bi bi-person"></i>
+                                        {{ strtoupper(
+                                            substr(
+                                                $refund->user?->name ?? 'U',
+                                                0,
+                                                1
+                                            )
+                                        ) }}
                                     </div>
 
                                     <div class="refund-customer-info">
@@ -354,9 +389,11 @@
 
                             {{-- Amount --}}
                             <td>
+
                                 <strong class="refund-amount">
                                     ${{ number_format($refund->amount, 2) }}
                                 </strong>
+
                             </td>
 
 
@@ -376,12 +413,11 @@
                             {{-- Status --}}
                             <td>
 
-                                <span class="refund-status status-{{ $refund->status }}">
-
+                                <span
+                                    class="refund-status status-{{ $refund->status }}"
+                                >
                                     <i class="bi bi-circle-fill"></i>
-
                                     {{ ucfirst($refund->status) }}
-
                                 </span>
 
                             </td>
@@ -406,8 +442,8 @@
                                     <a
                                         href="{{ route('admin.refunds.show', $refund) }}"
                                         class="refund-action-btn action-view"
-                                        title="View Refund"
-                                        aria-label="View Refund"
+                                        title="View refund"
+                                        aria-label="View refund"
                                     >
                                         <i class="bi bi-eye"></i>
                                     </a>
@@ -419,14 +455,14 @@
                                         <a
                                             href="{{ route('admin.refunds.edit', $refund) }}"
                                             class="refund-action-btn action-edit"
-                                            title="Edit Refund"
-                                            aria-label="Edit Refund"
+                                            title="Edit refund"
+                                            aria-label="Edit refund"
                                         >
                                             <i class="bi bi-pencil"></i>
                                         </a>
 
 
-                                        {{-- Pending Actions --}}
+                                        {{-- Pending --}}
                                         @if($refund->status === 'pending')
 
                                             {{-- Approve --}}
@@ -446,12 +482,11 @@
                                                 <button
                                                     type="submit"
                                                     class="refund-action-btn action-approve"
-                                                    title="Approve Refund"
-                                                    aria-label="Approve Refund"
+                                                    title="Approve refund"
+                                                    aria-label="Approve refund"
                                                 >
                                                     <i class="bi bi-check-lg"></i>
                                                 </button>
-
                                             </form>
 
 
@@ -472,12 +507,11 @@
                                                 <button
                                                     type="submit"
                                                     class="refund-action-btn action-reject"
-                                                    title="Reject Refund"
-                                                    aria-label="Reject Refund"
+                                                    title="Reject refund"
+                                                    aria-label="Reject refund"
                                                 >
                                                     <i class="bi bi-x-lg"></i>
                                                 </button>
-
                                             </form>
 
                                         @elseif($refund->status === 'approved')
@@ -499,12 +533,11 @@
                                                 <button
                                                     type="submit"
                                                     class="refund-action-btn action-process"
-                                                    title="Process Refund"
-                                                    aria-label="Process Refund"
+                                                    title="Process refund"
+                                                    aria-label="Process refund"
                                                 >
                                                     <i class="bi bi-arrow-repeat"></i>
                                                 </button>
-
                                             </form>
 
                                         @endif
@@ -522,12 +555,11 @@
                                             <button
                                                 type="submit"
                                                 class="refund-action-btn action-delete"
-                                                title="Delete Refund"
-                                                aria-label="Delete Refund"
+                                                title="Delete refund"
+                                                aria-label="Delete refund"
                                             >
                                                 <i class="bi bi-trash3"></i>
                                             </button>
-
                                         </form>
 
                                     @endif
@@ -541,6 +573,7 @@
                     @empty
 
                         <tr>
+
                             <td colspan="8">
 
                                 <div class="refund-empty">
@@ -560,13 +593,14 @@
                                         href="{{ route('admin.refunds.create') }}"
                                         class="btn btn-primary"
                                     >
-                                        <i class="bi bi-plus-circle me-2"></i>
-                                        Create Refund
+                                        <i class="bi bi-plus-lg me-2"></i>
+                                        Create refund
                                     </a>
 
                                 </div>
 
                             </td>
+
                         </tr>
 
                     @endforelse
@@ -581,6 +615,7 @@
         {{-- =====================================================
             PAGINATION
         ===================================================== --}}
+
         @if($refunds->hasPages())
 
             <div class="refund-pagination">
@@ -596,9 +631,6 @@
 @endsection
 
 
-{{-- =============================================================
-    JAVASCRIPT
-============================================================= --}}
 @push('js')
 
 <script>
@@ -612,12 +644,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             Swal.fire({
                 title: 'Delete refund?',
-                text: 'Are you sure you want to delete this refund?',
+                text: 'Are you sure you want to permanently delete this refund?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Delete',
+                confirmButtonText: 'Delete refund',
                 cancelButtonText: 'Cancel',
-                confirmButtonColor: '#dc3545',
+                confirmButtonColor: '#bd3d53',
                 reverseButtons: true
             }).then(function (result) {
 
@@ -635,4 +667,3 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 @endpush
-

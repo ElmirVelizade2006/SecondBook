@@ -34,11 +34,14 @@ class CheckoutController extends Controller
 
         $totalItems = collect($cart)->sum('quantity');
 
-        return view('Frontend.checkout', compact(
-            'cart',
-            'subtotal',
-            'totalItems'
-        ));
+        return view(
+            'Frontend.checkout',
+            compact(
+                'cart',
+                'subtotal',
+                'totalItems'
+            )
+        );
     }
 
     /*
@@ -54,54 +57,53 @@ class CheckoutController extends Controller
         | Validate Customer Information
         |--------------------------------------------------------------------------
         */
-        
 
         $validated = $request->validate([
             'full_name' => [
                 'required',
                 'string',
-                'max:255'
+                'max:255',
             ],
 
             'phone' => [
                 'required',
                 'string',
-                'max:50'
+                'max:50',
             ],
 
             'country' => [
                 'required',
                 'string',
-                'max:100'
+                'max:100',
             ],
 
             'city' => [
                 'required',
                 'string',
-                'max:100'
+                'max:100',
             ],
 
             'postal_code' => [
                 'nullable',
                 'string',
-                'max:20'
+                'max:20',
             ],
 
             'address' => [
                 'required',
                 'string',
-                'max:1000'
+                'max:1000',
             ],
 
             'note' => [
                 'nullable',
                 'string',
-                'max:1000'
+                'max:1000',
             ],
 
             'payment_method' => [
                 'required',
-                'in:cash_on_delivery,credit_card,debit_card,paypal'
+                'in:cash_on_delivery,credit_card,debit_card,paypal',
             ],
         ]);
 
@@ -128,6 +130,7 @@ class CheckoutController extends Controller
         $createdOrders = [];
 
         try {
+
             /*
             |--------------------------------------------------------------------------
             | Database Transaction
@@ -139,6 +142,7 @@ class CheckoutController extends Controller
                 $validated,
                 &$createdOrders
             ) {
+
                 foreach ($cart as $bookId => $item) {
 
                     /*
@@ -147,7 +151,8 @@ class CheckoutController extends Controller
                     |--------------------------------------------------------------------------
                     */
 
-                    $book = Book::whereKey($bookId)
+                    $book = Book::with('seller.store')
+                        ->whereKey($bookId)
                         ->lockForUpdate()
                         ->first();
 
@@ -166,6 +171,40 @@ class CheckoutController extends Controller
                     if ($book->status !== 'approved') {
                         throw new \Exception(
                             "\"{$book->title}\" is no longer available."
+                        );
+                    }
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Check Seller
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if (!$book->seller) {
+                        throw new \Exception(
+                            "\"{$book->title}\" does not have an active seller."
+                        );
+                    }
+
+                    $store = $book->seller->store;
+
+                    
+
+                    if (!$store) {
+                        throw new \Exception(
+                            "\"{$book->title}\" seller store could not be found."
+                        );
+                    }
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Accept Orders Setting
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if (!$store->accept_orders) {
+                        throw new \Exception(
+                            "This store is currently not accepting orders for \"{$book->title}\"."
                         );
                     }
 
@@ -202,8 +241,46 @@ class CheckoutController extends Controller
                     */
 
                     $bookPrice = (float) $book->price;
-
                     $totalPrice = $bookPrice * $quantity;
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Minimum Order Amount
+                    |--------------------------------------------------------------------------
+                    */
+
+                    $minimumOrderAmount = (float) $store->minimum_order_amount;
+
+                    if (
+                        $minimumOrderAmount > 0 &&
+                        $totalPrice < $minimumOrderAmount
+                    ) {
+                        throw new \Exception(
+                            "The minimum order amount for this store is ₼" .
+                            number_format($minimumOrderAmount, 2) .
+                            "."
+                        );
+                    }
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Determine Order Status
+                    |--------------------------------------------------------------------------
+                    */
+
+                    $orderStatus = $store->auto_approve_orders
+                        ? 'processing'
+                        : 'pending';
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Processing Deadline
+                    |--------------------------------------------------------------------------
+                    */
+
+                    $processingDeadline = now()->addDays(
+                        $store->processing_time
+                    );
 
                     /*
                     |--------------------------------------------------------------------------
@@ -224,39 +301,75 @@ class CheckoutController extends Controller
 
                     $order = Order::create([
                         'order_number' => $orderNumber,
+
                         'user_id' => auth()->id(),
+
                         'book_id' => $book->id,
+
                         'book_price' => $bookPrice,
+
                         'quantity' => $quantity,
+
                         'total_price' => $totalPrice,
 
-                        'payment_method' =>
-                            $validated['payment_method'],
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Payment
+                        |--------------------------------------------------------------------------
+                        */
+
+                        'payment_method' => $validated['payment_method'],
 
                         'payment_status' => 'pending',
 
-                        'order_status' => 'pending',
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Order Status
+                        |--------------------------------------------------------------------------
+                        */
 
-                        'full_name' =>
-                            $validated['full_name'],
+                        'order_status' => $orderStatus,
 
-                        'phone' =>
-                            $validated['phone'],
+                        'processing_deadline' => $processingDeadline,
 
-                        'country' =>
-                            $validated['country'],
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Store Order Note
+                        |--------------------------------------------------------------------------
+                        |
+                        | Store Settings -> stores.order_note
+                        |                         ↓
+                        |                   orders.order_note
+                        |
+                        */
 
-                        'city' =>
-                            $validated['city'],
+                        'order_note' => $store->order_note,
 
-                        'postal_code' =>
-                            $validated['postal_code'] ?? null,
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Shipping Information
+                        |--------------------------------------------------------------------------
+                        */
 
-                        'address' =>
-                            $validated['address'],
+                        'full_name' => $validated['full_name'],
 
-                        'note' =>
-                            $validated['note'] ?? null,
+                        'phone' => $validated['phone'],
+
+                        'country' => $validated['country'],
+
+                        'city' => $validated['city'],
+
+                        'postal_code' => $validated['postal_code'] ?? null,
+
+                        'address' => $validated['address'],
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Customer Order Note
+                        |--------------------------------------------------------------------------
+                        */
+
+                        'note' => $validated['note'] ?? null,
                     ]);
 
                     /*
@@ -266,12 +379,20 @@ class CheckoutController extends Controller
                     */
 
                     Payment::create([
-                        'transaction_id' => 'TXN-' . strtoupper(Str::random(12)),
+                        'transaction_id' =>
+                            'TXN-' . strtoupper(Str::random(12)),
+
                         'order_id' => $order->id,
+
                         'amount' => $totalPrice,
-                        'payment_method' => $validated['payment_method'],
+
+                        'payment_method' =>
+                            $validated['payment_method'],
+
                         'payment_status' => 'pending',
+
                         'paid_at' => null,
+
                         'note' => null,
                     ]);
 
@@ -353,11 +474,11 @@ class CheckoutController extends Controller
             |--------------------------------------------------------------------------
             */
 
-                dd(
-                    'CHECKOUT ERROR',
-                    $e->getMessage(),
-                    $e->getFile(),
-                    $e->getLine()
+            return redirect()
+                ->route('frontend.cart')
+                ->with(
+                    'error',
+                    $e->getMessage()
                 );
         }
     }

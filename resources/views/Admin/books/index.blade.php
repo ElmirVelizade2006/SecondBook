@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="dashboard-section">
+<div class="dashboard-section books-page">
 
     {{-- Header --}}
     <div class="dashboard-panel mb-4">
@@ -475,13 +475,22 @@
 
         {{-- Pagination --}}
         @if($books->hasPages())
+            <div class="books-pagination">
+                <div class="books-pagination-info">
+                    Showing
+                    <strong>{{ $books->firstItem() }}</strong>
+                    to
+                    <strong>{{ $books->lastItem() }}</strong>
+                    of
+                    <strong>{{ $books->total() }}</strong>
+                    results
+                </div>
 
-            <div class="pt-3">
-                {{ $books->links() }}
+                <div class="books-pagination-links">
+                    {{ $books->onEachSide(1)->links() }}
+                </div>
             </div>
-
         @endif
-
     </div>
 
 </div>

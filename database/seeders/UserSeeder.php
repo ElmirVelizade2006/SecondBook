@@ -11,6 +11,30 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $users = [
+
+            /*
+            |--------------------------------------------------------------------------
+            | Seller
+            |--------------------------------------------------------------------------
+            */
+
+            [
+                'name' => 'Test Seller',
+                'first_name' => 'Test',
+                'last_name' => 'Seller',
+                'username' => 'test_seller',
+                'email' => 'seller@example.com',
+                'password' => 'password',
+                'role' => 'seller',
+                'status' => 'active',
+            ],
+
+            /*
+            |--------------------------------------------------------------------------
+            | Customers
+            |--------------------------------------------------------------------------
+            */
+
             [
                 'name' => 'Elvin Aliyev',
                 'first_name' => 'Elvin',
@@ -21,6 +45,7 @@ class UserSeeder extends Seeder
                 'role' => 'user',
                 'status' => 'active',
             ],
+
             [
                 'name' => 'Aysel Mammadova',
                 'first_name' => 'Aysel',
@@ -31,6 +56,7 @@ class UserSeeder extends Seeder
                 'role' => 'user',
                 'status' => 'active',
             ],
+
             [
                 'name' => 'Murad Hasanov',
                 'first_name' => 'Murad',
@@ -41,6 +67,7 @@ class UserSeeder extends Seeder
                 'role' => 'user',
                 'status' => 'active',
             ],
+
             [
                 'name' => 'Nigar Rahimova',
                 'first_name' => 'Nigar',
@@ -51,6 +78,7 @@ class UserSeeder extends Seeder
                 'role' => 'user',
                 'status' => 'active',
             ],
+
             [
                 'name' => 'Tural Karimov',
                 'first_name' => 'Tural',
@@ -61,6 +89,7 @@ class UserSeeder extends Seeder
                 'role' => 'user',
                 'status' => 'active',
             ],
+
             [
                 'name' => 'Leyla Huseynova',
                 'first_name' => 'Leyla',
@@ -71,6 +100,7 @@ class UserSeeder extends Seeder
                 'role' => 'user',
                 'status' => 'active',
             ],
+
             [
                 'name' => 'Kamran Ismayilov',
                 'first_name' => 'Kamran',
@@ -81,6 +111,7 @@ class UserSeeder extends Seeder
                 'role' => 'user',
                 'status' => 'active',
             ],
+
             [
                 'name' => 'Sabina Aliyeva',
                 'first_name' => 'Sabina',
@@ -91,6 +122,7 @@ class UserSeeder extends Seeder
                 'role' => 'user',
                 'status' => 'active',
             ],
+
             [
                 'name' => 'Orkhan Safarov',
                 'first_name' => 'Orkhan',
@@ -101,6 +133,7 @@ class UserSeeder extends Seeder
                 'role' => 'user',
                 'status' => 'active',
             ],
+
             [
                 'name' => 'Zehra Abbasova',
                 'first_name' => 'Zehra',

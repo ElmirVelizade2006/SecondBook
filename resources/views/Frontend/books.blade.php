@@ -869,7 +869,6 @@
 
 <script>
 (function () {
-
     "use strict";
 
 
@@ -878,16 +877,12 @@
     ========================================================= */
 
     function showCartAlert() {
-
-        let alert =
-            document.getElementById('cart-success-alert');
+        let alert = document.getElementById('cart-success-alert');
 
         if (!alert) {
-
             alert = document.createElement('div');
 
             alert.id = 'cart-success-alert';
-
             alert.className = 'cart-success-alert';
 
             alert.innerHTML = `
@@ -897,7 +892,9 @@
 
                 <div class="cart-alert-content">
                     <strong>Success</strong>
-                    <span>Book added to cart successfully!</span>
+                    <span>
+                        Book added to cart successfully!
+                    </span>
                 </div>
 
                 <button
@@ -915,41 +912,44 @@
                 alert.querySelector('.cart-alert-close');
 
             if (closeButton) {
-
                 closeButton.addEventListener(
                     'click',
                     function () {
                         hideCartAlert();
                     }
                 );
-
             }
-
         }
 
         alert.classList.add('is-visible');
 
-        clearTimeout(window.cartAlertTimeout);
+        clearTimeout(
+            window.cartAlertTimeout
+        );
 
         window.cartAlertTimeout =
-            setTimeout(function () {
-                hideCartAlert();
-            }, 3000);
-
+            setTimeout(
+                function () {
+                    hideCartAlert();
+                },
+                3000
+            );
     }
 
 
     function hideCartAlert() {
-
         const alert =
-            document.getElementById('cart-success-alert');
+            document.getElementById(
+                'cart-success-alert'
+            );
 
         if (!alert) {
             return;
         }
 
-        alert.classList.remove('is-visible');
-
+        alert.classList.remove(
+            'is-visible'
+        );
     }
 
 
@@ -957,223 +957,357 @@
        WISHLIST
     ========================================================= */
 
-    function initWishlist() {
+        function initWishlist() {
 
-        const wishlistForms =
-            document.querySelectorAll(
-                '[data-wishlist-form]'
-            );
+        if (
+            document.documentElement.dataset.wishlistReady ===
+            'true'
+        ) {
+            return;
+        }
 
-        wishlistForms.forEach(function (form) {
+        document.documentElement.dataset.wishlistReady =
+            'true';
 
-            if (form.dataset.ajaxReady === 'true') {
-                return;
-            }
 
-            form.dataset.ajaxReady = 'true';
+        document.addEventListener(
+            'submit',
+            async function (event) {
 
-            form.addEventListener(
-                'submit',
-                async function (event) {
+                const form =
+                    event.target.closest(
+                        '[data-wishlist-form]'
+                    );
 
-                    event.preventDefault();
+                if (!form) {
+                    return;
+                }
 
-                    const button =
-                        form.querySelector('button');
+                event.preventDefault();
 
-                    const icon =
-                        form.querySelector('i');
 
-                    if (!button) {
-                        return;
-                    }
+                const button =
+                    form.querySelector(
+                        'button[type="submit"]'
+                    );
 
-                    const isActive =
-                        button.classList.contains('active') ||
-                        form.dataset.active === 'true';
+                const icon =
+                    form.querySelector('i');
 
-                    const addUrl =
-                        form.dataset.addUrl;
 
-                    const removeUrl =
-                        form.dataset.removeUrl;
+                if (!button || !icon) {
+                    return;
+                }
 
-                    const url =
-                        isActive
-                            ? removeUrl
-                            : addUrl;
 
-                    if (!url) {
-                        return;
-                    }
+                if (button.disabled) {
+                    return;
+                }
 
-                    const csrfToken =
-                        document.querySelector(
-                            'meta[name="csrf-token"]'
-                        )?.getAttribute('content');
 
-                    try {
+                const isActive =
+                    button.classList.contains('active') ||
+                    form.dataset.active === 'true';
 
-                        button.disabled = true;
 
-                        const response =
-                            await fetch(url, {
+                const addUrl =
+                    form.dataset.addUrl;
 
+                const removeUrl =
+                    form.dataset.removeUrl;
+
+
+                const url =
+                    isActive
+                        ? removeUrl
+                        : addUrl;
+
+
+                if (!url) {
+                    console.error(
+                        'Wishlist URL not found.'
+                    );
+
+                    return;
+                }
+
+
+                /*
+                * CSRF tokeni əvvəlcə formun içindən götürürük.
+                * @csrf Blade tərəfindən həmin input yaradılır.
+                */
+
+                const csrfInput =
+                    form.querySelector(
+                        'input[name="_token"]'
+                    );
+
+
+                const csrfToken =
+                    csrfInput
+                        ? csrfInput.value
+                        : document
+                            .querySelector(
+                                'meta[name="csrf-token"]'
+                            )
+                            ?.getAttribute(
+                                'content'
+                            );
+
+
+                if (!csrfToken) {
+
+                    console.error(
+                        'CSRF token not found.'
+                    );
+
+                    return;
+                }
+
+
+                try {
+
+                    button.disabled = true;
+
+
+                    const headers = {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    };
+
+
+                    /*
+                    * POST -> Add
+                    * DELETE -> Remove
+                    */
+
+                    const response =
+                        await fetch(
+                            url,
+                            {
                                 method:
                                     isActive
                                         ? 'DELETE'
                                         : 'POST',
 
-                                headers: {
-
-                                    'X-CSRF-TOKEN':
-                                        csrfToken,
-
-                                    'X-Requested-With':
-                                        'XMLHttpRequest',
-
-                                    'Accept':
-                                        'application/json'
-                                }
-
-                            });
-
-
-                        const data =
-                            await response.json();
-
-
-                        if (!response.ok) {
-
-                            throw new Error(
-                                data.message ||
-                                'Something went wrong.'
-                            );
-
-                        }
-
-
-                        if (
-                            data.status === 'success' ||
-                            data.success === true
-                        ) {
-
-                            if (isActive) {
-
-                                button.classList.remove(
-                                    'active'
-                                );
-
-                                form.dataset.active =
-                                    'false';
-
-
-                                if (icon) {
-
-                                    icon.classList.remove(
-                                        'bi-heart-fill'
-                                    );
-
-                                    icon.classList.add(
-                                        'bi-heart'
-                                    );
-
-                                }
-
-
-                                form.setAttribute(
-                                    'action',
-                                    addUrl
-                                );
-
-
-                                let methodInput =
-                                    form.querySelector(
-                                        'input[name="_method"]'
-                                    );
-
-                                if (methodInput) {
-                                    methodInput.remove();
-                                }
-
-                            } else {
-
-                                button.classList.add(
-                                    'active'
-                                );
-
-                                form.dataset.active =
-                                    'true';
-
-
-                                if (icon) {
-
-                                    icon.classList.remove(
-                                        'bi-heart'
-                                    );
-
-                                    icon.classList.add(
-                                        'bi-heart-fill'
-                                    );
-
-                                }
-
-
-                                form.setAttribute(
-                                    'action',
-                                    removeUrl
-                                );
-
-
-                                let methodInput =
-                                    form.querySelector(
-                                        'input[name="_method"]'
-                                    );
-
-                                if (!methodInput) {
-
-                                    methodInput =
-                                        document.createElement(
-                                            'input'
-                                        );
-
-                                    methodInput.type =
-                                        'hidden';
-
-                                    methodInput.name =
-                                        '_method';
-
-                                    methodInput.value =
-                                        'DELETE';
-
-                                    form.appendChild(
-                                        methodInput
-                                    );
-
-                                }
-
+                                headers: headers
                             }
-
-                        }
-
-                    } catch (error) {
-
-                        console.error(
-                            'Wishlist error:',
-                            error
                         );
 
-                    } finally {
 
-                        button.disabled = false;
+                    const contentType =
+                        response.headers.get(
+                            'content-type'
+                        ) || '';
 
+
+                    if (
+                        !contentType.includes(
+                            'application/json'
+                        )
+                    ) {
+
+                        throw new Error(
+                            'Wishlist server did not return a JSON response.'
+                        );
                     }
 
+
+                    const data =
+                        await response.json();
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            data.message ||
+                            'Something went wrong.'
+                        );
+                    }
+
+
+                    if (
+                        data.success === true ||
+                        data.status === 'success'
+                    ) {
+
+
+                        /* =========================================
+                        REMOVE
+                        ========================================= */
+
+                        if (isActive) {
+
+                            button.classList.remove(
+                                'active'
+                            );
+
+
+                            form.dataset.active =
+                                'false';
+
+
+                            icon.classList.remove(
+                                'bi-heart-fill'
+                            );
+
+
+                            icon.classList.add(
+                                'bi-heart'
+                            );
+
+
+                            form.setAttribute(
+                                'action',
+                                addUrl
+                            );
+
+
+                            const methodInput =
+                                form.querySelector(
+                                    'input[name="_method"]'
+                                );
+
+
+                            if (methodInput) {
+                                methodInput.remove();
+                            }
+
+
+                            button.setAttribute(
+                                'aria-label',
+                                'Add to wishlist'
+                            );
+
+
+                            button.setAttribute(
+                                'title',
+                                'Add to wishlist'
+                            );
+                        }
+
+
+                        /* =========================================
+                        ADD
+                        ========================================= */
+
+                        else {
+
+                            button.classList.add(
+                                'active'
+                            );
+
+
+                            form.dataset.active =
+                                'true';
+
+
+                            icon.classList.remove(
+                                'bi-heart'
+                            );
+
+
+                            icon.classList.add(
+                                'bi-heart-fill'
+                            );
+
+
+                            form.setAttribute(
+                                'action',
+                                removeUrl
+                            );
+
+
+                            let methodInput =
+                                form.querySelector(
+                                    'input[name="_method"]'
+                                );
+
+
+                            if (!methodInput) {
+
+                                methodInput =
+                                    document.createElement(
+                                        'input'
+                                    );
+
+
+                                methodInput.type =
+                                    'hidden';
+
+
+                                methodInput.name =
+                                    '_method';
+
+
+                                methodInput.value =
+                                    'DELETE';
+
+
+                                form.appendChild(
+                                    methodInput
+                                );
+                            }
+
+
+                            button.setAttribute(
+                                'aria-label',
+                                'Remove from wishlist'
+                            );
+
+
+                            button.setAttribute(
+                                'title',
+                                'Remove from wishlist'
+                            );
+                        }
+                    }
+
+
+                } catch (error) {
+
+                    console.error(
+                        'Wishlist error:',
+                        error
+                    );
+
+
+                    if (
+                        typeof Swal !==
+                        'undefined'
+                    ) {
+
+                        Swal.fire({
+                            icon:
+                                'error',
+
+                            title:
+                                'Something went wrong',
+
+                            text:
+                                error.message ||
+                                'Unable to update wishlist.',
+
+                            confirmButtonText:
+                                'OK'
+                        });
+
+                    } else {
+
+                        alert(
+                            error.message ||
+                            'Unable to update wishlist.'
+                        );
+                    }
+
+                } finally {
+
+                    button.disabled =
+                        false;
                 }
-            );
-
-        });
-
+            }
+        );
     }
 
 
@@ -1188,128 +1322,333 @@
                 '[data-cart-form]'
             );
 
-        cartForms.forEach(function (form) {
 
-            if (form.dataset.ajaxReady === 'true') {
-                return;
-            }
+        cartForms.forEach(
+            function (form) {
 
-            form.dataset.ajaxReady = 'true';
-
-            form.addEventListener(
-                'submit',
-                async function (event) {
-
-                    event.preventDefault();
-
-                    const button =
-                        form.querySelector(
-                            'button[type="submit"]'
-                        );
-
-                    if (!button) {
-                        return;
-                    }
-
-                    const originalHtml =
-                        button.innerHTML;
-
-                    const csrfToken =
-                        document.querySelector(
-                            'meta[name="csrf-token"]'
-                        )?.getAttribute('content');
-
-                    try {
-
-                        button.disabled = true;
-
-                        const formData =
-                            new FormData(form);
-
-
-                        const response =
-                            await fetch(
-                                form.getAttribute(
-                                    'action'
-                                ),
-                                {
-                                    method: 'POST',
-
-                                    headers: {
-
-                                        'X-CSRF-TOKEN':
-                                            csrfToken,
-
-                                        'X-Requested-With':
-                                            'XMLHttpRequest',
-
-                                        'Accept':
-                                            'application/json'
-                                    },
-
-                                    body: formData
-                                }
-                            );
-
-
-                        const data =
-                            await response.json();
-
-
-                        if (!response.ok) {
-
-                            throw new Error(
-                                data.message ||
-                                'Unable to add book to cart.'
-                            );
-
-                        }
-
-
-                        const cartCount =
-                            document.getElementById(
-                                'header-cart-count'
-                            );
-
-
-                        if (
-                            cartCount &&
-                            data.cart_count !== undefined
-                        ) {
-
-                            cartCount.textContent =
-                                data.cart_count;
-
-                            cartCount.classList.add(
-                                'is-visible'
-                            );
-
-                        }
-
-
-                        showCartAlert();
-
-                    } catch (error) {
-
-                        console.error(
-                            'Cart error:',
-                            error
-                        );
-
-                    } finally {
-
-                        button.disabled = false;
-
-                        button.innerHTML =
-                            originalHtml;
-
-                    }
-
+                if (
+                    form.dataset.ajaxReady ===
+                    'true'
+                ) {
+                    return;
                 }
-            );
 
-        });
 
+                form.dataset.ajaxReady =
+                    'true';
+
+
+                form.addEventListener(
+                    'submit',
+                    async function (event) {
+
+                        event.preventDefault();
+
+
+                        const button =
+                            form.querySelector(
+                                'button[type="submit"]'
+                            );
+
+
+                        if (!button) {
+                            return;
+                        }
+
+
+                        /* =====================================
+                           SAVE ORIGINAL BUTTON
+                        ===================================== */
+
+                        const originalHtml =
+                            button.innerHTML;
+
+
+                        /* =====================================
+                           CSRF TOKEN
+                        ===================================== */
+
+                        const csrfToken =
+                            document
+                                .querySelector(
+                                    'meta[name="csrf-token"]'
+                                )
+                                ?.getAttribute(
+                                    'content'
+                                );
+
+
+                        try {
+
+
+                            /* =================================
+                               BUTTON LOADING STATE
+                            ================================= */
+
+                            button.disabled =
+                                true;
+
+
+                            button.classList.add(
+                                'is-adding'
+                            );
+
+
+                            button.innerHTML = `
+                                <span class="cart-loading-spinner"></span>
+                            `;
+
+
+                            /* =================================
+                               FORM DATA
+                            ================================= */
+
+                            const formData =
+                                new FormData(
+                                    form
+                                );
+
+
+                            /* =================================
+                               AJAX REQUEST
+                            ================================= */
+
+                            const response =
+                                await fetch(
+                                    form.getAttribute(
+                                        'action'
+                                    ),
+                                    {
+                                        method:
+                                            'POST',
+
+                                        headers: {
+                                            'X-CSRF-TOKEN':
+                                                csrfToken,
+
+                                            'X-Requested-With':
+                                                'XMLHttpRequest',
+
+                                            'Accept':
+                                                'application/json'
+                                        },
+
+                                        body:
+                                            formData
+                                    }
+                                );
+
+
+                            /* =================================
+                               JSON RESPONSE
+                            ================================= */
+
+                            const data =
+                                await response.json();
+
+
+                            /* =================================
+                               ERROR
+                            ================================= */
+
+                            if (!response.ok) {
+
+                                throw new Error(
+                                    data.message ||
+                                    'Unable to add book to cart.'
+                                );
+                            }
+
+
+                            /* =================================
+                               HEADER CART COUNT
+                            ================================= */
+
+                            const cartCount =
+                                document.getElementById(
+                                    'header-cart-count'
+                                );
+
+
+                            if (
+                                cartCount &&
+                                data.cart_count !==
+                                undefined
+                            ) {
+
+                                const count =
+                                    Number(
+                                        data.cart_count
+                                    );
+
+
+                                /* =============================
+                                   UPDATE NUMBER
+                                ============================= */
+
+                                cartCount.textContent =
+                                    count > 99
+                                        ? '99+'
+                                        : count;
+
+
+                                /* =============================
+                                   SHOW / HIDE BADGE
+                                ============================= */
+
+                                if (count > 0) {
+
+                                    cartCount.style.display =
+                                        'inline-flex';
+
+                                } else {
+
+                                    cartCount.style.display =
+                                        'none';
+                                }
+
+
+                                /* =============================
+                                   CART COUNT ANIMATION
+                                ============================= */
+
+                                cartCount.classList.remove(
+                                    'cart-count-bump'
+                                );
+
+
+                                void cartCount.offsetWidth;
+
+
+                                cartCount.classList.add(
+                                    'cart-count-bump'
+                                );
+                            }
+
+
+                            /* =================================
+                               SUCCESS ALERT
+                            ================================= */
+
+                            if (
+                                data.success ===
+                                    true ||
+                                data.status ===
+                                    'success'
+                            ) {
+
+                                showCartAlert();
+
+
+                                /* =============================
+                                   SUCCESS CHECK
+                                ============================= */
+
+                                button.innerHTML = `
+                                    <span class="cart-success-icon">
+                                        <i class="bi bi-check-lg"></i>
+                                    </span>
+                                `;
+                            }
+
+
+                        } catch (error) {
+
+                            console.error(
+                                'Cart error:',
+                                error
+                            );
+
+
+                            if (
+                                typeof Swal !==
+                                'undefined'
+                            ) {
+
+                                Swal.fire({
+                                    icon:
+                                        'error',
+
+                                    title:
+                                        'Something went wrong',
+
+                                    text:
+                                        error.message ||
+                                        'Unable to add the book to cart.',
+
+                                    confirmButtonText:
+                                        'OK'
+                                });
+
+                            } else {
+
+                                alert(
+                                    error.message ||
+                                    'Unable to add the book to cart.'
+                                );
+                            }
+
+
+                            /*
+                             * Əgər xəta baş veribsə,
+                             * check göstərmirik.
+                             * Birbaşa əvvəlki ikonaya qayıdırıq.
+                             */
+
+                            button.innerHTML =
+                                originalHtml;
+
+                        } finally {
+
+                            /*
+                             * Uğurlu olduqda checkmark
+                             * qısa müddət görünsün,
+                             * sonra original ikonaya qayıtsın.
+                             */
+
+                            setTimeout(
+                                function () {
+
+                                    button.disabled =
+                                        false;
+
+
+                                    button.classList.remove(
+                                        'is-adding'
+                                    );
+
+
+                                    /*
+                                     * Əgər button artıq
+                                     * original HTML-dirsə,
+                                     * yenidən dəyişmirik.
+                                     */
+
+                                    if (
+                                        button.querySelector(
+                                            '.cart-success-icon'
+                                        )
+                                    ) {
+
+                                        setTimeout(
+                                            function () {
+
+                                                button.innerHTML =
+                                                    originalHtml;
+
+                                            },
+                                            800
+                                        );
+                                    }
+
+                                },
+                                100
+                            );
+                        }
+                    }
+                );
+            }
+        );
     }
 
 
@@ -1324,25 +1663,31 @@
                 'available-books'
             );
 
+
         if (!availableBooks) {
             return;
         }
 
-        const offset = 30;
+
+        const offset =
+            30;
+
 
         const position =
-            availableBooks.getBoundingClientRect().top +
+            availableBooks
+                .getBoundingClientRect()
+                .top +
             window.pageYOffset -
             offset;
 
+
         window.scrollTo({
+            top:
+                position,
 
-            top: position,
-
-            behavior: 'smooth'
-
+            behavior:
+                'smooth'
         });
-
     }
 
 
@@ -1357,25 +1702,31 @@
                 'books-filter-form'
             );
 
+
         if (!searchSection) {
             return;
         }
 
-        const offset = 30;
+
+        const offset =
+            30;
+
 
         const position =
-            searchSection.getBoundingClientRect().top +
+            searchSection
+                .getBoundingClientRect()
+                .top +
             window.pageYOffset -
             offset;
 
+
         window.scrollTo({
+            top:
+                position,
 
-            top: position,
-
-            behavior: 'smooth'
-
+            behavior:
+                'smooth'
         });
-
     }
 
 
@@ -1390,21 +1741,29 @@
                 'books-filter-form'
             );
 
+
         if (!filterForm) {
             return;
         }
 
-        if (filterForm.dataset.ajaxReady === 'true') {
+
+        if (
+            filterForm.dataset.ajaxReady ===
+            'true'
+        ) {
             return;
         }
 
-        filterForm.dataset.ajaxReady = 'true';
+
+        filterForm.dataset.ajaxReady =
+            'true';
 
 
         const currentCollection =
             document.getElementById(
                 'books-collection'
             );
+
 
         if (!currentCollection) {
             return;
@@ -1423,28 +1782,30 @@
 
 
                 const formData =
-                    new FormData(filterForm);
+                    new FormData(
+                        filterForm
+                    );
 
 
                 const params =
                     new URLSearchParams();
 
 
-                formData.forEach(function (value, key) {
+                formData.forEach(
+                    function (value, key) {
 
-                    if (
-                        value !== null &&
-                        value !== ''
-                    ) {
+                        if (
+                            value !== null &&
+                            value !== ''
+                        ) {
 
-                        params.append(
-                            key,
-                            value
-                        );
-
+                            params.append(
+                                key,
+                                value
+                            );
+                        }
                     }
-
-                });
+                );
 
 
                 const baseUrl =
@@ -1471,21 +1832,21 @@
 
 
                     const response =
-                        await fetch(url, {
+                        await fetch(
+                            url,
+                            {
+                                method:
+                                    'GET',
 
-                            method: 'GET',
+                                headers: {
+                                    'X-Requested-With':
+                                        'XMLHttpRequest',
 
-                            headers: {
-
-                                'X-Requested-With':
-                                    'XMLHttpRequest',
-
-                                'Accept':
-                                    'text/html'
-
+                                    'Accept':
+                                        'text/html'
+                                }
                             }
-
-                        });
+                        );
 
 
                     if (!response.ok) {
@@ -1493,7 +1854,6 @@
                         throw new Error(
                             'Failed to load books.'
                         );
-
                     }
 
 
@@ -1523,7 +1883,6 @@
                         throw new Error(
                             'Books collection not found.'
                         );
-
                     }
 
 
@@ -1538,10 +1897,18 @@
                     );
 
 
+                    /*
+                     * Yeni yaradılmış cart və
+                     * filter elementlərini yenidən
+                     * initialize edirik.
+                     *
+                     * Wishlist üçün ayrıca listener
+                     * lazım deyil, çünki event delegation
+                     * istifadə olunur.
+                     */
+
                     initWishlist();
-
                     initCart();
-
                     initBooksFilter();
 
 
@@ -1549,7 +1916,6 @@
                         function () {
 
                             scrollToAvailableBooks();
-
                         }
                     );
 
@@ -1561,14 +1927,13 @@
                         error
                     );
 
+
                 } finally {
 
                     currentCollection.classList.remove(
                         'is-loading'
                     );
-
                 }
-
             }
         );
 
@@ -1614,19 +1979,16 @@
                             await fetch(
                                 clearUrl,
                                 {
-
-                                    method: 'GET',
+                                    method:
+                                        'GET',
 
                                     headers: {
-
                                         'X-Requested-With':
                                             'XMLHttpRequest',
 
                                         'Accept':
                                             'text/html'
-
                                     }
-
                                 }
                             );
 
@@ -1636,7 +1998,6 @@
                             throw new Error(
                                 'Failed to clear filters.'
                             );
-
                         }
 
 
@@ -1666,7 +2027,6 @@
                             throw new Error(
                                 'Books collection not found.'
                             );
-
                         }
 
 
@@ -1682,9 +2042,7 @@
 
 
                         initWishlist();
-
                         initCart();
-
                         initBooksFilter();
 
 
@@ -1692,7 +2050,6 @@
                             function () {
 
                                 scrollToSearch();
-
                             }
                         );
 
@@ -1704,19 +2061,16 @@
                             error
                         );
 
+
                     } finally {
 
                         currentCollection.classList.remove(
                             'is-loading'
                         );
-
                     }
-
                 }
             );
-
         }
-
     }
 
 
@@ -1729,7 +2083,6 @@
         function () {
 
             window.location.reload();
-
         }
     );
 
@@ -1743,20 +2096,19 @@
         function () {
 
             initWishlist();
-
             initCart();
-
             initBooksFilter();
 
 
-            /* =================================================
+            /* ===============================================
                AUTO SEARCH FROM CATEGORY
-            ================================================= */
+            =============================================== */
 
             const searchInput =
                 document.getElementById(
                     'book-search'
                 );
+
 
             const urlParams =
                 new URLSearchParams(
@@ -1770,39 +2122,42 @@
                 urlParams.get('search') !== ''
             ) {
 
-                setTimeout(function () {
+                setTimeout(
+                    function () {
 
-                    const form =
-                        searchInput.closest('form');
+                        const form =
+                            searchInput.closest(
+                                'form'
+                            );
 
-                    if (form) {
 
-                        form.dispatchEvent(
-                            new Event(
-                                'submit',
-                                {
-                                    bubbles: true,
-                                    cancelable: true
-                                }
-                            )
-                        );
+                        if (form) {
 
-                    }
+                            form.dispatchEvent(
+                                new Event(
+                                    'submit',
+                                    {
+                                        bubbles:
+                                            true,
 
-                }, 100);
+                                        cancelable:
+                                            true
+                                    }
+                                )
+                            );
+                        }
 
+                    },
+                    100
+                );
             }
-
         }
     );
 
 })();
+
 </script>
 
 @endpush
-
-
-
-
 
 @endsection
