@@ -386,6 +386,9 @@ Route::prefix('admin')
                 Route::post('/', 'store')
                     ->name('store');
 
+                Route::get('/{coupon}', 'show')
+                    ->name('show');
+
                 Route::get('/{coupon}/edit', 'edit')
                     ->name('edit');
 
@@ -681,7 +684,6 @@ Route::prefix('admin')
             ->prefix('blogs')
             ->name('blogs.')
             ->group(function () {
-
                 Route::get('/', 'index')
                     ->name('index');
 
@@ -691,7 +693,7 @@ Route::prefix('admin')
                 Route::post('/', 'store')
                     ->name('store');
 
-                Route::get('/{blog}', 'edit')
+                Route::get('/{blog}/edit', 'edit')
                     ->name('edit');
 
                 Route::put('/{blog}', 'update')
@@ -700,7 +702,6 @@ Route::prefix('admin')
                 Route::delete('/{blog}', 'destroy')
                     ->name('destroy');
             });
-
 
         // FAQ
 

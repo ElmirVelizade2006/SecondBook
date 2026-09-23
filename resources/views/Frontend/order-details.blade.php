@@ -653,74 +653,74 @@
 
 
                 {{-- =================================================
-    CUSTOMER ORDER NOTE
-================================================== --}}
-<div class="order-note-card">
+                    CUSTOMER ORDER NOTE
+                ================================================== --}}
+                <div class="order-note-card">
 
-    <div class="section-card-header">
+                    <div class="section-card-header">
 
-        <div class="section-card-heading">
+                        <div class="section-card-heading">
 
-            <div class="section-card-icon">
-                <i class="bi bi-chat-left-text"></i>
-            </div>
+                            <div class="section-card-icon">
+                                <i class="bi bi-chat-left-text"></i>
+                            </div>
 
-            <div>
-                <h3>
-                    Customer Order Note
-                </h3>
+                            <div>
+                                <h3>
+                                    Customer Order Note
+                                </h3>
 
-                <p>
-                    Additional information
-                </p>
-            </div>
+                                <p>
+                                    Additional information
+                                </p>
+                            </div>
 
-        </div>
+                        </div>
 
-        <span class="section-card-number">
-            04
-        </span>
+                        <span class="section-card-number">
+                            04
+                        </span>
 
-    </div>
+                    </div>
 
 
-    @if($order->note)
+                    @if($order->note)
 
-        <div class="order-note-content">
+                        <div class="order-note-content">
 
-            <div class="order-note-quote">
-                <i class="bi bi-quote"></i>
-            </div>
+                            <div class="order-note-quote">
+                                <i class="bi bi-quote"></i>
+                            </div>
 
-            <p>
-                {{ $order->note }}
-            </p>
+                            <p>
+                                {{ $order->note }}
+                            </p>
 
-        </div>
+                        </div>
 
-    @else
+                    @else
 
-        <div class="order-note-empty">
+                        <div class="order-note-empty">
 
-            <div class="order-note-empty-icon">
-                <i class="bi bi-chat-square-text"></i>
-            </div>
+                            <div class="order-note-empty-icon">
+                                <i class="bi bi-chat-square-text"></i>
+                            </div>
 
-            <div>
-                <strong>
-                    No additional note
-                </strong>
+                            <div>
+                                <strong>
+                                    No additional note
+                                </strong>
 
-                <span>
-                    No additional note was provided for this order.
-                </span>
-            </div>
+                                <span>
+                                    No additional note was provided for this order.
+                                </span>
+                            </div>
 
-        </div>
+                        </div>
 
-    @endif
+                    @endif
 
-</div>
+                </div>
 
 
                 {{-- =================================================
@@ -829,6 +829,7 @@
             ================================================== --}}
             <div class="order-details-actions">
 
+                {{-- Back to Orders --}}
                 <a
                     href="{{ route('frontend.orders') }}"
                     class="order-action secondary"
@@ -839,7 +840,9 @@
                         Back to My Orders
                     </span>
                 </a>
-                
+
+
+                {{-- Pay Now --}}
                 @if($paymentStatus !== 'paid')
 
                     <a
@@ -855,6 +858,25 @@
 
                 @endif
 
+
+                {{-- Write a Review --}}
+                @if($orderStatus === 'delivered' && !$reviewed)
+
+                    <a
+                        href="{{ route('frontend.reviews.create', $order->id) }}"
+                        class="order-action review"
+                    >
+                        <i class="bi bi-star"></i>
+
+                        <span>
+                            Write a Review
+                        </span>
+                    </a>
+
+                @endif
+
+
+                {{-- Track Order --}}
                 <a
                     href="{{ route('frontend.order-tracking', $order->id) }}"
                     class="order-action primary"

@@ -6,21 +6,16 @@
     --od-primary: #8b5e3c;
     --od-primary-dark: #754b2f;
     --od-primary-light: #f7efe9;
-
     --od-heading: #2d241f;
     --od-text: #665c55;
     --od-muted: #938981;
-
     --od-bg: #faf8f6;
     --od-card: #ffffff;
     --od-border: #e9e1db;
-
     --od-success: #35815e;
     --od-success-bg: #eef9f3;
-
     --od-danger: #b65353;
     --od-danger-bg: #fff2f2;
-
     --od-shadow:
         0 15px 45px rgba(47, 34, 24, 0.065);
 
@@ -1176,6 +1171,9 @@
     font-size: 13px;
 }
 
+
+/* Secondary */
+
 .order-action.secondary {
     border: 1px solid var(--od-border);
     background: #fff;
@@ -1188,6 +1186,33 @@
     color: var(--od-heading);
     transform: translateY(-1px);
 }
+
+
+/* =========================================================
+   REVIEW ACTION
+========================================================= */
+
+.order-action.review {
+    border: 1px solid #d9b89f;
+    background: #f8eee7;
+    color: var(--od-primary);
+    box-shadow:
+        0 7px 18px rgba(139, 94, 60, 0.08);
+}
+
+.order-action.review:hover {
+    border-color: var(--od-primary);
+    background: var(--od-primary);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow:
+        0 10px 23px rgba(139, 94, 60, 0.18);
+}
+
+
+/* =========================================================
+   PRIMARY / PAYMENT
+========================================================= */
 
 .order-action.primary,
 .order-action.payment {
@@ -1246,7 +1271,6 @@
     .order-meta-item:nth-child(3) {
         padding-left: 0;
     }
-
 }
 
 
@@ -1374,7 +1398,6 @@
         width: 100%;
         min-height: 45px;
     }
-
 }
 
 
@@ -1449,7 +1472,6 @@
     .order-payment-complete {
         align-items: flex-start;
     }
-
 }
 
 
@@ -1463,18 +1485,18 @@
     --od-heading: #f4eee9;
     --od-text: #c8bdb5;
     --od-muted: #958a82;
-
     --od-bg: #11100f;
     --od-card: #191715;
     --od-border: #302a26;
-
     --od-primary-light: #2b211b;
 
     background: var(--od-bg);
 }
 
 
-/* Hero */
+/* =========================================================
+   DARK MODE - HERO
+========================================================= */
 
 .dark-mode .order-details-hero,
 .dark-theme .order-details-hero,
@@ -1509,20 +1531,26 @@
 }
 
 
-/* Main card */
+/* =========================================================
+   DARK MODE - MAIN CARDS
+========================================================= */
 
 .dark-mode .order-main-card,
 .dark-theme .order-main-card,
 [data-theme="dark"] .order-main-card,
+
 .dark-mode .order-product-card,
 .dark-theme .order-product-card,
 [data-theme="dark"] .order-product-card,
+
 .dark-mode .order-shipping-card,
 .dark-theme .order-shipping-card,
 [data-theme="dark"] .order-shipping-card,
+
 .dark-mode .order-summary-card,
 .dark-theme .order-summary-card,
 [data-theme="dark"] .order-summary-card,
+
 .dark-mode .order-note-card,
 .dark-theme .order-note-card,
 [data-theme="dark"] .order-note-card {
@@ -1533,11 +1561,14 @@
 }
 
 
-/* Card headers */
+/* =========================================================
+   DARK MODE - CARD HEADERS
+========================================================= */
 
 .dark-mode .order-main-header,
 .dark-theme .order-main-header,
 [data-theme="dark"] .order-main-header,
+
 .dark-mode .section-card-header,
 .dark-theme .section-card-header,
 [data-theme="dark"] .section-card-header {
@@ -1551,20 +1582,26 @@
 }
 
 
-/* Dividers */
+/* =========================================================
+   DARK MODE - DIVIDERS
+========================================================= */
 
 .dark-mode .order-meta-item,
 .dark-theme .order-meta-item,
 [data-theme="dark"] .order-meta-item,
+
 .dark-mode .product-info-row,
 .dark-theme .product-info-row,
 [data-theme="dark"] .product-info-row,
+
 .dark-mode .shipping-row,
 .dark-theme .shipping-row,
 [data-theme="dark"] .shipping-row,
+
 .dark-mode .summary-divider,
 .dark-theme .summary-divider,
 [data-theme="dark"] .summary-divider,
+
 .dark-mode .product-info-list,
 .dark-theme .product-info-list,
 [data-theme="dark"] .product-info-list {
@@ -1572,7 +1609,9 @@
 }
 
 
-/* Product */
+/* =========================================================
+   DARK MODE - PRODUCT
+========================================================= */
 
 .dark-mode .order-product-image,
 .dark-theme .order-product-image,
@@ -1592,7 +1631,9 @@
 }
 
 
-/* Note */
+/* =========================================================
+   DARK MODE - NOTE
+========================================================= */
 
 .dark-mode .order-note-content,
 .dark-theme .order-note-content,
@@ -1615,7 +1656,9 @@
 }
 
 
-/* Payment banner */
+/* =========================================================
+   DARK MODE - PAYMENT BANNER
+========================================================= */
 
 .dark-mode .order-payment-banner,
 .dark-theme .order-payment-banner,
@@ -1636,7 +1679,9 @@
 }
 
 
-/* Payment complete */
+/* =========================================================
+   DARK MODE - PAYMENT COMPLETE
+========================================================= */
 
 .dark-mode .order-payment-complete,
 .dark-theme .order-payment-complete,
@@ -1664,7 +1709,9 @@
 }
 
 
-/* Secondary action */
+/* =========================================================
+   DARK MODE - SECONDARY ACTION
+========================================================= */
 
 .dark-mode .order-action.secondary,
 .dark-theme .order-action.secondary,
@@ -1683,11 +1730,37 @@
 }
 
 
-/* Payment / primary */
+/* =========================================================
+   DARK MODE - REVIEW ACTION
+========================================================= */
+
+.dark-mode .order-action.review,
+.dark-theme .order-action.review,
+[data-theme="dark"] .order-action.review {
+    border-color: #5a4334;
+    background: #2a211c;
+    color: #d0a584;
+    box-shadow:
+        0 7px 18px rgba(0, 0, 0, 0.16);
+}
+
+.dark-mode .order-action.review:hover,
+.dark-theme .order-action.review:hover,
+[data-theme="dark"] .order-action.review:hover {
+    border-color: #a9744e;
+    background: #8b5e3c;
+    color: #fff;
+}
+
+
+/* =========================================================
+   DARK MODE - PAYMENT / PRIMARY
+========================================================= */
 
 .dark-mode .order-action.primary,
 .dark-theme .order-action.primary,
 [data-theme="dark"] .order-action.primary,
+
 .dark-mode .order-action.payment,
 .dark-theme .order-action.payment,
 [data-theme="dark"] .order-action.payment {
@@ -1699,6 +1772,7 @@
 .dark-mode .order-action.primary:hover,
 .dark-theme .order-action.primary:hover,
 [data-theme="dark"] .order-action.primary:hover,
+
 .dark-mode .order-action.payment:hover,
 .dark-theme .order-action.payment:hover,
 [data-theme="dark"] .order-action.payment:hover {

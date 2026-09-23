@@ -1,421 +1,227 @@
 @extends('layout.admin.master')
 
-@section('title', 'Add FAQ')
+@section('title', 'Create FAQ')
 
-@push('css')
-    <link rel="stylesheet" href="{{ asset('admin/css/faq.css') }}">
+@push('css') <link rel="stylesheet" href="{{ asset('admin/css/faq.css') }}">
 @endpush
 
 @section('content')
 
 <div class="dashboard-section faq-page">
 
-    {{-- PAGE HEADER --}}
-    <div class="dashboard-panel mb-4">
+{{-- Header --}}
+<div class="dashboard-panel faq-header-panel">
 
-        <div class="panel-header mb-0">
+    <div class="faq-header-content">
 
-            <div>
-                <h5 class="mb-1">Add FAQ</h5>
+        <div>
+            <h5>Create FAQ</h5>
+            <p>Create a new frequently asked question for SecondBook</p>
+        </div>
 
-                <p class="text-muted mb-0 small">
-                    Create a new frequently asked question for SecondBook
-                </p>
-            </div>
+        <a href="{{ route('admin.faq.index') }}"
+           class="faq-back-btn">
+            <i class="bi bi-arrow-left"></i>
+            <span>Back to FAQ</span>
+        </a>
 
-            <a
-                href="{{ route('admin.faq.index') }}"
-                class="btn btn-light border"
-            >
-                <i class="bi bi-arrow-left me-2"></i>
-                Back to FAQ
-            </a>
+    </div>
 
+</div>
+
+{{-- Validation Errors --}}
+@if($errors->any())
+
+    <div class="faq-validation-alert">
+
+        <div class="faq-validation-icon">
+            <i class="bi bi-exclamation-triangle-fill"></i>
+        </div>
+
+        <div>
+            <strong>Please fix the following errors:</strong>
+
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
 
     </div>
 
+@endif
 
-    {{-- VALIDATION ERRORS --}}
-    @if($errors->any())
+{{-- Form --}}
+<div class="dashboard-panel faq-form-panel">
 
-        <div class="alert alert-danger mb-4">
-
-            <strong>Please fix the following errors:</strong>
-
-            <ul class="mb-0 mt-2">
-
-                @foreach($errors->all() as $error)
-
-                    <li>{{ $error }}</li>
-
-                @endforeach
-
-            </ul>
-
-        </div>
-
-    @endif
-
-
-    <form
-        action="{{ route('admin.faq.store') }}"
-        method="POST"
-    >
+    <form action="{{ route('admin.faq.store') }}"
+          method="POST">
 
         @csrf
 
+        {{-- FAQ Information --}}
+        <div class="faq-form-section">
 
-        <div class="row g-4">
+            <div class="faq-form-section-header">
 
-            {{-- MAIN FORM --}}
-            <div class="col-12 col-lg-8">
+                <div class="faq-form-section-icon">
+                    <i class="bi bi-question-circle"></i>
+                </div>
 
-                <div class="dashboard-panel">
+                <div>
+                    <h6>FAQ Information</h6>
+                    <p>Enter the question, answer and category for this FAQ.</p>
+                </div>
 
-                    <div class="panel-header">
+            </div>
 
-                        <div>
-                            <h5 class="mb-1">
-                                FAQ Information
-                            </h5>
+            <div class="faq-form-grid">
 
-                            <p class="text-muted mb-0 small">
-                                Enter the question and answer details.
-                            </p>
-                        </div>
+                {{-- Question --}}
+                <div class="faq-form-group faq-form-full">
 
-                    </div>
+                    <label for="question">
+                        Question <span>*</span>
+                    </label>
 
+                    <input type="text"
+                           id="question"
+                           name="question"
+                           value="{{ old('question') }}"
+                           class="form-control"
+                           placeholder="Enter frequently asked question..."
+                           required>
 
-                    <div class="faq-form-body">
+                </div>
 
-                        {{-- CATEGORY --}}
-                        <div class="mb-4">
+                {{-- Answer --}}
+                <div class="faq-form-group faq-form-full">
 
-                            <label
-                                for="category"
-                                class="form-label fw-semibold"
-                            >
-                                Category
-                                <span class="text-danger">*</span>
-                            </label>
+                    <label for="answer">
+                        Answer <span>*</span>
+                    </label>
 
-                            <input
-                                type="text"
-                                id="category"
-                                name="category"
-                                value="{{ old('category') }}"
-                                class="form-control @error('category') is-invalid @enderror"
-                                placeholder="e.g. Buying, Selling, Orders"
-                                maxlength="100"
-                                required
-                            >
+                    <textarea id="answer"
+                              name="answer"
+                              rows="8"
+                              class="form-control faq-answer-input"
+                              placeholder="Write the answer to this question..."
+                              required>{{ old('answer') }}</textarea>
 
-                            @error('category')
-
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-
-                            @enderror
-
-                        </div>
-
-
-                        {{-- QUESTION --}}
-                        <div class="mb-4">
-
-                            <label
-                                for="question"
-                                class="form-label fw-semibold"
-                            >
-                                Question
-                                <span class="text-danger">*</span>
-                            </label>
-
-                            <input
-                                type="text"
-                                id="question"
-                                name="question"
-                                value="{{ old('question') }}"
-                                class="form-control @error('question') is-invalid @enderror"
-                                placeholder="Enter the frequently asked question..."
-                                maxlength="255"
-                                required
-                            >
-
-                            @error('question')
-
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-
-                            @enderror
-
-                        </div>
-
-
-                        {{-- ANSWER --}}
-                        <div class="mb-4">
-
-                            <label
-                                for="answer"
-                                class="form-label fw-semibold"
-                            >
-                                Answer
-                                <span class="text-danger">*</span>
-                            </label>
-
-                            <textarea
-                                id="answer"
-                                name="answer"
-                                rows="8"
-                                maxlength="5000"
-                                class="form-control @error('answer') is-invalid @enderror"
-                                placeholder="Write the answer to this question..."
-                                required
-                            >{{ old('answer') }}</textarea>
-
-                            <div class="d-flex justify-content-between mt-2">
-
-                                <small class="text-muted">
-                                    Provide a clear and helpful answer.
-                                </small>
-
-                                <small
-                                    class="text-muted"
-                                    id="answer-counter"
-                                >
-                                    0 / 5000
-                                </small>
-
-                            </div>
-
-                            @error('answer')
-
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-
-                            @enderror
-
-                        </div>
-
-
-                        {{-- SORT ORDER --}}
-                        <div class="mb-4">
-
-                            <label
-                                for="sort_order"
-                                class="form-label fw-semibold"
-                            >
-                                Sort Order
-                            </label>
-
-                            <input
-                                type="number"
-                                id="sort_order"
-                                name="sort_order"
-                                value="{{ old('sort_order', 0) }}"
-                                class="form-control @error('sort_order') is-invalid @enderror"
-                                min="0"
-                                placeholder="0"
-                            >
-
-                            <small class="text-muted">
-                                Lower numbers will appear first.
-                            </small>
-
-                            @error('sort_order')
-
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-
-                            @enderror
-
-                        </div>
-
-
-                        {{-- STATUS --}}
-                        <div class="faq-status-box">
-
-                            <div class="form-check form-switch">
-
-                                <input
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    role="switch"
-                                    id="is_active"
-                                    name="is_active"
-                                    value="1"
-                                    @checked(old('is_active', true))
-                                >
-
-                                <label
-                                    class="form-check-label fw-semibold"
-                                    for="is_active"
-                                >
-                                    Active FAQ
-                                </label>
-
-                            </div>
-
-                            <small class="text-muted">
-                                Active FAQs can be displayed on the frontend FAQ page.
-                            </small>
-
-                        </div>
-
-                    </div>
-
-
-                    {{-- FORM ACTIONS --}}
-                    <div class="faq-form-actions">
-
-                        <a
-                            href="{{ route('admin.faq.index') }}"
-                            class="btn btn-light border"
-                        >
-                            Cancel
-                        </a>
-
-                        <button
-                            type="submit"
-                            class="btn btn-primary"
-                        >
-                            <i class="bi bi-check-circle me-2"></i>
-                            Create FAQ
-                        </button>
-
-                    </div>
+                    <small>
+                        Provide a clear and helpful answer for your customers.
+                    </small>
 
                 </div>
 
             </div>
 
+        </div>
 
-            {{-- SIDEBAR --}}
-            <div class="col-12 col-lg-4">
+        {{-- Organization --}}
+        <div class="faq-form-section">
 
-                <div class="dashboard-panel faq-tip-panel">
+            <div class="faq-form-section-header">
 
-                    <div class="panel-header">
+                <div class="faq-form-section-icon">
+                    <i class="bi bi-sliders"></i>
+                </div>
 
-                        <div>
-                            <h5 class="mb-1">
-                                FAQ Tips
-                            </h5>
+                <div>
+                    <h6>Organization</h6>
+                    <p>Set the category, display order and visibility of this FAQ.</p>
+                </div>
 
-                            <p class="text-muted mb-0 small">
-                                Keep your FAQs useful and easy to understand.
-                            </p>
-                        </div>
+            </div>
 
-                    </div>
+            <div class="faq-form-grid">
 
+                {{-- Category --}}
+                <div class="faq-form-group">
 
-                    <div class="faq-tip-list">
+                    <label for="category">
+                        Category <span>*</span>
+                    </label>
 
-                        <div class="faq-tip-item">
-
-                            <div class="faq-tip-icon">
-                                <i class="bi bi-question-circle"></i>
-                            </div>
-
-                            <div>
-                                <strong>Clear Questions</strong>
-
-                                <p>
-                                    Write questions in a simple and natural way.
-                                </p>
-                            </div>
-
-                        </div>
-
-
-                        <div class="faq-tip-item">
-
-                            <div class="faq-tip-icon">
-                                <i class="bi bi-chat-left-text"></i>
-                            </div>
-
-                            <div>
-                                <strong>Helpful Answers</strong>
-
-                                <p>
-                                    Give users a direct and understandable answer.
-                                </p>
-                            </div>
-
-                        </div>
-
-
-                        <div class="faq-tip-item">
-
-                            <div class="faq-tip-icon">
-                                <i class="bi bi-folder"></i>
-                            </div>
-
-                            <div>
-                                <strong>Use Categories</strong>
-
-                                <p>
-                                    Group similar questions together.
-                                </p>
-                            </div>
-
-                        </div>
-
-
-                        <div class="faq-tip-item">
-
-                            <div class="faq-tip-icon">
-                                <i class="bi bi-sort-numeric-down"></i>
-                            </div>
-
-                            <div>
-                                <strong>Sort Order</strong>
-
-                                <p>
-                                    Use the sort order to control the display sequence.
-                                </p>
-                            </div>
-
-                        </div>
-
-                    </div>
+                    <input type="text"
+                           id="category"
+                           name="category"
+                           value="{{ old('category') }}"
+                           class="form-control"
+                           placeholder="e.g. Orders, Payments, Sellers..."
+                           required>
 
                 </div>
 
+                {{-- Sort Order --}}
+                <div class="faq-form-group">
 
-                <div class="dashboard-panel faq-tip-box mt-4">
+                    <label for="sort_order">
+                        Sort Order
+                    </label>
 
-                    <div class="d-flex gap-3">
+                    <input type="number"
+                           id="sort_order"
+                           name="sort_order"
+                           value="{{ old('sort_order', 0) }}"
+                           class="form-control"
+                           min="0"
+                           placeholder="0">
 
-                        <div class="faq-info-icon">
-                            <i class="bi bi-info-circle"></i>
-                        </div>
+                    <small>
+                        Lower numbers appear first.
+                    </small>
 
-                        <div>
+                </div>
 
-                            <h6 class="mb-1">
-                                Frontend Visibility
-                            </h6>
+                {{-- Status --}}
+                <div class="faq-form-group">
 
-                            <p class="mb-0 small">
-                                Only active FAQs will be available for display
-                                on the public FAQ page.
-                            </p>
+                    <label for="is_active">
+                        Status <span>*</span>
+                    </label>
 
-                        </div>
+                    <select id="is_active"
+                            name="is_active"
+                            class="form-select"
+                            required>
 
-                    </div>
+                        <option value="1"
+                            {{ old('is_active', '1') == '1' ? 'selected' : '' }}>
+                            Active
+                        </option>
+
+                        <option value="0"
+                            {{ old('is_active') == '0' ? 'selected' : '' }}>
+                            Inactive
+                        </option>
+
+                    </select>
+
+                    <small>
+                        Only active FAQs are displayed on the website.
+                    </small>
 
                 </div>
 
             </div>
+
+        </div>
+
+        {{-- Actions --}}
+        <div class="faq-form-actions">
+
+            <a href="{{ route('admin.faq.index') }}"
+               class="faq-cancel-btn">
+                Cancel
+            </a>
+
+            <button type="submit"
+                    class="faq-save-btn">
+                <i class="bi bi-check-lg"></i>
+                Create FAQ
+            </button>
 
         </div>
 
@@ -423,30 +229,6 @@
 
 </div>
 
-
-@push('scripts')
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-
-        const answer = document.getElementById('answer');
-        const counter = document.getElementById('answer-counter');
-
-        if (!answer || !counter) {
-            return;
-        }
-
-        function updateCounter() {
-            counter.textContent = answer.value.length + ' / 5000';
-        }
-
-        updateCounter();
-
-        answer.addEventListener('input', updateCounter);
-
-    });
-</script>
-
-@endpush
+</div>
 
 @endsection

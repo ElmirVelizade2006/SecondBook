@@ -6,25 +6,30 @@ use App\Models\Order;
 use App\Models\Refund;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class RefundSeeder extends Seeder
 {
     public function run(): void
     {
-        $orders = Order::with('user')
-            ->latest()
-            ->get();
-
         $admin = User::where('role', 'admin')->first();
 
-        if ($orders->isEmpty()) {
-            $this->command->warn('No orders found. RefundSeeder skipped.');
+        if (!$admin) {
+            $this->command->error('No admin found.');
             return;
         }
 
-        if (!$admin) {
-            $this->command->warn('No admin user found. RefundSeeder skipped.');
+        Refund::where('refund_number', 'like', 'REF-SEED-%')->delete();
+
+        $orders = Order::with('payment')
+            ->whereIn('payment_status', ['paid', 'refunded'])
+            ->whereIn('order_status', ['delivered', 'cancelled'])
+            ->orderBy('id')
+            ->take(5)
+            ->get();
+
+        if ($orders->isEmpty()) {
+            $this->command->warn('No suitable orders found for refunds.');
             return;
         }
 
@@ -34,133 +39,59 @@ class RefundSeeder extends Seeder
             'Wrong book received',
             'Book condition was not as described',
             'Customer changed their mind',
-            'Duplicate order',
-            'Order was cancelled',
-            'Book was unavailable',
-            'Shipping issue',
-            'Payment issue',
-            'Customer received the wrong edition',
-            'Book had missing pages',
-            'Book cover was damaged',
-            'Seller could not fulfill the order',
-            'Customer requested partial refund',
         ];
 
-        $notes = [
-            'Refund requested by the customer.',
-            'Customer contacted support regarding this order.',
-            'Refund approved after reviewing the order.',
-            'Refund processed successfully.',
-            'Customer provided photos of the damaged book.',
-            'Order details were reviewed by the support team.',
-            'Partial refund issued to the customer.',
-            'Payment information was checked before processing.',
-            'Refund cancelled by administrator.',
-            'Refund request rejected after review.',
-            'Customer and seller communication was reviewed.',
-            null,
-            null,
-            null,
-        ];
+        foreach ($orders as $index => $order) {
+            $payment = $order->payment;
 
-        $statuses = [
-            'pending',
-            'pending',
-            'pending',
-            'approved',
-            'approved',
-            'rejected',
-            'processed',
-            'processed',
-            'processed',
-            'cancelled',
-        ];
-
-        $refundCounter = 1;
-
-        foreach ($orders as $order) {
-
-            /*
-            |--------------------------------------------------------------------------
-            | Create 10 refunds for each order
-            |--------------------------------------------------------------------------
-            */
-
-            $orderAmount = (float) $order->total_price;
-
-            /*
-             * Keep every refund small enough so that the total seeded
-             * refund amount stays below the original order amount.
-             */
-            $refundAmount = round($orderAmount / 20, 2);
-
-            if ($refundAmount < 0.01) {
-                $refundAmount = 0.01;
+            if (!$payment) {
+                continue;
             }
 
-            for ($i = 0; $i < 10; $i++) {
+            $amount = min(
+                (float) $payment->amount,
+                round((float) $payment->amount * 0.5, 2)
+            );
 
-                $status = $statuses[$i];
+            $statuses = [
+                'pending',
+                'approved',
+                'processed',
+                'rejected',
+                'processed',
+            ];
 
-                $requestedAt = Carbon::now()
-                    ->subDays(rand(1, 90))
-                    ->subHours(rand(1, 23))
-                    ->subMinutes(rand(1, 59));
+            $status = $statuses[$index % count($statuses)];
 
-                $processedAt = null;
-                $processedBy = null;
+            $requestedAt = now()->subDays(rand(2, 30));
 
-                if (in_array($status, [
+            Refund::create([
+                'order_id' => $order->id,
+                'payment_id' => $payment->id,
+                'user_id' => $order->user_id,
+                'processed_by' => in_array($status, [
                     'approved',
-                    'rejected',
                     'processed',
-                    'cancelled',
-                ])) {
-                    $processedAt = (clone $requestedAt)
-                        ->addHours(rand(2, 72));
-
-                    $processedBy = $admin->id;
-                }
-
-                $refundNumber = 'REF-' . now()->format('Ymd') . '-' .
-                    str_pad($refundCounter, 4, '0', STR_PAD_LEFT);
-
-                Refund::updateOrCreate(
-                    [
-                        'refund_number' => $refundNumber,
-                    ],
-                    [
-                        'order_id' => $order->id,
-                        'payment_id' => null,
-                        'user_id' => $order->user_id,
-                        'processed_by' => $processedBy,
-                        'amount' => $refundAmount,
-                        'reason' => $reasons[array_rand($reasons)],
-                        'note' => $notes[array_rand($notes)],
-                        'status' => $status,
-                        'requested_at' => $requestedAt,
-                        'processed_at' => $processedAt,
-                    ]
-                );
-
-                $refundCounter++;
-            }
+                    'rejected',
+                ]) ? $admin->id : null,
+                'refund_number' => 'REF-SEED-' .
+                    now()->format('Ymd') . '-' .
+                    str_pad($index + 1, 4, '0', STR_PAD_LEFT),
+                'amount' => $amount,
+                'reason' => $reasons[$index % count($reasons)],
+                'note' => 'Seeded refund record.',
+                'status' => $status,
+                'requested_at' => $requestedAt,
+                'processed_at' => in_array($status, [
+                    'approved',
+                    'processed',
+                    'rejected',
+                ])
+                    ? $requestedAt->copy()->addHours(rand(2, 48))
+                    : null,
+            ]);
         }
 
-        $this->command->info(
-            ($refundCounter - 1) . ' refunds created successfully.'
-        );
-        $this->call([
-            RolePermissionSeeder::class,
-            UserSeeder::class,
-            CategorySeeder::class,
-            PublisherSeeder::class,
-            AuthorSeeder::class,
-            BookSeeder::class,
-            StoreSeeder::class,
-            SellerBooksSeeder::class,
-            SellerOrdersSeeder::class,
-            RefundSeeder::class,
-        ]);
+        $this->command->info('Seeded refund records successfully.');
     }
 }

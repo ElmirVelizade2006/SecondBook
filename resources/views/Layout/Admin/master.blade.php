@@ -37,8 +37,12 @@
     <link rel="stylesheet" href="{{ asset('admin/css/responsive.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/css/books.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/css/users.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/reviews.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/banner.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/blog.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/css/book-requests.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/css/book-condition.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin/css/analysis.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/css/authors.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/css/category.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/css/publishers.css') }}">

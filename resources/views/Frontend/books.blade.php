@@ -769,7 +769,21 @@
             @if($books->hasPages())
 
                 <div class="books-pagination">
-                    {{ $books->withQueryString()->links() }}
+
+                    <div class="books-pagination-info">
+                        Showing
+                        <strong>{{ $books->firstItem() ?? 0 }}</strong>
+                        to
+                        <strong>{{ $books->lastItem() ?? 0 }}</strong>
+                        of
+                        <strong>{{ $books->total() }}</strong>
+                        results
+                    </div>
+
+                    <div class="books-pagination-links">
+                        {{ $books->withQueryString()->links() }}
+                    </div>
+
                 </div>
 
             @endif

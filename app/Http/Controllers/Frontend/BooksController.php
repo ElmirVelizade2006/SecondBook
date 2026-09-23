@@ -5,12 +5,23 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Category;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class BooksController extends Controller
 {
     public function index(Request $request)
     {
+        /*
+        |--------------------------------------------------------------------------
+        | MARKETPLACE STATUS
+        |--------------------------------------------------------------------------
+        */
+
+        if (!Setting::get('marketplace_enabled', true)) {
+            abort(503);
+        }
+
         $query = Book::with(['author', 'category'])
             ->where('status', 'approved');
 
@@ -78,7 +89,6 @@ class BooksController extends Controller
         */
 
         switch ($request->input('sort')) {
-
             case 'price_low':
                 $query->orderBy('price', 'asc');
                 break;
@@ -136,7 +146,19 @@ class BooksController extends Controller
     public function show(Book $book)
     {
         /*
+        |--------------------------------------------------------------------------
+        | MARKETPLACE STATUS
+        |--------------------------------------------------------------------------
+        */
+
+        if (!Setting::get('marketplace_enabled', true)) {
+            abort(503);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
         | Only approved books can be viewed.
+        |--------------------------------------------------------------------------
         */
 
         if ($book->status !== 'approved') {
@@ -144,7 +166,9 @@ class BooksController extends Controller
         }
 
         /*
+        |--------------------------------------------------------------------------
         | Load relationships needed for the details page.
+        |--------------------------------------------------------------------------
         */
 
         $book->load([

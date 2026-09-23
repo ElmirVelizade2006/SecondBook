@@ -8,783 +8,517 @@
 
 @section('content')
 
-{{-- =====================================================
-     ABOUT HERO
-===================================================== --}}
+{{-- =========================================================
+     SECOND BOOK — PREMIUM ABOUT EXPERIENCE
+========================================================= --}}
 
-<section class="about-hero">
+<main class="sb-about">
 
-    <div class="about-hero-bg"></div>
-    <div class="about-hero-circle about-hero-circle-one"></div>
-    <div class="about-hero-circle about-hero-circle-two"></div>
+    {{-- =====================================================
+         HERO
+    ====================================================== --}}
 
-    <div class="container">
+    <section class="sb-about-hero">
 
-        <div class="about-hero-grid">
+        <div class="sb-hero-noise"></div>
 
-            {{-- Hero Content --}}
-            <div class="about-hero-content">
+        <div class="sb-hero-orbit sb-hero-orbit-1"></div>
+        <div class="sb-hero-orbit sb-hero-orbit-2"></div>
 
-                <span class="about-overline">
-                    <i class="bi bi-book-half"></i>
-                    ABOUT SECOND BOOK
-                </span>
+        <div class="container">
 
-                <h1>
-                    Every Book<br>
-                    Deserves a <em>Second Life.</em>
-                </h1>
+            <div class="sb-hero-layout">
 
-                <p>
-                    SecondBook is a marketplace where readers can
-                    discover, buy and give new life to pre-loved books.
-                    Because every story deserves another reader.
-                </p>
+                <div class="sb-hero-copy">
 
-                <div class="about-hero-actions">
+                    <div class="sb-eyebrow">
+                        <span class="sb-eyebrow-line"></span>
+                        <span>SECOND BOOK / ABOUT</span>
+                    </div>
 
-                    <a href="{{ route('frontend.books') }}" class="about-primary-btn">
-                        Explore Books
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
+                    <h1>
+                        Books don't
+                        <span>belong</span>
+                        to just one
+                        reader.
+                    </h1>
 
-                    <div class="about-hero-note">
+                    <div class="sb-hero-bottom">
 
-                        <div class="about-hero-note-icons">
-                            <span><i class="bi bi-book"></i></span>
-                            <span><i class="bi bi-arrow-repeat"></i></span>
-                            <span><i class="bi bi-heart"></i></span>
-                        </div>
+                        <p>
+                            We believe a great book should keep moving.
+                            From one shelf to another, from one reader
+                            to the next — every story deserves another life.
+                        </p>
 
-                        <div>
-                            <strong>Stories continue</strong>
-                            <span>One reader at a time</span>
-                        </div>
+                        <a
+                            href="{{ route('frontend.books') }}"
+                            class="sb-circle-link"
+                            aria-label="Explore books"
+                        >
+                            <span>EXPLORE</span>
+                            <i class="bi bi-arrow-up-right"></i>
+                        </a>
 
                     </div>
 
                 </div>
 
-            </div>
 
+                <div class="sb-hero-art">
 
-            {{-- Hero Visual --}}
-            <div class="about-hero-visual">
-
-                <div class="about-visual-circle about-visual-circle-one"></div>
-                <div class="about-visual-circle about-visual-circle-two"></div>
-
-                <div class="about-hero-image">
-
-                    <img
-                        src="https://images.pexels.com/photos/5503752/pexels-photo-5503752.jpeg"
-                        alt="SecondBook Library"
-                    >
-
-                </div>
-
-
-                {{-- Floating Card --}}
-                <div class="about-floating-card about-floating-top">
-
-                    <div class="about-floating-icon">
-                        <i class="bi bi-stars"></i>
+                    <div class="sb-art-label">
+                        <span>THE IDEA</span>
+                        <i class="bi bi-arrow-down-right"></i>
                     </div>
 
-                    <div>
-                        <strong>Discover</strong>
-                        <span>Something special</span>
+                    <div class="sb-art-ring sb-art-ring-outer"></div>
+                    <div class="sb-art-ring sb-art-ring-inner"></div>
+
+                    <div class="sb-hero-photo">
+                        <img
+                            src="https://images.pexels.com/photos/590493/pexels-photo-590493.jpeg"
+                            alt="Books arranged on a wooden table"
+                        >
                     </div>
 
-                </div>
+                    <div class="sb-hero-stamp">
+                        <span>READ</span>
+                        <span>SHARE</span>
+                        <span>REPEAT</span>
+                    </div>
 
-
-                {{-- Book Card --}}
-                <div class="about-book-card">
-
-                    <div class="about-book-card-icon">
+                    <div class="sb-hero-bookmark">
                         <i class="bi bi-bookmark-heart"></i>
                     </div>
 
-                    <div>
-                        <span>SECOND LIFE</span>
-                        <strong>One more chapter</strong>
-                    </div>
-
-                </div>
-
-
-                {{-- Bottom Badge --}}
-                <div class="about-floating-card about-floating-bottom">
-
-                    <div class="about-floating-icon">
-                        <i class="bi bi-arrow-repeat"></i>
-                    </div>
-
-                    <div>
-                        <strong>Read. Share. Repeat.</strong>
-                        <span>Keep stories moving</span>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-{{-- =====================================================
-     INTRO / OUR STORY
-===================================================== --}}
-
-<section class="about-intro">
-
-    <div class="container">
-
-        <div class="about-story-grid">
-
-            {{-- Image --}}
-            <div class="about-story-visual">
-
-                <div class="about-story-image">
-
-                    <img
-                        src="https://images.squarespace-cdn.com/content/v1/659dcbb6b43b2d4b70278919/19acc103-d808-4ee1-9a71-90aeb43677e3/Austin-Literary-Scene-Bookstore-Interior.png?format=2500w"
-                        alt="Books on a shelf"
-                        loading="lazy"
-                    >
-
-                </div>
-
-                <div class="about-story-badge">
-
-                    <span class="about-story-badge-icon">
-                        <i class="bi bi-book-half"></i>
-                    </span>
-
-                    <div>
-                        <strong>Another chapter</strong>
-                        <span>starts here.</span>
-                    </div>
-
-                </div>
-
-                <div class="about-story-number">
-                    <span>01</span>
-                </div>
-
-            </div>
-
-
-            {{-- Content --}}
-            <div class="about-section-content">
-
-                <span class="about-overline">
-                    <i class="bi bi-book"></i>
-                    OUR STORY
-                </span>
-
-                <h2>
-                    Books deserve more<br>
-                    than <em>one reader.</em>
-                </h2>
-
-                <div class="about-content-line"></div>
-
-                <p>
-                    SecondBook was created with a simple idea:
-                    a book that has already been read can still
-                    have a meaningful journey ahead.
-                </p>
-
-                <p>
-                    Our platform brings readers and book lovers
-                    together, making it easier to find affordable
-                    second-hand books while giving existing books
-                    a chance to reach new readers.
-                </p>
-
-                <div class="about-story-points">
-
-                    <div class="about-story-point">
-                        <span>
-                            <i class="bi bi-check2"></i>
-                        </span>
-
-                        <div>
-                            <strong>Affordable reading</strong>
-                            <small>Great stories without unnecessary cost.</small>
-                        </div>
-                    </div>
-
-                    <div class="about-story-point">
-                        <span>
-                            <i class="bi bi-check2"></i>
-                        </span>
-
-                        <div>
-                            <strong>Books get another journey</strong>
-                            <small>Give your old books a chance to be loved again.</small>
-                        </div>
-                    </div>
-
-                </div>
-
-                <a href="{{ route('frontend.books') }}" class="about-primary-btn">
-                    Explore Collection
-                    <i class="bi bi-arrow-right"></i>
-                </a>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-{{-- =====================================================
-     WHY SECOND BOOK
-===================================================== --}}
-
-<section class="about-features">
-
-    <div class="container">
-
-        <div class="about-section-heading">
-
-            <div>
-
-                <span class="about-overline">
-                    <i class="bi bi-stars"></i>
-                    WHY SECOND BOOK
-                </span>
-
-                <h2>
-                    More than just a<br>
-                    <em>book marketplace.</em>
-                </h2>
-
-            </div>
-
-            <p>
-                We make buying and selling second-hand books
-                simple, accessible and enjoyable — while helping
-                great stories continue their journey.
-            </p>
-
-        </div>
-
-
-        <div class="about-feature-grid">
-
-            {{-- Feature 1 --}}
-            <article class="about-feature-card">
-
-                <div class="about-feature-top">
-
-                    <span class="about-feature-number">
+                    <div class="sb-hero-number">
                         01
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="sb-hero-scroll">
+                <span>SCROLL TO DISCOVER</span>
+                <div></div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    {{-- =====================================================
+         MANIFESTO
+    ====================================================== --}}
+
+    <section class="sb-manifesto">
+
+        <div class="container">
+
+            <div class="sb-manifesto-grid">
+
+                <div class="sb-section-index">
+                    <span>02</span>
+                    <div></div>
+                    <small>OUR PHILOSOPHY</small>
+                </div>
+
+                <div class="sb-manifesto-content">
+
+                    <span class="sb-small-label">
+                        A SIMPLE IDEA
                     </span>
 
-                    <div class="about-feature-icon">
+                    <h2>
+                        A finished book
+                        <em>isn't</em>
+                        a finished story.
+                    </h2>
+
+                    <div class="sb-manifesto-columns">
+
+                        <p>
+                            A book can sit quietly on a shelf for years,
+                            but the story inside it never stops being
+                            valuable. SecondBook exists to give that story
+                            another opportunity to be discovered.
+                        </p>
+
+                        <p>
+                            We connect readers with pre-loved books in a
+                            marketplace designed around discovery,
+                            accessibility and the simple joy of finding
+                            your next favourite read.
+                        </p>
+
+                    </div>
+
+              
+                    <div class="sb-manifesto-signature">
+
+                        <div class="sb-signature-mark">
+                            <span>SB</span>
+                        </div>
+
+                        <div class="sb-signature-text">
+                            <strong>SECOND LIFE FOR STORIES</strong>
+                            <span>One reader at a time.</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    {{-- =====================================================
+         EDITORIAL IMAGE BAND
+    ====================================================== --}}
+
+    <section class="sb-editorial">
+
+        <div class="sb-editorial-image">
+
+            <img
+                src="https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg"
+                alt="Books in a bookstore"
+                loading="lazy"
+            >
+
+            <div class="sb-editorial-overlay"></div>
+
+            <div class="sb-editorial-caption">
+                <span>01 / 03</span>
+                <p>Every shelf holds a story waiting to move.</p>
+            </div>
+
+            <div class="sb-editorial-word">
+                SECOND<br>
+                <em>LIFE</em>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    {{-- =====================================================
+         WHY SECOND BOOK
+    ====================================================== --}}
+
+    <section class="sb-values">
+
+        <div class="container">
+
+            <div class="sb-values-header">
+
+                <div>
+                    <span class="sb-small-label">
+                        WHY SECOND BOOK
+                    </span>
+
+                    <h2>
+                        Designed around
+                        <em>the love of reading.</em>
+                    </h2>
+                </div>
+
+                <p>
+                    More than a place to buy books.
+                    A space where books continue their journey
+                    and readers discover what comes next.
+                </p>
+
+            </div>
+
+
+            <div class="sb-values-grid">
+
+                <article class="sb-value">
+
+                    <div class="sb-value-top">
+                        <span>01</span>
                         <i class="bi bi-search"></i>
                     </div>
 
-                </div>
+                    <div class="sb-value-body">
+                        <span>DISCOVER</span>
+                        <h3>Find the unexpected.</h3>
+                        <p>
+                            Browse different categories, authors and
+                            conditions to discover books you might
+                            never have searched for directly.
+                        </p>
+                    </div>
 
-                <h3>
-                    Discover
-                </h3>
+                    <div class="sb-value-arrow">
+                        <i class="bi bi-arrow-up-right"></i>
+                    </div>
 
-                <p>
-                    Explore a growing selection of books
-                    from different categories and genres.
-                </p>
-
-                <div class="about-feature-arrow">
-                    <i class="bi bi-arrow-up-right"></i>
-                </div>
-
-            </article>
+                </article>
 
 
-            {{-- Feature 2 --}}
-            <article class="about-feature-card">
+                <article class="sb-value sb-value-dark">
 
-                <div class="about-feature-top">
-
-                    <span class="about-feature-number">
-                        02
-                    </span>
-
-                    <div class="about-feature-icon">
+                    <div class="sb-value-top">
+                        <span>02</span>
                         <i class="bi bi-wallet2"></i>
                     </div>
 
-                </div>
+                    <div class="sb-value-body">
+                        <span>ACCESS</span>
+                        <h3>More stories within reach.</h3>
+                        <p>
+                            Second-hand books make discovering new
+                            authors and familiar classics more accessible.
+                        </p>
+                    </div>
 
-                <h3>
-                    Affordable
-                </h3>
+                    <div class="sb-value-arrow">
+                        <i class="bi bi-arrow-up-right"></i>
+                    </div>
 
-                <p>
-                    Find books at accessible prices without
-                    compromising the joy of reading.
-                </p>
-
-                <div class="about-feature-arrow">
-                    <i class="bi bi-arrow-up-right"></i>
-                </div>
-
-            </article>
+                </article>
 
 
-            {{-- Feature 3 --}}
-            <article class="about-feature-card">
+                <article class="sb-value">
 
-                <div class="about-feature-top">
-
-                    <span class="about-feature-number">
-                        03
-                    </span>
-
-                    <div class="about-feature-icon">
+                    <div class="sb-value-top">
+                        <span>03</span>
                         <i class="bi bi-arrow-repeat"></i>
                     </div>
 
-                </div>
+                    <div class="sb-value-body">
+                        <span>REUSE</span>
+                        <h3>Let stories travel.</h3>
+                        <p>
+                            Instead of remaining forgotten on a shelf,
+                            a book can become part of somebody else's
+                            reading journey.
+                        </p>
+                    </div>
 
-                <h3>
-                    Reuse
-                </h3>
+                    <div class="sb-value-arrow">
+                        <i class="bi bi-arrow-up-right"></i>
+                    </div>
 
-                <p>
-                    Give books another journey instead of
-                    leaving them unused on a shelf.
-                </p>
-
-                <div class="about-feature-arrow">
-                    <i class="bi bi-arrow-up-right"></i>
-                </div>
-
-            </article>
+                </article>
 
 
-            {{-- Feature 4 --}}
-            <article class="about-feature-card">
+                <article class="sb-value">
 
-                <div class="about-feature-top">
-
-                    <span class="about-feature-number">
-                        04
-                    </span>
-
-                    <div class="about-feature-icon">
+                    <div class="sb-value-top">
+                        <span>04</span>
                         <i class="bi bi-people"></i>
                     </div>
 
-                </div>
-
-                <h3>
-                    Community
-                </h3>
-
-                <p>
-                    Connect readers and sellers through
-                    a simple and trusted marketplace.
-                </p>
-
-                <div class="about-feature-arrow">
-                    <i class="bi bi-arrow-up-right"></i>
-                </div>
-
-            </article>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-{{-- =====================================================
-     HOW IT WORKS
-===================================================== --}}
-
-<section class="about-how">
-
-    <div class="container">
-
-        <div class="about-section-heading about-how-heading">
-
-            <div>
-
-                <span class="about-overline">
-                    <i class="bi bi-arrow-repeat"></i>
-                    HOW IT WORKS
-                </span>
-
-                <h2>
-                    From shelf to<br>
-                    <em>new story.</em>
-                </h2>
-
-            </div>
-
-            <p>
-                A simple journey that helps books move from
-                one reader to another.
-            </p>
-
-        </div>
-
-
-        <div class="about-steps">
-
-            <div class="about-step-line"></div>
-
-
-            {{-- Step 1 --}}
-            <div class="about-step">
-
-                <div class="about-step-top">
-
-                    <span class="about-step-number">
-                        01
-                    </span>
-
-                    <div class="about-step-icon">
-                        <i class="bi bi-search"></i>
+                    <div class="sb-value-body">
+                        <span>COMMUNITY</span>
+                        <h3>Readers meet sellers.</h3>
+                        <p>
+                            A marketplace built around people who
+                            appreciate books and want to pass them on.
+                        </p>
                     </div>
 
-                </div>
-
-                <div class="about-step-content">
-
-                    <span class="about-step-label">
-                        DISCOVER
-                    </span>
-
-                    <h3>
-                        Find a Book
-                    </h3>
-
-                    <p>
-                        Browse our collection and discover
-                        a book that interests you.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            {{-- Step 2 --}}
-            <div class="about-step">
-
-                <div class="about-step-top">
-
-                    <span class="about-step-number">
-                        02
-                    </span>
-
-                    <div class="about-step-icon">
-                        <i class="bi bi-handbag"></i>
+                    <div class="sb-value-arrow">
+                        <i class="bi bi-arrow-up-right"></i>
                     </div>
 
-                </div>
-
-                <div class="about-step-content">
-
-                    <span class="about-step-label">
-                        ORDER
-                    </span>
-
-                    <h3>
-                        Place Your Order
-                    </h3>
-
-                    <p>
-                        Choose your book and complete
-                        your order through our platform.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            {{-- Step 3 --}}
-            <div class="about-step">
-
-                <div class="about-step-top">
-
-                    <span class="about-step-number">
-                        03
-                    </span>
-
-                    <div class="about-step-icon">
-                        <i class="bi bi-book-half"></i>
-                    </div>
-
-                </div>
-
-                <div class="about-step-content">
-
-                    <span class="about-step-label">
-                        READ
-                    </span>
-
-                    <h3>
-                        Start Reading
-                    </h3>
-
-                    <p>
-                        Receive your book and let another
-                        story become part of your journey.
-                    </p>
-
-                </div>
+                </article>
 
             </div>
 
         </div>
 
-    </div>
-
-</section>
+    </section>
 
 
-{{-- =====================================================
-     STATS
-===================================================== --}}
 
-<section class="about-stats">
+        {{-- =====================================================
+            JOURNEY
+        ====================================================== --}}
 
-    <div class="container">
+        <section class="sb-journey">
 
-        <div class="about-stats-card">
+            <div class="container">
 
-            <div class="about-stats-intro">
+                <div class="sb-journey-heading">
 
-                <span class="about-overline">
-                    SECOND BOOK
-                </span>
-
-                <h2>
-                    Built around<br>
-                    <em>great stories.</em>
-                </h2>
-
-                <p>
-                    Every number represents another step
-                    in keeping books moving from reader to reader.
-                </p>
-
-            </div>
-
-
-            <div class="about-stat-list">
-
-                <div class="about-stat">
-
-                    <div class="about-stat-icon">
-                        <i class="bi bi-book"></i>
+                    <div class="sb-section-index">
+                        <span>03</span>
+                        <div></div>
+                        <small>THE JOURNEY</small>
                     </div>
-
-                    <strong>
-                        100+
-                    </strong>
-
-                    <span>
-                        Books
-                    </span>
-
-                </div>
-
-
-                <div class="about-stat">
-
-                    <div class="about-stat-icon">
-                        <i class="bi bi-people"></i>
-                    </div>
-
-                    <strong>
-                        50+
-                    </strong>
-
-                    <span>
-                        Readers
-                    </span>
-
-                </div>
-
-
-                <div class="about-stat">
-
-                    <div class="about-stat-icon">
-                        <i class="bi bi-grid"></i>
-                    </div>
-
-                    <strong>
-                        20+
-                    </strong>
-
-                    <span>
-                        Categories
-                    </span>
-
-                </div>
-
-
-                <div class="about-stat">
-
-                    <div class="about-stat-icon">
-                        <i class="bi bi-clock"></i>
-                    </div>
-
-                    <strong>
-                        24/7
-                    </strong>
-
-                    <span>
-                        Online Access
-                    </span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-{{-- =====================================================
-     CTA
-===================================================== --}}
-
-<section class="about-cta">
-
-    {{-- Decorative elements --}}
-    <div class="about-cta-decoration about-cta-decoration-one"></div>
-    <div class="about-cta-decoration about-cta-decoration-two"></div>
-
-    <div class="container">
-
-        <div
-            class="about-cta-card"
-            data-aos="fade-up"
-        >
-
-            {{-- =================================================
-                 LEFT CONTENT
-            ================================================== --}}
-
-            <div class="about-cta-content">
-
-                <span class="about-overline">
-
-                    <i class="bi bi-bookmark-heart"></i>
-
-                    YOUR NEXT STORY AWAITS
-
-                </span>
-
-                <h2>
-                    Every book has
-                    <br>
-                    <em>another chapter.</em>
-                </h2>
-
-                <p>
-                    Explore our collection and discover books
-                    waiting for their next reader.
-                </p>
-
-                <a
-                    href="{{ route('frontend.books') }}"
-                    class="about-primary-btn"
-                >
-
-                    <span>
-                        Browse Books
-                    </span>
-
-                    <i class="bi bi-arrow-up-right"></i>
-
-                </a>
-
-            </div>
-
-
-            {{-- =================================================
-                 RIGHT VISUAL
-            ================================================== --}}
-
-            <div class="about-cta-visual">
-
-                {{-- Orbit --}}
-                <div class="about-cta-orbit"></div>
-
-
-                {{-- Book --}}
-                <div class="about-cta-book">
-
-                    <div class="about-cta-book-spine"></div>
-
-                    <div class="about-cta-book-cover">
-
-                        <i class="bi bi-book-half"></i>
-
-                        <span>
-                            SECOND
-                            <br>
-                            BOOK
-                        </span>
-
-                        <small>
-                            YOUR NEXT CHAPTER
-                        </small>
-
-                    </div>
-
-                </div>
-
-
-                {{-- Floating information --}}
-                <div class="about-cta-floating">
-
-                    <i class="bi bi-stars"></i>
 
                     <div>
+                        <span class="sb-small-label">HOW IT WORKS</span>
 
-                        <strong>
-                            Discover something new
-                        </strong>
-
-                        <span>
-                            One book at a time.
-                        </span>
-
+                        <h2>
+                            From one shelf
+                            <em>to another.</em>
+                        </h2>
                     </div>
 
                 </div>
 
 
-                {{-- Decorative mark --}}
-                <div class="about-cta-mark">
+                <div class="sb-journey-grid">
 
-                    <i class="bi bi-arrow-down-left"></i>
+                    {{-- Journey connecting line --}}
+                    <div class="sb-journey-line"></div>
+
+
+                    {{-- STEP 01 --}}
+                    <div class="sb-journey-item">
+
+                        <div class="sb-journey-number">01</div>
+
+                        <div class="sb-journey-icon">
+                            <i class="bi bi-search"></i>
+                        </div>
+
+                        <span>DISCOVER</span>
+
+                        <h3>Find your book.</h3>
+
+                        <p>
+                            Explore the collection and find a story
+                            that feels like it belongs with you.
+                        </p>
+
+                    </div>
+
+
+                    {{-- STEP 02 --}}
+                    <div class="sb-journey-item">
+
+                        <div class="sb-journey-number">02</div>
+
+                        <div class="sb-journey-icon">
+                            <i class="bi bi-bag"></i>
+                        </div>
+
+                        <span>CHOOSE</span>
+
+                        <h3>Make it yours.</h3>
+
+                        <p>
+                            Select your book, review its condition
+                            and place your order with ease.
+                        </p>
+
+                    </div>
+
+
+                    {{-- STEP 03 --}}
+                    <div class="sb-journey-item">
+
+                        <div class="sb-journey-number">03</div>
+
+                        <div class="sb-journey-icon">
+                            <i class="bi bi-book-half"></i>
+                        </div>
+
+                        <span>READ</span>
+
+                        <h3>Open a new chapter.</h3>
+
+                        <p>
+                            Your book reaches a new reader —
+                            and its next chapter begins.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+
+    {{-- =====================================================
+         NUMBERS / DARK PANEL
+    ====================================================== --}}
+
+    <section class="sb-numbers">
+
+        <div class="container">
+
+            <div class="sb-numbers-panel">
+
+                <div class="sb-numbers-intro">
+
+                    <span class="sb-small-label">
+                        THE SECOND BOOK EFFECT
+                    </span>
+
+                    <h2>
+                        Small numbers.
+                        <br>
+                        <em>Big journeys.</em>
+                    </h2>
+
+                    <p>
+                        Every book listed, every order placed and
+                        every reader who discovers something new
+                        becomes part of the journey.
+                    </p>
+
+                </div>
+
+
+                <div class="sb-number-grid">
+
+                    <div class="sb-number-item">
+                        <span class="sb-number-icon">
+                            <i class="bi bi-book"></i>
+                        </span>
+
+                        <strong>100<span>+</span></strong>
+                        <small>BOOKS</small>
+                    </div>
+
+
+                    <div class="sb-number-item">
+                        <span class="sb-number-icon">
+                            <i class="bi bi-person-heart"></i>
+                        </span>
+
+                        <strong>50<span>+</span></strong>
+                        <small>READERS</small>
+                    </div>
+
+
+                    <div class="sb-number-item">
+                        <span class="sb-number-icon">
+                            <i class="bi bi-grid"></i>
+                        </span>
+
+                        <strong>20<span>+</span></strong>
+                        <small>CATEGORIES</small>
+                    </div>
+
+
+                    <div class="sb-number-item">
+                        <span class="sb-number-icon">
+                            <i class="bi bi-clock"></i>
+                        </span>
+
+                        <strong>24<span>/7</span></strong>
+                        <small>ONLINE ACCESS</small>
+                    </div>
 
                 </div>
 
@@ -792,10 +526,103 @@
 
         </div>
 
-    </div>
-
-</section>
+    </section>
 
 
+    {{-- =====================================================
+         FINAL CTA
+    ====================================================== --}}
+
+    <section class="sb-final">
+
+        <div class="sb-final-decoration sb-final-decoration-1"></div>
+        <div class="sb-final-decoration sb-final-decoration-2"></div>
+
+        <div class="container">
+
+            <div class="sb-final-grid">
+
+                <div class="sb-final-copy">
+
+                    <span class="sb-final-label">
+                        <i class="bi bi-bookmark-heart"></i>
+                        YOUR NEXT CHAPTER
+                    </span>
+
+                    <h2>
+                        There is always
+                        <em>another book.</em>
+                    </h2>
+
+                    <p>
+                        Somewhere on a shelf, a story is waiting
+                        for its next reader. Maybe it's waiting for you.
+                    </p>
+
+                    <a
+                        href="{{ route('frontend.books') }}"
+                        class="sb-final-button"
+                    >
+                        <span>Explore the collection</span>
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+
+                </div>
+
+
+                <div class="sb-final-visual">
+
+                    <div class="sb-final-orbit sb-final-orbit-1"></div>
+                    <div class="sb-final-orbit sb-final-orbit-2"></div>
+
+                    <div class="sb-final-book">
+
+                        <div class="sb-final-spine"></div>
+
+                        <div class="sb-final-cover">
+
+                            <div class="sb-final-cover-mark">
+                                <i class="bi bi-book-half"></i>
+                            </div>
+
+                            <div class="sb-final-cover-title">
+                                SECOND
+                                <br>
+                                BOOK
+                            </div>
+
+                            <div class="sb-final-cover-rule"></div>
+
+                            <small>
+                                EVERY STORY<br>
+                                DESERVES ANOTHER READER
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                    <div class="sb-final-note">
+                        <i class="bi bi-stars"></i>
+                        <div>
+                            <strong>One more chapter.</strong>
+                            <span>One more reader.</span>
+                        </div>
+                    </div>
+
+                    <div class="sb-final-mark">
+                        <span>SB</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
 
 @endsection
+

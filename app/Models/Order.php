@@ -26,6 +26,7 @@ class Order extends Model
         'book_price',
         'quantity',
         'total_price',
+        'shipping_fee',
 
         // Payment
         'payment_method',
@@ -42,6 +43,7 @@ class Order extends Model
         'city',
         'postal_code',
         'address',
+        'delivery_estimate',
 
         // Extra
         'note',
@@ -50,9 +52,9 @@ class Order extends Model
     protected $casts = [
         'book_price' => 'decimal:2',
         'total_price' => 'decimal:2',
+        'shipping_fee' => 'decimal:2',
         'processing_deadline' => 'datetime',
     ];
-
 
     /*
     |--------------------------------------------------------------------------

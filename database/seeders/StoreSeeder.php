@@ -11,35 +11,47 @@ class StoreSeeder extends Seeder
 {
     public function run(): void
     {
-        $seller = User::where('role', 'seller')->first();
+        $sellers = User::where('role', 'seller')
+            ->orderBy('id')
+            ->get();
 
-        if (!$seller) {
-            $this->command->error('No seller user found.');
+        if ($sellers->isEmpty()) {
+            $this->command->error('No sellers found.');
             return;
         }
 
-        Store::updateOrCreate(
-            [
-                'seller_id' => $seller->id,
-            ],
-            [
-                'name' => 'SecondBook Store',
-                'slug' => 'secondbook-store',
-                'description' => 'Official test store for SecondBook seller panel.',
-                'logo' => null,
-                'phone' => $seller->phone,
-                'address' => $seller->address,
-                'status' => 'active',
-                'accept_orders' => true,
-                'auto_approve_orders' => false,
-                'processing_time' => 1,
-                'minimum_order_amount' => 0,
-                'order_note' => 'Please carefully pack the book before shipping.',
-            ]
-        );
+        $storeNames = [
+            'Ali Books',
+            'Nigar Reading House',
+            'Rauf Book Market',
+            'Aysel Book Corner',
+            'Murad Readers Store',
+        ];
+
+        foreach ($sellers as $index => $seller) {
+            $name = $storeNames[$index % count($storeNames)];
+
+            Store::updateOrCreate(
+                ['seller_id' => $seller->id],
+                [
+                    'name' => $name,
+                    'slug' => Str::slug($name),
+                    'description' => 'A trusted SecondBook marketplace store.',
+                    'logo' => null,
+                    'phone' => '+994500000000',
+                    'address' => 'Baku, Azerbaijan',
+                    'status' => 'active',
+                    'accept_orders' => true,
+                    'auto_approve_orders' => false,
+                    'processing_time' => rand(1, 3),
+                    'minimum_order_amount' => 0,
+                    'order_note' => 'Books are carefully packed before shipping.',
+                ]
+            );
+        }
 
         $this->command->info(
-            'Seller store created successfully.'
+            $sellers->count() . ' seller stores seeded successfully.'
         );
     }
 }

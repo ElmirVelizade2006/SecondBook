@@ -1328,11 +1328,6 @@
    PAGINATION
 ========================================================= */
 
-.books-pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 55px;
-}
 
 .books-pagination nav {
     display: flex;
@@ -2485,6 +2480,7 @@
     }
 }
 
+
 /* =========================================================
    BOOKS PAGINATION
 ========================================================= */
@@ -2493,12 +2489,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
     padding: 18px 4px 4px;
     margin-top: 4px;
     border-top: 1px solid #eef2f7;
 }
 
 .books-pagination-info {
+    flex: 0 0 auto;
     color: #64748b;
     font-size: 13px;
     font-weight: 500;
@@ -2509,7 +2507,13 @@
     font-weight: 700;
 }
 
+.books-pagination-links {
+    margin-left: auto;
+}
+
 .books-pagination-links .pagination {
+    display: flex;
+    justify-content: flex-end;
     margin: 0;
     gap: 6px;
 }
@@ -2521,16 +2525,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
     border: 1px solid #e2e8f0;
     border-radius: 10px !important;
-
     background: #fff;
     color: #64748b;
-
     font-size: 13px;
     font-weight: 600;
-
     box-shadow: none;
 }
 
@@ -2550,6 +2550,8 @@
     color: #cbd5e1;
     background: #f8fafc;
 }
+
+
 
 
 /* =========================================================

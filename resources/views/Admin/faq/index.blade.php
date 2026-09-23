@@ -2,105 +2,106 @@
 
 @section('title', 'FAQ')
 
-@push('css')
-    <link rel="stylesheet" href="{{ asset('admin/css/faq.css') }}">
+@push('css') <link rel="stylesheet" href="{{ asset('admin/css/faq.css') }}">
 @endpush
 
 @section('content')
 
 <div class="dashboard-section faq-page">
 
-    {{-- PAGE HEADER --}}
-    <div class="dashboard-panel mb-4">
 
-        <div class="panel-header mb-0">
+{{-- Header --}}
+<div class="dashboard-panel faq-header-panel">
 
-            <div>
-                <h5 class="mb-1">FAQ</h5>
+    <div class="faq-header-content">
 
-                <p class="text-muted mb-0 small">
-                    Manage frequently asked questions on SecondBook
-                </p>
-            </div>
-
-            <a
-                href="{{ route('admin.faq.create') }}"
-                class="btn btn-primary"
-            >
-                <i class="bi bi-plus-circle me-2"></i>
-                Add FAQ
-            </a>
-
+        <div>
+            <h5>FAQ</h5>
+            <p>Manage frequently asked questions on SecondBook</p>
         </div>
+
+        <a href="{{ route('admin.faq.create') }}"
+           class="faq-add-btn">
+            <i class="bi bi-plus-lg"></i>
+            <span>Add FAQ</span>
+        </a>
 
     </div>
 
+</div>
 
-    {{-- FILTERS --}}
-    <div class="dashboard-panel mb-4">
 
-        <form
-            method="GET"
-            action="{{ route('admin.faq.index') }}"
-            class="row g-3 align-items-end"
-        >
+{{-- Success --}}
+@if(session('success'))
 
-            {{-- SEARCH --}}
-            <div class="col-12 col-md-6 col-lg-6">
+    <div class="faq-alert">
 
-                <label class="form-label small text-muted fw-semibold">
+        <i class="bi bi-check-circle-fill"></i>
+
+        <span>{{ session('success') }}</span>
+
+        <button type="button"
+                class="faq-alert-close"
+                onclick="this.parentElement.remove()">
+            <i class="bi bi-x"></i>
+        </button>
+
+    </div>
+
+@endif
+
+
+{{-- Filters --}}
+<div class="dashboard-panel faq-filter-panel">
+
+    <form method="GET"
+          action="{{ route('admin.faq.index') }}">
+
+        <div class="faq-filter-row">
+
+            {{-- Search --}}
+            <div class="faq-search">
+
+                <label for="faq-search">
                     Search
                 </label>
 
-                <div class="input-group">
+                <div class="faq-search-group">
 
-                    <span class="input-group-text bg-white border-end-0">
-                        <i class="bi bi-search text-muted"></i>
-                    </span>
+                    <i class="bi bi-search"></i>
 
-                    <input
-                        type="text"
-                        name="search"
-                        value="{{ request('search') }}"
-                        class="form-control border-start-0"
-                        placeholder="Question, answer or category..."
-                    >
-
-                    <button
-                        type="submit"
-                        class="btn btn-primary"
-                    >
-                        Search
-                    </button>
+                    <input type="text"
+                           id="faq-search"
+                           name="search"
+                           value="{{ request('search') }}"
+                           placeholder="Question, answer or category...">
 
                 </div>
 
             </div>
 
 
-            {{-- CATEGORY --}}
-            <div class="col-6 col-md-3 col-lg-2">
+            {{-- Category --}}
+            <div class="faq-category-filter">
 
-                <label class="form-label small text-muted fw-semibold">
+                <label for="faq-category">
                     Category
                 </label>
 
-                <select
-                    name="category"
-                    class="form-select"
-                >
+                <select id="faq-category"
+                        name="category">
 
                     <option value="">
                         All Categories
                     </option>
 
                     @foreach($categories as $category)
-                        <option
-                            value="{{ $category }}"
-                            @selected(request('category') === $category)
-                        >
+
+                        <option value="{{ $category }}"
+                            @selected(request('category') === $category)>
                             {{ $category }}
                         </option>
+
                     @endforeach
 
                 </select>
@@ -108,33 +109,27 @@
             </div>
 
 
-            {{-- STATUS --}}
-            <div class="col-6 col-md-3 col-lg-2">
+            {{-- Status --}}
+            <div class="faq-status-filter">
 
-                <label class="form-label small text-muted fw-semibold">
+                <label for="faq-status">
                     Status
                 </label>
 
-                <select
-                    name="status"
-                    class="form-select"
-                >
+                <select id="faq-status"
+                        name="status">
 
                     <option value="">
                         All Status
                     </option>
 
-                    <option
-                        value="1"
-                        @selected(request('status') === '1')
-                    >
+                    <option value="1"
+                        @selected(request('status') === '1')>
                         Active
                     </option>
 
-                    <option
-                        value="0"
-                        @selected(request('status') === '0')
-                    >
+                    <option value="0"
+                        @selected(request('status') === '0')>
                         Inactive
                     </option>
 
@@ -143,282 +138,273 @@
             </div>
 
 
-            {{-- FILTER ACTIONS --}}
-            <div class="col-12 col-lg-2 d-flex gap-2">
+            {{-- Actions --}}
+            <div class="faq-filter-actions">
 
-                <button
-                    type="submit"
-                    class="btn btn-primary flex-grow-1"
-                >
-                    <i class="bi bi-funnel me-1"></i>
+                <button type="submit"
+                        class="faq-search-btn">
+                    <i class="bi bi-funnel"></i>
                     Filter
                 </button>
 
-                <a
-                    href="{{ route('admin.faq.index') }}"
-                    class="btn btn-light border"
-                >
-                    Reset
-                </a>
+                @if(request()->filled('search') ||
+                    request()->filled('category') ||
+                    request()->filled('status'))
+
+                    <a href="{{ route('admin.faq.index') }}"
+                       class="faq-reset-btn"
+                       title="Reset filters">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                    </a>
+
+                @endif
 
             </div>
 
-        </form>
+        </div>
+
+    </form>
+
+</div>
+
+
+{{-- FAQ Table --}}
+<div class="dashboard-panel faq-table-panel">
+
+    <div class="faq-table-header">
+
+        <div>
+            <h5>FAQ List</h5>
+            <p>All frequently asked questions</p>
+        </div>
+
+        <span class="faq-count">
+            {{ $faqs->total() }} FAQs
+        </span>
 
     </div>
 
 
-    {{-- SUCCESS MESSAGE --}}
-    @if(session('success'))
+    <div class="faq-table-wrapper">
 
-        <div class="alert alert-success mb-4">
-            {{ session('success') }}
+        <table class="faq-table">
+
+            <thead>
+
+                <tr>
+
+                    <th class="faq-col-id">
+                        #
+                    </th>
+
+                    <th>
+                        Question
+                    </th>
+
+                    <th class="faq-col-category">
+                        Category
+                    </th>
+
+                    <th class="faq-col-answer">
+                        Answer
+                    </th>
+
+                    <th class="faq-col-sort">
+                        Sort
+                    </th>
+
+                    <th class="faq-col-status">
+                        Status
+                    </th>
+
+                    <th class="faq-col-date">
+                        Created
+                    </th>
+
+                    <th class="faq-col-actions">
+                        Actions
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                @forelse($faqs as $faq)
+
+                    <tr>
+
+                        {{-- ID --}}
+                        <td class="faq-id">
+                            {{ $faq->id }}
+                        </td>
+
+
+                        {{-- Question --}}
+                        <td>
+
+                            <div class="faq-question-info">
+
+                                <div class="faq-question-title">
+                                    {{ $faq->question }}
+                                </div>
+
+                                <div class="faq-mobile-category">
+                                    {{ $faq->category }}
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        {{-- Category --}}
+                        <td>
+
+                            <span class="faq-category">
+                                {{ $faq->category }}
+                            </span>
+
+                        </td>
+
+
+                        {{-- Answer --}}
+                        <td>
+
+                            <div class="faq-answer">
+                                {{ $faq->answer }}
+                            </div>
+
+                        </td>
+
+
+                        {{-- Sort --}}
+                        <td>
+
+                            <span class="faq-sort">
+                                {{ $faq->sort_order }}
+                            </span>
+
+                        </td>
+
+
+                        {{-- Status --}}
+                        <td>
+
+                            @if($faq->is_active)
+
+                                <span class="faq-status faq-status-active">
+                                    <span></span>
+                                    Active
+                                </span>
+
+                            @else
+
+                                <span class="faq-status faq-status-inactive">
+                                    <span></span>
+                                    Inactive
+                                </span>
+
+                            @endif
+
+                        </td>
+
+
+                        {{-- Created --}}
+                        <td>
+
+                            <span class="faq-date">
+                                {{ $faq->created_at?->format('d M Y') }}
+                            </span>
+
+                        </td>
+
+
+                        {{-- Actions --}}
+                        <td>
+
+                            <div class="faq-actions">
+
+                                <a href="{{ route('admin.faq.edit', $faq->id) }}"
+                                   class="faq-edit-btn"
+                                   title="Edit FAQ">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+
+
+                                <form action="{{ route('admin.faq.destroy', $faq->id) }}"
+                                      method="POST"
+                                      onsubmit="return confirm('Delete this FAQ?');">
+
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="submit"
+                                            class="faq-delete-btn"
+                                            title="Delete FAQ">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                @empty
+
+                    <tr>
+
+                        <td colspan="8">
+
+                            <div class="faq-empty">
+
+                                <div class="faq-empty-icon">
+                                    <i class="bi bi-question-circle"></i>
+                                </div>
+
+                                <h6>No FAQs Found</h6>
+
+                                <p>
+                                    Create your first FAQ to get started.
+                                </p>
+
+                                <a href="{{ route('admin.faq.create') }}"
+                                   class="faq-add-btn">
+                                    <i class="bi bi-plus-lg"></i>
+                                    Add FAQ
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                @endforelse
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    {{-- Pagination --}}
+    @if($faqs->hasPages())
+
+        <div class="faq-pagination">
+            {{ $faqs->links() }}
         </div>
 
     @endif
 
+</div>
 
-    {{-- FAQ LIST --}}
-    <div class="dashboard-panel">
-
-        <div class="panel-header">
-
-            <h5>FAQ List</h5>
-
-            <span class="badge bg-primary">
-                {{ $faqs->total() }} FAQs
-            </span>
-
-        </div>
-
-
-        <div class="table-responsive">
-
-            <table class="table table-hover align-middle">
-
-                <thead>
-
-                    <tr>
-
-                        <th>ID</th>
-
-                        <th>Question</th>
-
-                        <th class="d-none d-md-table-cell">
-                            Category
-                        </th>
-
-                        <th class="d-none d-lg-table-cell">
-                            Answer
-                        </th>
-
-                        <th class="d-none d-md-table-cell">
-                            Sort
-                        </th>
-
-                        <th>
-                            Status
-                        </th>
-
-                        <th class="d-none d-lg-table-cell">
-                            Created Date
-                        </th>
-
-                        <th class="text-end">
-                            Action
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-
-                <tbody>
-
-                    @forelse($faqs as $faq)
-
-                        <tr>
-
-                            {{-- ID --}}
-                            <td>
-                                {{ $faq->id }}
-                            </td>
-
-
-                            {{-- QUESTION --}}
-                            <td>
-
-                                <div class="faq-question">
-
-                                    <strong class="d-block">
-                                        {{ $faq->question }}
-                                    </strong>
-
-                                    <small class="text-muted d-md-none">
-                                        {{ $faq->category }}
-                                    </small>
-
-                                </div>
-
-                            </td>
-
-
-                            {{-- CATEGORY --}}
-                            <td class="d-none d-md-table-cell">
-
-                                <span class="badge bg-light text-dark border">
-                                    {{ $faq->category }}
-                                </span>
-
-                            </td>
-
-
-                            {{-- ANSWER --}}
-                            <td class="d-none d-lg-table-cell">
-
-                                <div class="faq-answer faq-answer-preview">
-                                    {{ $faq->answer }}
-                                </div>
-
-                            </td>
-
-
-                            {{-- SORT ORDER --}}
-                            <td class="d-none d-md-table-cell">
-
-                                <span class="text-muted">
-                                    {{ $faq->sort_order }}
-                                </span>
-
-                            </td>
-
-
-                            {{-- STATUS --}}
-                            <td>
-
-                                @if($faq->is_active)
-
-                                    <span class="badge bg-success">
-                                        Active
-                                    </span>
-
-                                @else
-
-                                    <span class="badge bg-secondary">
-                                        Inactive
-                                    </span>
-
-                                @endif
-
-                            </td>
-
-
-                            {{-- CREATED DATE --}}
-                            <td class="d-none d-lg-table-cell">
-
-                                {{ $faq->created_at?->format('d M Y') }}
-
-                            </td>
-
-
-                            {{-- ACTIONS --}}
-                            <td>
-
-                                <div class="d-flex justify-content-end gap-2">
-
-                                    {{-- EDIT --}}
-                                    <a
-                                        href="{{ route('admin.faq.edit', $faq->id) }}"
-                                        class="btn btn-warning btn-sm"
-                                        title="Edit"
-                                    >
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-
-
-                                    {{-- DELETE --}}
-                                    <form
-                                        action="{{ route('admin.faq.destroy', $faq->id) }}"
-                                        method="POST"
-                                        onsubmit="return confirm('Delete this FAQ?')"
-                                    >
-
-                                        @csrf
-
-                                        @method('DELETE')
-
-                                        <button
-                                            type="submit"
-                                            class="btn btn-danger btn-sm"
-                                            title="Delete"
-                                        >
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-
-                                    </form>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-                    @empty
-
-                        <tr>
-
-                            <td
-                                colspan="8"
-                                class="text-center py-5"
-                            >
-
-                                <div class="chart-placeholder faq-empty-state">
-
-                                    <i class="bi bi-question-circle"></i>
-
-                                    <h6>
-                                        No FAQs found
-                                    </h6>
-
-                                    <p>
-                                        Create your first FAQ to get started.
-                                    </p>
-
-                                    <a
-                                        href="{{ route('admin.faq.create') }}"
-                                        class="btn btn-primary mt-3"
-                                    >
-                                        <i class="bi bi-plus-circle me-2"></i>
-                                        Add FAQ
-                                    </a>
-
-                                </div>
-
-                            </td>
-
-                        </tr>
-
-                    @endforelse
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-
-        {{-- PAGINATION --}}
-        @if($faqs->hasPages())
-
-            <div class="pt-3">
-
-                {{ $faqs->links() }}
-
-            </div>
-
-        @endif
-
-    </div>
 
 </div>
 

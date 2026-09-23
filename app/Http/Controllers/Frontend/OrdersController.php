@@ -59,9 +59,16 @@ class OrdersController extends Controller
             'payment',
         ]);
 
+        $reviewed = Review::where('user_id', auth()->id())
+            ->where('book_id', $order->book_id)
+            ->exists();
+
         return view(
             'Frontend.order-details',
-            compact('order')
+            compact(
+                'order',
+                'reviewed'
+            )
         );
     }
 

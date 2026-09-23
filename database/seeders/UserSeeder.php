@@ -4,163 +4,139 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        $users = [
+        /*
+        |--------------------------------------------------------------------------
+        | Admin
+        |--------------------------------------------------------------------------
+        */
 
-            /*
-            |--------------------------------------------------------------------------
-            | Seller
-            |--------------------------------------------------------------------------
-            */
-
+        User::updateOrCreate(
+            ['email' => 'admin@secondbook.test'],
             [
-                'name' => 'Test Seller',
-                'first_name' => 'Test',
-                'last_name' => 'Seller',
-                'username' => 'test_seller',
-                'email' => 'seller@example.com',
+                'name' => 'SecondBook Admin',
+                'first_name' => 'SecondBook',
+                'last_name' => 'Admin',
+                'username' => 'admin',
                 'password' => 'password',
-                'role' => 'seller',
+                'role' => 'admin',
                 'status' => 'active',
-            ],
+                'email_verified_at' => now(),
+                'profile_visibility' => true,
+                'receive_email_notifications' => true,
+                'receive_order_updates' => true,
+                'receive_promotional_emails' => false,
+            ]
+        );
 
-            /*
-            |--------------------------------------------------------------------------
-            | Customers
-            |--------------------------------------------------------------------------
-            */
+        /*
+        |--------------------------------------------------------------------------
+        | Sellers
+        |--------------------------------------------------------------------------
+        */
 
+        $sellers = [
             [
-                'name' => 'Elvin Aliyev',
-                'first_name' => 'Elvin',
-                'last_name' => 'Aliyev',
-                'username' => 'elvin_aliyev',
-                'email' => 'elvin@example.com',
-                'password' => 'password',
-                'role' => 'user',
-                'status' => 'active',
+                'first_name' => 'Ali',
+                'last_name' => 'Mammadov',
+                'username' => 'seller_ali',
+                'email' => 'seller.ali@secondbook.test',
+                'photo' => 'https://randomuser.me/api/portraits/men/32.jpg',
             ],
-
             [
-                'name' => 'Aysel Mammadova',
-                'first_name' => 'Aysel',
-                'last_name' => 'Mammadova',
-                'username' => 'aysel_mammadova',
-                'email' => 'aysel@example.com',
-                'password' => 'password',
-                'role' => 'user',
-                'status' => 'active',
-            ],
-
-            [
-                'name' => 'Murad Hasanov',
-                'first_name' => 'Murad',
-                'last_name' => 'Hasanov',
-                'username' => 'murad_hasanov',
-                'email' => 'murad@example.com',
-                'password' => 'password',
-                'role' => 'user',
-                'status' => 'active',
-            ],
-
-            [
-                'name' => 'Nigar Rahimova',
                 'first_name' => 'Nigar',
-                'last_name' => 'Rahimova',
-                'username' => 'nigar_rahimova',
-                'email' => 'nigar@example.com',
-                'password' => 'password',
-                'role' => 'user',
-                'status' => 'active',
+                'last_name' => 'Hasanli',
+                'username' => 'seller_nigar',
+                'email' => 'seller.nigar@secondbook.test',
+                'photo' => 'https://randomuser.me/api/portraits/women/44.jpg',
             ],
-
             [
-                'name' => 'Tural Karimov',
-                'first_name' => 'Tural',
+                'first_name' => 'Rauf',
                 'last_name' => 'Karimov',
-                'username' => 'tural_karimov',
-                'email' => 'tural@example.com',
-                'password' => 'password',
-                'role' => 'user',
-                'status' => 'active',
+                'username' => 'seller_rauf',
+                'email' => 'seller.rauf@secondbook.test',
+                'photo' => 'https://randomuser.me/api/portraits/men/46.jpg',
             ],
-
             [
-                'name' => 'Leyla Huseynova',
-                'first_name' => 'Leyla',
-                'last_name' => 'Huseynova',
-                'username' => 'leyla_huseynova',
-                'email' => 'leyla@example.com',
-                'password' => 'password',
-                'role' => 'user',
-                'status' => 'active',
+                'first_name' => 'Aysel',
+                'last_name' => 'Quliyeva',
+                'username' => 'seller_aysel',
+                'email' => 'seller.aysel@secondbook.test',
+                'photo' => 'https://randomuser.me/api/portraits/women/65.jpg',
             ],
-
             [
-                'name' => 'Kamran Ismayilov',
-                'first_name' => 'Kamran',
-                'last_name' => 'Ismayilov',
-                'username' => 'kamran_ismayilov',
-                'email' => 'kamran@example.com',
-                'password' => 'password',
-                'role' => 'user',
-                'status' => 'active',
-            ],
-
-            [
-                'name' => 'Sabina Aliyeva',
-                'first_name' => 'Sabina',
-                'last_name' => 'Aliyeva',
-                'username' => 'sabina_aliyeva',
-                'email' => 'sabina@example.com',
-                'password' => 'password',
-                'role' => 'user',
-                'status' => 'active',
-            ],
-
-            [
-                'name' => 'Orkhan Safarov',
-                'first_name' => 'Orkhan',
-                'last_name' => 'Safarov',
-                'username' => 'orkhan_safarov',
-                'email' => 'orkhan@example.com',
-                'password' => 'password',
-                'role' => 'user',
-                'status' => 'active',
-            ],
-
-            [
-                'name' => 'Zehra Abbasova',
-                'first_name' => 'Zehra',
-                'last_name' => 'Abbasova',
-                'username' => 'zehra_abbasova',
-                'email' => 'zehra@example.com',
-                'password' => 'password',
-                'role' => 'user',
-                'status' => 'active',
+                'first_name' => 'Murad',
+                'last_name' => 'Aliyev',
+                'username' => 'seller_murad',
+                'email' => 'seller.murad@secondbook.test',
+                'photo' => 'https://randomuser.me/api/portraits/men/75.jpg',
             ],
         ];
 
-        foreach ($users as $user) {
+        foreach ($sellers as $seller) {
             User::updateOrCreate(
+                ['email' => $seller['email']],
                 [
-                    'username' => $user['username'],
-                ],
-                [
-                    'name' => $user['name'],
-                    'first_name' => $user['first_name'],
-                    'last_name' => $user['last_name'],
-                    'email' => $user['email'],
-                    'password' => Hash::make($user['password']),
-                    'role' => $user['role'],
-                    'status' => $user['status'],
+                    'name' => $seller['first_name'] . ' ' . $seller['last_name'],
+                    'first_name' => $seller['first_name'],
+                    'last_name' => $seller['last_name'],
+                    'username' => $seller['username'],
+                    'password' => 'password',
+                    'role' => 'seller',
+                    'status' => 'active',
+                    'email_verified_at' => now(),
+                    'profile_photo' => $seller['photo'],
+                    'profile_visibility' => true,
+                    'receive_email_notifications' => true,
+                    'receive_order_updates' => true,
+                    'receive_promotional_emails' => false,
                 ]
             );
         }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Buyers
+        |--------------------------------------------------------------------------
+        */
+
+        $buyers = [
+            ['Elvin', 'Aliyev', 'elvin_aliyev', 'elvin@example.com'],
+            ['Aysel', 'Mammadova', 'aysel_mammadova', 'aysel@example.com'],
+            ['Murad', 'Hasanov', 'murad_hasanov', 'murad@example.com'],
+            ['Nigar', 'Rahimova', 'nigar_rahimova', 'nigar@example.com'],
+            ['Tural', 'Karimov', 'tural_karimov', 'tural@example.com'],
+            ['Leyla', 'Huseynova', 'leyla_huseynova', 'leyla@example.com'],
+            ['Kamran', 'Ismayilov', 'kamran_ismayilov', 'kamran@example.com'],
+            ['Sabina', 'Aliyeva', 'sabina_aliyeva', 'sabina@example.com'],
+            ['Orkhan', 'Safarov', 'orkhan_safarov', 'orkhan@example.com'],
+            ['Zehra', 'Abbasova', 'zehra_abbasova', 'zehra@example.com'],
+        ];
+
+        foreach ($buyers as $index => $buyer) {
+            User::updateOrCreate(
+                ['email' => $buyer[3]],
+                [
+                    'name' => $buyer[0] . ' ' . $buyer[1],
+                    'first_name' => $buyer[0],
+                    'last_name' => $buyer[1],
+                    'username' => $buyer[2],
+                    'password' => 'password',
+                    'role' => 'user',
+                    'status' => 'active',
+                    'email_verified_at' => now(),
+                    'profile_visibility' => true,
+                    'receive_email_notifications' => true,
+                    'receive_order_updates' => true,
+                    'receive_promotional_emails' => false,
+                ]
+            );
+        }
+
+        $this->command->info('Users, sellers and buyers seeded successfully.');
     }
 }

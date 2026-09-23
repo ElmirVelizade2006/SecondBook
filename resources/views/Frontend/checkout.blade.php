@@ -11,13 +11,13 @@
 <main class="sb-checkout-page">
 
     {{-- =====================================================
-        HERO / CHECKOUT HEADER
+        HERO
     ====================================================== --}}
     <section class="checkout-hero">
-
         <div class="container">
 
             <div class="checkout-breadcrumb">
+
                 <a href="{{ route('frontend.cart') }}">
                     <i class="bi bi-arrow-left"></i>
                     Shopping Cart
@@ -26,6 +26,7 @@
                 <i class="bi bi-chevron-right"></i>
 
                 <span>Checkout</span>
+
             </div>
 
             <div class="checkout-hero-content">
@@ -33,11 +34,13 @@
                 <div class="checkout-hero-copy">
 
                     <span class="checkout-eyebrow">
+
                         <span class="checkout-eyebrow-icon">
                             <i class="bi bi-shield-check"></i>
                         </span>
 
                         Secure Checkout
+
                     </span>
 
                     <h1>
@@ -46,9 +49,9 @@
                     </h1>
 
                     <p>
-                        You're just a few steps away from getting your
-                        books. Enter your delivery details and choose
-                        your preferred payment method.
+                        You're just a few steps away from getting your books.
+                        Enter your delivery details and choose your preferred
+                        payment method.
                     </p>
 
                 </div>
@@ -56,31 +59,37 @@
                 <div class="checkout-progress">
 
                     <div class="checkout-progress-step is-complete">
+
                         <span class="checkout-step-icon">
                             <i class="bi bi-check2"></i>
                         </span>
 
                         <span>Cart</span>
+
                     </div>
 
                     <span class="checkout-progress-line is-active"></span>
 
                     <div class="checkout-progress-step is-active">
+
                         <span class="checkout-step-icon">
                             <i class="bi bi-bag-check"></i>
                         </span>
 
                         <span>Checkout</span>
+
                     </div>
 
                     <span class="checkout-progress-line"></span>
 
                     <div class="checkout-progress-step">
+
                         <span class="checkout-step-icon">
                             <i class="bi bi-check-lg"></i>
                         </span>
 
                         <span>Complete</span>
+
                     </div>
 
                 </div>
@@ -88,7 +97,6 @@
             </div>
 
         </div>
-
     </section>
 
 
@@ -100,42 +108,71 @@
         <div class="container">
 
             {{-- Alerts --}}
+
             @if(session('success'))
+
                 <div class="checkout-alert checkout-alert-success">
+
                     <span class="checkout-alert-icon">
                         <i class="bi bi-check-circle-fill"></i>
                     </span>
 
-                    <span>{{ session('success') }}</span>
+                    <span>
+                        {{ session('success') }}
+                    </span>
+
                 </div>
+
             @endif
 
+
             @if(session('error'))
+
                 <div class="checkout-alert checkout-alert-error">
+
                     <span class="checkout-alert-icon">
                         <i class="bi bi-exclamation-circle-fill"></i>
                     </span>
 
-                    <span>{{ session('error') }}</span>
+                    <span>
+                        {{ session('error') }}
+                    </span>
+
                 </div>
+
             @endif
 
+
             @if($errors->any())
+
                 <div class="checkout-alert checkout-alert-error">
+
                     <span class="checkout-alert-icon">
                         <i class="bi bi-exclamation-triangle-fill"></i>
                     </span>
 
                     <div>
-                        <strong>Please check the following:</strong>
+
+                        <strong>
+                            Please check the following:
+                        </strong>
 
                         <ul>
+
                             @foreach($errors->all() as $error)
-                                <li>{{ $error }}</li>
+
+                                <li>
+                                    {{ $error }}
+                                </li>
+
                             @endforeach
+
                         </ul>
+
                     </div>
+
                 </div>
+
             @endif
 
 
@@ -149,13 +186,15 @@
 
                 <div class="row g-4 g-xl-5">
 
-
                     {{-- =================================================
                         LEFT COLUMN
                     ================================================== --}}
                     <div class="col-lg-7">
 
-                        {{-- CUSTOMER INFORMATION --}}
+
+                        {{-- =================================================
+                            CUSTOMER INFORMATION
+                        ================================================== --}}
                         <div class="checkout-card">
 
                             <div class="checkout-card-header">
@@ -167,6 +206,7 @@
                                     </div>
 
                                     <div>
+
                                         <span class="checkout-card-kicker">
                                             Delivery Details
                                         </span>
@@ -179,6 +219,7 @@
                                             Tell us where you'd like your
                                             order delivered.
                                         </p>
+
                                     </div>
 
                                 </div>
@@ -193,6 +234,7 @@
                             <div class="checkout-card-body">
 
                                 <div class="row g-3 g-md-4">
+
 
                                     {{-- Full Name --}}
                                     <div class="col-12">
@@ -225,9 +267,11 @@
                                         </div>
 
                                         @error('full_name')
+
                                             <small class="checkout-field-error">
                                                 {{ $message }}
                                             </small>
+
                                         @enderror
 
                                     </div>
@@ -264,9 +308,11 @@
                                         </div>
 
                                         @error('phone')
+
                                             <small class="checkout-field-error">
                                                 {{ $message }}
                                             </small>
+
                                         @enderror
 
                                     </div>
@@ -294,7 +340,7 @@
                                                 id="country"
                                                 name="country"
                                                 class="checkout-input"
-                                                value="{{ old('country', 'Azerbaijan') }}"
+                                                value="{{ old('country', $defaultCountry ?: 'Azerbaijan') }}"
                                                 placeholder="Enter your country"
                                                 autocomplete="country-name"
                                                 required
@@ -303,9 +349,11 @@
                                         </div>
 
                                         @error('country')
+
                                             <small class="checkout-field-error">
                                                 {{ $message }}
                                             </small>
+
                                         @enderror
 
                                     </div>
@@ -342,9 +390,11 @@
                                         </div>
 
                                         @error('city')
+
                                             <small class="checkout-field-error">
                                                 {{ $message }}
                                             </small>
+
                                         @enderror
 
                                     </div>
@@ -380,9 +430,11 @@
                                         </div>
 
                                         @error('postal_code')
+
                                             <small class="checkout-field-error">
                                                 {{ $message }}
                                             </small>
+
                                         @enderror
 
                                     </div>
@@ -418,9 +470,11 @@
                                         </div>
 
                                         @error('address')
+
                                             <small class="checkout-field-error">
                                                 {{ $message }}
                                             </small>
+
                                         @enderror
 
                                     </div>
@@ -454,9 +508,11 @@
                                         </div>
 
                                         @error('note')
+
                                             <small class="checkout-field-error">
                                                 {{ $message }}
                                             </small>
+
                                         @enderror
 
                                     </div>
@@ -468,190 +524,237 @@
                         </div>
 
 
-                        {{-- PAYMENT METHOD --}}
-                        <div class="checkout-card payment-card">
+                        {{-- =================================================
+                            PAYMENT METHOD
+                        ================================================== --}}
+                        @if($paymentsEnabled)
 
-                            <div class="checkout-card-header">
+                            <div class="checkout-card payment-card">
 
-                                <div class="checkout-card-heading">
+                                <div class="checkout-card-header">
 
-                                    <div class="checkout-card-icon">
-                                        <i class="bi bi-credit-card-2-front"></i>
+                                    <div class="checkout-card-heading">
+
+                                        <div class="checkout-card-icon">
+                                            <i class="bi bi-credit-card-2-front"></i>
+                                        </div>
+
+                                        <div>
+
+                                            <span class="checkout-card-kicker">
+                                                Payment
+                                            </span>
+
+                                            <h2>
+                                                Payment Method
+                                            </h2>
+
+                                            <p>
+                                                Choose your preferred way to pay.
+                                            </p>
+
+                                        </div>
+
                                     </div>
 
-                                    <div>
-                                        <span class="checkout-card-kicker">
-                                            Payment
-                                        </span>
+                                    <span class="secure-payment-badge">
+                                        <i class="bi bi-shield-lock"></i>
+                                        Secure
+                                    </span>
 
-                                        <h2>
-                                            Payment Method
-                                        </h2>
+                                </div>
 
-                                        <p>
-                                            Choose your preferred way to pay.
-                                        </p>
+
+                                <div class="checkout-card-body">
+
+                                    <div class="payment-methods">
+
+
+                                        {{-- Cash on Delivery --}}
+                                        @if(in_array('cash_on_delivery', $paymentMethods))
+
+                                            <label class="payment-option">
+
+                                                <input
+                                                    type="radio"
+                                                    name="payment_method"
+                                                    value="cash_on_delivery"
+                                                    {{ old('payment_method', $defaultPaymentMethod) === 'cash_on_delivery' ? 'checked' : '' }}
+                                                >
+
+                                                <span class="payment-option-content">
+
+                                                    <span class="payment-option-icon">
+                                                        <i class="bi bi-cash-stack"></i>
+                                                    </span>
+
+                                                    <span class="payment-option-text">
+
+                                                        <strong>
+                                                            Cash on Delivery
+                                                        </strong>
+
+                                                        <small>
+                                                            Pay when your order arrives.
+                                                        </small>
+
+                                                    </span>
+
+                                                    <span class="payment-radio">
+                                                        <span></span>
+                                                    </span>
+
+                                                </span>
+
+                                            </label>
+
+                                        @endif
+
+
+                                        {{-- Credit Card --}}
+                                        @if(in_array('credit_card', $paymentMethods))
+
+                                            <label class="payment-option">
+
+                                                <input
+                                                    type="radio"
+                                                    name="payment_method"
+                                                    value="credit_card"
+                                                    {{ old('payment_method', $defaultPaymentMethod) === 'credit_card' ? 'checked' : '' }}
+                                                >
+
+                                                <span class="payment-option-content">
+
+                                                    <span class="payment-option-icon">
+                                                        <i class="bi bi-credit-card"></i>
+                                                    </span>
+
+                                                    <span class="payment-option-text">
+
+                                                        <strong>
+                                                            Credit Card
+                                                        </strong>
+
+                                                        <small>
+                                                            Pay securely with your credit card.
+                                                        </small>
+
+                                                    </span>
+
+                                                    <span class="payment-radio">
+                                                        <span></span>
+                                                    </span>
+
+                                                </span>
+
+                                            </label>
+
+                                        @endif
+
+
+                                        {{-- Debit Card --}}
+                                        @if(in_array('debit_card', $paymentMethods))
+
+                                            <label class="payment-option">
+
+                                                <input
+                                                    type="radio"
+                                                    name="payment_method"
+                                                    value="debit_card"
+                                                    {{ old('payment_method', $defaultPaymentMethod) === 'debit_card' ? 'checked' : '' }}
+                                                >
+
+                                                <span class="payment-option-content">
+
+                                                    <span class="payment-option-icon">
+                                                        <i class="bi bi-wallet2"></i>
+                                                    </span>
+
+                                                    <span class="payment-option-text">
+
+                                                        <strong>
+                                                            Debit Card
+                                                        </strong>
+
+                                                        <small>
+                                                            Pay securely with your debit card.
+                                                        </small>
+
+                                                    </span>
+
+                                                    <span class="payment-radio">
+                                                        <span></span>
+                                                    </span>
+
+                                                </span>
+
+                                            </label>
+
+                                        @endif
+
+
+                                        {{-- PayPal --}}
+                                        @if(in_array('paypal', $paymentMethods))
+
+                                            <label class="payment-option">
+
+                                                <input
+                                                    type="radio"
+                                                    name="payment_method"
+                                                    value="paypal"
+                                                    {{ old('payment_method', $defaultPaymentMethod) === 'paypal' ? 'checked' : '' }}
+                                                >
+
+                                                <span class="payment-option-content">
+
+                                                    <span class="payment-option-icon">
+                                                        <i class="bi bi-paypal"></i>
+                                                    </span>
+
+                                                    <span class="payment-option-text">
+
+                                                        <strong>
+                                                            PayPal
+                                                        </strong>
+
+                                                        <small>
+                                                            Pay securely through PayPal.
+                                                        </small>
+
+                                                    </span>
+
+                                                    <span class="payment-radio">
+                                                        <span></span>
+                                                    </span>
+
+                                                </span>
+
+                                            </label>
+
+                                        @endif
+
+
                                     </div>
 
                                 </div>
 
-                                <span class="secure-payment-badge">
-                                    <i class="bi bi-shield-lock"></i>
-                                    Secure
+                            </div>
+
+                        @else
+
+                            <div class="checkout-alert checkout-alert-error">
+
+                                <span class="checkout-alert-icon">
+                                    <i class="bi bi-credit-card-2-front"></i>
+                                </span>
+
+                                <span>
+                                    Payments are currently disabled.
                                 </span>
 
                             </div>
 
-
-                            <div class="checkout-card-body">
-
-                                <div class="payment-methods">
-
-
-                                    {{-- Cash on Delivery --}}
-                                    <label class="payment-option">
-
-                                        <input
-                                            type="radio"
-                                            name="payment_method"
-                                            value="cash_on_delivery"
-                                            {{ old('payment_method', 'cash_on_delivery') === 'cash_on_delivery' ? 'checked' : '' }}
-                                        >
-
-                                        <span class="payment-option-content">
-
-                                            <span class="payment-option-icon">
-                                                <i class="bi bi-cash-stack"></i>
-                                            </span>
-
-                                            <span class="payment-option-text">
-                                                <strong>
-                                                    Cash on Delivery
-                                                </strong>
-
-                                                <small>
-                                                    Pay when your order arrives.
-                                                </small>
-                                            </span>
-
-                                            <span class="payment-radio">
-                                                <span></span>
-                                            </span>
-
-                                        </span>
-
-                                    </label>
-
-
-                                    {{-- Credit Card --}}
-                                    <label class="payment-option">
-
-                                        <input
-                                            type="radio"
-                                            name="payment_method"
-                                            value="credit_card"
-                                            {{ old('payment_method') === 'credit_card' ? 'checked' : '' }}
-                                        >
-
-                                        <span class="payment-option-content">
-
-                                            <span class="payment-option-icon">
-                                                <i class="bi bi-credit-card"></i>
-                                            </span>
-
-                                            <span class="payment-option-text">
-                                                <strong>
-                                                    Credit Card
-                                                </strong>
-
-                                                <small>
-                                                    Pay securely with your credit card.
-                                                </small>
-                                            </span>
-
-                                            <span class="payment-radio">
-                                                <span></span>
-                                            </span>
-
-                                        </span>
-
-                                    </label>
-
-
-                                    {{-- Debit Card --}}
-                                    <label class="payment-option">
-
-                                        <input
-                                            type="radio"
-                                            name="payment_method"
-                                            value="debit_card"
-                                            {{ old('payment_method') === 'debit_card' ? 'checked' : '' }}
-                                        >
-
-                                        <span class="payment-option-content">
-
-                                            <span class="payment-option-icon">
-                                                <i class="bi bi-wallet2"></i>
-                                            </span>
-
-                                            <span class="payment-option-text">
-                                                <strong>
-                                                    Debit Card
-                                                </strong>
-
-                                                <small>
-                                                    Pay securely with your debit card.
-                                                </small>
-                                            </span>
-
-                                            <span class="payment-radio">
-                                                <span></span>
-                                            </span>
-
-                                        </span>
-
-                                    </label>
-
-
-                                    {{-- PayPal --}}
-                                    <label class="payment-option">
-
-                                        <input
-                                            type="radio"
-                                            name="payment_method"
-                                            value="paypal"
-                                            {{ old('payment_method') === 'paypal' ? 'checked' : '' }}
-                                        >
-
-                                        <span class="payment-option-content">
-
-                                            <span class="payment-option-icon">
-                                                <i class="bi bi-paypal"></i>
-                                            </span>
-
-                                            <span class="payment-option-text">
-                                                <strong>
-                                                    PayPal
-                                                </strong>
-
-                                                <small>
-                                                    Pay securely through PayPal.
-                                                </small>
-                                            </span>
-
-                                            <span class="payment-radio">
-                                                <span></span>
-                                            </span>
-
-                                        </span>
-
-                                    </label>
-
-                                </div>
-
-                            </div>
-
-                        </div>
+                        @endif
 
                     </div>
 
@@ -662,6 +765,7 @@
                     <div class="col-lg-5">
 
                         <div class="checkout-summary">
+
 
                             {{-- Summary Header --}}
                             <div class="checkout-summary-header">
@@ -680,8 +784,11 @@
                                 </div>
 
                                 <span class="summary-count">
+
                                     {{ $totalItems }}
+
                                     {{ $totalItems === 1 ? 'item' : 'items' }}
+
                                 </span>
 
                             </div>
@@ -693,17 +800,25 @@
                                 @foreach($cart as $item)
 
                                     @php
+
                                         $checkoutCover = null;
 
                                         if (!empty($item['cover'])) {
+
                                             $checkoutCover = filter_var(
                                                 $item['cover'],
                                                 FILTER_VALIDATE_URL
                                             )
                                                 ? $item['cover']
-                                                : asset('storage/' . $item['cover']);
+                                                : asset(
+                                                    'storage/' .
+                                                    $item['cover']
+                                                );
+
                                         }
+
                                     @endphp
+
 
                                     <div class="checkout-item">
 
@@ -751,10 +866,13 @@
 
 
                                         <strong class="checkout-item-total">
+
                                             ${{ number_format(
-                                                $item['price'] * $item['quantity'],
+                                                $item['price'] *
+                                                $item['quantity'],
                                                 2
                                             ) }}
+
                                         </strong>
 
                                     </div>
@@ -764,9 +882,13 @@
                             </div>
 
 
-                            {{-- Totals --}}
+                            {{-- =================================================
+                                TOTALS
+                            ================================================== --}}
                             <div class="checkout-summary-totals">
 
+
+                                {{-- Subtotal --}}
                                 <div class="summary-row">
 
                                     <span>
@@ -780,22 +902,89 @@
                                 </div>
 
 
-                                <div class="summary-row">
+                                {{-- Shipping --}}
+                                @if($shippingEnabled)
 
-                                    <span>
-                                        Shipping
-                                    </span>
+                                    <div class="summary-row">
 
-                                    <strong class="summary-free">
-                                        FREE
-                                    </strong>
+                                        <span>
+                                            Shipping
+                                        </span>
 
-                                </div>
+                                        @if($shippingFee <= 0)
+
+                                            <strong class="summary-free">
+                                                FREE
+                                            </strong>
+
+                                        @else
+
+                                            <strong>
+                                                ${{ number_format($shippingFee, 2) }}
+                                            </strong>
+
+                                        @endif
+
+                                    </div>
+
+                                @else
+
+                                    <div class="summary-row">
+
+                                        <span>
+                                            Shipping
+                                        </span>
+
+                                        <strong class="summary-free">
+                                            Disabled
+                                        </strong>
+
+                                    </div>
+
+                                @endif
+
+
+                                {{-- Free Shipping Notice --}}
+                                @if(
+                                    $shippingEnabled &&
+                                    $freeShippingThreshold > 0 &&
+                                    $subtotal < $freeShippingThreshold
+                                )
+
+                                    <div class="shipping-threshold-note">
+
+                                        <i class="bi bi-truck"></i>
+
+                                        <span>
+                                            Free shipping on orders over
+                                            ${{ number_format($freeShippingThreshold, 2) }}.
+                                        </span>
+
+                                    </div>
+
+                                @elseif(
+                                    $shippingEnabled &&
+                                    $freeShippingThreshold > 0 &&
+                                    $subtotal >= $freeShippingThreshold
+                                )
+
+                                    <div class="shipping-threshold-note">
+
+                                        <i class="bi bi-check-circle"></i>
+
+                                        <span>
+                                            You qualify for free shipping.
+                                        </span>
+
+                                    </div>
+
+                                @endif
 
 
                                 <div class="summary-divider"></div>
 
 
+                                {{-- Total --}}
                                 <div class="summary-row summary-total">
 
                                     <span>
@@ -803,7 +992,7 @@
                                     </span>
 
                                     <strong>
-                                        ${{ number_format($subtotal, 2) }}
+                                        ${{ number_format($grandTotal, 2) }}
                                     </strong>
 
                                 </div>
@@ -811,19 +1000,54 @@
                             </div>
 
 
+                            {{-- Estimated Delivery --}}
+                            @if(
+                                $shippingEnabled &&
+                                !empty($estimatedDeliveryMessage)
+                            )
+
+                                <div class="delivery-estimate">
+
+                                    <div class="delivery-estimate-icon">
+                                        <i class="bi bi-truck"></i>
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            Estimated Delivery
+                                        </strong>
+
+                                        <span>
+                                            {{ $estimatedDeliveryMessage }}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            @endif
+
+
                             {{-- Place Order --}}
                             <button
                                 type="submit"
                                 class="place-order-btn"
+                                @disabled(!$paymentsEnabled)
                             >
 
                                 <span class="place-order-main">
+
                                     <i class="bi bi-lock-fill"></i>
+
                                     Place Order
+
                                 </span>
 
                                 <span class="place-order-price">
-                                    ${{ number_format($subtotal, 2) }}
+
+                                    ${{ number_format($grandTotal, 2) }}
+
                                 </span>
 
                             </button>
@@ -852,6 +1076,7 @@
                                 </div>
 
                                 <div>
+
                                     <strong>
                                         Secure & Protected
                                     </strong>
@@ -860,6 +1085,7 @@
                                         Your personal information is encrypted
                                         and securely processed.
                                     </span>
+
                                 </div>
 
                             </div>
@@ -867,7 +1093,9 @@
                         </div>
 
 
-                        {{-- Trust Features --}}
+                        {{-- =================================================
+                            TRUST FEATURES
+                        ================================================== --}}
                         <div class="checkout-trust">
 
                             <div class="trust-item">
@@ -875,22 +1103,44 @@
                                 <i class="bi bi-truck"></i>
 
                                 <div>
+
                                     <strong>
-                                        Free Shipping
+                                        @if($shippingEnabled)
+                                            {{ $shippingFee <= 0 ? 'Free Shipping' : 'Fast Shipping' }}
+                                        @else
+                                            Shipping
+                                        @endif
                                     </strong>
 
                                     <span>
-                                        On every order
+
+                                        @if(!$shippingEnabled)
+
+                                            Currently unavailable
+
+                                        @elseif($shippingFee <= 0)
+
+                                            Available on this order
+
+                                        @else
+
+                                            Delivery available
+
+                                        @endif
+
                                     </span>
+
                                 </div>
 
                             </div>
+
 
                             <div class="trust-item">
 
                                 <i class="bi bi-arrow-repeat"></i>
 
                                 <div>
+
                                     <strong>
                                         Easy Returns
                                     </strong>
@@ -898,15 +1148,18 @@
                                     <span>
                                         Simple return process
                                     </span>
+
                                 </div>
 
                             </div>
+
 
                             <div class="trust-item">
 
                                 <i class="bi bi-headset"></i>
 
                                 <div>
+
                                     <strong>
                                         Support
                                     </strong>
@@ -914,6 +1167,7 @@
                                     <span>
                                         We're here to help
                                     </span>
+
                                 </div>
 
                             </div>
@@ -933,4 +1187,3 @@
 </main>
 
 @endsection
-

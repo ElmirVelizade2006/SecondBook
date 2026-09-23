@@ -6,121 +6,173 @@
 
 <div class="dashboard-section reviews-page">
 
-    {{-- Header --}}
-    <div class="dashboard-panel mb-4">
-
-        <div class="panel-header mb-0">
+    {{-- Page Header --}}
+    <div class="dashboard-panel reviews-header-panel mb-4">
+        <div class="reviews-page-header">
 
             <div>
-                <h5 class="mb-1">Reviews</h5>
+                <div class="reviews-title-row">
+                    <div class="reviews-title-icon">
+                        <i class="bi bi-chat-square-text"></i>
+                    </div>
 
-                <p class="text-muted mb-0 small">
-                    Manage customer reviews and feedback on SecondBook
-                </p>
+                    <div>
+                        <h5 class="mb-1">Reviews</h5>
+
+                        <p class="text-muted mb-0 small">
+                            Manage customer reviews and feedback on SecondBook
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reviews-header-count">
+                <span class="reviews-header-count-label">
+                    Total
+                </span>
+
+                <strong>
+                    {{ $totalReviews }}
+                </strong>
             </div>
 
         </div>
-
     </div>
 
 
     {{-- Statistics --}}
     <div class="row g-3 mb-4">
 
+        {{-- Total --}}
         <div class="col-xl-3 col-md-6">
             <div class="dashboard-panel review-stat-card h-100">
 
-                <div class="d-flex align-items-center gap-3">
+                <div class="review-stat-content">
 
-                    <div class="review-stat-icon">
+                    <div class="review-stat-icon total">
                         <i class="bi bi-chat-square-text"></i>
                     </div>
 
-                    <div>
-                        <small class="text-muted d-block">
+                    <div class="review-stat-info">
+                        <span class="review-stat-label">
                             Total Reviews
-                        </small>
+                        </span>
 
-                        <strong class="fs-4">
+                        <strong>
                             {{ $totalReviews }}
                         </strong>
                     </div>
 
                 </div>
 
+                <div class="review-stat-footer">
+                    <span>
+                        All customer reviews
+                    </span>
+
+                    <i class="bi bi-arrow-up-right"></i>
+                </div>
+
             </div>
         </div>
 
 
+        {{-- Pending --}}
         <div class="col-xl-3 col-md-6">
             <div class="dashboard-panel review-stat-card h-100">
 
-                <div class="d-flex align-items-center gap-3">
+                <div class="review-stat-content">
 
-                    <div class="review-stat-icon">
+                    <div class="review-stat-icon pending">
                         <i class="bi bi-clock-history"></i>
                     </div>
 
-                    <div>
-                        <small class="text-muted d-block">
+                    <div class="review-stat-info">
+                        <span class="review-stat-label">
                             Pending
-                        </small>
+                        </span>
 
-                        <strong class="fs-4">
+                        <strong>
                             {{ $pendingReviews }}
                         </strong>
                     </div>
 
                 </div>
 
-            </div>
-        </div>
+                <div class="review-stat-footer">
+                    <span>
+                        Waiting for review
+                    </span>
 
-
-        <div class="col-xl-3 col-md-6">
-            <div class="dashboard-panel review-stat-card h-100">
-
-                <div class="d-flex align-items-center gap-3">
-
-                    <div class="review-stat-icon">
-                        <i class="bi bi-check-circle"></i>
-                    </div>
-
-                    <div>
-                        <small class="text-muted d-block">
-                            Approved
-                        </small>
-
-                        <strong class="fs-4">
-                            {{ $approvedReviews }}
-                        </strong>
-                    </div>
-
+                    <i class="bi bi-hourglass-split"></i>
                 </div>
 
             </div>
         </div>
 
 
+        {{-- Approved --}}
         <div class="col-xl-3 col-md-6">
             <div class="dashboard-panel review-stat-card h-100">
 
-                <div class="d-flex align-items-center gap-3">
+                <div class="review-stat-content">
 
-                    <div class="review-stat-icon">
+                    <div class="review-stat-icon approved">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+
+                    <div class="review-stat-info">
+                        <span class="review-stat-label">
+                            Approved
+                        </span>
+
+                        <strong>
+                            {{ $approvedReviews }}
+                        </strong>
+                    </div>
+
+                </div>
+
+                <div class="review-stat-footer">
+                    <span>
+                        Published reviews
+                    </span>
+
+                    <i class="bi bi-check2"></i>
+                </div>
+
+            </div>
+        </div>
+
+
+        {{-- Rejected --}}
+        <div class="col-xl-3 col-md-6">
+            <div class="dashboard-panel review-stat-card h-100">
+
+                <div class="review-stat-content">
+
+                    <div class="review-stat-icon rejected">
                         <i class="bi bi-x-circle"></i>
                     </div>
 
-                    <div>
-                        <small class="text-muted d-block">
+                    <div class="review-stat-info">
+                        <span class="review-stat-label">
                             Rejected
-                        </small>
+                        </span>
 
-                        <strong class="fs-4">
+                        <strong>
                             {{ $rejectedReviews }}
                         </strong>
                     </div>
 
+                </div>
+
+                <div class="review-stat-footer">
+                    <span>
+                        Rejected reviews
+                    </span>
+
+                    <i class="bi bi-x-lg"></i>
                 </div>
 
             </div>
@@ -130,40 +182,61 @@
 
 
     {{-- Filters --}}
-    <div class="dashboard-panel mb-4">
+    <div class="dashboard-panel reviews-filter-panel mb-4">
+
+        <div class="reviews-filter-header">
+
+            <div>
+                <h6 class="mb-1">
+                    Filter Reviews
+                </h6>
+
+                <p class="text-muted small mb-0">
+                    Search and filter customer feedback
+                </p>
+            </div>
+
+            <div class="reviews-filter-icon">
+                <i class="bi bi-funnel"></i>
+            </div>
+
+        </div>
+
 
         <form
             method="GET"
             action="{{ route('admin.reviews.index') }}"
-            class="row g-3 align-items-end"
+            class="reviews-filter-form"
         >
 
             {{-- Search --}}
-            <div class="col-12 col-md-5 col-lg-5">
+            <div class="reviews-search-field">
 
-                <label class="form-label small text-muted fw-semibold">
+                <label class="form-label">
                     Search
                 </label>
 
-                <div class="input-group">
+                <div class="reviews-search-group">
 
-                    <span class="input-group-text bg-white border-end-0">
-                        <i class="bi bi-search text-muted"></i>
-                    </span>
+                    <div class="reviews-search-input-wrap">
 
-                    <input
-                        type="text"
-                        name="search"
-                        value="{{ request('search') }}"
-                        class="form-control border-start-0"
-                        placeholder="User, email, book or review..."
-                    >
+                        <i class="bi bi-search"></i>
+
+                        <input
+                            type="text"
+                            name="search"
+                            value="{{ request('search') }}"
+                            placeholder="User, email, book or review..."
+                        >
+
+                    </div>
 
                     <button
                         type="submit"
-                        class="btn btn-primary"
+                        class="reviews-search-button"
                     >
-                        Search
+                        <i class="bi bi-search"></i>
+                        <span>Search</span>
                     </button>
 
                 </div>
@@ -172,9 +245,9 @@
 
 
             {{-- Status --}}
-            <div class="col-6 col-md-3 col-lg-2">
+            <div class="reviews-filter-field">
 
-                <label class="form-label small text-muted fw-semibold">
+                <label class="form-label">
                     Status
                 </label>
 
@@ -214,9 +287,9 @@
 
 
             {{-- Rating --}}
-            <div class="col-6 col-md-3 col-lg-2">
+            <div class="reviews-filter-field">
 
-                <label class="form-label small text-muted fw-semibold">
+                <label class="form-label">
                     Rating
                 </label>
 
@@ -248,20 +321,21 @@
 
 
             {{-- Actions --}}
-            <div class="col-12 col-lg-3 d-flex gap-2">
+            <div class="reviews-filter-actions">
 
                 <button
                     type="submit"
-                    class="btn btn-primary flex-grow-1 flex-lg-grow-0 px-4"
+                    class="reviews-filter-button"
                 >
-                    <i class="bi bi-funnel me-1"></i>
+                    <i class="bi bi-funnel"></i>
                     Filter
                 </button>
 
                 <a
                     href="{{ route('admin.reviews.index') }}"
-                    class="btn btn-light border"
+                    class="reviews-reset-button"
                 >
+                    <i class="bi bi-arrow-counterclockwise"></i>
                     Reset
                 </a>
 
@@ -272,31 +346,43 @@
     </div>
 
 
-    {{-- Reviews Table --}}
-    <div class="dashboard-panel">
+    {{-- Reviews List --}}
+    <div class="dashboard-panel reviews-list-panel">
 
-        <div class="panel-header">
+        <div class="reviews-list-header">
 
-            <h5>
-                Review List
-            </h5>
+            <div>
+                <div class="reviews-list-title">
+                    <i class="bi bi-chat-left-text"></i>
 
-            <span class="badge bg-primary">
-                {{ $reviews->total() }} reviews
-            </span>
+                    <h6 class="mb-0">
+                        Review List
+                    </h6>
+                </div>
+
+                <p class="text-muted small mb-0">
+                    Customer feedback submitted on SecondBook
+                </p>
+            </div>
+
+            <div class="reviews-list-count">
+                {{ $reviews->total() }}
+                {{ $reviews->total() == 1 ? 'review' : 'reviews' }}
+            </div>
 
         </div>
 
 
-        <div class="table-responsive">
+        <div class="table-responsive reviews-table-wrapper">
 
-            <table class="table table-hover align-middle">
+            <table class="table reviews-table align-middle">
 
                 <thead>
-
                     <tr>
 
-                        <th>#</th>
+                        <th class="review-number-column">
+                            #
+                        </th>
 
                         <th>
                             Customer
@@ -327,7 +413,6 @@
                         </th>
 
                     </tr>
-
                 </thead>
 
 
@@ -338,7 +423,7 @@
                         <tr>
 
                             {{-- Number --}}
-                            <td>
+                            <td class="review-number-cell">
                                 {{ $reviews->firstItem() + $key }}
                             </td>
 
@@ -346,7 +431,7 @@
                             {{-- Customer --}}
                             <td>
 
-                                <div class="d-flex align-items-center gap-2">
+                                <div class="review-customer-cell">
 
                                     <div class="review-avatar">
 
@@ -371,15 +456,15 @@
 
                                     </div>
 
-                                    <div>
+                                    <div class="review-customer-info">
 
-                                        <strong class="d-block">
+                                        <strong>
                                             {{ $review->user?->name ?? 'Unknown User' }}
                                         </strong>
 
-                                        <small class="text-muted">
+                                        <span>
                                             {{ $review->user?->email ?? '-' }}
-                                        </small>
+                                        </span>
 
                                     </div>
 
@@ -391,11 +476,12 @@
                             {{-- Book --}}
                             <td class="d-none d-md-table-cell">
 
-                                <div class="d-flex align-items-center gap-2">
+                                <div class="review-book-cell">
 
                                     @if($review->book?->cover)
 
                                         @php
+
                                             $cover = $review->book->cover;
 
                                             $coverUrl = filter_var(
@@ -404,6 +490,7 @@
                                             )
                                                 ? $cover
                                                 : asset('storage/' . $cover);
+
                                         @endphp
 
                                         <img
@@ -421,15 +508,16 @@
 
                                     @endif
 
-                                    <div>
 
-                                        <strong class="d-block">
+                                    <div class="review-book-info">
+
+                                        <strong>
                                             {{ $review->book?->title ?? 'Deleted Book' }}
                                         </strong>
 
-                                        <small class="text-muted">
+                                        <span>
                                             {{ $review->book?->author?->name ?? '-' }}
-                                        </small>
+                                        </span>
 
                                     </div>
 
@@ -441,7 +529,7 @@
                             {{-- Rating --}}
                             <td>
 
-                                <div class="review-rating">
+                                <div class="review-rating-cell">
 
                                     <div class="review-stars">
 
@@ -461,9 +549,9 @@
 
                                     </div>
 
-                                    <small class="text-muted">
+                                    <span>
                                         {{ $review->rating }}/5
-                                    </small>
+                                    </span>
 
                                 </div>
 
@@ -476,15 +564,12 @@
                                 @if($review->comment)
 
                                     <div class="review-comment-preview">
-                                        {{ \Illuminate\Support\Str::limit(
-                                            $review->comment,
-                                            70
-                                        ) }}
+                                        {{ \Illuminate\Support\Str::limit($review->comment, 70) }}
                                     </div>
 
                                 @else
 
-                                    <span class="text-muted">
+                                    <span class="review-no-comment">
                                         No comment
                                     </span>
 
@@ -498,25 +583,29 @@
 
                                 @if($review->status === 'approved')
 
-                                    <span class="badge bg-success">
+                                    <span class="review-status-badge approved">
+                                        <i class="bi bi-check-circle-fill"></i>
                                         Approved
                                     </span>
 
                                 @elseif($review->status === 'pending')
 
-                                    <span class="badge bg-warning">
+                                    <span class="review-status-badge pending">
+                                        <i class="bi bi-clock-fill"></i>
                                         Pending
                                     </span>
 
                                 @elseif($review->status === 'rejected')
 
-                                    <span class="badge bg-danger">
+                                    <span class="review-status-badge rejected">
+                                        <i class="bi bi-x-circle-fill"></i>
                                         Rejected
                                     </span>
 
                                 @else
 
-                                    <span class="badge bg-secondary">
+                                    <span class="review-status-badge unknown">
+                                        <i class="bi bi-question-circle-fill"></i>
                                         Unknown
                                     </span>
 
@@ -528,11 +617,17 @@
                             {{-- Date --}}
                             <td class="d-none d-xl-table-cell">
 
-                                <span class="text-muted small">
+                                <div class="review-date-cell">
 
-                                    {{ $review->created_at->format('M d, Y') }}
+                                    <strong>
+                                        {{ $review->created_at->format('M d, Y') }}
+                                    </strong>
 
-                                </span>
+                                    <span>
+                                        {{ $review->created_at->format('H:i') }}
+                                    </span>
+
+                                </div>
 
                             </td>
 
@@ -540,14 +635,13 @@
                             {{-- Actions --}}
                             <td>
 
-                                <div class="d-flex justify-content-end gap-2">
-
+                                <div class="review-actions-cell">
 
                                     {{-- View --}}
                                     <a
                                         href="{{ route('admin.reviews.show', $review->id) }}"
-                                        class="btn btn-light btn-sm border"
-                                        title="View"
+                                        class="review-action-btn view"
+                                        title="View Review"
                                     >
                                         <i class="bi bi-eye"></i>
                                     </a>
@@ -566,8 +660,8 @@
 
                                             <button
                                                 type="submit"
-                                                class="btn btn-success btn-sm"
-                                                title="Approve"
+                                                class="review-action-btn approve"
+                                                title="Approve Review"
                                             >
                                                 <i class="bi bi-check-lg"></i>
                                             </button>
@@ -590,8 +684,8 @@
 
                                             <button
                                                 type="submit"
-                                                class="btn btn-warning btn-sm"
-                                                title="Reject"
+                                                class="review-action-btn reject"
+                                                title="Reject Review"
                                             >
                                                 <i class="bi bi-x-lg"></i>
                                             </button>
@@ -613,10 +707,10 @@
 
                                         <button
                                             type="submit"
-                                            class="btn btn-danger btn-sm"
-                                            title="Delete"
+                                            class="review-action-btn delete"
+                                            title="Delete Review"
                                         >
-                                            <i class="bi bi-trash"></i>
+                                            <i class="bi bi-trash3"></i>
                                         </button>
 
                                     </form>
@@ -633,12 +727,14 @@
 
                             <td
                                 colspan="8"
-                                class="text-center py-5"
+                                class="reviews-empty-cell"
                             >
 
-                                <div class="chart-placeholder reviews-empty-state">
+                                <div class="reviews-empty-state">
 
-                                    <i class="bi bi-chat-square-text"></i>
+                                    <div class="reviews-empty-icon">
+                                        <i class="bi bi-chat-square-text"></i>
+                                    </div>
 
                                     <h6>
                                         No reviews found
@@ -647,6 +743,14 @@
                                     <p>
                                         There are no reviews matching your current filters.
                                     </p>
+
+                                    <a
+                                        href="{{ route('admin.reviews.index') }}"
+                                        class="reviews-reset-empty"
+                                    >
+                                        <i class="bi bi-arrow-counterclockwise"></i>
+                                        Clear Filters
+                                    </a>
 
                                 </div>
 
@@ -693,9 +797,7 @@
                 </div>
 
                 <div class="reviews-pagination-links">
-
                     {{ $reviews->onEachSide(1)->links() }}
-
                 </div>
 
             </div>

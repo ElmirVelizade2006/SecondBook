@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Message;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,8 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        view()->composer('layout.admin.master', function ($view) {
+        Paginator::useBootstrapFive();
 
+        view()->composer('layout.admin.master', function ($view) {
             $unreadMessagesCount = Message::where(
                 'status',
                 'unread'

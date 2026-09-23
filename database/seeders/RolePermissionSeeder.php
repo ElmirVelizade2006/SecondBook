@@ -47,14 +47,17 @@ class RolePermissionSeeder extends Seeder
         foreach ($modules as $module => $actions) {
             foreach ($actions as $action) {
                 $name = $module . '.' . $action;
+
                 $permission = Permission::updateOrCreate(
                     ['name' => $name],
                     [
                         'display_name' => $this->displayName($module, $action),
                         'group_name' => $this->groupName($module),
-                        'description' => 'Allows the user to ' . Str::lower($this->displayName($module, $action)) . '.',
+                        'description' => 'Allows the user to ' .
+                            Str::lower($this->displayName($module, $action)) . '.',
                     ]
                 );
+
                 $permissions->put($name, $permission);
             }
         }
@@ -63,53 +66,143 @@ class RolePermissionSeeder extends Seeder
 
         $superAdmin = Role::updateOrCreate(
             ['name' => 'super-admin'],
-            ['display_name' => 'Super Admin', 'description' => 'Full access to every admin module.', 'is_system' => true]
+            [
+                'display_name' => 'Super Admin',
+                'description' => 'Full access to every admin module.',
+                'is_system' => true,
+            ]
         );
+
         $superAdmin->permissions()->sync($all);
 
-        $adminModules = ['dashboard', 'books', 'book_conditions', 'book_requests', 'categories', 'authors', 'publishers', 'refunds', 'orders', 'payments', 'coupons', 'shipping', 'users', 'sellers', 'reviews', 'reports', 'analytics'];
         $admin = Role::updateOrCreate(
             ['name' => 'admin'],
-            ['display_name' => 'Admin', 'description' => 'Operational access to marketplace management.', 'is_system' => true]
+            [
+                'display_name' => 'Admin',
+                'description' => 'Operational access to marketplace management.',
+                'is_system' => true,
+            ]
         );
-        $admin->permissions()->sync($this->permissionIds($permissions, $adminModules));
+
+        $admin->permissions()->sync(
+            $this->permissionIds($permissions, [
+                'dashboard',
+                'books',
+                'book_conditions',
+                'book_requests',
+                'categories',
+                'authors',
+                'publishers',
+                'refunds',
+                'orders',
+                'payments',
+                'coupons',
+                'shipping',
+                'users',
+                'sellers',
+                'reviews',
+                'reports',
+                'analytics',
+            ])
+        );
 
         $manager = Role::updateOrCreate(
             ['name' => 'manager'],
-            ['display_name' => 'Manager', 'description' => 'Manages marketplace inventory and sales operations.', 'is_system' => true]
+            [
+                'display_name' => 'Manager',
+                'description' => 'Manages marketplace inventory and sales operations.',
+                'is_system' => true,
+            ]
         );
-        $manager->permissions()->sync($this->permissionIds($permissions, ['dashboard', 'books', 'refunds', 'orders', 'payments', 'shipping', 'coupons', 'sellers', 'reports', 'analytics']));
+
+        $manager->permissions()->sync(
+            $this->permissionIds($permissions, [
+                'dashboard',
+                'books',
+                'refunds',
+                'orders',
+                'payments',
+                'shipping',
+                'coupons',
+                'sellers',
+                'reports',
+                'analytics',
+            ])
+        );
 
         $editor = Role::updateOrCreate(
             ['name' => 'editor'],
-            ['display_name' => 'Editor', 'description' => 'Manages books and editorial content.', 'is_system' => true]
+            [
+                'display_name' => 'Editor',
+                'description' => 'Manages books and editorial content.',
+                'is_system' => true,
+            ]
         );
-        $editor->permissions()->sync($this->permissionIds($permissions, ['dashboard', 'books', 'categories', 'authors', 'publishers', 'reviews', 'banners', 'blogs', 'faq']));
+
+        $editor->permissions()->sync(
+            $this->permissionIds($permissions, [
+                'dashboard',
+                'books',
+                'categories',
+                'authors',
+                'publishers',
+                'reviews',
+                'banners',
+                'blogs',
+                'faq',
+            ])
+        );
 
         $seller = Role::updateOrCreate(
             ['name' => 'seller'],
-            ['display_name' => 'Seller', 'description' => 'Marketplace seller access.', 'is_system' => true]
+            [
+                'display_name' => 'Seller',
+                'description' => 'Marketplace seller access.',
+                'is_system' => true,
+            ]
         );
-        $seller->permissions()->sync($this->permissionIds($permissions, ['books'], ['view', 'create', 'edit']));
+
+        $seller->permissions()->sync(
+            $this->permissionIds(
+                $permissions,
+                ['books'],
+                ['view', 'create', 'edit']
+            )
+        );
 
         $member = Role::updateOrCreate(
             ['name' => 'user'],
-            ['display_name' => 'Member', 'description' => 'Standard marketplace account.', 'is_system' => true]
+            [
+                'display_name' => 'Member',
+                'description' => 'Standard marketplace account.',
+                'is_system' => true,
+            ]
         );
+
         $member->permissions()->sync([]);
 
-        User::whereIn('role', ['admin', 'superadmin', 'administrator'])
+        User::where('role', 'admin')
             ->get()
-            ->each(fn (User $user) => $user->roles()->syncWithoutDetaching([$superAdmin->id]));
+            ->each(
+                fn (User $user) =>
+                $user->roles()->sync([$superAdmin->id])
+            );
 
         User::where('role', 'seller')
             ->get()
-            ->each(fn (User $user) => $user->roles()->syncWithoutDetaching([$seller->id]));
+            ->each(
+                fn (User $user) =>
+                $user->roles()->sync([$seller->id])
+            );
 
         User::where('role', 'user')
-            ->whereDoesntHave('roles')
             ->get()
-            ->each(fn (User $user) => $user->roles()->syncWithoutDetaching([$member->id]));
+            ->each(
+                fn (User $user) =>
+                $user->roles()->sync([$member->id])
+            );
+
+        $this->command->info('Roles and permissions seeded successfully.');
     }
 
     private function permissionIds($permissions, array $modules, ?array $actions = null): array
@@ -117,7 +210,9 @@ class RolePermissionSeeder extends Seeder
         return $permissions
             ->filter(function (Permission $permission) use ($modules, $actions) {
                 [$module, $action] = explode('.', $permission->name, 2);
-                return in_array($module, $modules, true) && ($actions === null || in_array($action, $actions, true));
+
+                return in_array($module, $modules, true)
+                    && ($actions === null || in_array($action, $actions, true));
             })
             ->pluck('id')
             ->all();

@@ -2,16 +2,30 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance as Middleware;
+use App\Models\Setting;
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class PreventRequestsDuringMaintenance extends Middleware
+class PreventRequestsDuringMaintenance
 {
     /**
-     * The URIs that should be reachable while maintenance mode is enabled.
-     *
-     * @var array<int, string>
+     * Handle an incoming request.
      */
-    protected $except = [
-        //
-    ];
+    public function handle(Request $request, Closure $next): Response
+    {
+        /*
+         * Maintenance mode is controlled from
+         * Admin Settings.
+         */
+        if (
+            Setting::get('maintenance_mode', false)
+            && ! $request->is('admin')
+            && ! $request->is('admin/*')
+        ) {
+            return response()->view('errors.503', [], 503);
+        }
+
+        return $next($request);
+    }
 }
