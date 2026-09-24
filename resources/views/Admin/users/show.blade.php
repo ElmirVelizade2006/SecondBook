@@ -2,88 +2,737 @@
 
 @section('title', 'User Details')
 
+@push('css')
+    <link rel="stylesheet" href="{{ asset('admin/css/users.css') }}">
+@endpush
+
 @section('content')
-<div class="dashboard-section users-page">
-    @php($displayName = $user->full_name ?: ($user->name ?: $user->username))
 
-    <div class="dashboard-panel user-detail-hero mb-4">
-        <div class="user-detail-identity">
-            @if($user->profile_photo)
-                <img src="{{ asset('storage/' . $user->profile_photo) }}" alt="{{ $displayName }}" class="detail-avatar">
-            @else
-                <div class="detail-avatar detail-avatar-fallback">{{ strtoupper(substr($displayName, 0, 1)) }}</div>
-            @endif
-            <div>
-                <span class="eyebrow">User profile</span>
-                <h2>{{ $displayName }}</h2>
-                <p>{{ '@' . $user->username }} <span class="detail-dot">&bull;</span> Joined {{ $user->created_at?->format('d M Y') }}</p>
+@php
+    $displayName = $user->full_name
+        ?: ($user->name ?: $user->username);
+
+    $roleName = $user->roles->first()?->display_name
+        ?? ucfirst($user->role);
+
+    $orderCount = $user->orders_count ?? 0;
+    $orderTotal = $user->orders_sum_total_price ?? 0;
+@endphp
+
+<div class="dashboard-section users-page users-show-page">
+
+    {{-- =========================================================
+         HERO
+         ========================================================= --}}
+    <div class="users-edit-hero users-show-hero mb-4">
+
+        <div class="users-edit-hero-content">
+
+            <div class="users-edit-breadcrumb">
+
+                <a href="{{ route('admin.users.index') }}">
+                    <i class="bi bi-people"></i>
+                    Users
+                </a>
+
+                <i class="bi bi-chevron-right"></i>
+
+                <span>User Details</span>
+
             </div>
+
+            <span class="hero-badge">
+                <i class="bi bi-person-vcard"></i>
+                Account Overview
+            </span>
+
+            <h1>
+                {{ $displayName }}
+            </h1>
+
+            <p>
+                View profile information, account activity and marketplace details.
+            </p>
+
         </div>
-        <div class="user-detail-actions">
-            <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-warning"><i class="bi bi-pencil me-2"></i>Edit</a>
-            <a href="{{ route('admin.users.index') }}" class="btn btn-light border"><i class="bi bi-arrow-left me-2"></i>Back</a>
+
+        <div class="users-edit-hero-mark">
+            <i class="bi bi-person-vcard"></i>
         </div>
+
     </div>
 
-    <div class="row g-4">
-        <div class="col-12 col-xl-8">
-            <div class="dashboard-panel user-detail-panel h-100">
-                <div class="panel-header"><div><span class="eyebrow">Account overview</span><h5>Profile information</h5></div><span class="status-pill status-{{ $user->status }}"><i class="bi bi-circle-fill"></i>{{ ucfirst($user->status) }}</span></div>
-                <div class="detail-grid">
-                    <div><small>Full name</small><strong>{{ $displayName }}</strong></div>
-                    <div><small>Email</small><strong>{{ $user->email }}</strong><span class="detail-subtext"><i class="bi bi-{{ $user->email_verified_at ? 'check-circle' : 'clock' }}"></i> {{ $user->email_verified_at ? 'Verified' : 'Not verified' }}</span></div>
-                    <div><small>Phone</small><strong>{{ $user->phone ?: '-' }}</strong></div>
-                    <div><small>Role</small><span class="role-pill {{ $user->role === 'admin' ? 'role-admin' : 'role-member' }}"><i class="bi {{ $user->role === 'admin' ? 'bi-stars' : 'bi-person' }}"></i>{{ ucfirst($user->role) }}</span></div>
-                    <div><small>Registration date</small><strong>{{ $user->created_at?->format('d M Y H:i') }}</strong></div>
-                    <div><small>Last login</small><strong>{{ $user->last_login_at?->format('d M Y H:i') ?: 'No login recorded' }}</strong></div>
-                    <div class="detail-wide"><small>Address</small><strong>{{ collect([$user->address, $user->city, $user->country])->filter()->join(', ') ?: '-' }}</strong></div>
-                    <div class="detail-wide"><small>Bio</small><strong class="detail-description">{{ $user->bio ?: '-' }}</strong></div>
+
+    {{-- =========================================================
+         TOP PROFILE CARD
+         ========================================================= --}}
+    <div class="dashboard-panel users-show-profile mb-4">
+
+        <div class="users-show-profile-main">
+
+            {{-- Avatar --}}
+            <div class="users-show-avatar-wrap">
+
+                @if($user->profile_photo)
+
+                    <img
+                        src="{{ asset('storage/' . $user->profile_photo) }}"
+                        alt="{{ $displayName }}"
+                        class="users-show-avatar"
+                    >
+
+                @else
+
+                    <div class="users-show-avatar users-show-avatar-initial">
+                        {{ strtoupper(substr($displayName, 0, 1)) }}
+                    </div>
+
+                @endif
+
+            </div>
+
+
+            {{-- Main Info --}}
+            <div class="users-show-profile-info">
+
+                <div class="users-show-name-row">
+
+                    <h2>
+                        {{ $displayName }}
+                    </h2>
+
+                    <span class="role-pill
+                        {{
+                            $user->role === 'admin'
+                                ? 'role-admin'
+                                : 'role-member'
+                        }}"
+                    >
+                        <i class="bi {{
+                            $user->role === 'admin'
+                                ? 'bi-stars'
+                                : 'bi-person'
+                        }}"></i>
+
+                        {{ $roleName }}
+                    </span>
+
                 </div>
+
+                <span class="users-show-username">
+                    {{ '@' . $user->username }}
+                </span>
+
+                <span class="users-show-email">
+                    <i class="bi bi-envelope"></i>
+                    {{ $user->email }}
+                </span>
+
             </div>
-        </div>
-        <div class="col-12 col-xl-4">
-            <div class="dashboard-panel user-metrics-panel h-100">
-                <div class="panel-header"><div><span class="eyebrow">Marketplace activity</span><h5>Purchase summary</h5></div></div>
-                <div class="user-metric"><span>Orders placed</span><strong>{{ number_format($user->orders_count ?? 0) }}</strong><i class="bi bi-bag-check"></i></div>
-                <div class="user-metric"><span>Total spending</span><strong>${{ number_format((float) ($user->orders_sum_total_price ?? 0), 2) }}</strong><i class="bi bi-wallet2"></i></div>
-                <small class="text-muted">Based on the existing orders linked to this account.</small>
+
+
+            {{-- Status --}}
+            <div class="users-show-profile-status">
+
+                <span class="users-show-status-label">
+                    Account status
+                </span>
+
+                <span class="status-pill status-{{ $user->status }}">
+                    <i class="bi bi-circle-fill"></i>
+                    {{ ucfirst($user->status) }}
+                </span>
+
             </div>
+
         </div>
+
+
+        {{-- Quick Stats --}}
+        <div class="users-show-quick-stats">
+
+            <div class="users-show-quick-stat">
+
+                <div class="users-show-quick-icon">
+                    <i class="bi bi-bag-check"></i>
+                </div>
+
+                <div>
+                    <span>Orders</span>
+                    <strong>{{ $orderCount }}</strong>
+                </div>
+
+            </div>
+
+
+            <div class="users-show-quick-stat">
+
+                <div class="users-show-quick-icon">
+                    <i class="bi bi-currency-dollar"></i>
+                </div>
+
+                <div>
+                    <span>Total spent</span>
+                    <strong>
+                        {{ number_format((float) $orderTotal, 2) }}
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="users-show-quick-stat">
+
+                <div class="users-show-quick-icon">
+                    <i class="bi bi-calendar-check"></i>
+                </div>
+
+                <div>
+                    <span>Joined</span>
+                    <strong>
+                        {{ $user->created_at?->format('d M Y') }}
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="users-show-quick-stat">
+
+                <div class="users-show-quick-icon">
+                    <i class="bi bi-envelope-check"></i>
+                </div>
+
+                <div>
+                    <span>Email</span>
+
+                    <strong>
+                        {{ $user->email_verified_at ? 'Verified' : 'Unverified' }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="dashboard-panel user-danger-panel mt-4">
-        <div><span class="eyebrow danger-eyebrow">Danger zone</span><h5>Delete account</h5><p>This permanently removes the user and their profile photo.</p></div>
-        @if(auth()->id() !== $user->id)
-            <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="delete-user-form" data-user-name="{{ $displayName }}">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-outline-danger"><i class="bi bi-trash me-2"></i>Delete user</button>
-            </form>
-        @else
-            <span class="text-muted small">Your own account is protected.</span>
-        @endif
+
+    {{-- =========================================================
+         MAIN CONTENT
+         ========================================================= --}}
+    <div class="row g-4">
+
+
+        {{-- =====================================================
+             LEFT
+             ===================================================== --}}
+        <div class="col-12 col-xl-8">
+
+
+            {{-- Personal Information --}}
+            <div class="dashboard-panel users-show-panel mb-4">
+
+                <div class="users-edit-panel-header">
+
+                    <div class="users-edit-section-icon">
+                        <i class="bi bi-person"></i>
+                    </div>
+
+                    <div>
+
+                        <span class="eyebrow">
+                            Profile information
+                        </span>
+
+                        <h5>
+                            Personal information
+                        </h5>
+
+                        <p>
+                            Basic information associated with this account.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="users-show-info-grid">
+
+                    <div class="users-show-info-item">
+
+                        <span>
+                            First name
+                        </span>
+
+                        <strong>
+                            {{ $user->first_name ?: '-' }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="users-show-info-item">
+
+                        <span>
+                            Last name
+                        </span>
+
+                        <strong>
+                            {{ $user->last_name ?: '-' }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="users-show-info-item">
+
+                        <span>
+                            Username
+                        </span>
+
+                        <strong>
+                            {{ '@' . $user->username }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="users-show-info-item">
+
+                        <span>
+                            Email
+                        </span>
+
+                        <strong class="users-show-break">
+                            {{ $user->email }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="users-show-info-item">
+
+                        <span>
+                            Phone
+                        </span>
+
+                        <strong>
+                            {{ $user->phone ?: '-' }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="users-show-info-item">
+
+                        <span>
+                            Registered
+                        </span>
+
+                        <strong>
+                            {{ $user->created_at?->format('d M Y, H:i') }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {{-- Account Information --}}
+            <div class="dashboard-panel users-show-panel mb-4">
+
+                <div class="users-edit-panel-header">
+
+                    <div class="users-edit-section-icon">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+
+                    <div>
+
+                        <span class="eyebrow">
+                            Account access
+                        </span>
+
+                        <h5>
+                            Account information
+                        </h5>
+
+                        <p>
+                            Current role, status and verification details.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="users-show-info-grid">
+
+                    <div class="users-show-info-item">
+
+                        <span>
+                            Role
+                        </span>
+
+                        <div>
+
+                            <span class="role-pill
+                                {{
+                                    $user->role === 'admin'
+                                        ? 'role-admin'
+                                        : 'role-member'
+                                }}"
+                            >
+                                <i class="bi {{
+                                    $user->role === 'admin'
+                                        ? 'bi-stars'
+                                        : 'bi-person'
+                                }}"></i>
+
+                                {{ $roleName }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="users-show-info-item">
+
+                        <span>
+                            Status
+                        </span>
+
+                        <div>
+
+                            <span class="status-pill status-{{ $user->status }}">
+                                <i class="bi bi-circle-fill"></i>
+                                {{ ucfirst($user->status) }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="users-show-info-item">
+
+                        <span>
+                            Email verification
+                        </span>
+
+                        <div>
+
+                            @if($user->email_verified_at)
+
+                                <span class="users-show-verification verified">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    Verified
+                                </span>
+
+                            @else
+
+                                <span class="users-show-verification unverified">
+                                    <i class="bi bi-clock"></i>
+                                    Unverified
+                                </span>
+
+                            @endif
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="users-show-info-item">
+
+                        <span>
+                            Last verification
+                        </span>
+
+                        <strong>
+                            {{
+                                $user->email_verified_at
+                                    ? $user->email_verified_at->format('d M Y, H:i')
+                                    : '-'
+                            }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {{-- Marketplace Activity --}}
+            <div class="dashboard-panel users-show-panel">
+
+                <div class="users-edit-panel-header">
+
+                    <div class="users-edit-section-icon">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+
+                    <div>
+
+                        <span class="eyebrow">
+                            Marketplace activity
+                        </span>
+
+                        <h5>
+                            User activity
+                        </h5>
+
+                        <p>
+                            Overview of this account's marketplace activity.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="users-show-activity-grid">
+
+                    <div class="users-show-activity-card">
+
+                        <div class="users-show-activity-icon">
+                            <i class="bi bi-bag"></i>
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Total orders
+                            </span>
+
+                            <strong>
+                                {{ $orderCount }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="users-show-activity-card">
+
+                        <div class="users-show-activity-icon">
+                            <i class="bi bi-wallet2"></i>
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Total order value
+                            </span>
+
+                            <strong>
+                                {{ number_format((float) $orderTotal, 2) }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {{-- =====================================================
+             RIGHT
+             ===================================================== --}}
+        <div class="col-12 col-xl-4">
+
+
+            {{-- Account Summary --}}
+            <div class="dashboard-panel users-show-side-panel mb-4">
+
+                <div class="users-show-side-header">
+
+                    <div class="users-show-side-icon">
+                        <i class="bi bi-person-check"></i>
+                    </div>
+
+                    <div>
+
+                        <h5>
+                            Account summary
+                        </h5>
+
+                        <span>
+                            Current account details
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="users-show-summary-list">
+
+                    <div>
+
+                        <span>
+                            Account ID
+                        </span>
+
+                        <strong>
+                            #{{ $user->id }}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Username
+                        </span>
+
+                        <strong>
+                            {{ '@' . $user->username }}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Role
+                        </span>
+
+                        <strong>
+                            {{ $roleName }}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Status
+                        </span>
+
+                        <strong class="users-show-summary-status status-{{ $user->status }}">
+                            {{ ucfirst($user->status) }}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Member since
+                        </span>
+
+                        <strong>
+                            {{ $user->created_at?->format('d M Y') }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {{-- Email Card --}}
+            <div class="dashboard-panel users-show-side-panel mb-4">
+
+                <div class="users-show-side-header">
+
+                    <div class="users-show-side-icon">
+                        <i class="bi bi-envelope-check"></i>
+                    </div>
+
+                    <div>
+
+                        <h5>
+                            Email address
+                        </h5>
+
+                        <span>
+                            Verification status
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="users-show-email-card">
+
+                    <div class="users-show-email-icon">
+                        <i class="bi bi-envelope"></i>
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            {{ $user->email }}
+                        </strong>
+
+                        @if($user->email_verified_at)
+
+                            <span class="users-show-verification verified">
+                                <i class="bi bi-check-circle-fill"></i>
+                                Verified
+                            </span>
+
+                        @else
+
+                            <span class="users-show-verification unverified">
+                                <i class="bi bi-clock"></i>
+                                Unverified
+                            </span>
+
+                        @endif
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {{-- Actions --}}
+            <div class="dashboard-panel users-show-actions">
+
+                <a
+                    href="{{ route('admin.users.edit', $user) }}"
+                    class="users-show-edit-btn"
+                >
+                    <i class="bi bi-pencil"></i>
+                    <span>Edit user</span>
+                </a>
+
+                <a
+                    href="{{ route('admin.users.index') }}"
+                    class="users-show-back-btn"
+                >
+                    <i class="bi bi-arrow-left"></i>
+                    <span>Back to users</span>
+                </a>
+
+            </div>
+
+        </div>
+
     </div>
+
 </div>
 
-@push('js')
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.delete-user-form').forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                event.preventDefault();
-                Swal.fire({
-                    title: 'Delete user?',
-                    text: 'This will permanently remove ' + (form.dataset.userName || 'this user') + '.',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Delete user',
-                    cancelButtonText: 'Cancel',
-                    confirmButtonColor: '#dc3545',
-                    reverseButtons: true
-                }).then(function (result) { if (result.isConfirmed) form.submit(); });
-            });
-        });
-    });
-</script>
-@endpush
 @endsection

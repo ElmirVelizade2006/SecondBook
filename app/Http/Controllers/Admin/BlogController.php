@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -11,6 +12,13 @@ use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
+    private ActivityLogService $activityLogService;
+
+    public function __construct(ActivityLogService $activityLogService)
+    {
+        $this->activityLogService = $activityLogService;
+    }
+
     public function index(Request $request)
     {
         $query = Blog::with('author');
@@ -19,13 +27,24 @@ class BlogController extends Controller
             $search = $request->search;
 
             $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                    ->orWhere('excerpt', 'like', "%{$search}%");
+                $q->where(
+                    'title',
+                    'like',
+                    "%{$search}%"
+                )
+                    ->orWhere(
+                        'excerpt',
+                        'like',
+                        "%{$search}%"
+                    );
             });
         }
 
         if ($request->filled('status')) {
-            $query->where('status', $request->status);
+            $query->where(
+                'status',
+                $request->status
+            );
         }
 
         $blogs = $query
@@ -33,7 +52,10 @@ class BlogController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return view('admin.blogs.index', compact('blogs'));
+        return view(
+            'admin.blogs.index',
+            compact('blogs')
+        );
     }
 
     public function create()
@@ -45,52 +67,99 @@ class BlogController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+
             'excerpt' => 'nullable|string|max:1000',
+
             'content' => 'required|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+
+            'image' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:2048',
+            ],
+
             'status' => 'required|in:draft,published',
+
             'published_at' => 'nullable|date',
         ]);
 
-        $validated['slug'] = Str::slug($validated['title']);
+        $validated['slug'] = Str::slug(
+            $validated['title']
+        );
+
         $validated['author_id'] = Auth::id();
 
-        if ($validated['status'] === 'published' && empty($validated['published_at'])) {
+        if (
+            $validated['status'] === 'published' &&
+            empty($validated['published_at'])
+        ) {
             $validated['published_at'] = now();
         }
 
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')
+            $validated['image'] = $request
+                ->file('image')
                 ->store('blogs', 'public');
         }
 
-        Blog::create($validated);
+        $blog = Blog::create($validated);
+
+        $this->activityLogService->log(
+            'created',
+            'Blogs',
+            "Blog post \"{$blog->title}\" was created."
+        );
 
         return redirect()
             ->route('admin.blogs.index')
-            ->with('success', 'Blog post created successfully.');
+            ->with(
+                'success',
+                'Blog post created successfully.'
+            );
     }
 
     public function edit(Blog $blog)
     {
-        return view('admin.blogs.edit', compact('blog'));
+        return view(
+            'admin.blogs.edit',
+            compact('blog')
+        );
     }
 
-    public function update(Request $request, Blog $blog)
-    {
+    public function update(
+        Request $request,
+        Blog $blog
+    ) {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+
             'excerpt' => 'nullable|string|max:1000',
+
             'content' => 'required|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+
+            'image' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:2048',
+            ],
+
             'status' => 'required|in:draft,published',
+
             'published_at' => 'nullable|date',
         ]);
 
-        $validated['slug'] = Str::slug($validated['title']);
+        $validated['slug'] = Str::slug(
+            $validated['title']
+        );
 
-        if ($validated['status'] === 'published' && empty($validated['published_at'])) {
-            $validated['published_at'] = $blog->published_at ?? now();
+        if (
+            $validated['status'] === 'published' &&
+            empty($validated['published_at'])
+        ) {
+            $validated['published_at'] =
+                $blog->published_at ?? now();
         }
 
         if ($validated['status'] === 'draft') {
@@ -98,31 +167,71 @@ class BlogController extends Controller
         }
 
         if ($request->hasFile('image')) {
-            if ($blog->image && Storage::disk('public')->exists($blog->image)) {
-                Storage::disk('public')->delete($blog->image);
+            if (
+                $blog->image &&
+                Storage::disk('public')->exists($blog->image)
+            ) {
+                Storage::disk('public')->delete(
+                    $blog->image
+                );
             }
 
-            $validated['image'] = $request->file('image')
+            $validated['image'] = $request
+                ->file('image')
                 ->store('blogs', 'public');
         }
 
         $blog->update($validated);
 
+        $this->activityLogService->log(
+            'updated',
+            'Blogs',
+            "Blog post \"{$blog->title}\" was updated."
+        );
+
         return redirect()
             ->route('admin.blogs.index')
-            ->with('success', 'Blog post updated successfully.');
+            ->with(
+                'success',
+                'Blog post updated successfully.'
+            );
     }
 
     public function destroy(Blog $blog)
     {
-        if ($blog->image && Storage::disk('public')->exists($blog->image)) {
-            Storage::disk('public')->delete($blog->image);
+        $blogTitle = $blog->title;
+
+        // Delete image from storage if it exists.
+        if (
+            $blog->image &&
+            Storage::disk('public')->exists($blog->image)
+        ) {
+            Storage::disk('public')->delete(
+                $blog->image
+            );
         }
+
+        $this->activityLogService->log(
+            'deleted',
+            'Blogs',
+            "Blog post \"{$blogTitle}\" was deleted."
+        );
 
         $blog->delete();
 
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Blog deleted successfully.',
+            ]);
+        }
+
         return redirect()
             ->route('admin.blogs.index')
-            ->with('success', 'Blog post deleted successfully.');
+            ->with(
+                'success',
+                'Blog deleted successfully.'
+            );
     }
 }
+

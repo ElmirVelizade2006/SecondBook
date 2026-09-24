@@ -4,12 +4,20 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
+    private ActivityLogService $activityLogService;
+
+    public function __construct(ActivityLogService $activityLogService)
+    {
+        $this->activityLogService = $activityLogService;
+    }
+
     public function index()
     {
         $categories = Category::query()
@@ -46,7 +54,10 @@ class CategoryController extends Controller
             'status' => 'nullable|boolean',
         ]);
 
-        $baseSlug = !empty($validated['slug']) ? $validated['slug'] : $validated['name'];
+        $baseSlug = !empty($validated['slug'])
+            ? $validated['slug']
+            : $validated['name'];
+
         $slug = $this->generateUniqueSlug($baseSlug);
 
         $imagePath = null;
@@ -55,13 +66,19 @@ class CategoryController extends Controller
             $imagePath = $request->file('image')->store('categories', 'public');
         }
 
-        Category::create([
+        $category = Category::create([
             'name' => $validated['name'],
             'slug' => $slug,
             'description' => $validated['description'] ?? null,
             'image' => $imagePath,
             'status' => $request->boolean('status'),
         ]);
+
+        $this->activityLogService->log(
+            'created',
+            'Categories',
+            "Category \"{$category->name}\" was created."
+        );
 
         return redirect()
             ->route('admin.categories.index')
@@ -82,11 +99,24 @@ class CategoryController extends Controller
 
     public function toggleStatus(Category $category)
     {
+        $oldStatus = $category->status;
+
         $category->update([
             'status' => !$category->status,
         ]);
 
-        return back()->with('success', 'Category status updated successfully.');
+        $this->activityLogService->log(
+            'updated',
+            'Categories',
+            "Category \"{$category->name}\" status changed from \"" .
+            ($oldStatus ? 'Active' : 'Inactive') .
+            "\" to \"" .
+            ($category->status ? 'Active' : 'Inactive') .
+            "\"."
+        );
+
+        return back()
+            ->with('success', 'Category status updated successfully.');
     }
 
     public function update(Request $request, Category $category)
@@ -99,17 +129,29 @@ class CategoryController extends Controller
             'status' => 'nullable|boolean',
         ]);
 
-        $baseSlug = !empty($validated['slug']) ? $validated['slug'] : $validated['name'];
-        $slug = $this->generateUniqueSlug($baseSlug, $category->id);
+        $baseSlug = !empty($validated['slug'])
+            ? $validated['slug']
+            : $validated['name'];
+
+        $slug = $this->generateUniqueSlug(
+            $baseSlug,
+            $category->id
+        );
 
         $imagePath = $category->image;
 
         if ($request->hasFile('image')) {
-            if (!empty($category->image) && Storage::disk('public')->exists($category->image)) {
+            if (
+                !empty($category->image) &&
+                Storage::disk('public')->exists($category->image)
+            ) {
                 Storage::disk('public')->delete($category->image);
             }
 
-            $imagePath = $request->file('image')->store('categories', 'public');
+            $imagePath = $request->file('image')->store(
+                'categories',
+                'public'
+            );
         }
 
         $category->update([
@@ -120,6 +162,12 @@ class CategoryController extends Controller
             'status' => $request->boolean('status'),
         ]);
 
+        $this->activityLogService->log(
+            'updated',
+            'Categories',
+            "Category \"{$category->name}\" was updated."
+        );
+
         return redirect()
             ->route('admin.categories.index')
             ->with('success', 'Category updated successfully.');
@@ -127,9 +175,20 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
-        if (!empty($category->image) && Storage::disk('public')->exists($category->image)) {
+        $categoryName = $category->name;
+
+        if (
+            !empty($category->image) &&
+            Storage::disk('public')->exists($category->image)
+        ) {
             Storage::disk('public')->delete($category->image);
         }
+
+        $this->activityLogService->log(
+            'deleted',
+            'Categories',
+            "Category \"{$categoryName}\" was deleted."
+        );
 
         $category->delete();
 
@@ -138,17 +197,25 @@ class CategoryController extends Controller
             ->with('success', 'Category deleted successfully.');
     }
 
-    private function generateUniqueSlug(string $value, ?int $exceptId = null): string
-    {
+    private function generateUniqueSlug(
+        string $value,
+        ?int $exceptId = null
+    ): string {
         $slug = Str::slug($value);
-        $slug = $slug !== '' ? $slug : 'category';
+
+        $slug = $slug !== ''
+            ? $slug
+            : 'category';
 
         $originalSlug = $slug;
         $counter = 1;
 
         while (
             Category::where('slug', $slug)
-                ->when($exceptId, fn ($query) => $query->where('id', '!=', $exceptId))
+                ->when(
+                    $exceptId,
+                    fn ($query) => $query->where('id', '!=', $exceptId)
+                )
                 ->exists()
         ) {
             $slug = $originalSlug . '-' . $counter;

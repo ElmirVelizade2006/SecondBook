@@ -16,13 +16,16 @@
 
             <div>
                 <h5 class="mb-1">Banners</h5>
+
                 <p class="text-muted mb-0 small">
                     Manage your website banners
                 </p>
             </div>
 
-            <a href="{{ route('admin.banners.create') }}"
-               class="btn btn-primary">
+            <a
+                href="{{ route('admin.banners.create') }}"
+                class="btn btn-primary"
+            >
                 <i class="bi bi-plus-lg"></i>
                 Add Banner
             </a>
@@ -33,26 +36,36 @@
 
     {{-- Success Message --}}
     @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+
+        <div
+            class="alert alert-success alert-dismissible fade show mb-4"
+            role="alert"
+        >
             <i class="bi bi-check-circle me-2"></i>
+
             {{ session('success') }}
 
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert">
-            </button>
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+            ></button>
         </div>
+
     @endif
 
 
     {{-- Filters --}}
     <div class="dashboard-panel mb-4">
 
-        <form action="{{ route('admin.banners.index') }}"
-              method="GET"
-              class="banner-filters">
+        <form
+            action="{{ route('admin.banners.index') }}"
+            method="GET"
+            class="banner-filters"
+        >
 
             <div class="banner-search-group">
+
                 <input
                     type="text"
                     name="search"
@@ -61,38 +74,54 @@
                     placeholder="Search banner..."
                 >
 
-                <button type="submit" class="btn btn-primary">
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
                     <i class="bi bi-search"></i>
                     Search
                 </button>
+
             </div>
 
 
             <div class="banner-status-filter">
 
-                <select name="status" class="form-select">
+                <select
+                    name="status"
+                    class="form-select"
+                >
                     <option value="">All Statuses</option>
 
-                    <option value="active"
-                        {{ request('status') === 'active' ? 'selected' : '' }}>
+                    <option
+                        value="active"
+                        {{ request('status') === 'active' ? 'selected' : '' }}
+                    >
                         Active
                     </option>
 
-                    <option value="inactive"
-                        {{ request('status') === 'inactive' ? 'selected' : '' }}>
+                    <option
+                        value="inactive"
+                        {{ request('status') === 'inactive' ? 'selected' : '' }}
+                    >
                         Inactive
                     </option>
+
                 </select>
 
             </div>
 
 
             @if(request('search') || request('status'))
-                <a href="{{ route('admin.banners.index') }}"
-                   class="btn btn-light banner-reset-btn">
+
+                <a
+                    href="{{ route('admin.banners.index') }}"
+                    class="btn btn-light banner-reset-btn"
+                >
                     <i class="bi bi-arrow-counterclockwise"></i>
                     Reset
                 </a>
+
             @endif
 
         </form>
@@ -108,6 +137,7 @@
             <table class="table banners-table align-middle mb-0">
 
                 <thead>
+
                     <tr>
                         <th width="60">#</th>
                         <th width="120">Image</th>
@@ -115,15 +145,19 @@
                         <th>Position</th>
                         <th>Status</th>
                         <th>Dates</th>
-                        <th width="130" class="text-end">Actions</th>
+                        <th width="130" class="text-end">
+                            Actions
+                        </th>
                     </tr>
+
                 </thead>
+
 
                 <tbody>
 
                     @forelse($banners as $banner)
 
-                        <tr>
+                        <tr id="banner-row-{{ $banner->id }}">
 
                             {{-- ID --}}
                             <td>
@@ -155,9 +189,11 @@
                                 </div>
 
                                 @if($banner->subtitle)
+
                                     <div class="banner-subtitle">
                                         {{ $banner->subtitle }}
                                     </div>
+
                                 @endif
 
                             </td>
@@ -165,9 +201,11 @@
 
                             {{-- Position --}}
                             <td>
+
                                 <span class="position-badge">
                                     {{ $banner->position }}
                                 </span>
+
                             </td>
 
 
@@ -177,15 +215,21 @@
                                 @if($banner->status === 'active')
 
                                     <span class="status-badge status-active">
+
                                         <span class="status-dot"></span>
+
                                         Active
+
                                     </span>
 
                                 @else
 
                                     <span class="status-badge status-inactive">
+
                                         <span class="status-dot"></span>
+
                                         Inactive
+
                                     </span>
 
                                 @endif
@@ -201,17 +245,28 @@
                                     <div class="banner-dates">
 
                                         @if($banner->start_date)
+
                                             <div>
+
                                                 <i class="bi bi-calendar-event"></i>
+
                                                 {{ $banner->start_date->format('d M Y') }}
+
                                             </div>
+
                                         @endif
 
+
                                         @if($banner->end_date)
+
                                             <div>
+
                                                 <i class="bi bi-calendar-check"></i>
+
                                                 {{ $banner->end_date->format('d M Y') }}
+
                                             </div>
+
                                         @endif
 
                                     </div>
@@ -232,6 +287,7 @@
 
                                 <div class="banner-actions">
 
+                                    {{-- Edit --}}
                                     <a
                                         href="{{ route('admin.banners.edit', $banner) }}"
                                         class="action-btn action-edit"
@@ -241,11 +297,13 @@
                                     </a>
 
 
+                                    {{-- Delete --}}
                                     <form
                                         action="{{ route('admin.banners.destroy', $banner) }}"
                                         method="POST"
-                                        class="d-inline"
-                                        onsubmit="return confirm('Are you sure you want to delete this banner?');"
+                                        class="d-inline banner-delete-form"
+                                        data-banner-id="{{ $banner->id }}"
+                                        data-banner-title="{{ $banner->title }}"
                                     >
 
                                         @csrf
@@ -279,7 +337,9 @@
                                         <i class="bi bi-image"></i>
                                     </div>
 
-                                    <h6>No banners found</h6>
+                                    <h6>
+                                        No banners found
+                                    </h6>
 
                                     <p>
                                         Create your first banner to display it on your website.
@@ -322,3 +382,197 @@
 </div>
 
 @endsection
+
+
+@push('js')
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const deleteForms = document.querySelectorAll(
+        '.banner-delete-form'
+    );
+
+
+    deleteForms.forEach(function (form) {
+
+        form.addEventListener('submit', function (event) {
+
+            event.preventDefault();
+
+
+            const deleteUrl = form.action;
+
+            const csrfToken = form.querySelector(
+                'input[name="_token"]'
+            )?.value;
+
+            const bannerId = form.dataset.bannerId;
+
+            const bannerTitle = form.dataset.bannerTitle;
+
+
+            if (!deleteUrl || !csrfToken || !bannerId) {
+                return;
+            }
+
+
+            Swal.fire({
+
+                title: 'Delete Banner?',
+
+                text: `"${bannerTitle}" will be permanently deleted.`,
+
+                icon: 'warning',
+
+                width: 430,
+
+                padding: '30px',
+
+                showCancelButton: true,
+
+                confirmButtonText: 'Delete',
+
+                cancelButtonText: 'Cancel',
+
+                buttonsStyling: false,
+
+                customClass: {
+
+                    popup: 'banner-delete-popup',
+
+                    confirmButton: 'banner-delete-confirm',
+
+                    cancelButton: 'banner-delete-cancel'
+
+                }
+
+            }).then(function (result) {
+
+                if (!result.isConfirmed) {
+                    return;
+                }
+
+
+                Swal.fire({
+
+                    title: 'Deleting...',
+
+                    text: 'Please wait.',
+
+                    allowOutsideClick: false,
+
+                    allowEscapeKey: false,
+
+                    showConfirmButton: false,
+
+                    didOpen: function () {
+
+                        Swal.showLoading();
+
+                    }
+
+                });
+
+
+                fetch(deleteUrl, {
+
+                    method: 'POST',
+
+                    headers: {
+
+                        'X-CSRF-TOKEN': csrfToken,
+
+                        'X-Requested-With': 'XMLHttpRequest',
+
+                        'Accept': 'application/json'
+
+                    },
+
+                    body: new URLSearchParams({
+
+                        _token: csrfToken,
+
+                        _method: 'DELETE'
+
+                    })
+
+                })
+
+                .then(async function (response) {
+
+                    const data = await response.json();
+
+
+                    if (!response.ok || !data.success) {
+
+                        throw new Error(
+                            data.message ||
+                            'Failed to delete banner.'
+                        );
+
+                    }
+
+
+                    return data;
+
+                })
+
+                .then(function (data) {
+
+                    const row = document.getElementById(
+                        'banner-row-' + bannerId
+                    );
+
+
+                    if (row) {
+                        row.remove();
+                    }
+
+
+                    Swal.fire({
+
+                        icon: 'success',
+
+                        title: 'Banner Deleted',
+
+                        text: data.message ||
+                            'Banner deleted successfully.',
+
+                        timer: 1400,
+
+                        showConfirmButton: false
+
+                    });
+
+                })
+
+                .catch(function (error) {
+
+                    Swal.fire({
+
+                        icon: 'error',
+
+                        title: 'Delete Failed',
+
+                        text: error.message ||
+                            'Something went wrong while deleting the banner.',
+
+                        confirmButtonText: 'OK'
+
+                    });
+
+                });
+
+            });
+
+        });
+
+    });
+
+});
+
+</script>
+
+@endpush

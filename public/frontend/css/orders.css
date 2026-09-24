@@ -6,23 +6,17 @@
     --orders-primary: #8b5e3c;
     --orders-primary-dark: #754b2f;
     --orders-primary-light: #f7efe9;
-
     --orders-heading: #2d241f;
     --orders-text: #665c55;
     --orders-muted: #938981;
-
     --orders-border: #e9e1db;
     --orders-bg: #faf8f6;
     --orders-card: #ffffff;
-
     --orders-success: #2f8f63;
     --orders-success-bg: #eef9f3;
-
     --orders-error: #c65353;
     --orders-error-bg: #fff2f2;
-
-    --orders-shadow:
-        0 14px 40px rgba(47, 34, 24, 0.07);
+    --orders-shadow: 0 14px 40px rgba(47, 34, 24, 0.07);
 
     color: var(--orders-text);
     background: var(--orders-bg);
@@ -362,7 +356,10 @@
 
 .order-card-body {
     display: grid;
-    grid-template-columns: minmax(0, 1.8fr) minmax(150px, 0.75fr) 130px;
+    grid-template-columns:
+        minmax(0, 1.8fr)
+        minmax(150px, 0.75fr)
+        130px;
     align-items: center;
     gap: 28px;
     padding: 24px 22px;
@@ -676,34 +673,65 @@
 
 
 /* =========================================================
-   DETAILS BUTTON
+   ACTIONS
 ========================================================= */
 
 .order-actions {
     display: flex;
     align-items: center;
+    gap: 8px;
 }
 
-.order-details-btn {
+
+/* =========================================================
+   DETAILS + CANCEL BUTTONS
+   SAME SIZE
+========================================================= */
+
+.order-details-btn,
+.order-cancel-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+
+    width: 130px;
+    min-width: 130px;
+
+    height: 39px;
     min-height: 39px;
+
     padding: 0 15px;
-    border: 1px solid rgba(139, 94, 60, 0.22);
+
+    box-sizing: border-box;
+
     border-radius: 11px;
-    background: #fff;
-    color: var(--orders-primary);
+
+    font-family: inherit;
     font-size: 11px;
     font-weight: 800;
-    text-decoration: none;
+    line-height: 1;
+
+    cursor: pointer;
+
     transition:
         color 0.2s ease,
         background 0.2s ease,
         border-color 0.2s ease,
         transform 0.2s ease,
         box-shadow 0.2s ease;
+}
+
+
+/* =========================================================
+   DETAILS BUTTON
+========================================================= */
+
+.order-details-btn {
+    border: 1px solid rgba(139, 94, 60, 0.22);
+    background: #fff;
+    color: var(--orders-primary);
+    text-decoration: none;
 }
 
 .order-details-btn i {
@@ -722,6 +750,51 @@
 
 .order-details-btn:hover i {
     transform: translateX(3px);
+}
+
+
+/* =========================================================
+   CANCEL ORDER BUTTON
+========================================================= */
+
+.order-cancel-btn {
+    border: 1px solid rgba(190, 70, 70, 0.22);
+    background: #fff;
+    color: #a94442;
+}
+
+.order-cancel-btn i {
+    font-size: 13px;
+}
+
+.order-cancel-btn:hover {
+    border-color: #a94442;
+    background: #a94442;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow:
+        0 8px 18px rgba(169, 68, 66, 0.18);
+}
+
+.order-cancel-btn:active {
+    transform: translateY(0);
+}
+
+.order-cancel-btn:focus-visible {
+    outline: none;
+    box-shadow:
+        0 0 0 3px rgba(169, 68, 66, 0.12),
+        0 8px 18px rgba(169, 68, 66, 0.14);
+}
+
+
+/* =========================================================
+   CANCEL ORDER FORM
+========================================================= */
+
+.cancel-order-form {
+    margin: 0;
+    padding: 0;
 }
 
 
@@ -875,7 +948,7 @@
 
 
 /* =========================================================
-   RESPONSIVE
+   RESPONSIVE - TABLET
 ========================================================= */
 
 @media (max-width: 991.98px) {
@@ -896,7 +969,9 @@
     }
 
     .order-card-body {
-        grid-template-columns: minmax(0, 1fr) 150px;
+        grid-template-columns:
+            minmax(0, 1fr)
+            150px;
     }
 
     .order-status-wrapper {
@@ -914,9 +989,12 @@
         padding-left: 0;
         border-left: 0;
     }
-
 }
 
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+========================================================= */
 
 @media (max-width: 767.98px) {
 
@@ -981,17 +1059,26 @@
         padding: 15px 17px;
     }
 
-    .order-actions,
-    .order-details-btn {
+    .order-actions {
         width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
     }
 
-    .order-details-btn {
+    .order-details-btn,
+    .order-cancel-btn {
+        width: 100%;
+        min-width: 0;
+        height: 42px;
         min-height: 42px;
     }
-
 }
 
+
+/* =========================================================
+   RESPONSIVE - SMALL MOBILE
+========================================================= */
 
 @media (max-width: 575.98px) {
 
@@ -1070,7 +1157,6 @@
     .orders-empty h2 {
         font-size: 22px;
     }
-
 }
 
 
@@ -1084,11 +1170,9 @@
     --orders-heading: #f4eee9;
     --orders-text: #c8bdb5;
     --orders-muted: #958a82;
-
     --orders-border: #2c2825;
     --orders-bg: #11100f;
     --orders-card: #191715;
-
     --orders-primary-light: #2b211b;
 
     background: var(--orders-bg);
@@ -1183,6 +1267,34 @@
     color: #fff;
 }
 
+
+/* =========================================================
+   CANCEL ORDER - DARK MODE
+========================================================= */
+
+.dark-mode .order-cancel-btn,
+.dark-theme .order-cancel-btn,
+[data-theme="dark"] .order-cancel-btn {
+    border-color: #49302d;
+    background: #1d1917;
+    color: #d78686;
+}
+
+.dark-mode .order-cancel-btn:hover,
+.dark-theme .order-cancel-btn:hover,
+[data-theme="dark"] .order-cancel-btn:hover {
+    border-color: #a94442;
+    background: #a94442;
+    color: #fff;
+    box-shadow:
+        0 8px 18px rgba(169, 68, 66, 0.20);
+}
+
+
+/* =========================================================
+   DARK MODE - PAGINATION
+========================================================= */
+
 .dark-mode .orders-pagination .page-link,
 .dark-theme .orders-pagination .page-link,
 [data-theme="dark"] .orders-pagination .page-link {
@@ -1207,6 +1319,11 @@
     color: #fff;
 }
 
+
+/* =========================================================
+   DARK MODE - EMPTY STATE
+========================================================= */
+
 .dark-mode .orders-empty,
 .dark-theme .orders-empty,
 [data-theme="dark"] .orders-empty {
@@ -1216,3 +1333,118 @@
         0 14px 40px rgba(0, 0, 0, 0.22);
 }
 
+
+/* =========================================================
+   SWEETALERT2
+========================================================= */
+
+.swal2-popup {
+    border-radius: 18px !important;
+    padding: 28px !important;
+}
+
+.swal2-title {
+    font-size: 22px !important;
+    font-weight: 700 !important;
+}
+
+.swal2-html-container {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+}
+
+.swal2-actions {
+    gap: 10px;
+}
+
+.swal-confirm-btn,
+.swal-cancel-btn {
+    min-height: 42px !important;
+    padding: 0 20px !important;
+    border-radius: 9px !important;
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+}
+
+.swal-confirm-btn {
+    background: #a94442 !important;
+}
+
+.swal-confirm-btn:hover {
+    background: #913b39 !important;
+}
+
+.swal-cancel-btn {
+    background: #f1f1f1 !important;
+    color: #555 !important;
+}
+
+.swal-cancel-btn:hover {
+    background: #e7e7e7 !important;
+}
+
+
+/* =========================================================
+   SWEETALERT2 - DARK MODE
+========================================================= */
+
+.dark-mode .swal2-popup,
+.dark-theme .swal2-popup,
+[data-theme="dark"] .swal2-popup {
+    background: #191715 !important;
+    color: #f4eee9 !important;
+}
+
+.dark-mode .swal2-title,
+.dark-theme .swal2-title,
+[data-theme="dark"] .swal2-title {
+    color: #f4eee9 !important;
+}
+
+.dark-mode .swal2-html-container,
+.dark-theme .swal2-html-container,
+[data-theme="dark"] .swal2-html-container {
+    color: #c8bdb5 !important;
+}
+
+.dark-mode .swal-cancel-btn,
+.dark-theme .swal-cancel-btn,
+[data-theme="dark"] .swal-cancel-btn {
+    background: #2c2825 !important;
+    color: #d7cdc6 !important;
+}
+
+.dark-mode .swal-cancel-btn:hover,
+.dark-theme .swal-cancel-btn:hover,
+[data-theme="dark"] .swal-cancel-btn:hover {
+    background: #39332f !important;
+}
+
+
+/* =========================================================
+   SWEETALERT2 - MOBILE
+========================================================= */
+
+@media (max-width: 767.98px) {
+
+    .swal2-popup {
+        width: calc(100% - 32px) !important;
+        padding: 24px 20px !important;
+    }
+
+    .swal2-title {
+        font-size: 20px !important;
+    }
+
+    .swal2-actions {
+        width: 100%;
+        flex-direction: column-reverse;
+    }
+
+    .swal-confirm-btn,
+    .swal-cancel-btn {
+        width: 100%;
+    }
+}

@@ -5,12 +5,20 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\SellerApplication;
 use App\Models\Store;
+use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class SellerApplicationsController extends Controller
 {
+    private ActivityLogService $activityLogService;
+
+    public function __construct(ActivityLogService $activityLogService)
+    {
+        $this->activityLogService = $activityLogService;
+    }
+
     /**
      * Display seller applications.
      */
@@ -23,9 +31,14 @@ class SellerApplicationsController extends Controller
             $search = $request->search;
 
             $query->where(function ($query) use ($search) {
-                $query->where('store_name', 'like', "%{$search}%")
+                $query->where(
+                    'store_name',
+                    'like',
+                    "%{$search}%"
+                )
                     ->orWhereHas('user', function ($userQuery) use ($search) {
-                        $userQuery->where('name', 'like', "%{$search}%")
+                        $userQuery
+                            ->where('name', 'like', "%{$search}%")
                             ->orWhere('first_name', 'like', "%{$search}%")
                             ->orWhere('last_name', 'like', "%{$search}%")
                             ->orWhere('email', 'like', "%{$search}%");
@@ -35,7 +48,10 @@ class SellerApplicationsController extends Controller
 
         // Status filter
         if ($request->filled('status')) {
-            $query->where('status', $request->status);
+            $query->where(
+                'status',
+                $request->status
+            );
         }
 
         $applications = $query
@@ -43,18 +59,33 @@ class SellerApplicationsController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        $pendingCount = SellerApplication::where('status', 'pending')->count();
-        $approvedCount = SellerApplication::where('status', 'approved')->count();
-        $rejectedCount = SellerApplication::where('status', 'rejected')->count();
+        $pendingCount = SellerApplication::where(
+            'status',
+            'pending'
+        )->count();
+
+        $approvedCount = SellerApplication::where(
+            'status',
+            'approved'
+        )->count();
+
+        $rejectedCount = SellerApplication::where(
+            'status',
+            'rejected'
+        )->count();
+
         $totalCount = SellerApplication::count();
 
-        return view('admin.seller-applications.index', compact(
-            'applications',
-            'pendingCount',
-            'approvedCount',
-            'rejectedCount',
-            'totalCount'
-        ));
+        return view(
+            'admin.seller-applications.index',
+            compact(
+                'applications',
+                'pendingCount',
+                'approvedCount',
+                'rejectedCount',
+                'totalCount'
+            )
+        );
     }
 
     /**
@@ -64,7 +95,10 @@ class SellerApplicationsController extends Controller
     {
         $application->load('user');
 
-        return view('admin.seller-applications.show', compact('application'));
+        return view(
+            'admin.seller-applications.show',
+            compact('application')
+        );
     }
 
     /**
@@ -89,7 +123,6 @@ class SellerApplicationsController extends Controller
         }
 
         DB::transaction(function () use ($application, $user) {
-
             $slug = Str::slug($application->store_name);
 
             $originalSlug = $slug;
@@ -121,6 +154,12 @@ class SellerApplicationsController extends Controller
             ]);
         });
 
+        $this->activityLogService->log(
+            'updated',
+            'Seller Applications',
+            "Seller application for \"{$application->store_name}\" was approved. User \"{$user->name}\" is now a seller."
+        );
+
         return redirect()
             ->route('admin.seller-applications.index')
             ->with(
@@ -132,8 +171,10 @@ class SellerApplicationsController extends Controller
     /**
      * Reject seller application.
      */
-    public function reject(Request $request, SellerApplication $application)
-    {
+    public function reject(
+        Request $request,
+        SellerApplication $application
+    ) {
         if (!$application->isPending()) {
             return back()->with(
                 'error',
@@ -155,6 +196,12 @@ class SellerApplicationsController extends Controller
             'reviewed_at' => now(),
         ]);
 
+        $this->activityLogService->log(
+            'updated',
+            'Seller Applications',
+            "Seller application for \"{$application->store_name}\" was rejected."
+        );
+
         return redirect()
             ->route('admin.seller-applications.index')
             ->with(
@@ -163,3 +210,4 @@ class SellerApplicationsController extends Controller
             );
     }
 }
+

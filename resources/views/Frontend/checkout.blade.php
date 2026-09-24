@@ -340,7 +340,7 @@
                                                 id="country"
                                                 name="country"
                                                 class="checkout-input"
-                                                value="{{ old('country', $defaultCountry ?: 'Azerbaijan') }}"
+                                                value="{{ old('country') }}"
                                                 placeholder="Enter your country"
                                                 autocomplete="country-name"
                                                 required
@@ -522,6 +522,212 @@
                             </div>
 
                         </div>
+
+
+                        {{-- =================================================
+                            SHIPPING METHOD
+                        ================================================== --}}
+                        @if($shippingEnabled && $shippingMethods->isNotEmpty())
+
+                            <div class="checkout-card shipping-card">
+
+                                <div class="checkout-card-header">
+
+                                    <div class="checkout-card-heading">
+
+                                        <div class="checkout-card-icon">
+                                            <i class="bi bi-truck"></i>
+                                        </div>
+
+                                        <div>
+
+                                            <span class="checkout-card-kicker">
+                                                Delivery
+                                            </span>
+
+                                            <h2>
+                                                Shipping Method
+                                            </h2>
+
+                                            <p>
+                                                Choose how you'd like your
+                                                order delivered.
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                    <span class="required-badge">
+                                        * Required
+                                    </span>
+
+                                </div>
+
+
+                                <div class="checkout-card-body">
+
+                                    <div class="shipping-methods">
+
+                                        @foreach($shippingMethods as $shipping)
+
+                                            @php
+
+                                                $isSelected =
+                                                    (int) $selectedShippingId ===
+                                                    (int) $shipping->id;
+
+                                                $isFreeByThreshold =
+                                                    $freeShippingThreshold > 0 &&
+                                                    $subtotal >= $freeShippingThreshold;
+
+                                            @endphp
+
+
+                                            <label
+                                                class="shipping-option {{ $isSelected ? 'is-selected' : '' }}"
+                                            >
+
+                                                <input
+                                                    type="radio"
+                                                    name="shipping_id"
+                                                    value="{{ $shipping->id }}"
+                                                    data-price="{{ $shipping->price }}"
+                                                    data-delivery="{{ $shipping->delivery_time }}"
+                                                    {{ $isSelected ? 'checked' : '' }}
+                                                    required
+                                                >
+
+
+                                                <span class="shipping-option-content">
+
+                                                    <span class="shipping-option-icon">
+
+                                                        @if($shipping->price <= 0)
+
+                                                            <i class="bi bi-gift"></i>
+
+                                                        @elseif(str_contains(
+                                                            strtolower($shipping->name),
+                                                            'express'
+                                                        ))
+
+                                                            <i class="bi bi-lightning-charge"></i>
+
+                                                        @else
+
+                                                            <i class="bi bi-truck"></i>
+
+                                                        @endif
+
+                                                    </span>
+
+
+                                                    <span class="shipping-option-text">
+
+                                                        <strong>
+                                                            {{ $shipping->name }}
+                                                        </strong>
+
+                                                        @if($shipping->description)
+
+                                                            <small>
+                                                                {{ $shipping->description }}
+                                                            </small>
+
+                                                        @endif
+
+                                                        @if($shipping->delivery_time)
+
+                                                            <span class="shipping-delivery-time">
+
+                                                                <i class="bi bi-clock"></i>
+
+                                                                {{ $shipping->delivery_time }}
+
+                                                            </span>
+
+                                                        @endif
+
+                                                    </span>
+
+
+                                                    <span class="shipping-option-price">
+
+                                                        @if($isFreeByThreshold)
+
+                                                            <strong class="shipping-free-price">
+                                                                FREE
+                                                            </strong>
+
+                                                            @if($shipping->price > 0)
+
+                                                                <small>
+                                                                    Free shipping applied
+                                                                </small>
+
+                                                            @endif
+
+                                                        @elseif($shipping->price <= 0)
+
+                                                            <strong class="shipping-free-price">
+                                                                FREE
+                                                            </strong>
+
+                                                        @else
+
+                                                            <strong>
+                                                                ${{ number_format(
+                                                                    $shipping->price,
+                                                                    2
+                                                                ) }}
+                                                            </strong>
+
+                                                        @endif
+
+                                                    </span>
+
+
+                                                    <span class="shipping-radio">
+                                                        <span></span>
+                                                    </span>
+
+                                                </span>
+
+                                            </label>
+
+                                        @endforeach
+
+                                    </div>
+
+
+                                    @error('shipping_id')
+
+                                        <small class="checkout-field-error">
+                                            {{ $message }}
+                                        </small>
+
+                                    @enderror
+
+                                </div>
+
+                            </div>
+
+                        @elseif($shippingEnabled)
+
+                            <div class="checkout-alert checkout-alert-error">
+
+                                <span class="checkout-alert-icon">
+                                    <i class="bi bi-truck"></i>
+                                </span>
+
+                                <span>
+                                    No shipping methods are currently available.
+                                </span>
+
+                            </div>
+
+                        @endif
 
 
                         {{-- =================================================
@@ -911,19 +1117,25 @@
                                             Shipping
                                         </span>
 
-                                        @if($shippingFee <= 0)
+                                        <strong
+                                            id="checkout-shipping-fee"
+                                            class="{{ $shippingFee <= 0 ? 'summary-free' : '' }}"
+                                        >
 
-                                            <strong class="summary-free">
+                                            @if($shippingFee <= 0)
+
                                                 FREE
-                                            </strong>
 
-                                        @else
+                                            @else
 
-                                            <strong>
-                                                ${{ number_format($shippingFee, 2) }}
-                                            </strong>
+                                                ${{ number_format(
+                                                    $shippingFee,
+                                                    2
+                                                ) }}
 
-                                        @endif
+                                            @endif
+
+                                        </strong>
 
                                     </div>
 
@@ -957,7 +1169,10 @@
 
                                         <span>
                                             Free shipping on orders over
-                                            ${{ number_format($freeShippingThreshold, 2) }}.
+                                            ${{ number_format(
+                                                $freeShippingThreshold,
+                                                2
+                                            ) }}.
                                         </span>
 
                                     </div>
@@ -991,8 +1206,11 @@
                                         Total
                                     </span>
 
-                                    <strong>
-                                        ${{ number_format($grandTotal, 2) }}
+                                    <strong id="checkout-grand-total">
+                                        ${{ number_format(
+                                            $grandTotal,
+                                            2
+                                        ) }}
                                     </strong>
 
                                 </div>
@@ -1003,7 +1221,7 @@
                             {{-- Estimated Delivery --}}
                             @if(
                                 $shippingEnabled &&
-                                !empty($estimatedDeliveryMessage)
+                                !empty($checkoutDeliveryEstimate)
                             )
 
                                 <div class="delivery-estimate">
@@ -1018,8 +1236,8 @@
                                             Estimated Delivery
                                         </strong>
 
-                                        <span>
-                                            {{ $estimatedDeliveryMessage }}
+                                        <span id="checkout-delivery-estimate">
+                                            {{ $checkoutDeliveryEstimate }}
                                         </span>
 
                                     </div>
@@ -1044,9 +1262,15 @@
 
                                 </span>
 
-                                <span class="place-order-price">
+                                <span
+                                    class="place-order-price"
+                                    id="checkout-place-order-price"
+                                >
 
-                                    ${{ number_format($grandTotal, 2) }}
+                                    ${{ number_format(
+                                        $grandTotal,
+                                        2
+                                    ) }}
 
                                 </span>
 
@@ -1104,15 +1328,24 @@
 
                                 <div>
 
-                                    <strong>
+                                    <strong id="checkout-trust-shipping-title">
+
                                         @if($shippingEnabled)
-                                            {{ $shippingFee <= 0 ? 'Free Shipping' : 'Fast Shipping' }}
+
+                                            {{ $shippingFee <= 0
+                                                ? 'Free Shipping'
+                                                : 'Shipping Available'
+                                            }}
+
                                         @else
+
                                             Shipping
+
                                         @endif
+
                                     </strong>
 
-                                    <span>
+                                    <span id="checkout-trust-shipping-text">
 
                                         @if(!$shippingEnabled)
 
@@ -1187,3 +1420,232 @@
 </main>
 
 @endsection
+
+
+{{-- =====================================================
+    SHIPPING METHOD JAVASCRIPT
+====================================================== --}}
+
+@push('js')
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const shippingOptions = document.querySelectorAll(
+        'input[name="shipping_id"]'
+    );
+
+    const shippingFeeElement = document.getElementById(
+        'checkout-shipping-fee'
+    );
+
+    const grandTotalElement = document.getElementById(
+        'checkout-grand-total'
+    );
+
+    const placeOrderPriceElement = document.getElementById(
+        'checkout-place-order-price'
+    );
+
+    const deliveryEstimateElement = document.getElementById(
+        'checkout-delivery-estimate'
+    );
+
+    const trustShippingTitle = document.getElementById(
+        'checkout-trust-shipping-title'
+    );
+
+    const trustShippingText = document.getElementById(
+        'checkout-trust-shipping-text'
+    );
+
+    const subtotal = {{ (float) $subtotal }};
+
+    const freeShippingThreshold =
+        {{ (float) $freeShippingThreshold }};
+
+
+    function formatPrice(value) {
+
+        return '$' + Number(value).toFixed(2);
+
+    }
+
+
+    function updateShipping() {
+
+        const selected = document.querySelector(
+            'input[name="shipping_id"]:checked'
+        );
+
+        if (!selected) {
+            return;
+        }
+
+        const shippingPrice =
+            parseFloat(selected.dataset.price) || 0;
+
+        const delivery =
+            selected.dataset.delivery || '';
+
+        let shippingFee = shippingPrice;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Free Shipping Threshold
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+            freeShippingThreshold > 0 &&
+            subtotal >= freeShippingThreshold
+        ) {
+            shippingFee = 0;
+        }
+
+
+        const grandTotal =
+            subtotal + shippingFee;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Shipping Summary
+        |--------------------------------------------------------------------------
+        */
+
+        if (shippingFee <= 0) {
+
+            shippingFeeElement.textContent = 'FREE';
+
+            shippingFeeElement.classList.add(
+                'summary-free'
+            );
+
+        } else {
+
+            shippingFeeElement.textContent =
+                formatPrice(shippingFee);
+
+            shippingFeeElement.classList.remove(
+                'summary-free'
+            );
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Grand Total
+        |--------------------------------------------------------------------------
+        */
+
+        if (grandTotalElement) {
+
+            grandTotalElement.textContent =
+                formatPrice(grandTotal);
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Place Order Price
+        |--------------------------------------------------------------------------
+        */
+
+        if (placeOrderPriceElement) {
+
+            placeOrderPriceElement.textContent =
+                formatPrice(grandTotal);
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Delivery Estimate
+        |--------------------------------------------------------------------------
+        */
+
+        if (deliveryEstimateElement) {
+
+            deliveryEstimateElement.textContent =
+                delivery;
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Trust Section
+        |--------------------------------------------------------------------------
+        */
+
+        if (trustShippingTitle) {
+
+            trustShippingTitle.textContent =
+                shippingFee <= 0
+                    ? 'Free Shipping'
+                    : 'Shipping Available';
+
+        }
+
+        if (trustShippingText) {
+
+            trustShippingText.textContent =
+                shippingFee <= 0
+                    ? 'Available on this order'
+                    : 'Delivery available';
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Selected Shipping Card
+        |--------------------------------------------------------------------------
+        */
+
+        document
+            .querySelectorAll('.shipping-option')
+            .forEach(function (option) {
+
+                option.classList.remove(
+                    'is-selected'
+                );
+
+            });
+
+        const selectedOption =
+            selected.closest('.shipping-option');
+
+        if (selectedOption) {
+
+            selectedOption.classList.add(
+                'is-selected'
+            );
+
+        }
+
+    }
+
+
+    shippingOptions.forEach(function (option) {
+
+        option.addEventListener(
+            'change',
+            updateShipping
+        );
+
+    });
+
+
+    updateShipping();
+
+});
+</script>
+
+@endpush
+

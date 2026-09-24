@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Book;
 use App\Models\User;
+use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -12,6 +12,13 @@ use Illuminate\Validation\Rule;
 
 class SellersController extends Controller
 {
+    private ActivityLogService $activityLogService;
+
+    public function __construct(ActivityLogService $activityLogService)
+    {
+        $this->activityLogService = $activityLogService;
+    }
+
     public function index(Request $request)
     {
         $search = trim((string) $request->query('search'));
@@ -43,16 +50,36 @@ class SellersController extends Controller
             default => $sellersQuery->latest(),
         };
 
-        $sellers = $sellersQuery->paginate(10)->withQueryString();
+        $sellers = $sellersQuery
+            ->paginate(10)
+            ->withQueryString();
 
         $stats = [
             'total' => User::where('role', 'seller')->count(),
-            'active' => User::where('role', 'seller')->where('status', 'active')->count(),
-            'inactive' => User::where('role', 'seller')->where('status', 'inactive')->count(),
-            'banned' => User::where('role', 'seller')->where('status', 'banned')->count(),
+
+            'active' => User::where('role', 'seller')
+                ->where('status', 'active')
+                ->count(),
+
+            'inactive' => User::where('role', 'seller')
+                ->where('status', 'inactive')
+                ->count(),
+
+            'banned' => User::where('role', 'seller')
+                ->where('status', 'banned')
+                ->count(),
         ];
 
-        return view('Admin.sellers.index', compact('sellers', 'stats', 'search', 'status', 'sort'));
+        return view(
+            'Admin.sellers.index',
+            compact(
+                'sellers',
+                'stats',
+                'search',
+                'status',
+                'sort'
+            )
+        );
     }
 
     public function create()
@@ -63,13 +90,19 @@ class SellersController extends Controller
     public function store(Request $request)
     {
         $validated = $this->validateSeller($request);
-        [$firstName, $lastName] = $this->splitName($validated['name']);
 
-        User::create([
+        [$firstName, $lastName] = $this->splitName(
+            $validated['name']
+        );
+
+        $seller = User::create([
             'name' => $validated['name'],
             'first_name' => $firstName,
             'last_name' => $lastName,
-            'username' => $this->makeUsername($validated['name'], $validated['email']),
+            'username' => $this->makeUsername(
+                $validated['name'],
+                $validated['email']
+            ),
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
             'password' => $validated['password'],
@@ -78,37 +111,82 @@ class SellersController extends Controller
             'profile_photo' => $this->storeProfilePhoto($request),
         ]);
 
-        return redirect()->route('admin.sellers.index')->with('success', 'Seller created successfully.');
+        $this->activityLogService->log(
+            'created',
+            'Sellers',
+            "Seller \"{$seller->name}\" was created."
+        );
+
+        return redirect()
+            ->route('admin.sellers.index')
+            ->with(
+                'success',
+                'Seller created successfully.'
+            );
     }
 
     public function show(User $seller)
     {
         $this->assertSeller($seller);
 
-        $bookQuery = $seller->books()->latest();
-        $books = $bookQuery->paginate(10)->withQueryString();
+        $books = $seller->books()
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
         $bookStats = [
             'total' => $seller->books()->count(),
-            'approved' => $seller->books()->where('status', 'approved')->count(),
-            'pending' => $seller->books()->where('status', 'pending')->count(),
-            'rejected' => $seller->books()->where('status', 'rejected')->count(),
+
+            'approved' => $seller->books()
+                ->where('status', 'approved')
+                ->count(),
+
+            'pending' => $seller->books()
+                ->where('status', 'pending')
+                ->count(),
+
+            'rejected' => $seller->books()
+                ->where('status', 'rejected')
+                ->count(),
         ];
 
-        return view('Admin.sellers.show', compact('seller', 'books', 'bookStats'));
+        return view(
+            'Admin.sellers.show',
+            compact(
+                'seller',
+                'books',
+                'bookStats'
+            )
+        );
     }
 
     public function edit(User $seller)
     {
         $this->assertSeller($seller);
 
-        return view('Admin.sellers.edit', compact('seller'));
+        return view(
+            'Admin.sellers.edit',
+            compact('seller')
+        );
     }
 
-    public function update(Request $request, User $seller)
-    {
+    public function update(
+        Request $request,
+        User $seller
+    ) {
         $this->assertSeller($seller);
-        $validated = $this->validateSeller($request, $seller, true);
-        [$firstName, $lastName] = $this->splitName($validated['name']);
+
+        $validated = $this->validateSeller(
+            $request,
+            $seller,
+            true
+        );
+
+        [$firstName, $lastName] = $this->splitName(
+            $validated['name']
+        );
+
+        $oldStatus = $seller->status;
 
         $seller->name = $validated['name'];
         $seller->first_name = $firstName;
@@ -122,30 +200,96 @@ class SellersController extends Controller
         }
 
         if ($request->hasFile('profile_photo')) {
-            $this->deleteProfilePhoto($seller->profile_photo);
-            $seller->profile_photo = $this->storeProfilePhoto($request);
+            $this->deleteProfilePhoto(
+                $seller->profile_photo
+            );
+
+            $seller->profile_photo =
+                $this->storeProfilePhoto($request);
         }
 
         $seller->save();
 
-        return redirect()->route('admin.sellers.show', $seller)->with('success', 'Seller updated successfully.');
-    }
+        $this->activityLogService->log(
+            'updated',
+            'Sellers',
+            "Seller \"{$seller->name}\" was updated."
+        );
 
-    public function updateStatus(Request $request, User $seller)
-    {
-        $this->assertSeller($seller);
-
-        if (auth()->id() === $seller->id) {
-            return back()->with('error', 'You cannot change your own seller status.');
+        if ($oldStatus !== $seller->status) {
+            $this->activityLogService->log(
+                'updated',
+                'Sellers',
+                "Seller \"{$seller->name}\" status changed from \"{$oldStatus}\" to \"{$seller->status}\"."
+            );
         }
 
+        return redirect()
+            ->route(
+                'admin.sellers.show',
+                $seller
+            )
+            ->with(
+                'success',
+                'Seller updated successfully.'
+            );
+    }
+
+    public function updateStatus(
+        Request $request,
+        User $seller
+    ) {
+        $this->assertSeller($seller);
+
         $validated = $request->validate([
-            'status' => ['required', Rule::in(['active', 'inactive', 'banned'])],
+            'status' => [
+                'required',
+                Rule::in([
+                    'active',
+                    'inactive',
+                    'banned',
+                ]),
+            ],
         ]);
+
+        if (auth()->id() === $seller->id) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' =>
+                        'You cannot change your own seller status.',
+                ], 403);
+            }
+
+            return back()->with(
+                'error',
+                'You cannot change your own seller status.'
+            );
+        }
+
+        $oldStatus = $seller->status;
 
         $seller->update($validated);
 
-        return back()->with('success', 'Seller status updated successfully.');
+        $this->activityLogService->log(
+            'updated',
+            'Sellers',
+            "Seller \"{$seller->name}\" status changed from \"{$oldStatus}\" to \"{$seller->status}\"."
+        );
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' =>
+                    'Seller status updated successfully.',
+                'status' => $seller->status,
+            ]);
+        }
+
+        return back()->with(
+            'success',
+            'Seller status updated successfully.'
+        );
     }
 
     public function destroy(User $seller)
@@ -153,67 +297,189 @@ class SellersController extends Controller
         $this->assertSeller($seller);
 
         if (auth()->id() === $seller->id) {
-            return back()->with('error', 'You cannot delete your own account.');
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' =>
+                        'You cannot delete your own account.',
+                ], 403);
+            }
+
+            return back()->with(
+                'error',
+                'You cannot delete your own account.'
+            );
         }
 
         if ($seller->books()->exists()) {
-            return back()->with('error', 'This seller cannot be deleted while they have books. Reassign the books first.');
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' =>
+                        'This seller cannot be deleted while they have books. Reassign the books first.',
+                ], 422);
+            }
+
+            return back()->with(
+                'error',
+                'This seller cannot be deleted while they have books. Reassign the books first.'
+            );
         }
 
-        $this->deleteProfilePhoto($seller->profile_photo);
+        $sellerName = $seller->name;
+
+        $this->activityLogService->log(
+            'deleted',
+            'Sellers',
+            "Seller \"{$sellerName}\" was deleted."
+        );
+
+        $this->deleteProfilePhoto(
+            $seller->profile_photo
+        );
+
         $seller->delete();
 
-        return redirect()->route('admin.sellers.index')->with('success', 'Seller deleted successfully.');
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' =>
+                    'Seller deleted successfully.',
+            ]);
+        }
+
+        return redirect()
+            ->route('admin.sellers.index')
+            ->with(
+                'success',
+                'Seller deleted successfully.'
+            );
     }
 
-    private function validateSeller(Request $request, ?User $seller = null, bool $isUpdate = false): array
-    {
+    private function validateSeller(
+        Request $request,
+        ?User $seller = null,
+        bool $isUpdate = false
+    ): array {
         return $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($seller?->id)],
-            'phone' => ['nullable', 'string', 'max:30'],
-            'password' => [$isUpdate ? 'nullable' : 'required', 'string', 'min:8', 'confirmed'],
-            'status' => ['required', Rule::in(['active', 'inactive', 'banned'])],
-            'profile_photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique(
+                    'users',
+                    'email'
+                )->ignore($seller?->id),
+            ],
+
+            'phone' => [
+                'nullable',
+                'string',
+                'max:30',
+            ],
+
+            'password' => [
+                $isUpdate
+                    ? 'nullable'
+                    : 'required',
+                'string',
+                'min:8',
+                'confirmed',
+            ],
+
+            'status' => [
+                'required',
+                Rule::in([
+                    'active',
+                    'inactive',
+                    'banned',
+                ]),
+            ],
+
+            'profile_photo' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:2048',
+            ],
         ]);
     }
 
     private function assertSeller(User $seller): void
     {
-        abort_unless($seller->role === 'seller', 404);
+        abort_unless(
+            $seller->role === 'seller',
+            404
+        );
     }
 
     private function splitName(string $name): array
     {
-        $parts = preg_split('/\s+/', trim($name), 2);
+        $parts = preg_split(
+            '/\s+/',
+            trim($name),
+            2
+        );
 
-        return [$parts[0], $parts[1] ?? $parts[0]];
+        return [
+            $parts[0],
+            $parts[1] ?? $parts[0],
+        ];
     }
 
-    private function makeUsername(string $name, string $email): string
-    {
-        $base = Str::slug($name, '_') ?: Str::before($email, '@');
+    private function makeUsername(
+        string $name,
+        string $email
+    ): string {
+        $base = Str::slug(
+            $name,
+            '_'
+        ) ?: Str::before(
+            $email,
+            '@'
+        );
+
         $username = $base;
         $suffix = 1;
 
-        while (User::where('username', $username)->exists()) {
+        while (
+            User::where(
+                'username',
+                $username
+            )->exists()
+        ) {
             $username = $base . '_' . $suffix++;
         }
 
         return $username;
     }
 
-    private function storeProfilePhoto(Request $request): ?string
-    {
+    private function storeProfilePhoto(
+        Request $request
+    ): ?string {
         return $request->hasFile('profile_photo')
-            ? $request->file('profile_photo')->store('profile-photos', 'public')
+            ? $request
+                ->file('profile_photo')
+                ->store(
+                    'profile-photos',
+                    'public'
+                )
             : null;
     }
 
-    private function deleteProfilePhoto(?string $profilePhoto): void
-    {
+    private function deleteProfilePhoto(
+        ?string $profilePhoto
+    ): void {
         if ($profilePhoto) {
-            Storage::disk('public')->delete($profilePhoto);
+            Storage::disk('public')
+                ->delete($profilePhoto);
         }
     }
 }
+

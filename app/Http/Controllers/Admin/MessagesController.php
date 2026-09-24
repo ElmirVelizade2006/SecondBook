@@ -3,15 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\MessageReplyMail;
 use App\Models\Message;
-use App\Models\User;
 use App\Models\Notification;
+use App\Models\User;
+use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\MessageReplyMail;
 
 class MessagesController extends Controller
 {
+    private ActivityLogService $activityLogService;
+
+    public function __construct(ActivityLogService $activityLogService)
+    {
+        $this->activityLogService = $activityLogService;
+    }
+
     public function index(Request $request)
     {
         $query = Message::query();
@@ -21,16 +29,35 @@ class MessagesController extends Controller
             $search = $request->search;
 
             $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%")
-                    ->orWhere('subject', 'like', "%{$search}%")
-                    ->orWhere('message', 'like', "%{$search}%");
+                $q->where(
+                    'name',
+                    'like',
+                    "%{$search}%"
+                )
+                    ->orWhere(
+                        'email',
+                        'like',
+                        "%{$search}%"
+                    )
+                    ->orWhere(
+                        'subject',
+                        'like',
+                        "%{$search}%"
+                    )
+                    ->orWhere(
+                        'message',
+                        'like',
+                        "%{$search}%"
+                    );
             });
         }
 
         // Status filter
         if ($request->filled('status')) {
-            $query->where('status', $request->status);
+            $query->where(
+                'status',
+                $request->status
+            );
         }
 
         $messages = $query
@@ -41,9 +68,15 @@ class MessagesController extends Controller
         // Statistics
         $totalMessages = Message::count();
 
-        $unreadMessages = Message::where('status', 'unread')->count();
+        $unreadMessages = Message::where(
+            'status',
+            'unread'
+        )->count();
 
-        $readMessages = Message::where('status', 'read')->count();
+        $readMessages = Message::where(
+            'status',
+            'read'
+        )->count();
 
         $todayMessages = Message::whereDate(
             'created_at',
@@ -73,6 +106,12 @@ class MessagesController extends Controller
         if ($message->status === 'unread') {
             $message->status = 'read';
             $message->save();
+
+            $this->activityLogService->log(
+                'updated',
+                'Messages',
+                "Message \"{$message->subject}\" was marked as read."
+            );
         }
 
         /*
@@ -109,6 +148,12 @@ class MessagesController extends Controller
         $message->status = 'unread';
         $message->save();
 
+        $this->activityLogService->log(
+            'updated',
+            'Messages',
+            "Message \"{$message->subject}\" was marked as unread."
+        );
+
         return redirect()
             ->route('admin.messages.index')
             ->with(
@@ -131,8 +176,10 @@ class MessagesController extends Controller
         );
     }
 
-    public function sendReply(Request $request, Message $message)
-    {
+    public function sendReply(
+        Request $request,
+        Message $message
+    ) {
         $validated = $request->validate([
             'subject' => [
                 'required',
@@ -153,6 +200,12 @@ class MessagesController extends Controller
             )
         );
 
+        $this->activityLogService->log(
+            'updated',
+            'Messages',
+            "Email reply was sent for message \"{$message->subject}\" to {$message->email}."
+        );
+
         return redirect()
             ->route('admin.messages.show', $message)
             ->with(
@@ -169,6 +222,14 @@ class MessagesController extends Controller
 
     public function destroy(Message $message)
     {
+        $messageSubject = $message->subject;
+
+        $this->activityLogService->log(
+            'deleted',
+            'Messages',
+            "Message \"{$messageSubject}\" was deleted."
+        );
+
         $message->delete();
 
         return redirect()
@@ -281,14 +342,20 @@ class MessagesController extends Controller
         */
 
         Notification::create([
-        'user_id' => $messageUser->id,
-        'type' => 'contact_reply',
-        'title' => 'Contact Message Reply',
-        'message' => 'Reply to "' .
-            $message->subject .
-            '": ' .
-            $messageReply->reply,
+            'user_id' => $messageUser->id,
+            'type' => 'contact_reply',
+            'title' => 'Contact Message Reply',
+            'message' => 'Reply to "' .
+                $message->subject .
+                '": ' .
+                $messageReply->reply,
         ]);
+
+        $this->activityLogService->log(
+            'updated',
+            'Messages',
+            "Site reply was sent for message \"{$message->subject}\" to {$messageUser->name}."
+        );
 
         /*
         |--------------------------------------------------------------------------

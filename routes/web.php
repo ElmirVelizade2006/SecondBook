@@ -749,9 +749,6 @@ Route::prefix('admin')
                 Route::get('/sales', 'sales')
                     ->name('sales');
 
-                Route::get('/users', 'users')
-                    ->name('users');
-
                 Route::get('/books', 'books')
                     ->name('books');
             });
@@ -839,15 +836,20 @@ Route::prefix('admin')
             ->name('backup.')
             ->group(function () {
 
-                Route::get('/', 'index')
-                    ->name('index');
+                Route::get('/', 'index')->name('index');
 
-                Route::post('/create', 'create')
-                    ->name('create');
+                Route::post('/create', 'create')->name('create');
 
                 Route::get('/download/{file}', 'download')
                     ->name('download');
+
+                Route::delete('/delete/{file}', 'delete')
+                    ->name('delete');
+
+                Route::post('/restore/{file}', 'restore')
+                    ->name('restore');
             });
+
     });
 
 
@@ -1436,8 +1438,10 @@ Route::middleware('auth')
 
                 Route::post('/read-all', 'markAllAsRead')
                     ->name('read-all');
-            });
 
+                Route::delete('/{notification}', 'destroy')
+                    ->name('destroy');
+            });
 
         /*
         |--------------------------------------------------------------------------
@@ -1493,6 +1497,11 @@ Route::middleware('auth')
             '/orders/{order}',
             [FrontendOrdersController::class, 'show']
         )->name('orders.show');
+
+        Route::post(
+            '/orders/{order}/cancel',
+            [FrontendOrdersController::class, 'cancel']
+        )->name('orders.cancel');
 
 
         /*

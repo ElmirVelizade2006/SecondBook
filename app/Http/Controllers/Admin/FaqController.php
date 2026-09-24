@@ -4,10 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Faq;
+use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
 
 class FaqController extends Controller
 {
+    private ActivityLogService $activityLogService;
+
+    public function __construct(ActivityLogService $activityLogService)
+    {
+        $this->activityLogService = $activityLogService;
+    }
+
     /**
      * Display FAQ list.
      */
@@ -25,9 +33,21 @@ class FaqController extends Controller
             $search = trim($request->search);
 
             $query->where(function ($q) use ($search) {
-                $q->where('question', 'like', '%' . $search . '%')
-                    ->orWhere('answer', 'like', '%' . $search . '%')
-                    ->orWhere('category', 'like', '%' . $search . '%');
+                $q->where(
+                    'question',
+                    'like',
+                    '%' . $search . '%'
+                )
+                    ->orWhere(
+                        'answer',
+                        'like',
+                        '%' . $search . '%'
+                    )
+                    ->orWhere(
+                        'category',
+                        'like',
+                        '%' . $search . '%'
+                    );
             });
         }
 
@@ -38,7 +58,10 @@ class FaqController extends Controller
         */
 
         if ($request->filled('category')) {
-            $query->where('category', $request->category);
+            $query->where(
+                'category',
+                $request->category
+            );
         }
 
         /*
@@ -74,15 +97,22 @@ class FaqController extends Controller
 
         $categories = Faq::query()
             ->whereNotNull('category')
-            ->where('category', '!=', '')
+            ->where(
+                'category',
+                '!=',
+                ''
+            )
             ->distinct()
             ->orderBy('category')
             ->pluck('category');
 
-        return view('admin.faq.index', compact(
-            'faqs',
-            'categories'
-        ));
+        return view(
+            'admin.faq.index',
+            compact(
+                'faqs',
+                'categories'
+            )
+        );
     }
 
     /**
@@ -129,13 +159,19 @@ class FaqController extends Controller
             ],
         ]);
 
-        Faq::create([
+        $faq = Faq::create([
             'category' => $validated['category'],
             'question' => $validated['question'],
             'answer' => $validated['answer'],
             'is_active' => $request->boolean('is_active'),
             'sort_order' => $validated['sort_order'] ?? 0,
         ]);
+
+        $this->activityLogService->log(
+            'created',
+            'FAQs',
+            "FAQ \"{$faq->question}\" was created."
+        );
 
         return redirect()
             ->route('admin.faq.index')
@@ -150,14 +186,19 @@ class FaqController extends Controller
      */
     public function edit(Faq $faq)
     {
-        return view('admin.faq.edit', compact('faq'));
+        return view(
+            'admin.faq.edit',
+            compact('faq')
+        );
     }
 
     /**
      * Update FAQ.
      */
-    public function update(Request $request, Faq $faq)
-    {
+    public function update(
+        Request $request,
+        Faq $faq
+    ) {
         $validated = $request->validate([
             'category' => [
                 'required',
@@ -197,6 +238,12 @@ class FaqController extends Controller
             'sort_order' => $validated['sort_order'] ?? 0,
         ]);
 
+        $this->activityLogService->log(
+            'updated',
+            'FAQs',
+            "FAQ \"{$faq->question}\" was updated."
+        );
+
         return redirect()
             ->route('admin.faq.index')
             ->with(
@@ -210,7 +257,22 @@ class FaqController extends Controller
      */
     public function destroy(Faq $faq)
     {
+        $faqQuestion = $faq->question;
+
+        $this->activityLogService->log(
+            'deleted',
+            'FAQs',
+            "FAQ \"{$faqQuestion}\" was deleted."
+        );
+
         $faq->delete();
+
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'FAQ deleted successfully.',
+            ]);
+        }
 
         return redirect()
             ->route('admin.faq.index')
@@ -220,3 +282,4 @@ class FaqController extends Controller
             );
     }
 }
+

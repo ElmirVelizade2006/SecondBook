@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Setting;
+use App\Models\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -28,17 +29,18 @@ class CheckoutController extends Controller
         }
 
         $subtotal = collect($cart)->sum(function ($item) {
-            return $item['price'] * $item['quantity'];
+            return (float) $item['price'] * (int) $item['quantity'];
         });
 
         $totalItems = collect($cart)->sum('quantity');
 
-        $shippingEnabled = Setting::get('shipping_enabled', true);
+        /*
+        |--------------------------------------------------------------------------
+        | Shipping
+        |--------------------------------------------------------------------------
+        */
 
-        $defaultShippingFee = (float) Setting::get(
-            'default_shipping_fee',
-            0
-        );
+        $shippingEnabled = Setting::get('shipping_enabled', true);
 
         $freeShippingThreshold = (float) Setting::get(
             'free_shipping_threshold',
@@ -52,33 +54,81 @@ class CheckoutController extends Controller
             ''
         );
 
-        $shippingFee = 0;
+        $shippingMethods = collect();
 
         if ($shippingEnabled) {
+            $shippingMethods = Shipping::where('status', true)
+                ->orderBy('price')
+                ->orderBy('name')
+                ->get();
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Default Shipping Method
+        |--------------------------------------------------------------------------
+        */
+
+        $selectedShippingId = old('shipping_id');
+
+        if (!$selectedShippingId && $shippingMethods->isNotEmpty()) {
+            $selectedShippingId = $shippingMethods->first()->id;
+        }
+
+        $selectedShipping = null;
+
+        if ($selectedShippingId) {
+            $selectedShipping = $shippingMethods->firstWhere(
+                'id',
+                (int) $selectedShippingId
+            );
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Shipping Fee
+        |--------------------------------------------------------------------------
+        */
+
+        $shippingFee = 0;
+
+        if ($shippingEnabled && $selectedShipping) {
+
             if (
-                $freeShippingThreshold <= 0 ||
-                $subtotal < $freeShippingThreshold
+                $freeShippingThreshold > 0 &&
+                $subtotal >= $freeShippingThreshold
             ) {
-                $shippingFee = $defaultShippingFee;
+                $shippingFee = 0;
+            } else {
+                $shippingFee = (float) $selectedShipping->price;
             }
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | Delivery Estimate
+        |--------------------------------------------------------------------------
+        */
+
+        $checkoutDeliveryEstimate = $selectedShipping?->delivery_time
+            ?: $estimatedDeliveryMessage;
+
         $grandTotal = $subtotal + $shippingFee;
 
-        $paymentsEnabled = Setting::get(
-            'payments_enabled',
-            true
-        );
+        /*
+        |--------------------------------------------------------------------------
+        | Payments
+        |--------------------------------------------------------------------------
+        */
 
-        $paymentMethods = Setting::get(
-            'payment_methods',
-            [
-                'cash_on_delivery',
-                'credit_card',
-                'debit_card',
-                'paypal',
-            ]
-        );
+        $paymentsEnabled = Setting::get('payments_enabled', true);
+
+        $paymentMethods = Setting::get('payment_methods', [
+            'cash_on_delivery',
+            'credit_card',
+            'debit_card',
+            'paypal',
+        ]);
 
         if (!is_array($paymentMethods)) {
             $paymentMethods = [
@@ -94,24 +144,25 @@ class CheckoutController extends Controller
             'cash_on_delivery'
         );
 
-        return view(
-            'Frontend.checkout',
-            compact(
-                'cart',
-                'subtotal',
-                'totalItems',
-                'shippingEnabled',
-                'shippingFee',
-                'freeShippingThreshold',
-                'grandTotal',
-                'defaultCountry',
-                'estimatedDeliveryMessage',
-                'paymentsEnabled',
-                'paymentMethods',
-                'defaultPaymentMethod'
-            )
-        );
+        return view('Frontend.checkout', compact(
+            'cart',
+            'subtotal',
+            'totalItems',
+            'shippingEnabled',
+            'shippingMethods',
+            'selectedShippingId',
+            'shippingFee',
+            'freeShippingThreshold',
+            'defaultCountry',
+            'estimatedDeliveryMessage',
+            'checkoutDeliveryEstimate',
+            'grandTotal',
+            'paymentsEnabled',
+            'paymentMethods',
+            'defaultPaymentMethod'
+        ));
     }
+
 
     public function store(Request $request)
     {
@@ -127,20 +178,20 @@ class CheckoutController extends Controller
                 ->with('error', 'Your cart is empty.');
         }
 
-        $paymentsEnabled = Setting::get(
-            'payments_enabled',
-            true
-        );
+        /*
+        |--------------------------------------------------------------------------
+        | Payment Settings
+        |--------------------------------------------------------------------------
+        */
 
-        $allowedPaymentMethods = Setting::get(
-            'payment_methods',
-            [
-                'cash_on_delivery',
-                'credit_card',
-                'debit_card',
-                'paypal',
-            ]
-        );
+        $paymentsEnabled = Setting::get('payments_enabled', true);
+
+        $allowedPaymentMethods = Setting::get('payment_methods', [
+            'cash_on_delivery',
+            'credit_card',
+            'debit_card',
+            'paypal',
+        ]);
 
         if (!is_array($allowedPaymentMethods)) {
             $allowedPaymentMethods = [
@@ -151,65 +202,52 @@ class CheckoutController extends Controller
             ];
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | Validation
+        |--------------------------------------------------------------------------
+        */
+
         $validated = $request->validate([
-            'full_name' => [
-                'required',
-                'string',
-                'max:255',
-            ],
-            'phone' => [
-                'required',
-                'string',
-                'max:50',
-            ],
-            'country' => [
-                'required',
-                'string',
-                'max:100',
-            ],
-            'city' => [
-                'required',
-                'string',
-                'max:100',
-            ],
-            'postal_code' => [
-                'nullable',
-                'string',
-                'max:20',
-            ],
-            'address' => [
-                'required',
-                'string',
-                'max:1000',
-            ],
-            'note' => [
-                'nullable',
-                'string',
-                'max:1000',
-            ],
+            'full_name' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:50'],
+            'country' => ['required', 'string', 'max:100'],
+            'city' => ['required', 'string', 'max:100'],
+            'postal_code' => ['nullable', 'string', 'max:20'],
+            'address' => ['required', 'string', 'max:1000'],
+            'note' => ['nullable', 'string', 'max:1000'],
+
             'payment_method' => [
                 'required',
                 'string',
                 'in:cash_on_delivery,credit_card,debit_card,paypal',
             ],
+
+            'shipping_id' => [
+                'required_if:shipping_enabled,1',
+                'nullable',
+                'integer',
+                'exists:shippings,id',
+            ],
         ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Payment Check
+        |--------------------------------------------------------------------------
+        */
 
         if (!$paymentsEnabled) {
             return back()
                 ->withInput()
-                ->with(
-                    'error',
-                    'Payments are currently disabled.'
-                );
+                ->with('error', 'Payments are currently disabled.');
         }
 
-        if (
-            !in_array(
-                $validated['payment_method'],
-                $allowedPaymentMethods,
-                true
-            )
-        ) {
+        if (!in_array(
+            $validated['payment_method'],
+            $allowedPaymentMethods,
+            true
+        )) {
             return back()
                 ->withInput()
                 ->with(
@@ -229,11 +267,6 @@ class CheckoutController extends Controller
             true
         );
 
-        $defaultShippingFee = (float) Setting::get(
-            'default_shipping_fee',
-            0
-        );
-
         $freeShippingThreshold = (float) Setting::get(
             'free_shipping_threshold',
             0
@@ -246,47 +279,85 @@ class CheckoutController extends Controller
 
         /*
         |--------------------------------------------------------------------------
-        | Calculate Cart Subtotal
+        | Shipping Method
+        |--------------------------------------------------------------------------
+        */
+
+        $selectedShipping = null;
+
+        if ($shippingEnabled) {
+
+            $selectedShipping = Shipping::where('status', true)
+                ->find($validated['shipping_id'] ?? null);
+
+            if (!$selectedShipping) {
+                return back()
+                    ->withInput()
+                    ->with(
+                        'error',
+                        'The selected shipping method is no longer available.'
+                    );
+            }
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Cart Subtotal
         |--------------------------------------------------------------------------
         */
 
         $cartSubtotal = collect($cart)->sum(function ($item) {
-            return (float) $item['price'] * (int) $item['quantity'];
+            return (float) $item['price'] *
+                (int) $item['quantity'];
         });
 
         /*
         |--------------------------------------------------------------------------
-        | Calculate Shipping Once For The Whole Checkout
+        | Shipping Fee
         |--------------------------------------------------------------------------
         */
 
         $cartShippingFee = 0;
 
-        if ($shippingEnabled) {
+        if ($shippingEnabled && $selectedShipping) {
+
             if (
-                $freeShippingThreshold <= 0 ||
-                $cartSubtotal < $freeShippingThreshold
+                $freeShippingThreshold > 0 &&
+                $cartSubtotal >= $freeShippingThreshold
             ) {
-                $cartShippingFee = $defaultShippingFee;
+                $cartShippingFee = 0;
+            } else {
+                $cartShippingFee = (float) $selectedShipping->price;
             }
         }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Delivery Estimate
+        |--------------------------------------------------------------------------
+        */
+
+        $deliveryEstimate = $selectedShipping?->delivery_time
+            ?: $estimatedDeliveryMessage;
 
         $createdOrders = [];
 
         try {
+
             DB::transaction(function () use (
                 $cart,
                 $validated,
                 &$createdOrders,
                 $shippingEnabled,
+                $selectedShipping,
                 $cartShippingFee,
-                $freeShippingThreshold,
-                $estimatedDeliveryMessage
+                $deliveryEstimate
             ) {
-                $cartBookCount = count($cart);
+
                 $orderIndex = 0;
 
                 foreach ($cart as $bookId => $item) {
+
                     $book = Book::with('seller.store')
                         ->whereKey($bookId)
                         ->lockForUpdate()
@@ -339,11 +410,12 @@ class CheckoutController extends Controller
                     }
 
                     $bookPrice = (float) $book->price;
+
                     $bookTotal = $bookPrice * $quantity;
 
                     /*
                     |--------------------------------------------------------------------------
-                    | Minimum Order Amount
+                    | Minimum Order
                     |--------------------------------------------------------------------------
                     */
 
@@ -365,24 +437,19 @@ class CheckoutController extends Controller
                         $bookTotal < $effectiveMinimumOrderAmount
                     ) {
                         throw new \Exception(
-                            "The minimum order amount is ₼" .
+                            'The minimum order amount is ₼' .
                             number_format(
                                 $effectiveMinimumOrderAmount,
                                 2
                             ) .
-                            "."
+                            '.'
                         );
                     }
 
                     /*
                     |--------------------------------------------------------------------------
-                    | Shipping Allocation
+                    | Shipping Only On First Order
                     |--------------------------------------------------------------------------
-                    |
-                    | Checkout shipping is calculated once for the whole cart.
-                    | Since every book creates a separate Order record, the
-                    | shipping fee is assigned to the first created order.
-                    |
                     */
 
                     $shippingFee = 0;
@@ -395,8 +462,7 @@ class CheckoutController extends Controller
                         $shippingFee = $cartShippingFee;
                     }
 
-                    $grandTotal =
-                        $bookTotal + $shippingFee;
+                    $grandTotal = $bookTotal + $shippingFee;
 
                     /*
                     |--------------------------------------------------------------------------
@@ -413,12 +479,6 @@ class CheckoutController extends Controller
                         ? 'processing'
                         : ($configuredOrderStatus ?: 'pending');
 
-                    /*
-                    |--------------------------------------------------------------------------
-                    | Processing Deadline
-                    |--------------------------------------------------------------------------
-                    */
-
                     $processingDeadline = now()->addDays(
                         $store->processing_time
                     );
@@ -431,31 +491,52 @@ class CheckoutController extends Controller
 
                     $orderNumberFormat = Setting::get(
                         'order_number_format',
-                        'SB-{YmdHis}-{random}'
+                        '#SB-{YYYY}-{####}'
                     );
 
                     $orderNumber = str_replace(
                         [
+                            '{YYYY}',
+                            '{YmdHis}',
                             '{Y}',
                             '{m}',
                             '{d}',
                             '{H}',
                             '{i}',
                             '{s}',
-                            '{YmdHis}',
                             '{random}',
                         ],
                         [
+                            now()->format('Y'),
+                            now()->format('YmdHis'),
                             now()->format('Y'),
                             now()->format('m'),
                             now()->format('d'),
                             now()->format('H'),
                             now()->format('i'),
                             now()->format('s'),
-                            now()->format('YmdHis'),
                             strtoupper(Str::random(6)),
                         ],
                         $orderNumberFormat
+                    );
+
+                    $orderNumber = preg_replace_callback(
+                        '/#{2,}/',
+                        function ($matches) {
+
+                            $length = strlen($matches[0]);
+
+                            return str_pad(
+                                (string) random_int(
+                                    0,
+                                    (10 ** $length) - 1
+                                ),
+                                $length,
+                                '0',
+                                STR_PAD_LEFT
+                            );
+                        },
+                        $orderNumber
                     );
 
                     if (
@@ -463,10 +544,15 @@ class CheckoutController extends Controller
                         $orderNumber === $orderNumberFormat
                     ) {
                         $orderNumber =
-                            'SB-' .
-                            now()->format('YmdHis') .
+                            '#SB-' .
+                            now()->format('Y') .
                             '-' .
-                            strtoupper(Str::random(6));
+                            str_pad(
+                                (string) random_int(0, 9999),
+                                4,
+                                '0',
+                                STR_PAD_LEFT
+                            );
                     }
 
                     /*
@@ -477,54 +563,88 @@ class CheckoutController extends Controller
 
                     $order = Order::create([
                         'order_number' => $orderNumber,
+
                         'user_id' => auth()->id(),
+
                         'book_id' => $book->id,
+
                         'book_price' => $bookPrice,
+
                         'quantity' => $quantity,
+
                         'total_price' => $grandTotal,
+
+                        'shipping_id' => $selectedShipping?->id,
+
                         'shipping_fee' => $shippingFee,
-                        'payment_method' => $validated['payment_method'],
+
+                        'payment_method' =>
+                            $validated['payment_method'],
+
                         'payment_status' => 'pending',
+
                         'order_status' => $orderStatus,
-                        'processing_deadline' => $processingDeadline,
+
+                        'processing_deadline' =>
+                            $processingDeadline,
+
                         'order_note' => $store->order_note,
-                        'full_name' => $validated['full_name'],
-                        'phone' => $validated['phone'],
-                        'country' => $validated['country'],
-                        'city' => $validated['city'],
-                        'postal_code' => $validated['postal_code'] ?? null,
-                        'address' => $validated['address'],
-                        'delivery_estimate' => $estimatedDeliveryMessage,
-                        'note' => $validated['note'] ?? null,
+
+                        'full_name' =>
+                            $validated['full_name'],
+
+                        'phone' =>
+                            $validated['phone'],
+
+                        'country' =>
+                            $validated['country'],
+
+                        'city' =>
+                            $validated['city'],
+
+                        'postal_code' =>
+                            $validated['postal_code'] ?? null,
+
+                        'address' =>
+                            $validated['address'],
+
+                        'delivery_estimate' =>
+                            $deliveryEstimate,
+
+                        'note' =>
+                            $validated['note'] ?? null,
                     ]);
 
                     /*
                     |--------------------------------------------------------------------------
-                    | Create Payment
+                    | Payment
                     |--------------------------------------------------------------------------
                     */
 
                     Payment::create([
                         'transaction_id' =>
-                            'TXN-' .
-                            strtoupper(
-                                Str::random(12)
-                            ),
-                        'order_id' => $order->id,
-                        'amount' => $grandTotal,
-                        'payment_method' => $validated['payment_method'],
-                        'payment_status' => 'pending',
-                        'paid_at' => null,
-                        'note' => null,
+                            'TXN-' . strtoupper(Str::random(12)),
+
+                        'order_id' =>
+                            $order->id,
+
+                        'amount' =>
+                            $grandTotal,
+
+                        'payment_method' =>
+                            $validated['payment_method'],
+
+                        'payment_status' =>
+                            'pending',
+
+                        'paid_at' =>
+                            null,
+
+                        'note' =>
+                            null,
                     ]);
 
                     $createdOrders[] = $order;
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | Reduce Stock
-                    |--------------------------------------------------------------------------
-                    */
 
                     $book->decrement(
                         'stock',
@@ -535,19 +655,7 @@ class CheckoutController extends Controller
                 }
             });
 
-            /*
-            |--------------------------------------------------------------------------
-            | Clear Cart
-            |--------------------------------------------------------------------------
-            */
-
             session()->forget('cart');
-
-            /*
-            |--------------------------------------------------------------------------
-            | Cash on Delivery
-            |--------------------------------------------------------------------------
-            */
 
             if (
                 $validated['payment_method'] ===
@@ -560,12 +668,6 @@ class CheckoutController extends Controller
                         'Your order has been placed successfully.'
                     );
             }
-
-            /*
-            |--------------------------------------------------------------------------
-            | Online Payment
-            |--------------------------------------------------------------------------
-            */
 
             $firstOrder =
                 $createdOrders[0] ?? null;
@@ -586,6 +688,7 @@ class CheckoutController extends Controller
                 );
 
         } catch (\Exception $e) {
+
             return redirect()
                 ->route('frontend.cart')
                 ->with(

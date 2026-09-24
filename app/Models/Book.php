@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Order;
+
 
 class Book extends Model
 {
@@ -55,5 +57,9 @@ class Book extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }

@@ -236,69 +236,97 @@
 
 
                                     {{-- =================================================
-                                       NOTIFICATION LIST
-                                    ================================================== --}}
+                                        NOTIFICATION LIST
+                                    ================================================= --}}
                                     <div class="notification-list">
 
                                         @forelse($headerNotifications as $notification)
 
-                                            <form
-                                                action="{{ route('frontend.notifications.read', $notification) }}"
-                                                method="POST"
-                                                class="notification-item-form"
+                                            <div
+                                                class="notification-item-wrapper"
+                                                id="notification-item-{{ $notification->id }}"
                                             >
 
-                                                @csrf
-
-                                                <button
-                                                    type="submit"
-                                                    class="notification-item {{ is_null($notification->read_at) ? 'unread' : '' }}"
+                                                {{-- READ / OPEN NOTIFICATION --}}
+                                                <form
+                                                    action="{{ route('frontend.notifications.read', $notification) }}"
+                                                    method="POST"
+                                                    class="notification-item-form"
                                                 >
 
-                                                    {{-- ICON --}}
-                                                    <span class="notification-icon">
+                                                    @csrf
 
-                                                        @if($notification->type === 'book_request')
+                                                    <button
+                                                        type="submit"
+                                                        class="notification-item {{ is_null($notification->read_at) ? 'unread' : '' }}"
+                                                        title="{{ $notification->title }}"
+                                                    >
 
-                                                            <i class="bi bi-book"></i>
+                                                        {{-- ICON --}}
+                                                        <span class="notification-icon">
 
-                                                        @else
+                                                            @if($notification->type === 'book_request')
 
-                                                            <i class="bi bi-bell"></i>
+                                                                <i class="bi bi-book"></i>
+
+                                                            @else
+
+                                                                <i class="bi bi-bell"></i>
+
+                                                            @endif
+
+                                                        </span>
+
+
+                                                        {{-- CONTENT --}}
+                                                        <span class="notification-content">
+
+                                                            <strong>
+                                                                {{ Str::limit($notification->title, 42, '...') }}
+                                                            </strong>
+
+                                                            <span>
+                                                                {{ Str::limit($notification->message, 65, '...') }}
+                                                            </span>
+
+                                                            <small>
+                                                                {{ $notification->created_at->diffForHumans() }}
+                                                            </small>
+
+                                                        </span>
+
+
+                                                        {{-- UNREAD DOT --}}
+                                                        @if(is_null($notification->read_at))
+
+                                                            <span
+                                                                class="notification-dot"
+                                                                aria-label="Unread"
+                                                            ></span>
 
                                                         @endif
 
-                                                    </span>
+                                                    </button>
+
+                                                </form>
 
 
-                                                    {{-- CONTENT --}}
-                                                    <span class="notification-content">
+                                                {{-- DELETE --}}
+                                                <button
+                                                    type="button"
+                                                    class="notification-delete-btn"
+                                                    data-notification-id="{{ $notification->id }}"
+                                                    data-notification-title="{{ $notification->title }}"
+                                                    data-delete-url="{{ route('frontend.notifications.destroy', $notification) }}"
+                                                    aria-label="Delete notification"
+                                                    title="Delete notification"
+                                                >
 
-                                                        <strong>
-                                                            {{ $notification->title }}
-                                                        </strong>
-
-                                                        <span>
-                                                            {{ Str::limit($notification->message, 75) }}
-                                                        </span>
-
-                                                        <small>
-                                                            {{ $notification->created_at->diffForHumans() }}
-                                                        </small>
-
-                                                    </span>
-
-
-                                                    {{-- UNREAD DOT --}}
-                                                    @if(is_null($notification->read_at))
-
-                                                        <span class="notification-dot"></span>
-
-                                                    @endif
+                                                    <i class="bi bi-trash3"></i>
 
                                                 </button>
 
-                                            </form>
+                                            </div>
 
                                         @empty
 
@@ -744,3 +772,252 @@
     </header>
 
 </div>
+
+@push('js')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.querySelectorAll('.notification-delete-btn').forEach(function (button) {
+
+        button.addEventListener('click', function (event) {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            const deleteUrl = button.dataset.deleteUrl;
+            const notificationId = button.dataset.notificationId;
+            const notificationTitle =
+                button.dataset.notificationTitle || 'this notification';
+
+            if (!deleteUrl) {
+                console.error('Notification delete URL is missing.');
+                return;
+            }
+
+            if (typeof Swal === 'undefined') {
+                alert('SweetAlert2 is not loaded.');
+                return;
+            }
+
+            Swal.fire({
+                title: 'Delete notification?',
+                text: `"${notificationTitle}" will be permanently deleted.`,
+                icon: 'warning',
+
+                width: 430,
+                padding: '28px',
+
+                showCancelButton: true,
+
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel',
+
+                focusCancel: true,
+
+                buttonsStyling: false,
+
+                customClass: {
+                    popup: 'notification-delete-popup',
+                    icon: 'notification-delete-icon',
+                    title: 'notification-delete-title',
+                    htmlContainer: 'notification-delete-text',
+                    actions: 'notification-delete-actions',
+                    confirmButton: 'notification-delete-confirm',
+                    cancelButton: 'notification-delete-cancel'
+                }
+            }).then(function (result) {
+
+                if (!result.isConfirmed) {
+                    return;
+                }
+
+                button.disabled = true;
+
+                fetch(deleteUrl, {
+                    method: 'DELETE',
+
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+
+                .then(async function (response) {
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(
+                            data.message ||
+                            'Failed to delete notification.'
+                        );
+                    }
+
+                    return data;
+                })
+
+                .then(function (data) {
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | REMOVE NOTIFICATION
+                    |--------------------------------------------------------------------------
+                    */
+
+                    const notificationItem =
+                        document.getElementById(
+                            'notification-item-' + notificationId
+                        );
+
+                    if (notificationItem) {
+                        notificationItem.remove();
+                    }
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | UPDATE UNREAD BADGE
+                    |--------------------------------------------------------------------------
+                    */
+
+                    const notificationBadge =
+                        document.querySelector('.notification-badge');
+
+                    const unreadCount =
+                        Number(data.unread_count || 0);
+
+                    if (notificationBadge) {
+
+                        if (unreadCount > 0) {
+
+                            notificationBadge.textContent =
+                                unreadCount > 99
+                                    ? '99+'
+                                    : unreadCount;
+
+                        } else {
+
+                            notificationBadge.remove();
+
+                        }
+                    }
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | UPDATE HEADER TEXT
+                    |--------------------------------------------------------------------------
+                    */
+
+                    const notificationHeader =
+                        document.querySelector('.notification-header');
+
+                    if (notificationHeader) {
+
+                        const headerText =
+                            notificationHeader.querySelector('div span');
+
+                        if (headerText) {
+
+                            headerText.textContent =
+                                unreadCount > 0
+                                    ? unreadCount + ' unread'
+                                    : "You're all caught up";
+                        }
+                    }
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | EMPTY STATE
+                    |--------------------------------------------------------------------------
+                    */
+
+                    const notificationList =
+                        document.querySelector('.notification-list');
+
+                    if (
+                        notificationList &&
+                        !notificationList.querySelector(
+                            '.notification-item-wrapper'
+                        )
+                    ) {
+
+                        notificationList.innerHTML = `
+                            <div class="notification-empty">
+
+                                <i class="bi bi-bell-slash"></i>
+
+                                <strong>
+                                    No notifications
+                                </strong>
+
+                                <span>
+                                    You don't have any notifications yet.
+                                </span>
+
+                            </div>
+                        `;
+                    }
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | SUCCESS ALERT
+                    |--------------------------------------------------------------------------
+                    */
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Deleted',
+                        text: data.message ||
+                            'Notification deleted successfully.',
+
+                        width: 390,
+                        timer: 1500,
+                        showConfirmButton: false,
+
+                        customClass: {
+                            popup: 'notification-success-popup'
+                        }
+                    });
+
+                })
+
+                .catch(function (error) {
+
+                    console.error(error);
+
+                    button.disabled = false;
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Something went wrong',
+                        text:
+                            error.message ||
+                            'Notification could not be deleted.',
+
+                        width: 410,
+
+                        confirmButtonText: 'OK',
+
+                        buttonsStyling: false,
+
+                        customClass: {
+                            popup: 'notification-error-popup',
+                            confirmButton: 'notification-error-confirm'
+                        }
+                    });
+
+                });
+
+            });
+
+        });
+
+    });
+
+});
+</script>
+@endpush

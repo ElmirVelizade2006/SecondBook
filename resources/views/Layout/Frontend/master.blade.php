@@ -7,9 +7,7 @@
         @include('Layout.Frontend.header-wrap')
     @endif
 
-
     @yield('content')
-
 
     @hasSection('hideFooter')
     @else
@@ -17,12 +15,10 @@
         @include('Layout.Frontend.footer-bottom')
     @endif
 
-
     @hasSection('hideScripts')
     @else
         @include('Layout.Frontend.scripts')
     @endif
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -57,7 +53,6 @@
                 });
             }
 
-
             const profileLogoutBtn =
                 document.getElementById('profileLogoutBtn');
 
@@ -72,9 +67,8 @@
         });
     </script>
 
-
     @stack('js')
 
 </body>
-</html>
 
+</html>

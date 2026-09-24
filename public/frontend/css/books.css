@@ -2483,13 +2483,14 @@
 
 /* =========================================================
    BOOKS PAGINATION
-========================================================= */
+   ========================================================= */
 
 .books-pagination {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
+    gap: 20px;
     padding: 18px 4px 4px;
     margin-top: 4px;
     border-top: 1px solid #eef2f7;
@@ -2500,6 +2501,8 @@
     color: #64748b;
     font-size: 13px;
     font-weight: 500;
+    line-height: 1.5;
+    white-space: nowrap;
 }
 
 .books-pagination-info strong {
@@ -2513,9 +2516,14 @@
 
 .books-pagination-links .pagination {
     display: flex;
+    align-items: center;
     justify-content: flex-end;
-    margin: 0;
     gap: 6px;
+    margin: 0;
+}
+
+.books-pagination-links .page-item {
+    margin: 0;
 }
 
 .books-pagination-links .page-link {
@@ -2531,73 +2539,89 @@
     color: #64748b;
     font-size: 13px;
     font-weight: 600;
+    line-height: 1;
     box-shadow: none;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .books-pagination-links .page-link:hover {
     background: #f8fafc;
     color: #8b5e3c;
     border-color: #cbd5e1;
+    transform: translateY(-1px);
 }
 
 .books-pagination-links .page-item.active .page-link {
     background: #8b5e3c;
     border-color: #8b5e3c;
     color: #fff;
+    box-shadow: 0 5px 14px rgba(139, 94, 60, 0.18);
 }
 
 .books-pagination-links .page-item.disabled .page-link {
     color: #cbd5e1;
     background: #f8fafc;
+    border-color: #e2e8f0;
+    cursor: not-allowed;
+    transform: none;
 }
 
 
-
-
 /* =========================================================
-   DARK MODE
-========================================================= */
+   BOOKS PAGINATION — DARK MODE
+   ========================================================= */
 
 :root[data-theme="dark"] .books-pagination {
-    border-top-color: #334155;
+    border-top-color: #334155 !important;
 }
 
 :root[data-theme="dark"] .books-pagination-info {
-    color: #94a3b8;
+    color: #94a3b8 !important;
 }
 
 :root[data-theme="dark"] .books-pagination-info strong {
-    color: #e6edf7;
+    color: #f1f5f9 !important;
 }
 
 :root[data-theme="dark"] .books-pagination-links .page-link {
-    background: #111827;
-    border-color: #334155;
-    color: #cbd5e1;
+    background-color: #111827 !important;
+    color: #cbd5e1 !important;
+    border-color: #334155 !important;
 }
 
 :root[data-theme="dark"] .books-pagination-links .page-link:hover {
-    background: #1e293b;
-    border-color: #475569;
-    color: #c08457;
+    background-color: #1e293b !important;
+    color: #d6b89d !important;
+    border-color: #64748b !important;
 }
 
 :root[data-theme="dark"] .books-pagination-links .page-item.active .page-link {
-    background: #8b5e3c;
-    border-color: #8b5e3c;
-    color: #fff;
+    background-color: #8b5e3c !important;
+    border-color: #8b5e3c !important;
+    color: #ffffff !important;
 }
 
 :root[data-theme="dark"] .books-pagination-links .page-item.disabled .page-link {
-    background: #0f172a;
-    border-color: #334155;
-    color: #475569;
+    background-color: #0f172a !important;
+    color: #475569 !important;
+    border-color: #293548 !important;
+}
+
+:root[data-theme="dark"] .books-pagination-links .page-link:focus {
+    background-color: #1e293b !important;
+    color: #ffffff !important;
+    border-color: #8b5e3c !important;
+    box-shadow: 0 0 0 0.15rem rgba(139, 94, 60, 0.18) !important;
 }
 
 
 /* =========================================================
-   RESPONSIVE
-========================================================= */
+   RESPONSIVE — PAGINATION
+   ========================================================= */
 
 @media (max-width: 768px) {
 
@@ -2614,5 +2638,118 @@
     .books-pagination-links {
         width: 100%;
         overflow-x: auto;
+        padding-bottom: 2px;
+    }
+
+    .books-pagination-links .pagination {
+        justify-content: flex-start;
+        width: max-content;
+    }
+}
+
+/* =========================================================
+   BOOKS PAGINATION — FINAL DARK MODE FIX
+   ========================================================= */
+
+.books-pagination {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 18px 4px 4px;
+    margin-top: 4px;
+    border-top: 1px solid #eef2f7;
+}
+
+.books-pagination-info {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 0 0 auto;
+    color: #64748b !important;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+.books-pagination-info .pagination-label {
+    color: #64748b !important;
+}
+
+.books-pagination-info strong {
+    color: #1e293b !important;
+    font-weight: 700;
+}
+
+
+/* DARK MODE */
+
+:root[data-theme="dark"] .books-pagination {
+    border-top-color: #334155 !important;
+}
+
+:root[data-theme="dark"] .books-pagination-info,
+:root[data-theme="dark"] .books-pagination-info .pagination-label {
+    color: #94a3b8 !important;
+}
+
+:root[data-theme="dark"] .books-pagination-info strong {
+    color: #f1f5f9 !important;
+}
+
+
+/* PAGINATION BUTTONS */
+
+:root[data-theme="dark"] .books-pagination-links .page-link {
+    background: #111827 !important;
+    border-color: #334155 !important;
+    color: #cbd5e1 !important;
+}
+
+:root[data-theme="dark"] .books-pagination-links .page-link:hover {
+    background: #1e293b !important;
+    border-color: #64748b !important;
+    color: #d6b89d !important;
+}
+
+:root[data-theme="dark"] .books-pagination-links .page-item.active .page-link {
+    background: #8b5e3c !important;
+    border-color: #8b5e3c !important;
+    color: #ffffff !important;
+}
+
+:root[data-theme="dark"] .books-pagination-links .page-item.disabled .page-link {
+    background: #0f172a !important;
+    border-color: #293548 !important;
+    color: #475569 !important;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+    .books-pagination {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .books-pagination-info {
+        font-size: 12px;
+        white-space: normal;
+        flex-wrap: wrap;
+    }
+
+    .books-pagination-links {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 2px;
+    }
+
+    .books-pagination-links .pagination {
+        justify-content: flex-start;
+        width: max-content;
     }
 }

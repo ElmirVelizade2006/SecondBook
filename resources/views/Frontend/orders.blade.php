@@ -161,6 +161,7 @@
                                     'status-pending',
                             };
 
+
                             $paymentMethod = $order->payment_method
                                 ? ucwords(
                                     str_replace(
@@ -171,9 +172,29 @@
                                 )
                                 : 'Not selected';
 
+
                             $paymentStatus = $order->payment_status
                                 ? ucfirst($order->payment_status)
                                 : 'Pending';
+
+
+                            /*
+                             * Order can be cancelled only when:
+                             * - Cancellation period is enabled
+                             * - Order is pending or processing
+                             * - Cancellation period has not expired
+                             */
+
+                            $canCancelOrder =
+                                $cancelOrderPeriod > 0 &&
+                                in_array(
+                                    $order->order_status,
+                                    ['pending', 'processing']
+                                ) &&
+                                $order->created_at
+                                    ->copy()
+                                    ->addDays($cancelOrderPeriod)
+                                    ->isFuture();
 
                         @endphp
 
@@ -218,7 +239,6 @@
 
                             <div class="order-card-body">
 
-
                                 {{-- BOOK --}}
 
                                 <div class="order-book">
@@ -236,9 +256,13 @@
                                                     FILTER_VALIDATE_URL
                                                 )
                                                     ? $cover
-                                                    : asset('storage/' . ltrim($cover, '/'));
+                                                    : asset(
+                                                        'storage/' .
+                                                        ltrim($cover, '/')
+                                                    );
 
                                             @endphp
+
 
                                             <img
                                                 src="{{ $coverUrl }}"
@@ -246,6 +270,7 @@
                                                 loading="lazy"
                                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
                                             >
+
 
                                             <div
                                                 class="order-book-placeholder"
@@ -257,9 +282,7 @@
                                         @else
 
                                             <div class="order-book-placeholder">
-
                                                 <i class="bi bi-book"></i>
-
                                             </div>
 
                                         @endif
@@ -357,6 +380,8 @@
 
                             <div class="order-card-footer">
 
+                                {{-- PAYMENT STATUS --}}
+
                                 <div class="order-payment-status">
 
                                     <div class="order-payment-icon">
@@ -378,29 +403,79 @@
                                 </div>
 
 
+                                {{-- ACTIONS --}}
+
                                 <div class="order-actions">
+
+                                    {{-- VIEW DETAILS --}}
 
                                     <a
                                         href="{{ route('frontend.orders.show', $order->id) }}"
                                         class="order-details-btn"
                                     >
-                                        <span>View Details</span>
+
+                                        <span>
+                                            View Details
+                                        </span>
+
                                         <i class="bi bi-arrow-right"></i>
+
                                     </a>
 
+
+                                    {{-- CANCEL ORDER --}}
+
+                                    @if($canCancelOrder)
+
+                                        <form
+                                            action="{{ route('frontend.orders.cancel', $order->id) }}"
+                                            method="POST"
+                                            class="cancel-order-form"
+                                        >
+
+                                            @csrf
+
+                                            <button
+                                                type="button"
+                                                class="order-cancel-btn js-cancel-order"
+                                                data-order="{{ $order->order_number }}"
+                                            >
+
+                                                <i class="bi bi-x-circle"></i>
+
+                                                <span>
+                                                    Cancel Order
+                                                </span>
+
+                                            </button>
+
+                                        </form>
+
+                                    @endif
+
+
+                                    {{-- WRITE REVIEW --}}
 
                                     @if(
                                         $order->order_status === 'delivered' &&
                                         $order->book &&
-                                        !in_array($order->book_id, $reviewedBookIds)
+                                        !in_array(
+                                            $order->book_id,
+                                            $reviewedBookIds
+                                        )
                                     )
 
                                         <a
                                             href="{{ route('frontend.reviews.create', $order->id) }}"
                                             class="order-review-btn"
                                         >
+
                                             <i class="bi bi-star"></i>
-                                            <span>Write Review</span>
+
+                                            <span>
+                                                Write Review
+                                            </span>
+
                                         </a>
 
                                     @endif
@@ -483,3 +558,69 @@
 
 @endsection
 
+
+{{-- =========================================================
+   CANCEL ORDER - SWEETALERT
+========================================================= --}}
+
+@push('js')
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    document
+        .querySelectorAll('.js-cancel-order')
+        .forEach(function (button) {
+
+            button.addEventListener('click', function () {
+
+                const form = this.closest('.cancel-order-form');
+
+                const orderNumber = this.dataset.order;
+
+
+                Swal.fire({
+
+                    title: 'Cancel Order?',
+
+                    text:
+                        `Are you sure you want to cancel order #${orderNumber}?`,
+
+                    icon: 'warning',
+
+                    showCancelButton: true,
+
+                    confirmButtonText: 'Yes, Cancel Order',
+
+                    cancelButtonText: 'Keep Order',
+
+                    reverseButtons: true,
+
+                    customClass: {
+
+                        confirmButton: 'swal-confirm-btn',
+
+                        cancelButton: 'swal-cancel-btn'
+
+                    }
+
+                }).then(function (result) {
+
+                    if (result.isConfirmed) {
+
+                        form.submit();
+
+                    }
+
+                });
+
+            });
+
+        });
+
+});
+
+</script>
+
+@endpush

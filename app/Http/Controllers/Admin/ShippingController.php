@@ -4,10 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Shipping;
+use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
 
 class ShippingController extends Controller
 {
+    public function __construct(
+        protected ActivityLogService $activityLogService
+    ) {
+    }
+
     public function index(Request $request)
     {
         $query = Shipping::query();
@@ -34,11 +40,8 @@ class ShippingController extends Controller
 
         // Statistics
         $totalShippings = Shipping::count();
-
         $activeShippings = Shipping::where('status', true)->count();
-
         $inactiveShippings = Shipping::where('status', false)->count();
-
         $freeShippings = Shipping::where('price', 0)->count();
 
         return view('admin.shipping.index', compact(
@@ -65,7 +68,13 @@ class ShippingController extends Controller
             'status' => ['required', 'boolean'],
         ]);
 
-        Shipping::create($validated);
+        $shipping = Shipping::create($validated);
+
+        $this->activityLogService->log(
+            'created',
+            'Shipping',
+            "Shipping method \"{$shipping->name}\" was created."
+        );
 
         return redirect()
             ->route('admin.shipping.index')
@@ -89,6 +98,12 @@ class ShippingController extends Controller
 
         $shipping->update($validated);
 
+        $this->activityLogService->log(
+            'updated',
+            'Shipping',
+            "Shipping method \"{$shipping->name}\" was updated."
+        );
+
         return redirect()
             ->route('admin.shipping.index')
             ->with('success', 'Shipping method updated successfully.');
@@ -96,6 +111,14 @@ class ShippingController extends Controller
 
     public function destroy(Shipping $shipping)
     {
+        $shippingName = $shipping->name;
+
+        $this->activityLogService->log(
+            'deleted',
+            'Shipping',
+            "Shipping method \"{$shippingName}\" was deleted."
+        );
+
         $shipping->delete();
 
         return redirect()
@@ -103,3 +126,4 @@ class ShippingController extends Controller
             ->with('success', 'Shipping method deleted successfully.');
     }
 }
+

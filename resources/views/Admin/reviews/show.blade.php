@@ -470,15 +470,15 @@
                     <form
                         action="{{ route('admin.reviews.destroy', $review->id) }}"
                         method="POST"
-                        onsubmit="return confirm('Delete this review?')"
+                        id="reviewDeleteForm"
                     >
-
                         @csrf
                         @method('DELETE')
 
                         <button
                             type="submit"
                             class="review-action-btn delete"
+                            id="reviewDeleteButton"
                         >
                             <i class="bi bi-trash3"></i>
 
@@ -486,7 +486,6 @@
                                 Delete Review
                             </span>
                         </button>
-
                     </form>
 
 
@@ -512,3 +511,118 @@
 </div>
 
 @endsection
+
+@push('js')
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const deleteForm = document.getElementById('reviewDeleteForm');
+
+    if (!deleteForm) {
+        return;
+    }
+
+    deleteForm.addEventListener('submit', function (event) {
+
+        event.preventDefault();
+
+        Swal.fire({
+            title: 'Delete Review?',
+            text: 'This review will be permanently deleted.',
+            icon: 'warning',
+            width: 430,
+            padding: '30px',
+            showCancelButton: true,
+            confirmButtonText: 'Delete',
+            cancelButtonText: 'Cancel',
+            buttonsStyling: false,
+            customClass: {
+                popup: 'review-delete-popup',
+                confirmButton: 'review-delete-confirm',
+                cancelButton: 'review-delete-cancel'
+            }
+        }).then(function (result) {
+
+            if (!result.isConfirmed) {
+                return;
+            }
+
+            const csrfToken = deleteForm.querySelector(
+                'input[name="_token"]'
+            ).value;
+
+            Swal.fire({
+                title: 'Deleting...',
+                text: 'Please wait while the review is being deleted.',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                didOpen: function () {
+                    Swal.showLoading();
+                }
+            });
+
+            fetch(deleteForm.action, {
+                method: 'POST',
+
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                },
+
+                body: new URLSearchParams({
+                    _token: csrfToken,
+                    _method: 'DELETE'
+                })
+            })
+            .then(async function (response) {
+
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(
+                        data.message || 'Something went wrong.'
+                    );
+                }
+
+                return data;
+            })
+            .then(function (data) {
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Review Deleted',
+                    text: data.message ||
+                        'The review has been deleted successfully.',
+                    timer: 1400,
+                    showConfirmButton: false
+                }).then(function () {
+
+                    window.location.href =
+                        "{{ route('admin.reviews.index') }}";
+
+                });
+
+            })
+            .catch(function (error) {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Delete Failed',
+                    text: error.message ||
+                        'Something went wrong while deleting the review.',
+                    confirmButtonText: 'OK'
+                });
+
+            });
+
+        });
+
+    });
+
+});
+</script>
+
+@endpush

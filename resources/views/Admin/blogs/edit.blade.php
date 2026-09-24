@@ -9,7 +9,7 @@
 
 <div class="dashboard-section blogs-page">
 
-```
+
 {{-- Header --}}
 <div class="dashboard-panel blogs-header-panel">
 
@@ -305,7 +305,7 @@
     </form>
 
 </div>
-```
+
 
 </div>
 

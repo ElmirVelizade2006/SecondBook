@@ -5,51 +5,77 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class PaymentsController extends Controller
 {
+    private ActivityLogService $activityLogService;
+
+    public function __construct(ActivityLogService $activityLogService)
+    {
+        $this->activityLogService = $activityLogService;
+    }
+
     public function index(Request $request)
     {
         $query = Payment::with([
             'order.user',
-            'order.book'
+            'order.book',
         ]);
 
         if ($request->filled('search')) {
-
             $search = $request->search;
 
             $query->where(function ($q) use ($search) {
-
                 $q->where('transaction_id', 'like', "%{$search}%")
                     ->orWhereHas('order', function ($orderQuery) use ($search) {
-
-                        $orderQuery->where('order_number', 'like', "%{$search}%")
+                        $orderQuery->where(
+                            'order_number',
+                            'like',
+                            "%{$search}%"
+                        )
                             ->orWhereHas('user', function ($userQuery) use ($search) {
-
-                                $userQuery->where('first_name', 'like', "%{$search}%")
-                                    ->orWhere('last_name', 'like', "%{$search}%")
-                                    ->orWhere('email', 'like', "%{$search}%");
-
+                                $userQuery->where(
+                                    'first_name',
+                                    'like',
+                                    "%{$search}%"
+                                )
+                                    ->orWhere(
+                                        'last_name',
+                                        'like',
+                                        "%{$search}%"
+                                    )
+                                    ->orWhere(
+                                        'email',
+                                        'like',
+                                        "%{$search}%"
+                                    );
                             });
-
                     });
-
             });
         }
 
         if ($request->filled('payment_status')) {
-            $query->where('payment_status', $request->payment_status);
+            $query->where(
+                'payment_status',
+                $request->payment_status
+            );
         }
 
         if ($request->filled('payment_method')) {
-            $query->where('payment_method', $request->payment_method);
+            $query->where(
+                'payment_method',
+                $request->payment_method
+            );
         }
 
         if ($request->filled('date')) {
-            $query->whereDate('created_at', $request->date);
+            $query->whereDate(
+                'created_at',
+                $request->date
+            );
         }
 
         $payments = $query
@@ -90,7 +116,7 @@ class PaymentsController extends Controller
     {
         $orders = Order::with([
             'user',
-            'book'
+            'book',
         ])
             ->latest()
             ->get();
@@ -104,69 +130,52 @@ class PaymentsController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-
             'order_id' => [
                 'required',
                 'exists:orders,id',
                 'unique:payments,order_id',
             ],
-
             'amount' => [
                 'required',
                 'numeric',
                 'min:0',
             ],
-
             'payment_method' => [
                 'required',
                 'in:cash_on_delivery,credit_card,debit_card,paypal',
             ],
-
             'payment_status' => [
                 'required',
                 'in:pending,paid,failed,refunded',
             ],
-
             'paid_at' => [
                 'nullable',
                 'date',
             ],
-
             'note' => [
                 'nullable',
                 'string',
             ],
-
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | Paid At
-        |--------------------------------------------------------------------------
-        */
-
         if ($request->payment_status === 'paid') {
-
             $validated['paid_at'] = $request->paid_at
                 ? $request->paid_at
                 : now();
-
         } else {
-
             $validated['paid_at'] = null;
-
         }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Transaction ID
-        |--------------------------------------------------------------------------
-        */
 
         $validated['transaction_id'] =
             'TXN-' . strtoupper(Str::random(10));
 
-        Payment::create($validated);
+        $payment = Payment::create($validated);
+
+        $this->activityLogService->log(
+            'created',
+            'Payments',
+            "Payment \"{$payment->transaction_id}\" was created."
+        );
 
         return redirect()
             ->route('admin.payments.index')
@@ -180,7 +189,7 @@ class PaymentsController extends Controller
     {
         $payment->load([
             'order.user',
-            'order.book'
+            'order.book',
         ]);
 
         return view(
@@ -193,7 +202,7 @@ class PaymentsController extends Controller
     {
         $orders = Order::with([
             'user',
-            'book'
+            'book',
         ])
             ->latest()
             ->get();
@@ -212,60 +221,59 @@ class PaymentsController extends Controller
         Payment $payment
     ) {
         $validated = $request->validate([
-
             'order_id' => [
                 'required',
                 'exists:orders,id',
                 'unique:payments,order_id,' . $payment->id,
             ],
-
             'amount' => [
                 'required',
                 'numeric',
                 'min:0',
             ],
-
             'payment_method' => [
                 'required',
                 'in:cash_on_delivery,credit_card,debit_card,paypal',
             ],
-
             'payment_status' => [
                 'required',
                 'in:pending,paid,failed,refunded',
             ],
-
             'paid_at' => [
                 'nullable',
                 'date',
             ],
-
             'note' => [
                 'nullable',
                 'string',
             ],
-
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | Paid At
-        |--------------------------------------------------------------------------
-        */
+        $oldPaymentStatus = $payment->payment_status;
 
         if ($request->payment_status === 'paid') {
-
             $validated['paid_at'] = $request->paid_at
                 ? $request->paid_at
                 : ($payment->paid_at ?? now());
-
         } else {
-
             $validated['paid_at'] = null;
-
         }
 
         $payment->update($validated);
+
+        $this->activityLogService->log(
+            'updated',
+            'Payments',
+            "Payment \"{$payment->transaction_id}\" was updated."
+        );
+
+        if ($oldPaymentStatus !== $payment->payment_status) {
+            $this->activityLogService->log(
+                'updated',
+                'Payments',
+                "Payment \"{$payment->transaction_id}\" status changed from \"{$oldPaymentStatus}\" to \"{$payment->payment_status}\"."
+            );
+        }
 
         return redirect()
             ->route('admin.payments.index')
@@ -277,6 +285,14 @@ class PaymentsController extends Controller
 
     public function destroy(Payment $payment)
     {
+        $transactionId = $payment->transaction_id;
+
+        $this->activityLogService->log(
+            'deleted',
+            'Payments',
+            "Payment \"{$transactionId}\" was deleted."
+        );
+
         $payment->delete();
 
         return redirect()
@@ -287,3 +303,4 @@ class PaymentsController extends Controller
             );
     }
 }
+

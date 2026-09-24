@@ -5,10 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Notification;
+use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
 
 class BookRequestController extends Controller
 {
+    public function __construct(
+        protected ActivityLogService $activityLogService
+    ) {
+    }
+
     /**
      * Display pending seller book requests.
      */
@@ -134,7 +140,6 @@ class BookRequestController extends Controller
                 'required',
                 'in:pending,approved,rejected,changes_requested',
             ],
-
             'message' => [
                 'nullable',
                 'string',
@@ -146,6 +151,8 @@ class BookRequestController extends Controller
 
         $status = $validated['status'];
         $message = trim($validated['message'] ?? '');
+
+        $oldStatus = $book->status;
 
         /*
         |--------------------------------------------------------------------------
@@ -164,7 +171,6 @@ class BookRequestController extends Controller
         */
 
         if ($book->seller_id && $message !== '') {
-
             $title = match ($status) {
                 'approved' => 'Book Request Approved',
                 'rejected' => 'Book Request Rejected',
@@ -180,6 +186,18 @@ class BookRequestController extends Controller
                 'read_at' => null,
             ]);
         }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Activity Log
+        |--------------------------------------------------------------------------
+        */
+
+        $this->activityLogService->log(
+            'updated',
+            'Book Requests',
+            "Book request \"{$book->title}\" status changed from {$oldStatus} to {$status}."
+        );
 
         /*
         |--------------------------------------------------------------------------
@@ -207,6 +225,14 @@ class BookRequestController extends Controller
      */
     public function destroy(Book $book)
     {
+        $bookTitle = $book->title;
+
+        $this->activityLogService->log(
+            'deleted',
+            'Book Requests',
+            "Book request \"{$bookTitle}\" was deleted."
+        );
+
         $book->delete();
 
         return redirect()
@@ -217,3 +243,4 @@ class BookRequestController extends Controller
             );
     }
 }
+

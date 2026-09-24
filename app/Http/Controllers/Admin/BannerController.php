@@ -4,11 +4,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class BannerController extends Controller
 {
+    private ActivityLogService $activityLogService;
+
+    public function __construct(ActivityLogService $activityLogService)
+    {
+        $this->activityLogService = $activityLogService;
+    }
+
     /**
      * Display a listing of banners.
      */
@@ -21,14 +29,25 @@ class BannerController extends Controller
             $search = $request->search;
 
             $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                    ->orWhere('subtitle', 'like', "%{$search}%");
+                $q->where(
+                    'title',
+                    'like',
+                    "%{$search}%"
+                )
+                    ->orWhere(
+                        'subtitle',
+                        'like',
+                        "%{$search}%"
+                    );
             });
         }
 
         // Status filter
         if ($request->filled('status')) {
-            $query->where('status', $request->status);
+            $query->where(
+                'status',
+                $request->status
+            );
         }
 
         // Order by position first, then newest
@@ -38,7 +57,10 @@ class BannerController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return view('admin.banners.index', compact('banners'));
+        return view(
+            'admin.banners.index',
+            compact('banners')
+        );
     }
 
     /**
@@ -56,6 +78,7 @@ class BannerController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+
             'subtitle' => 'nullable|string|max:255',
 
             'image' => [
@@ -66,6 +89,7 @@ class BannerController extends Controller
             ],
 
             'button_text' => 'nullable|string|max:100',
+
             'button_url' => 'nullable|string|max:500',
 
             'position' => 'required|integer|min:0',
@@ -73,18 +97,29 @@ class BannerController extends Controller
             'status' => 'required|in:active,inactive',
 
             'start_date' => 'nullable|date',
+
             'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
 
         // Upload image
-        $validated['image'] = $request->file('image')
+        $validated['image'] = $request
+            ->file('image')
             ->store('banners', 'public');
 
-        Banner::create($validated);
+        $banner = Banner::create($validated);
+
+        $this->activityLogService->log(
+            'created',
+            'Banners',
+            "Banner \"{$banner->title}\" was created."
+        );
 
         return redirect()
             ->route('admin.banners.index')
-            ->with('success', 'Banner created successfully.');
+            ->with(
+                'success',
+                'Banner created successfully.'
+            );
     }
 
     /**
@@ -92,16 +127,22 @@ class BannerController extends Controller
      */
     public function edit(Banner $banner)
     {
-        return view('admin.banners.edit', compact('banner'));
+        return view(
+            'admin.banners.edit',
+            compact('banner')
+        );
     }
 
     /**
      * Update the specified banner.
      */
-    public function update(Request $request, Banner $banner)
-    {
+    public function update(
+        Request $request,
+        Banner $banner
+    ) {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+
             'subtitle' => 'nullable|string|max:255',
 
             'image' => [
@@ -112,6 +153,7 @@ class BannerController extends Controller
             ],
 
             'button_text' => 'nullable|string|max:100',
+
             'button_url' => 'nullable|string|max:500',
 
             'position' => 'required|integer|min:0',
@@ -119,25 +161,40 @@ class BannerController extends Controller
             'status' => 'required|in:active,inactive',
 
             'start_date' => 'nullable|date',
+
             'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
 
         // Replace image if a new one was uploaded
         if ($request->hasFile('image')) {
-
-            if ($banner->image && Storage::disk('public')->exists($banner->image)) {
-                Storage::disk('public')->delete($banner->image);
+            if (
+                $banner->image &&
+                Storage::disk('public')->exists($banner->image)
+            ) {
+                Storage::disk('public')->delete(
+                    $banner->image
+                );
             }
 
-            $validated['image'] = $request->file('image')
+            $validated['image'] = $request
+                ->file('image')
                 ->store('banners', 'public');
         }
 
         $banner->update($validated);
 
+        $this->activityLogService->log(
+            'updated',
+            'Banners',
+            "Banner \"{$banner->title}\" was updated."
+        );
+
         return redirect()
             ->route('admin.banners.index')
-            ->with('success', 'Banner updated successfully.');
+            ->with(
+                'success',
+                'Banner updated successfully.'
+            );
     }
 
     /**
@@ -145,15 +202,39 @@ class BannerController extends Controller
      */
     public function destroy(Banner $banner)
     {
+        $bannerTitle = $banner->title;
+
         // Delete image from storage
-        if ($banner->image && Storage::disk('public')->exists($banner->image)) {
-            Storage::disk('public')->delete($banner->image);
+        if (
+            $banner->image &&
+            Storage::disk('public')->exists($banner->image)
+        ) {
+            Storage::disk('public')->delete(
+                $banner->image
+            );
         }
+
+        $this->activityLogService->log(
+            'deleted',
+            'Banners',
+            "Banner \"{$bannerTitle}\" was deleted."
+        );
 
         $banner->delete();
 
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Banner deleted successfully.',
+            ]);
+        }
+
         return redirect()
             ->route('admin.banners.index')
-            ->with('success', 'Banner deleted successfully.');
+            ->with(
+                'success',
+                'Banner deleted successfully.'
+            );
     }
 }
+

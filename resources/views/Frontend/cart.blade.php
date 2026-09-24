@@ -76,6 +76,22 @@
             CART
         ====================================================== --}}
 
+        @php
+            $shippingEnabled = \App\Models\Setting::get('shipping_enabled', true);
+            $defaultShippingFee = (float) \App\Models\Setting::get('default_shipping_fee', 0);
+            $freeShippingThreshold = (float) \App\Models\Setting::get('free_shipping_threshold', 0);
+
+            $shippingFee = 0;
+
+            if ($shippingEnabled) {
+                if ($freeShippingThreshold <= 0 || $subtotal < $freeShippingThreshold) {
+                    $shippingFee = $defaultShippingFee;
+                }
+            }
+
+            $grandTotal = $subtotal + $shippingFee;
+        @endphp
+
         @if(count($cart) > 0)
 
             <div class="sb-cart-layout">
@@ -372,28 +388,31 @@
 
 
                             <div class="sb-summary-row">
+                                <span>Shipping</span>
 
-                                <span>
-                                    Shipping
-                                </span>
-
-                                <strong class="sb-free-shipping">
-                                    Free
-                                </strong>
-
+                                @if(!$shippingEnabled)
+                                    <strong>Disabled</strong>
+                                @elseif($shippingFee <= 0)
+                                    <strong class="sb-free-shipping">Free</strong>
+                                @else
+                                    <strong>${{ number_format($shippingFee, 2) }}</strong>
+                                @endif
                             </div>
 
+                            @if($shippingEnabled && $freeShippingThreshold > 0)
+                                <div class="sb-shipping-note">
+                                    <i class="bi bi-truck"></i>
 
-                            {{-- SHIPPING NOTE --}}
-                            <div class="sb-shipping-note">
-
-                                <i class="bi bi-truck"></i>
-
-                                <span>
-                                    Free shipping is included with your order.
-                                </span>
-
-                            </div>
+                                    <span>
+                                        @if($shippingFee > 0)
+                                            Free shipping on orders over
+                                            ${{ number_format($freeShippingThreshold, 2) }}.
+                                        @else
+                                            Free shipping is included with your order.
+                                        @endif
+                                    </span>
+                                </div>
+                            @endif
 
 
                             <div class="sb-summary-divider"></div>
@@ -407,7 +426,7 @@
                                 </span>
 
                                 <strong>
-                                    ${{ number_format($subtotal, 2) }}
+                                    ${{ number_format($grandTotal, 2) }}
                                 </strong>
 
                             </div>

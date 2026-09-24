@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
-use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
@@ -60,7 +59,30 @@ class NotificationController extends Controller
             ]);
 
         return redirect()
-        ->route('frontend.notifications.index')
-        ->with('success', 'All notifications marked as read.');
+            ->route('frontend.notifications.index')
+            ->with('success', 'All notifications marked as read.');
+    }
+
+    /**
+     * Delete one notification.
+     */
+    public function destroy(Notification $notification)
+    {
+        abort_unless(
+            $notification->user_id === auth()->id(),
+            403
+        );
+
+        $notification->delete();
+
+        $unreadCount = Notification::where('user_id', auth()->id())
+            ->whereNull('read_at')
+            ->count();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Notification deleted successfully.',
+            'unread_count' => $unreadCount,
+        ]);
     }
 }

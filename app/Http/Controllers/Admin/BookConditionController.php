@@ -4,10 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Book;
+use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
 
 class BookConditionController extends Controller
 {
+    public function __construct(
+        protected ActivityLogService $activityLogService
+    ) {
+    }
+
     protected function getDefaultConditions(): array
     {
         return [
@@ -41,28 +47,47 @@ class BookConditionController extends Controller
     protected function getConditions(): array
     {
         $savedConditions = session('admin_book_conditions');
-        $savedConditions = is_array($savedConditions) ? $savedConditions : [];
+        $savedConditions = is_array($savedConditions)
+            ? $savedConditions
+            : [];
 
         $conditions = [];
 
         foreach ($this->getDefaultConditions() as $defaultCondition) {
-            $savedCondition = collect($savedConditions)->firstWhere('id', $defaultCondition['id']);
-            $condition = $savedCondition ? array_merge($defaultCondition, $savedCondition) : $defaultCondition;
+            $savedCondition = collect($savedConditions)
+                ->firstWhere('id', $defaultCondition['id']);
 
-            $booksQuery = Book::query()->where('condition', $condition['id']);
+            $condition = $savedCondition
+                ? array_merge($defaultCondition, $savedCondition)
+                : $defaultCondition;
+
+            $booksQuery = Book::query()
+                ->where('condition', $condition['id']);
+
             $condition['books_count'] = (int) $booksQuery->count();
-            $condition['created_at'] = $booksQuery->orderBy('created_at')->value('created_at')
+
+            $condition['created_at'] = $booksQuery
+                ->orderBy('created_at')
+                ->value('created_at')
                 ?? ($savedCondition['created_at'] ?? now()->format('Y-m-d'));
 
             $conditions[] = $condition;
         }
 
         foreach ($savedConditions as $savedCondition) {
-            if (!collect($conditions)->contains(fn ($condition) => $condition['id'] === $savedCondition['id'])) {
-                $booksQuery = Book::query()->where('condition', $savedCondition['id']);
+            if (!collect($conditions)->contains(
+                fn ($condition) => $condition['id'] === $savedCondition['id']
+            )) {
+                $booksQuery = Book::query()
+                    ->where('condition', $savedCondition['id']);
+
                 $savedCondition['books_count'] = (int) $booksQuery->count();
-                $savedCondition['created_at'] = $booksQuery->orderBy('created_at')->value('created_at')
+
+                $savedCondition['created_at'] = $booksQuery
+                    ->orderBy('created_at')
+                    ->value('created_at')
                     ?? ($savedCondition['created_at'] ?? now()->format('Y-m-d'));
+
                 $conditions[] = $savedCondition;
             }
         }
@@ -72,7 +97,9 @@ class BookConditionController extends Controller
 
     protected function saveConditions(array $conditions): void
     {
-        session(['admin_book_conditions' => $conditions]);
+        session([
+            'admin_book_conditions' => $conditions,
+        ]);
     }
 
     public function index(Request $request)
@@ -81,19 +108,39 @@ class BookConditionController extends Controller
 
         if ($request->filled('search')) {
             $search = strtolower($request->search);
-            $conditions = array_values(array_filter($conditions, function ($condition) use ($search) {
-                return str_contains(strtolower($condition['name']), $search);
-            }));
+
+            $conditions = array_values(
+                array_filter(
+                    $conditions,
+                    function ($condition) use ($search) {
+                        return str_contains(
+                            strtolower($condition['name']),
+                            $search
+                        );
+                    }
+                )
+            );
         }
 
         if ($request->filled('status')) {
             $status = $request->status;
-            $conditions = array_values(array_filter($conditions, function ($condition) use ($status) {
-                return $status === 'active' ? (int) $condition['status'] === 1 : (int) $condition['status'] === 0;
-            }));
+
+            $conditions = array_values(
+                array_filter(
+                    $conditions,
+                    function ($condition) use ($status) {
+                        return $status === 'active'
+                            ? (int) $condition['status'] === 1
+                            : (int) $condition['status'] === 0;
+                    }
+                )
+            );
         }
 
-        return view('admin.book-condition.index', compact('conditions'));
+        return view(
+            'admin.book-condition.index',
+            compact('conditions')
+        );
     }
 
     public function create()
@@ -105,7 +152,7 @@ class BookConditionController extends Controller
     {
         $conditions = $this->getConditions();
 
-        $conditions[] = [
+        $condition = [
             'id' => 'custom-' . uniqid(),
             'name' => $request->input('name'),
             'description' => $request->input('description', ''),
@@ -114,57 +161,134 @@ class BookConditionController extends Controller
             'created_at' => now()->format('Y-m-d'),
         ];
 
+        $conditions[] = $condition;
+
         $this->saveConditions($conditions);
 
-        return redirect()->route('admin.book.conditions.index')->with('success', 'Condition added successfully.');
+        $this->activityLogService->log(
+            'created',
+            'Book Conditions',
+            "Book condition \"{$condition['name']}\" was created."
+        );
+
+        return redirect()
+            ->route('admin.book.conditions.index')
+            ->with('success', 'Condition added successfully.');
     }
 
     public function edit(string $condition)
     {
         $conditions = $this->getConditions();
-        $selectedCondition = collect($conditions)->firstWhere('id', $condition);
+
+        $selectedCondition = collect($conditions)
+            ->firstWhere('id', $condition);
 
         if (!$selectedCondition) {
             abort(404);
         }
 
-        return view('admin.book-condition.form', compact('condition', 'selectedCondition'));
+        return view(
+            'admin.book-condition.form',
+            compact('condition', 'selectedCondition')
+        );
     }
 
     public function update(Request $request, string $condition)
     {
         $conditions = $this->getConditions();
-        $index = collect($conditions)->search(fn ($item) => $item['id'] === $condition);
+
+        $index = collect($conditions)->search(
+            fn ($item) => $item['id'] === $condition
+        );
 
         if ($index !== false) {
+            $oldName = $conditions[$index]['name'];
+
             $conditions[$index]['name'] = $request->input('name');
-            $conditions[$index]['description'] = $request->input('description', '');
-            $conditions[$index]['status'] = (int) $request->input('status', 1);
+            $conditions[$index]['description'] = $request->input(
+                'description',
+                ''
+            );
+            $conditions[$index]['status'] = (int) $request->input(
+                'status',
+                1
+            );
+
             $this->saveConditions($conditions);
+
+            $this->activityLogService->log(
+                'updated',
+                'Book Conditions',
+                "Book condition \"{$oldName}\" was updated."
+            );
         }
 
-        return redirect()->route('admin.book.conditions.index')->with('success', 'Condition updated successfully.');
+        return redirect()
+            ->route('admin.book.conditions.index')
+            ->with('success', 'Condition updated successfully.');
     }
 
     public function status(string $condition)
     {
         $conditions = $this->getConditions();
-        $index = collect($conditions)->search(fn ($item) => $item['id'] === $condition);
+
+        $index = collect($conditions)->search(
+            fn ($item) => $item['id'] === $condition
+        );
 
         if ($index !== false) {
-            $conditions[$index]['status'] = (int) $conditions[$index]['status'] === 1 ? 0 : 1;
+            $conditionName = $conditions[$index]['name'];
+
+            $conditions[$index]['status'] =
+                (int) $conditions[$index]['status'] === 1
+                    ? 0
+                    : 1;
+
+            $newStatus = (int) $conditions[$index]['status'] === 1
+                ? 'active'
+                : 'inactive';
+
             $this->saveConditions($conditions);
+
+            $this->activityLogService->log(
+                'updated',
+                'Book Conditions',
+                "Book condition \"{$conditionName}\" status was changed to {$newStatus}."
+            );
         }
 
-        return redirect()->route('admin.book.conditions.index')->with('success', 'Condition status updated successfully.');
+        return redirect()
+            ->route('admin.book.conditions.index')
+            ->with('success', 'Condition status updated successfully.');
     }
 
     public function destroy(string $condition)
     {
         $conditions = $this->getConditions();
-        $conditions = array_values(array_filter($conditions, fn ($item) => $item['id'] !== $condition));
+
+        $selectedCondition = collect($conditions)
+            ->firstWhere('id', $condition);
+
+        $conditionName = $selectedCondition['name'] ?? $condition;
+
+        $conditions = array_values(
+            array_filter(
+                $conditions,
+                fn ($item) => $item['id'] !== $condition
+            )
+        );
+
         $this->saveConditions($conditions);
 
-        return redirect()->route('admin.book.conditions.index')->with('success', 'Condition deleted successfully.');
+        $this->activityLogService->log(
+            'deleted',
+            'Book Conditions',
+            "Book condition \"{$conditionName}\" was deleted."
+        );
+
+        return redirect()
+            ->route('admin.book.conditions.index')
+            ->with('success', 'Condition deleted successfully.');
     }
 }
+

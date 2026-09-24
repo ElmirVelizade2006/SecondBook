@@ -4,12 +4,20 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Publisher;
+use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 
 class PublishersController extends Controller
 {
+    private ActivityLogService $activityLogService;
+
+    public function __construct(ActivityLogService $activityLogService)
+    {
+        $this->activityLogService = $activityLogService;
+    }
+
     public function index()
     {
         $publishers = Publisher::query()
@@ -53,7 +61,10 @@ class PublishersController extends Controller
         $logoPath = null;
 
         if ($hasLogoColumn && $request->hasFile('logo')) {
-            $logoPath = $request->file('logo')->store('publishers', 'public');
+            $logoPath = $request->file('logo')->store(
+                'publishers',
+                'public'
+            );
         }
 
         $payload = [
@@ -80,7 +91,13 @@ class PublishersController extends Controller
             $payload['status'] = $request->boolean('status', true);
         }
 
-        Publisher::create($payload);
+        $publisher = Publisher::create($payload);
+
+        $this->activityLogService->log(
+            'created',
+            'Publishers',
+            "Publisher \"{$publisher->name}\" was created."
+        );
 
         return redirect()
             ->route('admin.publishers.index')
@@ -95,14 +112,30 @@ class PublishersController extends Controller
     public function toggleStatus(Publisher $publisher)
     {
         if (!Schema::hasColumn('publishers', 'status')) {
-            return back()->with('error', 'Status column is missing in publishers table.');
+            return back()->with(
+                'error',
+                'Status column is missing in publishers table.'
+            );
         }
+
+        $oldStatus = $publisher->status;
 
         $publisher->update([
             'status' => !$publisher->status,
         ]);
 
-        return back()->with('success', 'Publisher status updated successfully.');
+        $this->activityLogService->log(
+            'updated',
+            'Publishers',
+            "Publisher \"{$publisher->name}\" status changed from \"" .
+            ($oldStatus ? 'Active' : 'Inactive') .
+            "\" to \"" .
+            ($publisher->status ? 'Active' : 'Inactive') .
+            "\"."
+        );
+
+        return back()
+            ->with('success', 'Publisher status updated successfully.');
     }
 
     public function edit(Publisher $publisher)
@@ -127,14 +160,22 @@ class PublishersController extends Controller
         $hasDescriptionColumn = Schema::hasColumn('publishers', 'description');
         $hasStatusColumn = Schema::hasColumn('publishers', 'status');
 
-        $logoPath = $hasLogoColumn ? $publisher->logo : null;
+        $logoPath = $hasLogoColumn
+            ? $publisher->logo
+            : null;
 
         if ($hasLogoColumn && $request->hasFile('logo')) {
-            if (!empty($publisher->logo) && Storage::disk('public')->exists($publisher->logo)) {
+            if (
+                !empty($publisher->logo) &&
+                Storage::disk('public')->exists($publisher->logo)
+            ) {
                 Storage::disk('public')->delete($publisher->logo);
             }
 
-            $logoPath = $request->file('logo')->store('publishers', 'public');
+            $logoPath = $request->file('logo')->store(
+                'publishers',
+                'public'
+            );
         }
 
         $payload = [
@@ -163,6 +204,12 @@ class PublishersController extends Controller
 
         $publisher->update($payload);
 
+        $this->activityLogService->log(
+            'updated',
+            'Publishers',
+            "Publisher \"{$publisher->name}\" was updated."
+        );
+
         return redirect()
             ->route('admin.publishers.index')
             ->with('success', 'Publisher updated successfully.');
@@ -170,9 +217,21 @@ class PublishersController extends Controller
 
     public function destroy(Publisher $publisher)
     {
-        if (Schema::hasColumn('publishers', 'logo') && !empty($publisher->logo) && Storage::disk('public')->exists($publisher->logo)) {
+        $publisherName = $publisher->name;
+
+        if (
+            Schema::hasColumn('publishers', 'logo') &&
+            !empty($publisher->logo) &&
+            Storage::disk('public')->exists($publisher->logo)
+        ) {
             Storage::disk('public')->delete($publisher->logo);
         }
+
+        $this->activityLogService->log(
+            'deleted',
+            'Publishers',
+            "Publisher \"{$publisherName}\" was deleted."
+        );
 
         $publisher->delete();
 
@@ -181,3 +240,4 @@ class PublishersController extends Controller
             ->with('success', 'Publisher deleted successfully.');
     }
 }
+

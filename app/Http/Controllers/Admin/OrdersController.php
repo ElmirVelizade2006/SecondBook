@@ -3,13 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
 use App\Models\Book;
+use App\Models\Order;
 use App\Models\User;
+use App\Services\ActivityLogService;
 use Illuminate\Http\Request;
 
 class OrdersController extends Controller
 {
+    private ActivityLogService $activityLogService;
+
+    public function __construct(ActivityLogService $activityLogService)
+    {
+        $this->activityLogService = $activityLogService;
+    }
+
     /**
      * Display a listing of orders.
      */
@@ -24,32 +32,22 @@ class OrdersController extends Controller
         */
 
         if ($request->filled('search')) {
-
             $search = $request->search;
 
             $query->where(function ($q) use ($search) {
-
                 $q->where('order_number', 'like', "%{$search}%")
                     ->orWhere('full_name', 'like', "%{$search}%")
                     ->orWhere('phone', 'like', "%{$search}%")
-
                     ->orWhereHas('user', function ($userQuery) use ($search) {
-
                         $userQuery->where('first_name', 'like', "%{$search}%")
                             ->orWhere('last_name', 'like', "%{$search}%")
                             ->orWhere('email', 'like', "%{$search}%");
-
                     })
-
                     ->orWhereHas('book', function ($bookQuery) use ($search) {
-
                         $bookQuery->where('title', 'like', "%{$search}%");
-
                     });
-
             });
         }
-
 
         /*
         |--------------------------------------------------------------------------
@@ -58,14 +56,11 @@ class OrdersController extends Controller
         */
 
         if ($request->filled('status')) {
-
             $query->where(
                 'order_status',
                 $request->status
             );
-
         }
-
 
         /*
         |--------------------------------------------------------------------------
@@ -74,14 +69,11 @@ class OrdersController extends Controller
         */
 
         if ($request->filled('payment')) {
-
             $query->where(
                 'payment_status',
                 $request->payment
             );
-
         }
-
 
         /*
         |--------------------------------------------------------------------------
@@ -90,14 +82,11 @@ class OrdersController extends Controller
         */
 
         if ($request->filled('date')) {
-
             $query->whereDate(
                 'created_at',
                 $request->date
             );
-
         }
-
 
         /*
         |--------------------------------------------------------------------------
@@ -109,7 +98,6 @@ class OrdersController extends Controller
             ->latest()
             ->paginate(10)
             ->withQueryString();
-
 
         /*
         |--------------------------------------------------------------------------
@@ -134,7 +122,6 @@ class OrdersController extends Controller
             'delivered'
         )->sum('total_price');
 
-
         /*
         |--------------------------------------------------------------------------
         | Send data to view
@@ -150,14 +137,12 @@ class OrdersController extends Controller
         ));
     }
 
-
     /**
      * Show create order page.
      */
     public function create()
     {
         $users = User::orderBy('first_name')->get();
-
         $books = Book::orderBy('title')->get();
 
         return view(
@@ -166,88 +151,61 @@ class OrdersController extends Controller
         );
     }
 
-
     /**
      * Store new order.
      */
     public function store(Request $request)
     {
         $request->validate([
-
             'user_id' => 'required|exists:users,id',
-
             'book_id' => 'required|exists:books,id',
-
             'book_price' => 'required|numeric',
-
             'quantity' => 'required|integer|min:1',
-
             'payment_method' => 'required',
-
             'payment_status' => 'required',
-
             'order_status' => 'required',
-
             'full_name' => 'required',
-
             'phone' => 'required',
-
             'country' => 'required',
-
             'city' => 'required',
-
             'address' => 'required',
-
         ]);
 
-
-        Order::create([
-
+        $order = Order::create([
             'order_number' => 'ORD-' . time(),
-
             'user_id' => $request->user_id,
-
             'book_id' => $request->book_id,
-
             'book_price' => $request->book_price,
-
             'quantity' => $request->quantity,
-
             'total_price' =>
                 $request->book_price * $request->quantity,
-
             'payment_method' =>
                 $request->payment_method,
-
             'payment_status' =>
                 $request->payment_status,
-
             'order_status' =>
                 $request->order_status,
-
             'full_name' =>
                 $request->full_name,
-
             'phone' =>
                 $request->phone,
-
             'country' =>
                 $request->country,
-
             'city' =>
                 $request->city,
-
             'postal_code' =>
                 $request->postal_code,
-
             'address' =>
                 $request->address,
-
             'note' =>
                 $request->note,
-
         ]);
 
+        $this->activityLogService->log(
+            'created',
+            'Orders',
+            "Order \"{$order->order_number}\" was created."
+        );
 
         return redirect()
             ->route('admin.orders.index')
@@ -257,7 +215,6 @@ class OrdersController extends Controller
             );
     }
 
-
     /**
      * Display order details.
      */
@@ -265,7 +222,7 @@ class OrdersController extends Controller
     {
         $order->load([
             'user',
-            'book'
+            'book',
         ]);
 
         return view(
@@ -274,14 +231,12 @@ class OrdersController extends Controller
         );
     }
 
-
     /**
      * Edit order page.
      */
     public function edit(Order $order)
     {
         $users = User::orderBy('first_name')->get();
-
         $books = Book::orderBy('title')->get();
 
         return view(
@@ -294,7 +249,6 @@ class OrdersController extends Controller
         );
     }
 
-
     /**
      * Update order.
      */
@@ -303,10 +257,11 @@ class OrdersController extends Controller
         Order $order
     ) {
         $request->validate([
+            'user_id' =>
+                'required|exists:users,id',
 
-            'user_id' => 'required|exists:users,id',
-
-            'book_id' => 'required|exists:books,id',
+            'book_id' =>
+                'required|exists:books,id',
 
             'book_price' =>
                 'required|numeric|min:0',
@@ -343,12 +298,12 @@ class OrdersController extends Controller
 
             'note' =>
                 'nullable|string',
-
         ]);
 
+        $oldOrderStatus = $order->order_status;
+        $oldPaymentStatus = $order->payment_status;
 
         $order->update([
-
             'user_id' =>
                 $request->user_id,
 
@@ -393,9 +348,29 @@ class OrdersController extends Controller
 
             'note' =>
                 $request->note,
-
         ]);
 
+        $this->activityLogService->log(
+            'updated',
+            'Orders',
+            "Order \"{$order->order_number}\" was updated."
+        );
+
+        if ($oldOrderStatus !== $order->order_status) {
+            $this->activityLogService->log(
+                'updated',
+                'Orders',
+                "Order \"{$order->order_number}\" status changed from \"{$oldOrderStatus}\" to \"{$order->order_status}\"."
+            );
+        }
+
+        if ($oldPaymentStatus !== $order->payment_status) {
+            $this->activityLogService->log(
+                'updated',
+                'Orders',
+                "Order \"{$order->order_number}\" payment status changed from \"{$oldPaymentStatus}\" to \"{$order->payment_status}\"."
+            );
+        }
 
         return redirect()
             ->route('admin.orders.index')
@@ -405,12 +380,19 @@ class OrdersController extends Controller
             );
     }
 
-
     /**
      * Delete order.
      */
     public function destroy(Order $order)
     {
+        $orderNumber = $order->order_number;
+
+        $this->activityLogService->log(
+            'deleted',
+            'Orders',
+            "Order \"{$orderNumber}\" was deleted."
+        );
+
         $order->delete();
 
         return redirect()
@@ -421,3 +403,4 @@ class OrdersController extends Controller
             );
     }
 }
+

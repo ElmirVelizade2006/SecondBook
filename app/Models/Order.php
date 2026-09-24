@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Payment;
 use App\Models\Refund;
+use App\Models\Shipping;
 
 class Order extends Model
 {
@@ -37,6 +38,7 @@ class Order extends Model
         'order_note',
 
         // Shipping
+        'shipping_id',
         'full_name',
         'phone',
         'country',
@@ -80,5 +82,10 @@ class Order extends Model
     public function refunds()
     {
         return $this->hasMany(Refund::class);
+    }
+    
+    public function shipping()
+    {
+        return $this->belongsTo(Shipping::class);
     }
 }

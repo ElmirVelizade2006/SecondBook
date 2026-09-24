@@ -477,13 +477,16 @@
         @if($books->hasPages())
             <div class="books-pagination">
                 <div class="books-pagination-info">
-                    Showing
+                    <span class="pagination-label">Showing</span>
                     <strong>{{ $books->firstItem() }}</strong>
-                    to
+
+                    <span class="pagination-label">to</span>
                     <strong>{{ $books->lastItem() }}</strong>
-                    of
+
+                    <span class="pagination-label">of</span>
                     <strong>{{ $books->total() }}</strong>
-                    results
+
+                    <span class="pagination-label">results</span>
                 </div>
 
                 <div class="books-pagination-links">

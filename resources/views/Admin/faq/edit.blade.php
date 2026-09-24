@@ -9,7 +9,6 @@
 
 <div class="dashboard-section faq-page">
 
-```
 {{-- Header --}}
 <div class="dashboard-panel faq-header-panel">
 
@@ -232,7 +231,6 @@
     </form>
 
 </div>
-```
 
 </div>
 

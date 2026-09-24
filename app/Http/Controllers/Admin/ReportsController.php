@@ -194,7 +194,11 @@ class ReportsController extends Controller
             ? Carbon::parse($request->end_date)->endOfDay()
             : now()->endOfDay();
 
-        $orders = Order::with(['user', 'book'])
+
+        $orders = Order::with([
+                'user',
+                'book'
+            ])
             ->whereBetween(
                 'created_at',
                 [$startDate, $endDate]
@@ -204,30 +208,44 @@ class ReportsController extends Controller
             ->paginate(15)
             ->withQueryString();
 
-        $totalOrders = Order::where('order_status', 'delivered')
+
+        $totalOrders = Order::where(
+                'order_status',
+                'delivered'
+            )
             ->whereBetween(
                 'created_at',
                 [$startDate, $endDate]
             )
             ->count();
 
-        $totalRevenue = Order::where('order_status', 'delivered')
+
+        $totalRevenue = Order::where(
+                'order_status',
+                'delivered'
+            )
             ->whereBetween(
                 'created_at',
                 [$startDate, $endDate]
             )
             ->sum('total_price');
 
-        $booksSold = Order::where('order_status', 'delivered')
+
+        $booksSold = Order::where(
+                'order_status',
+                'delivered'
+            )
             ->whereBetween(
                 'created_at',
                 [$startDate, $endDate]
             )
             ->sum('quantity');
 
+
         $averageOrderValue = $totalOrders > 0
             ? $totalRevenue / $totalOrders
             : 0;
+
 
         return view('admin.reports.sales', compact(
             'startDate',
@@ -237,6 +255,145 @@ class ReportsController extends Controller
             'totalRevenue',
             'booksSold',
             'averageOrderValue'
+        ));
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Books Report
+    |--------------------------------------------------------------------------
+    */
+
+    public function books(Request $request)
+    {
+        $startDate = $request->filled('start_date')
+            ? Carbon::parse($request->start_date)->startOfDay()
+            : now()->startOfMonth();
+
+        $endDate = $request->filled('end_date')
+            ? Carbon::parse($request->end_date)->endOfDay()
+            : now()->endOfDay();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Books
+        |--------------------------------------------------------------------------
+        */
+
+        $books = Book::with([
+                'category',
+                'author',
+                'publisher',
+                'seller',
+            ])
+            ->withCount([
+                'orders as sold_count' => function ($query) use (
+                    $startDate,
+                    $endDate
+                ) {
+                    $query
+                        ->where(
+                            'order_status',
+                            'delivered'
+                        )
+                        ->whereBetween(
+                            'created_at',
+                            [$startDate, $endDate]
+                        );
+                },
+            ])
+            ->withSum([
+                'orders as revenue' => function ($query) use (
+                    $startDate,
+                    $endDate
+                ) {
+                    $query
+                        ->where(
+                            'order_status',
+                            'delivered'
+                        )
+                        ->whereBetween(
+                            'created_at',
+                            [$startDate, $endDate]
+                        );
+                },
+            ], 'total_price')
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Book Statistics
+        |--------------------------------------------------------------------------
+        */
+
+        $totalBooks = Book::count();
+
+        $activeBooks = Book::where(
+            'status',
+            'approved'
+        )->count();
+
+        $outOfStock = Book::where(
+            'stock',
+            '<=',
+            0
+        )->count();
+
+        $lowStock = Book::whereBetween(
+            'stock',
+            [1, 5]
+        )->count();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Total Books Sold
+        |--------------------------------------------------------------------------
+        */
+
+        $totalSold = Order::where(
+                'order_status',
+                'delivered'
+            )
+            ->whereBetween(
+                'created_at',
+                [$startDate, $endDate]
+            )
+            ->sum('quantity');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Total Revenue
+        |--------------------------------------------------------------------------
+        */
+
+        $totalRevenue = Order::where(
+                'order_status',
+                'delivered'
+            )
+            ->whereBetween(
+                'created_at',
+                [$startDate, $endDate]
+            )
+            ->sum('total_price');
+
+
+        return view('admin.reports.books', compact(
+            'books',
+            'startDate',
+            'endDate',
+            'totalBooks',
+            'activeBooks',
+            'outOfStock',
+            'lowStock',
+            'totalSold',
+            'totalRevenue'
         ));
     }
 }

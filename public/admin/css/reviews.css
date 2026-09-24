@@ -1552,3 +1552,234 @@
         padding-right: 16px;
     }
 }
+
+/* =========================================================
+   REVIEWS DELETE SWEETALERT
+========================================================= */
+
+.review-delete-popup.swal2-popup {
+    width: 430px !important;
+    max-width: calc(100vw - 30px) !important;
+    padding: 30px !important;
+    border-radius: 20px !important;
+}
+
+.review-delete-popup .swal2-title {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 21px !important;
+    font-weight: 700 !important;
+}
+
+.review-delete-popup .swal2-html-container {
+    margin: 10px 0 0 !important;
+    padding: 0 !important;
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+}
+
+.review-delete-popup .swal2-icon {
+    margin: 0 auto 18px !important;
+}
+
+.review-delete-popup .swal2-actions {
+    width: 100% !important;
+    margin: 24px 0 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+}
+
+.review-delete-popup .review-delete-confirm,
+.review-delete-popup .review-delete-cancel {
+    min-width: 110px !important;
+    height: 42px !important;
+    margin: 0 !important;
+    padding: 0 20px !important;
+    border: 0 !important;
+    border-radius: 10px !important;
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    outline: none !important;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease !important;
+}
+
+.review-delete-popup .review-delete-confirm {
+    background: #dc3545 !important;
+    color: #ffffff !important;
+    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.20) !important;
+}
+
+.review-delete-popup .review-delete-confirm:hover {
+    background: #c82333 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 9px 20px rgba(220, 53, 69, 0.26) !important;
+}
+
+.review-delete-popup .review-delete-cancel {
+    background: #f1f3f5 !important;
+    color: #495057 !important;
+}
+
+.review-delete-popup .review-delete-cancel:hover {
+    background: #e2e6ea !important;
+    color: #212529 !important;
+    transform: translateY(-1px) !important;
+}
+
+
+/* =========================================================
+   SUCCESS
+========================================================= */
+
+.review-success-popup.swal2-popup {
+    width: 390px !important;
+    max-width: calc(100vw - 30px) !important;
+    padding: 25px !important;
+    border-radius: 18px !important;
+}
+
+.review-success-popup .swal2-title {
+    margin: 0 !important;
+    font-size: 19px !important;
+    font-weight: 700 !important;
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.review-error-popup.swal2-popup {
+    width: 410px !important;
+    max-width: calc(100vw - 30px) !important;
+    padding: 28px !important;
+    border-radius: 18px !important;
+}
+
+.review-error-popup .swal2-title {
+    margin: 0 !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+}
+
+.review-error-popup .review-error-confirm {
+    min-width: 95px !important;
+    height: 42px !important;
+    margin: 0 !important;
+    padding: 0 20px !important;
+    border: 0 !important;
+    border-radius: 10px !important;
+    background: #2563eb !important;
+    color: #ffffff !important;
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+}
+
+.review-error-popup .review-error-confirm:hover {
+    background: #1d4ed8 !important;
+}
+
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+:root[data-theme="dark"] .review-delete-popup.swal2-popup,
+:root[data-theme="dark"] .review-success-popup.swal2-popup,
+:root[data-theme="dark"] .review-error-popup.swal2-popup {
+    background: #111827 !important;
+}
+
+:root[data-theme="dark"] .review-delete-popup .swal2-title,
+:root[data-theme="dark"] .review-success-popup .swal2-title,
+:root[data-theme="dark"] .review-error-popup .swal2-title {
+    color: #f8fafc !important;
+}
+
+:root[data-theme="dark"] .review-delete-popup .swal2-html-container,
+:root[data-theme="dark"] .review-success-popup .swal2-html-container,
+:root[data-theme="dark"] .review-error-popup .swal2-html-container {
+    color: #94a3b8 !important;
+}
+
+:root[data-theme="dark"] .review-delete-popup .review-delete-cancel {
+    background: #1f2937 !important;
+    color: #d1d5db !important;
+}
+
+:root[data-theme="dark"] .review-delete-popup .review-delete-cancel:hover {
+    background: #374151 !important;
+    color: #ffffff !important;
+}
+
+/* Review Delete SweetAlert */
+
+.review-delete-popup.swal2-popup {
+    border-radius: 18px !important;
+}
+
+.review-delete-confirm,
+.review-delete-cancel {
+    min-width: 105px !important;
+    height: 42px !important;
+    padding: 0 20px !important;
+    border: 0 !important;
+    border-radius: 9px !important;
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    line-height: 42px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.review-delete-confirm {
+    background: #dc3545 !important;
+    color: #ffffff !important;
+}
+
+.review-delete-confirm:hover {
+    background: #c82333 !important;
+    transform: translateY(-1px);
+}
+
+.review-delete-cancel {
+    background: #f1f3f5 !important;
+    color: #495057 !important;
+}
+
+.review-delete-cancel:hover {
+    background: #e2e6ea !important;
+    color: #212529 !important;
+    transform: translateY(-1px);
+}
+
+.review-delete-confirm:focus,
+.review-delete-cancel:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+:root[data-theme="dark"] .review-delete-popup.swal2-popup {
+    background: #111827 !important;
+}
+
+:root[data-theme="dark"] .review-delete-cancel {
+    background: #1f2937 !important;
+    color: #d1d5db !important;
+}
+
+:root[data-theme="dark"] .review-delete-cancel:hover {
+    background: #374151 !important;
+    color: #ffffff !important;
+}

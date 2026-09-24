@@ -8,35 +8,47 @@
 
     {{-- Page Header --}}
     <div class="dashboard-panel reviews-header-panel mb-4">
+
         <div class="reviews-page-header">
 
             <div>
+
                 <div class="reviews-title-row">
+
                     <div class="reviews-title-icon">
                         <i class="bi bi-chat-square-text"></i>
                     </div>
 
                     <div>
-                        <h5 class="mb-1">Reviews</h5>
+
+                        <h5 class="mb-1">
+                            Reviews
+                        </h5>
 
                         <p class="text-muted mb-0 small">
                             Manage customer reviews and feedback on SecondBook
                         </p>
+
                     </div>
+
                 </div>
+
             </div>
 
             <div class="reviews-header-count">
+
                 <span class="reviews-header-count-label">
                     Total
                 </span>
 
-                <strong>
+                <strong id="reviewsTotalHeader">
                     {{ $totalReviews }}
                 </strong>
+
             </div>
 
         </div>
+
     </div>
 
 
@@ -45,6 +57,7 @@
 
         {{-- Total --}}
         <div class="col-xl-3 col-md-6">
+
             <div class="dashboard-panel review-stat-card h-100">
 
                 <div class="review-stat-content">
@@ -54,31 +67,37 @@
                     </div>
 
                     <div class="review-stat-info">
+
                         <span class="review-stat-label">
                             Total Reviews
                         </span>
 
-                        <strong>
+                        <strong id="totalReviewsCount">
                             {{ $totalReviews }}
                         </strong>
+
                     </div>
 
                 </div>
 
                 <div class="review-stat-footer">
+
                     <span>
                         All customer reviews
                     </span>
 
                     <i class="bi bi-arrow-up-right"></i>
+
                 </div>
 
             </div>
+
         </div>
 
 
         {{-- Pending --}}
         <div class="col-xl-3 col-md-6">
+
             <div class="dashboard-panel review-stat-card h-100">
 
                 <div class="review-stat-content">
@@ -88,31 +107,37 @@
                     </div>
 
                     <div class="review-stat-info">
+
                         <span class="review-stat-label">
                             Pending
                         </span>
 
-                        <strong>
+                        <strong id="pendingReviewsCount">
                             {{ $pendingReviews }}
                         </strong>
+
                     </div>
 
                 </div>
 
                 <div class="review-stat-footer">
+
                     <span>
                         Waiting for review
                     </span>
 
                     <i class="bi bi-hourglass-split"></i>
+
                 </div>
 
             </div>
+
         </div>
 
 
         {{-- Approved --}}
         <div class="col-xl-3 col-md-6">
+
             <div class="dashboard-panel review-stat-card h-100">
 
                 <div class="review-stat-content">
@@ -122,31 +147,37 @@
                     </div>
 
                     <div class="review-stat-info">
+
                         <span class="review-stat-label">
                             Approved
                         </span>
 
-                        <strong>
+                        <strong id="approvedReviewsCount">
                             {{ $approvedReviews }}
                         </strong>
+
                     </div>
 
                 </div>
 
                 <div class="review-stat-footer">
+
                     <span>
                         Published reviews
                     </span>
 
                     <i class="bi bi-check2"></i>
+
                 </div>
 
             </div>
+
         </div>
 
 
         {{-- Rejected --}}
         <div class="col-xl-3 col-md-6">
+
             <div class="dashboard-panel review-stat-card h-100">
 
                 <div class="review-stat-content">
@@ -156,26 +187,31 @@
                     </div>
 
                     <div class="review-stat-info">
+
                         <span class="review-stat-label">
                             Rejected
                         </span>
 
-                        <strong>
+                        <strong id="rejectedReviewsCount">
                             {{ $rejectedReviews }}
                         </strong>
+
                     </div>
 
                 </div>
 
                 <div class="review-stat-footer">
+
                     <span>
                         Rejected reviews
                     </span>
 
                     <i class="bi bi-x-lg"></i>
+
                 </div>
 
             </div>
+
         </div>
 
     </div>
@@ -187,6 +223,7 @@
         <div class="reviews-filter-header">
 
             <div>
+
                 <h6 class="mb-1">
                     Filter Reviews
                 </h6>
@@ -194,6 +231,7 @@
                 <p class="text-muted small mb-0">
                     Search and filter customer feedback
                 </p>
+
             </div>
 
             <div class="reviews-filter-icon">
@@ -235,8 +273,13 @@
                         type="submit"
                         class="reviews-search-button"
                     >
+
                         <i class="bi bi-search"></i>
-                        <span>Search</span>
+
+                        <span>
+                            Search
+                        </span>
+
                     </button>
 
                 </div>
@@ -306,9 +349,7 @@
 
                         <option
                             value="{{ $rating }}"
-                            @selected(
-                                (string) request('rating') === (string) $rating
-                            )
+                            @selected((string) request('rating') === (string) $rating)
                         >
                             {{ $rating }} Stars
                         </option>
@@ -327,16 +368,22 @@
                     type="submit"
                     class="reviews-filter-button"
                 >
+
                     <i class="bi bi-funnel"></i>
+
                     Filter
+
                 </button>
 
                 <a
                     href="{{ route('admin.reviews.index') }}"
                     class="reviews-reset-button"
                 >
+
                     <i class="bi bi-arrow-counterclockwise"></i>
+
                     Reset
+
                 </a>
 
             </div>
@@ -352,20 +399,27 @@
         <div class="reviews-list-header">
 
             <div>
+
                 <div class="reviews-list-title">
+
                     <i class="bi bi-chat-left-text"></i>
 
                     <h6 class="mb-0">
                         Review List
                     </h6>
+
                 </div>
 
                 <p class="text-muted small mb-0">
                     Customer feedback submitted on SecondBook
                 </p>
+
             </div>
 
-            <div class="reviews-list-count">
+            <div
+                class="reviews-list-count"
+                id="reviewsListCount"
+            >
                 {{ $reviews->total() }}
                 {{ $reviews->total() == 1 ? 'review' : 'reviews' }}
             </div>
@@ -378,6 +432,7 @@
             <table class="table reviews-table align-middle">
 
                 <thead>
+
                     <tr>
 
                         <th class="review-number-column">
@@ -413,18 +468,21 @@
                         </th>
 
                     </tr>
+
                 </thead>
 
 
-                <tbody>
+                <tbody id="reviewsTableBody">
 
                     @forelse($reviews as $key => $review)
 
-                        <tr>
+                        <tr id="review-row-{{ $review->id }}">
 
                             {{-- Number --}}
                             <td class="review-number-cell">
+
                                 {{ $reviews->firstItem() + $key }}
+
                             </td>
 
 
@@ -455,6 +513,7 @@
                                         @endif
 
                                     </div>
+
 
                                     <div class="review-customer-info">
 
@@ -503,7 +562,9 @@
                                     @else
 
                                         <div class="review-book-placeholder">
+
                                             <i class="bi bi-book"></i>
+
                                         </div>
 
                                     @endif
@@ -564,7 +625,9 @@
                                 @if($review->comment)
 
                                     <div class="review-comment-preview">
+
                                         {{ \Illuminate\Support\Str::limit($review->comment, 70) }}
+
                                     </div>
 
                                 @else
@@ -584,29 +647,41 @@
                                 @if($review->status === 'approved')
 
                                     <span class="review-status-badge approved">
+
                                         <i class="bi bi-check-circle-fill"></i>
+
                                         Approved
+
                                     </span>
 
                                 @elseif($review->status === 'pending')
 
                                     <span class="review-status-badge pending">
+
                                         <i class="bi bi-clock-fill"></i>
+
                                         Pending
+
                                     </span>
 
                                 @elseif($review->status === 'rejected')
 
                                     <span class="review-status-badge rejected">
+
                                         <i class="bi bi-x-circle-fill"></i>
+
                                         Rejected
+
                                     </span>
 
                                 @else
 
                                     <span class="review-status-badge unknown">
+
                                         <i class="bi bi-question-circle-fill"></i>
+
                                         Unknown
+
                                     </span>
 
                                 @endif
@@ -656,6 +731,7 @@
                                         >
 
                                             @csrf
+
                                             @method('PATCH')
 
                                             <button
@@ -680,6 +756,7 @@
                                         >
 
                                             @csrf
+
                                             @method('PATCH')
 
                                             <button
@@ -699,18 +776,22 @@
                                     <form
                                         action="{{ route('admin.reviews.destroy', $review->id) }}"
                                         method="POST"
-                                        onsubmit="return confirm('Delete this review?')"
+                                        class="review-delete-form"
+                                        data-review-id="{{ $review->id }}"
                                     >
 
                                         @csrf
+
                                         @method('DELETE')
 
                                         <button
                                             type="submit"
-                                            class="review-action-btn delete"
+                                            class="review-action-btn delete review-delete-btn"
                                             title="Delete Review"
                                         >
+
                                             <i class="bi bi-trash3"></i>
+
                                         </button>
 
                                     </form>
@@ -723,7 +804,7 @@
 
                     @empty
 
-                        <tr>
+                        <tr id="reviews-empty-row">
 
                             <td
                                 colspan="8"
@@ -733,7 +814,9 @@
                                 <div class="reviews-empty-state">
 
                                     <div class="reviews-empty-icon">
+
                                         <i class="bi bi-chat-square-text"></i>
+
                                     </div>
 
                                     <h6>
@@ -748,8 +831,11 @@
                                         href="{{ route('admin.reviews.index') }}"
                                         class="reviews-reset-empty"
                                     >
+
                                         <i class="bi bi-arrow-counterclockwise"></i>
+
                                         Clear Filters
+
                                     </a>
 
                                 </div>
@@ -797,7 +883,9 @@
                 </div>
 
                 <div class="reviews-pagination-links">
+
                     {{ $reviews->onEachSide(1)->links() }}
+
                 </div>
 
             </div>
@@ -809,3 +897,352 @@
 </div>
 
 @endsection
+
+
+@push('js')
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const deleteForms = document.querySelectorAll('.review-delete-form');
+
+    deleteForms.forEach(function (form) {
+
+        form.addEventListener('submit', async function (event) {
+
+            event.preventDefault();
+
+            const reviewId = form.dataset.reviewId;
+            const deleteUrl = form.getAttribute('action');
+            const row = document.getElementById(
+                'review-row-' + reviewId
+            );
+
+            if (!row || !deleteUrl) {
+                return;
+            }
+
+            const result = await Swal.fire({
+
+                title: 'Delete Review?',
+                text: 'This review will be permanently deleted.',
+                icon: 'warning',
+
+                width: 430,
+
+                padding: '30px',
+
+                showCancelButton: true,
+
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel',
+
+                buttonsStyling: false,
+
+                reverseButtons: false,
+
+                customClass: {
+
+                    popup: 'review-delete-popup',
+
+                    title: 'review-delete-title',
+
+                    htmlContainer: 'review-delete-text',
+
+                    confirmButton: 'review-delete-confirm',
+
+                    cancelButton: 'review-delete-cancel'
+
+                }
+
+            });
+
+
+            if (!result.isConfirmed) {
+                return;
+            }
+
+
+            const deleteButton = form.querySelector(
+                '.review-delete-btn'
+            );
+
+            const originalButtonHTML = deleteButton.innerHTML;
+
+            deleteButton.disabled = true;
+
+            deleteButton.innerHTML =
+                '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>';
+
+
+            try {
+
+                const csrfToken = form.querySelector(
+                    'input[name="_token"]'
+                )?.value;
+
+
+                const response = await fetch(deleteUrl, {
+
+                    method: 'DELETE',
+
+                    headers: {
+
+                        'X-CSRF-TOKEN': csrfToken,
+
+                        'Accept': 'application/json',
+
+                        'X-Requested-With': 'XMLHttpRequest'
+
+                    }
+
+                });
+
+
+                const data = await response.json();
+
+
+                if (!response.ok || !data.success) {
+
+                    throw new Error(
+                        data.message || 'Failed to delete review.'
+                    );
+
+                }
+
+
+                /*
+                 * Remove row without refreshing page.
+                 * This also prevents the page from jumping to the top.
+                 */
+                row.style.transition =
+                    'opacity 0.25s ease, transform 0.25s ease';
+
+                row.style.opacity = '0';
+
+                row.style.transform = 'translateX(12px)';
+
+
+                setTimeout(function () {
+
+                    row.remove();
+
+                    updateReviewStatistics(data);
+
+                }, 250);
+
+
+                await Swal.fire({
+
+                    icon: 'success',
+
+                    title: 'Review Deleted',
+
+                    text: data.message ||
+                        'The review has been deleted successfully.',
+
+                    timer: 1600,
+
+                    showConfirmButton: false,
+
+                    width: 390,
+
+                    customClass: {
+
+                        popup: 'review-success-popup'
+
+                    }
+
+                });
+
+
+            } catch (error) {
+
+                deleteButton.disabled = false;
+
+                deleteButton.innerHTML = originalButtonHTML;
+
+
+                Swal.fire({
+
+                    icon: 'error',
+
+                    title: 'Delete Failed',
+
+                    text: error.message ||
+                        'Something went wrong while deleting the review.',
+
+                    confirmButtonText: 'OK',
+
+                    buttonsStyling: false,
+
+                    width: 410,
+
+                    customClass: {
+
+                        popup: 'review-error-popup',
+
+                        confirmButton: 'review-error-confirm'
+
+                    }
+
+                });
+
+            }
+
+        });
+
+    });
+
+
+    function updateReviewStatistics(data) {
+
+        /*
+         * Backend-dən yeni statistikalar gəlirsə,
+         * onları istifadə edirik.
+         */
+        if (typeof data.total_reviews !== 'undefined') {
+
+            const totalCount =
+                document.getElementById('totalReviewsCount');
+
+            const totalHeader =
+                document.getElementById('reviewsTotalHeader');
+
+            if (totalCount) {
+                totalCount.textContent = data.total_reviews;
+            }
+
+            if (totalHeader) {
+                totalHeader.textContent = data.total_reviews;
+            }
+        }
+
+
+        if (typeof data.pending_reviews !== 'undefined') {
+
+            const element =
+                document.getElementById('pendingReviewsCount');
+
+            if (element) {
+                element.textContent = data.pending_reviews;
+            }
+        }
+
+
+        if (typeof data.approved_reviews !== 'undefined') {
+
+            const element =
+                document.getElementById('approvedReviewsCount');
+
+            if (element) {
+                element.textContent = data.approved_reviews;
+            }
+        }
+
+
+        if (typeof data.rejected_reviews !== 'undefined') {
+
+            const element =
+                document.getElementById('rejectedReviewsCount');
+
+            if (element) {
+                element.textContent = data.rejected_reviews;
+            }
+        }
+
+
+        /*
+         * Review list count
+         */
+        const listCount =
+            document.getElementById('reviewsListCount');
+
+        if (listCount) {
+
+            const currentText =
+                listCount.textContent.trim();
+
+            const match =
+                currentText.match(/\d+/);
+
+            if (match) {
+
+                const currentCount =
+                    parseInt(match[0], 10);
+
+                const newCount =
+                    Math.max(currentCount - 1, 0);
+
+                listCount.textContent =
+                    newCount +
+                    (newCount === 1 ? ' review' : ' reviews');
+            }
+        }
+
+
+        /*
+         * If no rows remain, show empty state.
+         */
+        const tbody =
+            document.getElementById('reviewsTableBody');
+
+        if (
+            tbody &&
+            tbody.querySelectorAll(
+                'tr[id^="review-row-"]'
+            ).length === 0
+        ) {
+
+            const existingEmptyRow =
+                document.getElementById('reviews-empty-row');
+
+            if (!existingEmptyRow) {
+
+                const emptyRow =
+                    document.createElement('tr');
+
+                emptyRow.id =
+                    'reviews-empty-row';
+
+                emptyRow.innerHTML = `
+                    <td
+                        colspan="8"
+                        class="reviews-empty-cell"
+                    >
+                        <div class="reviews-empty-state">
+
+                            <div class="reviews-empty-icon">
+                                <i class="bi bi-chat-square-text"></i>
+                            </div>
+
+                            <h6>
+                                No reviews found
+                            </h6>
+
+                            <p>
+                                There are no reviews matching your current filters.
+                            </p>
+
+                            <a
+                                href="{{ route('admin.reviews.index') }}"
+                                class="reviews-reset-empty"
+                            >
+                                <i class="bi bi-arrow-counterclockwise"></i>
+                                Clear Filters
+                            </a>
+
+                        </div>
+                    </td>
+                `;
+
+                tbody.appendChild(emptyRow);
+            }
+        }
+
+    }
+
+});
+</script>
+
+@endpush

@@ -45,13 +45,17 @@
                 aria-label="Notifications"
             >
                 <i class="bi bi-bell"></i>
-                <span class="notification-badge">3</span>
+
+                <span class="notification-badge">
+                    3
+                </span>
             </button>
+
 
             {{-- Messages --}}
             <a
                 href="{{ route('admin.messages.index') }}"
-                class="header-icon me-2 me-md-4 d-none d-lg-flex text-decoration-none position-relative"
+                class="header-icon header-message me-2 me-md-3 me-lg-4 text-decoration-none position-relative"
                 aria-label="Messages"
             >
                 <i class="bi bi-chat-dots"></i>
