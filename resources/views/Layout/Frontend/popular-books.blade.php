@@ -1,818 +1,861 @@
-<section id="popular-books" class="bookshelf py-5 my-5">
-
+<section id="popular-books" class="popular-books-section" data-aos="fade-up">
     <div class="container">
 
-        <div class="row">
+        {{-- =====================================================
+            SECTION HEADER
+        ====================================================== --}}
 
-            <div class="col-md-12">
+        <div class="popular-books-header">
+
+            <div class="popular-books-heading">
+
+                <span class="popular-books-eyebrow">
+                    Top picks from our marketplace
+                </span>
+
+                <h2 class="popular-books-title">
+                    Popular Books
+                </h2>
+
+                <div class="popular-books-divider"></div>
+
+                <p class="popular-books-description">
+                    Explore books readers are buying, discovering, loving,
+                    and adding to their shelves across the SecondBook marketplace.
+                </p>
+
+            </div>
+
+            <a
+                href="{{ route('frontend.books') }}"
+                class="popular-books-view-all"
+            >
+                <span>View All Books</span>
+                <i class="bi bi-arrow-right"></i>
+            </a>
+
+        </div>
 
 
-                <div class="section-header align-center">
+        {{-- =====================================================
+            CATEGORY TABS
+        ====================================================== --}}
 
-                    <div class="title">
-                        <span>Top picks from our marketplace</span>
-                    </div>
+        <div class="popular-books-tabs-wrapper">
 
-                    <h2 class="section-title">
-                        Popular Books
-                    </h2>
+            <ul class="popular-books-tabs">
+
+                <li
+                    data-tab-target="#all-genre"
+                    class="active tab"
+                >
+                    <i class="bi bi-bar-chart-line"></i>
+                    <span>Best Selling</span>
+                </li>
+
+                <li
+                    data-tab-target="#business"
+                    class="tab"
+                >
+                    <i class="bi bi-fire"></i>
+                    <span>Trending Now</span>
+                </li>
+
+                <li
+                    data-tab-target="#technology"
+                    class="tab"
+                >
+                    <i class="bi bi-stars"></i>
+                    <span>New Arrivals</span>
+                </li>
+
+                <li
+                    data-tab-target="#romantic"
+                    class="tab"
+                >
+                    <i class="bi bi-pencil-square"></i>
+                    <span>Editor Picks</span>
+                </li>
+
+                <li
+                    data-tab-target="#adventure"
+                    class="tab"
+                >
+                    <i class="bi bi-heart"></i>
+                    <span>Most Loved</span>
+                </li>
+
+                <li
+                    data-tab-target="#fictional"
+                    class="tab"
+                >
+                    <i class="bi bi-tags"></i>
+                    <span>Budget Deals</span>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        {{-- =====================================================
+            TAB CONTENT
+        ====================================================== --}}
+
+        <div class="popular-books-content">
+
+
+            {{-- =================================================
+                BEST SELLING
+            ================================================== --}}
+
+            <div
+                id="all-genre"
+                data-tab-content
+                class="active"
+            >
+
+                <div class="popular-books-grid">
+
+                    @forelse($bestSellingBooks as $book)
+
+                        @php
+                            $bookImage = null;
+
+                            if (!empty($book->cover)) {
+                                $bookImage = filter_var(
+                                    $book->cover,
+                                    FILTER_VALIDATE_URL
+                                )
+                                    ? $book->cover
+                                    : asset('storage/' . $book->cover);
+                            }
+                        @endphp
+
+                        <article class="popular-book-card">
+
+                            <div class="popular-book-image-wrap">
+
+                                @if($bookImage)
+
+                                    <img
+                                        src="{{ $bookImage }}"
+                                        alt="{{ $book->title }}"
+                                        loading="lazy"
+                                    >
+
+                                @else
+
+                                    <img
+                                        src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=90"
+                                        alt="{{ $book->title }}"
+                                        loading="lazy"
+                                    >
+
+                                @endif
+
+                                <span class="popular-book-badge">
+                                    Best Selling
+                                </span>
+
+                                <form
+                                    action="{{ route('frontend.cart.add', $book) }}"
+                                    method="POST"
+                                    class="add-to-cart-form"
+                                >
+                                    @csrf
+
+                                    <input
+                                        type="hidden"
+                                        name="quantity"
+                                        value="1"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="add-to-cart popular-book-cart-btn"
+                                    >
+                                        <i class="bi bi-cart3"></i>
+                                        <span>Add to Cart</span>
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                            <div class="popular-book-info">
+
+                                <h3>
+                                    {{ $book->title }}
+                                </h3>
+
+                                <p class="popular-book-author">
+                                    {{ $book->author->name ?? 'Unknown Author' }}
+                                </p>
+
+                                <div class="popular-book-bottom">
+
+                                    <span class="popular-book-price">
+                                        ${{ number_format($book->price, 2) }}
+                                    </span>
+
+                                    <span class="popular-book-arrow">
+                                        <i class="bi bi-arrow-up-right"></i>
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                    @empty
+
+                        <div class="popular-books-empty">
+                            <div class="popular-books-empty-icon">
+                                <i class="bi bi-book"></i>
+                            </div>
+
+                            <h3>
+                                No Best Selling Books Available
+                            </h3>
+
+                            <p>
+                                Best selling books will appear here once they are available.
+                            </p>
+                        </div>
+
+                    @endforelse
 
                 </div>
 
-
-                <ul class="tabs">
-
-                    <li
-                        data-tab-target="#all-genre"
-                        class="active tab"
-                    >
-                        Best Selling
-                    </li>
-
-                    <li
-                        data-tab-target="#business"
-                        class="tab"
-                    >
-                        Trending Now
-                    </li>
-
-                    <li
-                        data-tab-target="#technology"
-                        class="tab"
-                    >
-                        New Arrivals
-                    </li>
-
-                    <li
-                        data-tab-target="#romantic"
-                        class="tab"
-                    >
-                        Editor Picks
-                    </li>
-
-                    <li
-                        data-tab-target="#adventure"
-                        class="tab"
-                    >
-                        Most Loved
-                    </li>
-
-                    <li
-                        data-tab-target="#fictional"
-                        class="tab"
-                    >
-                        Budget Deals
-                    </li>
-
-                </ul>
+            </div>
 
 
-                <div class="tab-content">
+            {{-- =================================================
+                TRENDING NOW
+            ================================================== --}}
 
+            <div
+                id="business"
+                data-tab-content
+            >
 
-                    {{-- =====================================================
-                        BEST SELLING
-                    ====================================================== --}}
+                <div class="popular-books-grid">
 
-                    <div
-                        id="all-genre"
-                        data-tab-content
-                        class="active"
-                    >
+                    @forelse($trendingBooks as $book)
 
-                        <div class="row">
+                        @php
+                            $bookImage = null;
 
-                            @forelse($bestSellingBooks as $book)
+                            if (!empty($book->cover)) {
+                                $bookImage = filter_var(
+                                    $book->cover,
+                                    FILTER_VALIDATE_URL
+                                )
+                                    ? $book->cover
+                                    : asset('storage/' . $book->cover);
+                            }
+                        @endphp
 
-                                @php
+                        <article class="popular-book-card">
 
-                                    $bookImage = null;
+                            <div class="popular-book-image-wrap">
 
-                                    if (!empty($book->cover)) {
+                                @if($bookImage)
 
-                                        $bookImage = filter_var(
-                                            $book->cover,
-                                            FILTER_VALIDATE_URL
-                                        )
-                                            ? $book->cover
-                                            : asset('storage/' . $book->cover);
+                                    <img
+                                        src="{{ $bookImage }}"
+                                        alt="{{ $book->title }}"
+                                        loading="lazy"
+                                    >
 
-                                    }
+                                @else
 
-                                @endphp
+                                    <img
+                                        src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=90"
+                                        alt="{{ $book->title }}"
+                                        loading="lazy"
+                                    >
 
+                                @endif
 
-                                <div class="col-md-3">
+                                <span class="popular-book-badge">
+                                    Trending
+                                </span>
 
-                                    <div class="product-item">
+                                <form
+                                    action="{{ route('frontend.cart.add', $book) }}"
+                                    method="POST"
+                                    class="add-to-cart-form"
+                                >
+                                    @csrf
 
-                                        <figure class="product-style">
+                                    <input
+                                        type="hidden"
+                                        name="quantity"
+                                        value="1"
+                                    >
 
-                                            @if($bookImage)
+                                    <button
+                                        type="submit"
+                                        class="add-to-cart popular-book-cart-btn"
+                                    >
+                                        <i class="bi bi-cart3"></i>
+                                        <span>Add to Cart</span>
+                                    </button>
 
-                                                <img
-                                                    src="{{ $bookImage }}"
-                                                    alt="{{ $book->title }}"
-                                                    class="product-item"
-                                                    loading="lazy"
-                                                >
+                                </form>
 
-                                            @else
+                            </div>
 
-                                                <img
-                                                    src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=90"
-                                                    alt="{{ $book->title }}"
-                                                    class="product-item"
-                                                    loading="lazy"
-                                                >
+                            <div class="popular-book-info">
 
-                                            @endif
+                                <h3>
+                                    {{ $book->title }}
+                                </h3>
 
+                                <p class="popular-book-author">
+                                    {{ $book->author->name ?? 'Unknown Author' }}
+                                </p>
 
-                                            <form
-                                                action="{{ route('frontend.cart.add', $book) }}"
-                                                method="POST"
-                                                class="add-to-cart-form"
-                                            >
+                                <div class="popular-book-bottom">
 
-                                                @csrf
+                                    <span class="popular-book-price">
+                                        ${{ number_format($book->price, 2) }}
+                                    </span>
 
-                                                <input
-                                                    type="hidden"
-                                                    name="quantity"
-                                                    value="1"
-                                                >
-
-                                                <button
-                                                    type="submit"
-                                                    class="add-to-cart"
-                                                >
-                                                    Add to Cart
-                                                </button>
-
-                                            </form>
-
-                                        </figure>
-
-
-                                        <figcaption>
-
-                                            <h3>
-                                                {{ $book->title }}
-                                            </h3>
-
-                                            <span>
-                                                {{ $book->author->name ?? 'Unknown Author' }}
-                                            </span>
-
-                                            <div class="item-price">
-                                                $ {{ number_format($book->price, 2) }}
-                                            </div>
-
-                                        </figcaption>
-
-                                    </div>
+                                    <span class="popular-book-arrow">
+                                        <i class="bi bi-arrow-up-right"></i>
+                                    </span>
 
                                 </div>
 
-                            @empty
+                            </div>
 
-                                <div class="col-12 text-center py-5">
+                        </article>
 
-                                    <i class="bi bi-book fs-1 text-muted"></i>
+                    @empty
 
-                                    <h4 class="mt-3">
-                                        No best selling books available
-                                    </h4>
+                        <div class="popular-books-empty">
+                            <div class="popular-books-empty-icon">
+                                <i class="bi bi-fire"></i>
+                            </div>
 
-                                </div>
+                            <h3>
+                                No Trending Books Available
+                            </h3>
 
-                            @endforelse
-
+                            <p>
+                                Trending books will appear here once they are available.
+                            </p>
                         </div>
 
-                    </div>
+                    @endforelse
+
+                </div>
+
+            </div>
 
 
+            {{-- =================================================
+                NEW ARRIVALS
+            ================================================== --}}
 
-                    {{-- =====================================================
-                        TRENDING NOW
-                    ====================================================== --}}
+            <div
+                id="technology"
+                data-tab-content
+            >
 
-                    <div
-                        id="business"
-                        data-tab-content
-                    >
+                <div class="popular-books-grid">
 
-                        <div class="row">
+                    @forelse($newArrivals as $book)
 
-                            @forelse($trendingBooks as $book)
+                        @php
+                            $bookImage = null;
 
-                                @php
+                            if (!empty($book->cover)) {
+                                $bookImage = filter_var(
+                                    $book->cover,
+                                    FILTER_VALIDATE_URL
+                                )
+                                    ? $book->cover
+                                    : asset('storage/' . $book->cover);
+                            }
+                        @endphp
 
-                                    $bookImage = null;
+                        <article class="popular-book-card">
 
-                                    if (!empty($book->cover)) {
+                            <div class="popular-book-image-wrap">
 
-                                        $bookImage = filter_var(
-                                            $book->cover,
-                                            FILTER_VALIDATE_URL
-                                        )
-                                            ? $book->cover
-                                            : asset('storage/' . $book->cover);
+                                @if($bookImage)
 
-                                    }
+                                    <img
+                                        src="{{ $bookImage }}"
+                                        alt="{{ $book->title }}"
+                                        loading="lazy"
+                                    >
 
-                                @endphp
+                                @else
 
+                                    <img
+                                        src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=90"
+                                        alt="{{ $book->title }}"
+                                        loading="lazy"
+                                    >
 
-                                <div class="col-md-3">
+                                @endif
 
-                                    <div class="product-item">
+                                <span class="popular-book-badge">
+                                    New Arrival
+                                </span>
 
-                                        <figure class="product-style">
+                                <form
+                                    action="{{ route('frontend.cart.add', $book) }}"
+                                    method="POST"
+                                    class="add-to-cart-form"
+                                >
+                                    @csrf
 
-                                            @if($bookImage)
+                                    <input
+                                        type="hidden"
+                                        name="quantity"
+                                        value="1"
+                                    >
 
-                                                <img
-                                                    src="{{ $bookImage }}"
-                                                    alt="{{ $book->title }}"
-                                                    class="product-item"
-                                                    loading="lazy"
-                                                >
+                                    <button
+                                        type="submit"
+                                        class="add-to-cart popular-book-cart-btn"
+                                    >
+                                        <i class="bi bi-cart3"></i>
+                                        <span>Add to Cart</span>
+                                    </button>
 
-                                            @else
+                                </form>
 
-                                                <img
-                                                    src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=90"
-                                                    alt="{{ $book->title }}"
-                                                    class="product-item"
-                                                    loading="lazy"
-                                                >
+                            </div>
 
-                                            @endif
+                            <div class="popular-book-info">
 
+                                <h3>
+                                    {{ $book->title }}
+                                </h3>
 
-                                            <form
-                                                action="{{ route('frontend.cart.add', $book) }}"
-                                                method="POST"
-                                                class="add-to-cart-form"
-                                            >
+                                <p class="popular-book-author">
+                                    {{ $book->author->name ?? 'Unknown Author' }}
+                                </p>
 
-                                                @csrf
+                                <div class="popular-book-bottom">
 
-                                                <input
-                                                    type="hidden"
-                                                    name="quantity"
-                                                    value="1"
-                                                >
+                                    <span class="popular-book-price">
+                                        ${{ number_format($book->price, 2) }}
+                                    </span>
 
-                                                <button
-                                                    type="submit"
-                                                    class="add-to-cart"
-                                                >
-                                                    Add to Cart
-                                                </button>
-
-                                            </form>
-
-                                        </figure>
-
-
-                                        <figcaption>
-
-                                            <h3>
-                                                {{ $book->title }}
-                                            </h3>
-
-                                            <span>
-                                                {{ $book->author->name ?? 'Unknown Author' }}
-                                            </span>
-
-                                            <div class="item-price">
-                                                $ {{ number_format($book->price, 2) }}
-                                            </div>
-
-                                        </figcaption>
-
-                                    </div>
+                                    <span class="popular-book-arrow">
+                                        <i class="bi bi-arrow-up-right"></i>
+                                    </span>
 
                                 </div>
 
-                            @empty
+                            </div>
 
-                                <div class="col-12 text-center py-5">
+                        </article>
 
-                                    <i class="bi bi-graph-up-arrow fs-1 text-muted"></i>
+                    @empty
 
-                                    <h4 class="mt-3">
-                                        No trending books available
-                                    </h4>
+                        <div class="popular-books-empty">
+                            <div class="popular-books-empty-icon">
+                                <i class="bi bi-stars"></i>
+                            </div>
 
-                                </div>
+                            <h3>
+                                No New Arrivals Available
+                            </h3>
 
-                            @endforelse
-
+                            <p>
+                                New arrivals will appear here once they are added.
+                            </p>
                         </div>
 
-                    </div>
+                    @endforelse
+
+                </div>
+
+            </div>
 
 
+            {{-- =================================================
+                EDITOR PICKS
+            ================================================== --}}
 
-                    {{-- =====================================================
-                        NEW ARRIVALS
-                    ====================================================== --}}
+            <div
+                id="romantic"
+                data-tab-content
+            >
 
-                    <div
-                        id="technology"
-                        data-tab-content
-                    >
+                <div class="popular-books-grid">
 
-                        <div class="row">
+                    @forelse($editorPicks as $book)
 
-                            @forelse($newArrivals as $book)
+                        @php
+                            $bookImage = null;
 
-                                @php
+                            if (!empty($book->cover)) {
+                                $bookImage = filter_var(
+                                    $book->cover,
+                                    FILTER_VALIDATE_URL
+                                )
+                                    ? $book->cover
+                                    : asset('storage/' . $book->cover);
+                            }
+                        @endphp
 
-                                    $bookImage = null;
+                        <article class="popular-book-card">
 
-                                    if (!empty($book->cover)) {
+                            <div class="popular-book-image-wrap">
 
-                                        $bookImage = filter_var(
-                                            $book->cover,
-                                            FILTER_VALIDATE_URL
-                                        )
-                                            ? $book->cover
-                                            : asset('storage/' . $book->cover);
+                                @if($bookImage)
 
-                                    }
+                                    <img
+                                        src="{{ $bookImage }}"
+                                        alt="{{ $book->title }}"
+                                        loading="lazy"
+                                    >
 
-                                @endphp
+                                @else
 
+                                    <img
+                                        src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=90"
+                                        alt="{{ $book->title }}"
+                                        loading="lazy"
+                                    >
 
-                                <div class="col-md-3">
+                                @endif
 
-                                    <div class="product-item">
+                                <span class="popular-book-badge">
+                                    Editor Pick
+                                </span>
 
-                                        <figure class="product-style">
+                                <form
+                                    action="{{ route('frontend.cart.add', $book) }}"
+                                    method="POST"
+                                    class="add-to-cart-form"
+                                >
+                                    @csrf
 
-                                            @if($bookImage)
+                                    <input
+                                        type="hidden"
+                                        name="quantity"
+                                        value="1"
+                                    >
 
-                                                <img
-                                                    src="{{ $bookImage }}"
-                                                    alt="{{ $book->title }}"
-                                                    class="product-item"
-                                                    loading="lazy"
-                                                >
+                                    <button
+                                        type="submit"
+                                        class="add-to-cart popular-book-cart-btn"
+                                    >
+                                        <i class="bi bi-cart3"></i>
+                                        <span>Add to Cart</span>
+                                    </button>
 
-                                            @else
+                                </form>
 
-                                                <img
-                                                    src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=90"
-                                                    alt="{{ $book->title }}"
-                                                    class="product-item"
-                                                    loading="lazy"
-                                                >
+                            </div>
 
-                                            @endif
+                            <div class="popular-book-info">
 
+                                <h3>
+                                    {{ $book->title }}
+                                </h3>
 
-                                            <form
-                                                action="{{ route('frontend.cart.add', $book) }}"
-                                                method="POST"
-                                                class="add-to-cart-form"
-                                            >
+                                <p class="popular-book-author">
+                                    {{ $book->author->name ?? 'Unknown Author' }}
+                                </p>
 
-                                                @csrf
+                                <div class="popular-book-bottom">
 
-                                                <input
-                                                    type="hidden"
-                                                    name="quantity"
-                                                    value="1"
-                                                >
+                                    <span class="popular-book-price">
+                                        ${{ number_format($book->price, 2) }}
+                                    </span>
 
-                                                <button
-                                                    type="submit"
-                                                    class="add-to-cart"
-                                                >
-                                                    Add to Cart
-                                                </button>
-
-                                            </form>
-
-                                        </figure>
-
-
-                                        <figcaption>
-
-                                            <h3>
-                                                {{ $book->title }}
-                                            </h3>
-
-                                            <span>
-                                                {{ $book->author->name ?? 'Unknown Author' }}
-                                            </span>
-
-                                            <div class="item-price">
-                                                $ {{ number_format($book->price, 2) }}
-                                            </div>
-
-                                        </figcaption>
-
-                                    </div>
+                                    <span class="popular-book-arrow">
+                                        <i class="bi bi-arrow-up-right"></i>
+                                    </span>
 
                                 </div>
 
-                            @empty
+                            </div>
 
-                                <div class="col-12 text-center py-5">
+                        </article>
 
-                                    <i class="bi bi-stars fs-1 text-muted"></i>
+                    @empty
 
-                                    <h4 class="mt-3">
-                                        No new arrivals available
-                                    </h4>
+                        <div class="popular-books-empty">
+                            <div class="popular-books-empty-icon">
+                                <i class="bi bi-pencil-square"></i>
+                            </div>
 
-                                </div>
+                            <h3>
+                                No Editor Picks Available
+                            </h3>
 
-                            @endforelse
-
+                            <p>
+                                Editor picks will appear here once they are selected.
+                            </p>
                         </div>
 
-                    </div>
+                    @endforelse
+
+                </div>
+
+            </div>
 
 
+            {{-- =================================================
+                MOST LOVED
+            ================================================== --}}
 
-                    {{-- =====================================================
-                        EDITOR PICKS
-                    ====================================================== --}}
+            <div
+                id="adventure"
+                data-tab-content
+            >
 
-                    <div
-                        id="romantic"
-                        data-tab-content
-                    >
+                <div class="popular-books-grid">
 
-                        <div class="row">
+                    @forelse($mostLovedBooks as $book)
 
-                            @forelse($editorPicks as $book)
+                        @php
+                            $bookImage = null;
 
-                                @php
+                            if (!empty($book->cover)) {
+                                $bookImage = filter_var(
+                                    $book->cover,
+                                    FILTER_VALIDATE_URL
+                                )
+                                    ? $book->cover
+                                    : asset('storage/' . $book->cover);
+                            }
+                        @endphp
 
-                                    $bookImage = null;
+                        <article class="popular-book-card">
 
-                                    if (!empty($book->cover)) {
+                            <div class="popular-book-image-wrap">
 
-                                        $bookImage = filter_var(
-                                            $book->cover,
-                                            FILTER_VALIDATE_URL
-                                        )
-                                            ? $book->cover
-                                            : asset('storage/' . $book->cover);
+                                @if($bookImage)
 
-                                    }
+                                    <img
+                                        src="{{ $bookImage }}"
+                                        alt="{{ $book->title }}"
+                                        loading="lazy"
+                                    >
 
-                                @endphp
+                                @else
 
+                                    <img
+                                        src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=90"
+                                        alt="{{ $book->title }}"
+                                        loading="lazy"
+                                    >
 
-                                <div class="col-md-3">
+                                @endif
 
-                                    <div class="product-item">
+                                <span class="popular-book-badge">
+                                    Most Loved
+                                </span>
 
-                                        <figure class="product-style">
+                                <form
+                                    action="{{ route('frontend.cart.add', $book) }}"
+                                    method="POST"
+                                    class="add-to-cart-form"
+                                >
+                                    @csrf
 
-                                            @if($bookImage)
+                                    <input
+                                        type="hidden"
+                                        name="quantity"
+                                        value="1"
+                                    >
 
-                                                <img
-                                                    src="{{ $bookImage }}"
-                                                    alt="{{ $book->title }}"
-                                                    class="product-item"
-                                                    loading="lazy"
-                                                >
+                                    <button
+                                        type="submit"
+                                        class="add-to-cart popular-book-cart-btn"
+                                    >
+                                        <i class="bi bi-cart3"></i>
+                                        <span>Add to Cart</span>
+                                    </button>
 
-                                            @else
+                                </form>
 
-                                                <img
-                                                    src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=90"
-                                                    alt="{{ $book->title }}"
-                                                    class="product-item"
-                                                    loading="lazy"
-                                                >
+                            </div>
 
-                                            @endif
+                            <div class="popular-book-info">
 
+                                <h3>
+                                    {{ $book->title }}
+                                </h3>
 
-                                            <form
-                                                action="{{ route('frontend.cart.add', $book) }}"
-                                                method="POST"
-                                                class="add-to-cart-form"
-                                            >
+                                <p class="popular-book-author">
+                                    {{ $book->author->name ?? 'Unknown Author' }}
+                                </p>
 
-                                                @csrf
+                                <div class="popular-book-bottom">
 
-                                                <input
-                                                    type="hidden"
-                                                    name="quantity"
-                                                    value="1"
-                                                >
+                                    <span class="popular-book-price">
+                                        ${{ number_format($book->price, 2) }}
+                                    </span>
 
-                                                <button
-                                                    type="submit"
-                                                    class="add-to-cart"
-                                                >
-                                                    Add to Cart
-                                                </button>
-
-                                            </form>
-
-                                        </figure>
-
-
-                                        <figcaption>
-
-                                            <h3>
-                                                {{ $book->title }}
-                                            </h3>
-
-                                            <span>
-                                                {{ $book->author->name ?? 'Unknown Author' }}
-                                            </span>
-
-                                            <div class="item-price">
-                                                $ {{ number_format($book->price, 2) }}
-                                            </div>
-
-                                        </figcaption>
-
-                                    </div>
+                                    <span class="popular-book-arrow">
+                                        <i class="bi bi-arrow-up-right"></i>
+                                    </span>
 
                                 </div>
 
-                            @empty
+                            </div>
 
-                                <div class="col-12 text-center py-5">
+                        </article>
 
-                                    <i class="bi bi-pencil-square fs-1 text-muted"></i>
+                    @empty
 
-                                    <h4 class="mt-3">
-                                        No editor picks available
-                                    </h4>
+                        <div class="popular-books-empty">
+                            <div class="popular-books-empty-icon">
+                                <i class="bi bi-heart"></i>
+                            </div>
 
-                                </div>
+                            <h3>
+                                No Loved Books Available
+                            </h3>
 
-                            @endforelse
-
+                            <p>
+                                Loved books will appear here once readers start discovering them.
+                            </p>
                         </div>
 
-                    </div>
+                    @endforelse
+
+                </div>
+
+            </div>
 
 
+            {{-- =================================================
+                BUDGET DEALS
+            ================================================== --}}
 
-                    {{-- =====================================================
-                        MOST LOVED
-                    ====================================================== --}}
+            <div
+                id="fictional"
+                data-tab-content
+            >
 
-                    <div
-                        id="adventure"
-                        data-tab-content
-                    >
+                <div class="popular-books-grid">
 
-                        <div class="row">
+                    @forelse($budgetDeals as $book)
 
-                            @forelse($mostLovedBooks as $book)
+                        @php
+                            $bookImage = null;
 
-                                @php
+                            if (!empty($book->cover)) {
+                                $bookImage = filter_var(
+                                    $book->cover,
+                                    FILTER_VALIDATE_URL
+                                )
+                                    ? $book->cover
+                                    : asset('storage/' . $book->cover);
+                            }
+                        @endphp
 
-                                    $bookImage = null;
+                        <article class="popular-book-card">
 
-                                    if (!empty($book->cover)) {
+                            <div class="popular-book-image-wrap">
 
-                                        $bookImage = filter_var(
-                                            $book->cover,
-                                            FILTER_VALIDATE_URL
-                                        )
-                                            ? $book->cover
-                                            : asset('storage/' . $book->cover);
+                                @if($bookImage)
 
-                                    }
+                                    <img
+                                        src="{{ $bookImage }}"
+                                        alt="{{ $book->title }}"
+                                        loading="lazy"
+                                    >
 
-                                @endphp
+                                @else
 
+                                    <img
+                                        src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=90"
+                                        alt="{{ $book->title }}"
+                                        loading="lazy"
+                                    >
 
-                                <div class="col-md-3">
+                                @endif
 
-                                    <div class="product-item">
+                                <span class="popular-book-badge">
+                                    Budget Deal
+                                </span>
 
-                                        <figure class="product-style">
+                                <form
+                                    action="{{ route('frontend.cart.add', $book) }}"
+                                    method="POST"
+                                    class="add-to-cart-form"
+                                >
+                                    @csrf
 
-                                            @if($bookImage)
+                                    <input
+                                        type="hidden"
+                                        name="quantity"
+                                        value="1"
+                                    >
 
-                                                <img
-                                                    src="{{ $bookImage }}"
-                                                    alt="{{ $book->title }}"
-                                                    class="product-item"
-                                                    loading="lazy"
-                                                >
+                                    <button
+                                        type="submit"
+                                        class="add-to-cart popular-book-cart-btn"
+                                    >
+                                        <i class="bi bi-cart3"></i>
+                                        <span>Add to Cart</span>
+                                    </button>
 
-                                            @else
+                                </form>
 
-                                                <img
-                                                    src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=90"
-                                                    alt="{{ $book->title }}"
-                                                    class="product-item"
-                                                    loading="lazy"
-                                                >
+                            </div>
 
-                                            @endif
+                            <div class="popular-book-info">
 
+                                <h3>
+                                    {{ $book->title }}
+                                </h3>
 
-                                            <form
-                                                action="{{ route('frontend.cart.add', $book) }}"
-                                                method="POST"
-                                                class="add-to-cart-form"
-                                            >
+                                <p class="popular-book-author">
+                                    {{ $book->author->name ?? 'Unknown Author' }}
+                                </p>
 
-                                                @csrf
+                                <div class="popular-book-bottom">
 
-                                                <input
-                                                    type="hidden"
-                                                    name="quantity"
-                                                    value="1"
-                                                >
+                                    <span class="popular-book-price">
+                                        ${{ number_format($book->price, 2) }}
+                                    </span>
 
-                                                <button
-                                                    type="submit"
-                                                    class="add-to-cart"
-                                                >
-                                                    Add to Cart
-                                                </button>
-
-                                            </form>
-
-                                        </figure>
-
-
-                                        <figcaption>
-
-                                            <h3>
-                                                {{ $book->title }}
-                                            </h3>
-
-                                            <span>
-                                                {{ $book->author->name ?? 'Unknown Author' }}
-                                            </span>
-
-                                            <div class="item-price">
-                                                $ {{ number_format($book->price, 2) }}
-                                            </div>
-
-                                        </figcaption>
-
-                                    </div>
+                                    <span class="popular-book-arrow">
+                                        <i class="bi bi-arrow-up-right"></i>
+                                    </span>
 
                                 </div>
 
-                            @empty
+                            </div>
 
-                                <div class="col-12 text-center py-5">
+                        </article>
 
-                                    <i class="bi bi-heart fs-1 text-muted"></i>
+                    @empty
 
-                                    <h4 class="mt-3">
-                                        No loved books available
-                                    </h4>
+                        <div class="popular-books-empty">
+                            <div class="popular-books-empty-icon">
+                                <i class="bi bi-tags"></i>
+                            </div>
 
-                                </div>
+                            <h3>
+                                No Budget Deals Available
+                            </h3>
 
-                            @endforelse
-
+                            <p>
+                                Budget deals will appear here once they are added.
+                            </p>
                         </div>
 
-                    </div>
-
-
-
-                    {{-- =====================================================
-                        BUDGET DEALS
-                    ====================================================== --}}
-
-                    <div
-                        id="fictional"
-                        data-tab-content
-                    >
-
-                        <div class="row">
-
-                            @forelse($budgetDeals as $book)
-
-                                @php
-
-                                    $bookImage = null;
-
-                                    if (!empty($book->cover)) {
-
-                                        $bookImage = filter_var(
-                                            $book->cover,
-                                            FILTER_VALIDATE_URL
-                                        )
-                                            ? $book->cover
-                                            : asset('storage/' . $book->cover);
-
-                                    }
-
-                                @endphp
-
-
-                                <div class="col-md-3">
-
-                                    <div class="product-item">
-
-                                        <figure class="product-style">
-
-                                            @if($bookImage)
-
-                                                <img
-                                                    src="{{ $bookImage }}"
-                                                    alt="{{ $book->title }}"
-                                                    class="product-item"
-                                                    loading="lazy"
-                                                >
-
-                                            @else
-
-                                                <img
-                                                    src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=900&q=90"
-                                                    alt="{{ $book->title }}"
-                                                    class="product-item"
-                                                    loading="lazy"
-                                                >
-
-                                            @endif
-
-
-                                            <form
-                                                action="{{ route('frontend.cart.add', $book) }}"
-                                                method="POST"
-                                                class="add-to-cart-form"
-                                            >
-
-                                                @csrf
-
-                                                <input
-                                                    type="hidden"
-                                                    name="quantity"
-                                                    value="1"
-                                                >
-
-                                                <button
-                                                    type="submit"
-                                                    class="add-to-cart"
-                                                >
-                                                    Add to Cart
-                                                </button>
-
-                                            </form>
-
-                                        </figure>
-
-
-                                        <figcaption>
-
-                                            <h3>
-                                                {{ $book->title }}
-                                            </h3>
-
-                                            <span>
-                                                {{ $book->author->name ?? 'Unknown Author' }}
-                                            </span>
-
-                                            <div class="item-price">
-                                                $ {{ number_format($book->price, 2) }}
-                                            </div>
-
-                                        </figcaption>
-
-                                    </div>
-
-                                </div>
-
-                            @empty
-
-                                <div class="col-12 text-center py-5">
-
-                                    <i class="bi bi-tags fs-1 text-muted"></i>
-
-                                    <h4 class="mt-3">
-                                        No budget deals available
-                                    </h4>
-
-                                </div>
-
-                            @endforelse
-
-                        </div>
-
-                    </div>
-
+                    @endforelse
 
                 </div>
 
@@ -821,6 +864,5 @@
         </div>
 
     </div>
-
 </section>
 

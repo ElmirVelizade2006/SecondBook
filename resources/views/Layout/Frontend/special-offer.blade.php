@@ -1,125 +1,161 @@
-<section id="special-offer" class="bookshelf pb-5 mb-5">
-
-    <div class="section-header align-center">
-        <div class="title">
-            <span>Limited-time marketplace deals</span>
-        </div>
-
-        <h2 class="section-title">Special Offers</h2>
-    </div>
+<section id="special-offer" class="special-offer-section">
 
     <div class="container">
 
-        <div class="row">
+        {{-- Section Header --}}
+        <div class="special-offer-header">
 
-            <div class="inner-content">
+            <div class="special-offer-heading">
 
-                <div class="product-list" data-aos="fade-up">
+                <span class="special-offer-eyebrow">
+                    Limited-time marketplace deals
+                </span>
 
-                    <div class="grid product-grid">
+                <h2 class="special-offer-title">
+                    Special Offers
+                </h2>
 
-                        @forelse($specialOffers as $book)
+                <div class="special-offer-divider"></div>
 
-                            @php
+                <p class="special-offer-description">
+                    Discover selected books at exceptional prices.
+                    Limited quantities and special marketplace deals await.
+                </p>
 
-                                $bookImage = null;
+            </div>
 
-                                if (!empty($book->cover)) {
+            <div class="special-offer-badge">
+                <i class="bi bi-tag"></i>
+                <span>Limited Offers</span>
+            </div>
 
-                                    $bookImage = filter_var(
-                                        $book->cover,
-                                        FILTER_VALIDATE_URL
-                                    )
-                                        ? $book->cover
-                                        : asset('storage/' . $book->cover);
-
-                                }
-
-                                // Visual previous price
-                                $previousPrice = $book->price * 1.20;
-
-                            @endphp
-
-
-                            <div class="product-item">
-
-                                <figure class="product-style">
-
-                                    @if($bookImage)
-
-                                        <img
-                                            src="{{ $bookImage }}"
-                                            alt="{{ $book->title }}"
-                                            class="product-item"
-                                            loading="lazy"
-                                        >
-
-                                    @else
-
-                                        <div class="product-image-placeholder">
-                                            <i class="bi bi-book"></i>
-                                        </div>
-
-                                    @endif
+        </div>
 
 
-                                    <button
-                                        type="button"
-                                        class="add-to-cart"
-                                        data-product-tile="add-to-cart"
+        {{-- Products --}}
+        <div class="special-offer-products" data-aos="fade-up">
+
+            <div class="special-offer-grid">
+
+                @forelse($specialOffers as $book)
+
+                    @php
+
+                        $bookImage = null;
+
+                        if (!empty($book->cover)) {
+
+                            $bookImage = filter_var(
+                                $book->cover,
+                                FILTER_VALIDATE_URL
+                            )
+                                ? $book->cover
+                                : asset('storage/' . $book->cover);
+
+                        }
+
+                        $previousPrice = $book->price * 1.20;
+
+                    @endphp
+
+
+                    <article class="special-offer-card">
+
+                        {{-- Product Image --}}
+                        <div class="special-offer-image-wrap">
+
+                            @if($bookImage)
+
+                                <a
+                                    href="#"
+                                    class="special-offer-image"
+                                >
+                                    <img
+                                        src="{{ $bookImage }}"
+                                        alt="{{ $book->title }}"
+                                        loading="lazy"
                                     >
-                                        Add to Cart
-                                    </button>
+                                </a>
 
-                                </figure>
+                            @else
 
+                                <div class="special-offer-image special-offer-placeholder">
+                                    <i class="bi bi-book"></i>
+                                </div>
 
-                                <figcaption>
-
-                                    <h3>
-                                        {{ $book->title }}
-                                    </h3>
-
-                                    <span>
-                                        {{ $book->author->name ?? 'Unknown Author' }}
-                                    </span>
+                            @endif
 
 
-                                    <div class="item-price">
+                            {{-- Discount Badge --}}
+                            <span class="special-offer-discount">
+                                20% OFF
+                            </span>
 
-                                        <span class="prev-price">
-                                            $ {{ number_format($previousPrice, 2) }}
-                                        </span>
 
-                                        $ {{ number_format($book->price, 2) }}
+                            {{-- Cart Button --}}
+                            <button
+                                type="button"
+                                class="add-to-cart special-offer-cart-btn"
+                                data-product-tile="add-to-cart"
+                            >
+                                <i class="bi bi-cart3"></i>
+                                <span>Add to Cart</span>
+                            </button>
 
-                                    </div>
+                        </div>
 
-                                </figcaption>
+
+                        {{-- Product Info --}}
+                        <div class="special-offer-info">
+
+                            <div class="special-offer-condition">
+                                Special Deal
+                            </div>
+
+                            <h3 class="special-offer-book-title">
+                                {{ $book->title }}
+                            </h3>
+
+                            <p class="special-offer-author">
+                                {{ $book->author->name ?? 'Unknown Author' }}
+                            </p>
+
+
+                            <div class="special-offer-price">
+
+                                <span class="special-offer-old-price">
+                                    ${{ number_format($previousPrice, 2) }}
+                                </span>
+
+                                <span class="special-offer-current-price">
+                                    ${{ number_format($book->price, 2) }}
+                                </span>
 
                             </div>
 
-                        @empty
+                        </div>
 
-                            <div class="col-12 text-center py-5">
+                    </article>
 
-                                <i class="bi bi-tags fs-1 text-muted"></i>
+                @empty
 
-                                <h4 class="mt-3">
-                                    No special offers available
-                                </h4>
+                    <div class="special-offer-empty">
 
-                                <p class="text-muted mb-0">
-                                    Special offers will appear here once they are added.
-                                </p>
+                        <div class="special-offer-empty-icon">
+                            <i class="bi bi-tags"></i>
+                        </div>
 
-                            </div>
+                        <h3>
+                            No Special Offers Available
+                        </h3>
 
-                        @endforelse
+                        <p>
+                            Special offers will appear here once they are added.
+                        </p>
 
                     </div>
 
-                </div>
+                @endforelse
 
             </div>
 
@@ -128,4 +164,3 @@
     </div>
 
 </section>
-

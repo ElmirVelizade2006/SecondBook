@@ -7,7 +7,9 @@
         @include('Layout.Frontend.header-wrap')
     @endif
 
-    @yield('content')
+    <main id="frontend-content">
+        @yield('content')
+    </main>
 
     @hasSection('hideFooter')
     @else
@@ -44,7 +46,7 @@
                         confirmButton: 'logout-confirm-btn',
                         cancelButton: 'logout-cancel-btn'
                     }
-                }).then((result) => {
+                }).then(function (result) {
 
                     if (result.isConfirmed) {
                         document.getElementById(formId)?.submit();

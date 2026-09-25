@@ -1,0 +1,890 @@
+/* =========================================================
+   SECOND BOOK — POPULAR BOOKS
+   PREMIUM FRONTEND SECTION
+========================================================= */
+
+#popular-books.popular-books-section {
+    position: relative;
+    padding: 105px 0 110px;
+    background: #f8f5f2;
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+#popular-books .popular-books-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 42px;
+}
+
+#popular-books .popular-books-heading {
+    max-width: 720px;
+}
+
+#popular-books .popular-books-eyebrow {
+    display: inline-block;
+    margin-bottom: 13px;
+    color: #8b5e3c;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+#popular-books .popular-books-title {
+    margin: 0;
+    color: #292522;
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -1px;
+}
+
+#popular-books .popular-books-divider {
+    width: 44px;
+    height: 2px;
+    margin-top: 19px;
+    background: #8b5e3c;
+}
+
+#popular-books .popular-books-description {
+    max-width: 640px;
+    margin: 18px 0 0;
+    color: #77706b;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   VIEW ALL
+========================================================= */
+
+#popular-books .popular-books-view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 13px;
+    flex-shrink: 0;
+    padding: 13px 0;
+    color: #292522;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none;
+    transition:
+        color 0.3s ease,
+        gap 0.3s ease;
+}
+
+#popular-books .popular-books-view-all i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid #ddd2ca;
+    border-radius: 50%;
+    color: #8b5e3c;
+    font-size: 15px;
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+#popular-books .popular-books-view-all:hover {
+    gap: 16px;
+    color: #8b5e3c;
+}
+
+#popular-books .popular-books-view-all:hover i {
+    border-color: #8b5e3c;
+    background: #8b5e3c;
+    color: #ffffff;
+    transform: translateX(2px);
+}
+
+
+/* =========================================================
+   TABS WRAPPER
+========================================================= */
+
+#popular-books .popular-books-tabs-wrapper {
+    margin-bottom: 38px;
+    border-bottom: 1px solid #dfd6cf;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+#popular-books .popular-books-tabs-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* =========================================================
+   TABS
+========================================================= */
+
+#popular-books .popular-books-tabs {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 4px;
+
+    min-width: max-content;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#popular-books .popular-books-tabs .tab {
+    position: relative;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    min-height: 52px;
+    padding: 0 19px;
+
+    color: #756e68;
+    background: transparent;
+
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.4;
+
+    cursor: pointer;
+    white-space: nowrap;
+
+    transition:
+        color 0.3s ease,
+        background-color 0.3s ease;
+}
+
+#popular-books .popular-books-tabs .tab i {
+    color: #9b9189;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+#popular-books .popular-books-tabs .tab::after {
+    position: absolute;
+    right: 15px;
+    bottom: -1px;
+    left: 15px;
+
+    height: 2px;
+
+    background: #8b5e3c;
+
+    content: "";
+    opacity: 0;
+    transform: scaleX(0);
+
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+#popular-books .popular-books-tabs .tab:hover {
+    color: #8b5e3c;
+}
+
+#popular-books .popular-books-tabs .tab:hover i {
+    color: #8b5e3c;
+}
+
+#popular-books .popular-books-tabs .tab.active {
+    color: #8b5e3c;
+}
+
+#popular-books .popular-books-tabs .tab.active i {
+    color: #8b5e3c;
+}
+
+#popular-books .popular-books-tabs .tab.active::after {
+    opacity: 1;
+    transform: scaleX(1);
+}
+
+
+/* =========================================================
+   TAB CONTENT
+========================================================= */
+
+#popular-books .popular-books-content {
+    width: 100%;
+}
+
+#popular-books .popular-books-content [data-tab-content] {
+    display: none;
+}
+
+#popular-books .popular-books-content [data-tab-content].active {
+    display: block;
+}
+
+
+/* =========================================================
+   BOOK GRID
+========================================================= */
+
+#popular-books .popular-books-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+}
+
+
+/* =========================================================
+   BOOK CARD
+========================================================= */
+
+#popular-books .popular-book-card {
+    position: relative;
+    min-width: 0;
+
+    overflow: hidden;
+
+    border: 1px solid #e5ddd6;
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    box-shadow: 0 3px 16px rgba(48, 38, 31, 0.035);
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+}
+
+#popular-books .popular-book-card:hover {
+    border-color: #d9cec5;
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(48, 38, 31, 0.10);
+}
+
+
+/* =========================================================
+   BOOK IMAGE
+========================================================= */
+
+#popular-books .popular-book-image-wrap {
+    position: relative;
+
+    height: 350px;
+
+    overflow: hidden;
+
+    background: #eee8e2;
+}
+
+#popular-books .popular-book-image-wrap img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    transition:
+        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.45s ease;
+}
+
+#popular-books .popular-book-card:hover
+.popular-book-image-wrap img {
+    transform: scale(1.06);
+    filter: brightness(0.86);
+}
+
+
+/* =========================================================
+   IMAGE GRADIENT
+========================================================= */
+
+#popular-books .popular-book-image-wrap::after {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(30, 24, 20, 0.02) 0%,
+            rgba(30, 24, 20, 0.04) 50%,
+            rgba(30, 24, 20, 0.28) 100%
+        );
+
+    content: "";
+    pointer-events: none;
+
+    transition: opacity 0.35s ease;
+}
+
+#popular-books .popular-book-card:hover
+.popular-book-image-wrap::after {
+    opacity: 0.9;
+}
+
+
+/* =========================================================
+   CATEGORY BADGE
+========================================================= */
+
+#popular-books .popular-book-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 3;
+
+    display: inline-flex;
+    align-items: center;
+
+    min-height: 28px;
+    padding: 6px 10px;
+
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 20px;
+
+    background: rgba(41, 37, 34, 0.68);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    color: #ffffff;
+
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   ADD TO CART
+========================================================= */
+
+#popular-books .add-to-cart-form {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    left: 15px;
+    z-index: 4;
+
+    margin: 0;
+
+    opacity: 0;
+    transform: translateY(10px);
+
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+#popular-books .popular-book-card:hover .add-to-cart-form {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#popular-books .popular-book-cart-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    width: 100%;
+    min-height: 44px;
+    padding: 11px 16px;
+
+    border: 1px solid #8b5e3c;
+    border-radius: 6px;
+
+    background: #8b5e3c;
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.3px;
+
+    cursor: pointer;
+
+    box-shadow: 0 8px 20px rgba(39, 30, 25, 0.18);
+
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease;
+}
+
+#popular-books .popular-book-cart-btn i {
+    font-size: 14px;
+}
+
+#popular-books .popular-book-cart-btn:hover {
+    border-color: #70492f;
+    background: #70492f;
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   BOOK INFO
+========================================================= */
+
+#popular-books .popular-book-info {
+    position: relative;
+    padding: 20px 20px 19px;
+}
+
+#popular-books .popular-book-info h3 {
+    margin: 0;
+
+    overflow: hidden;
+
+    color: #292522;
+
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.4;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    transition: color 0.3s ease;
+}
+
+#popular-books .popular-book-card:hover
+.popular-book-info h3 {
+    color: #8b5e3c;
+}
+
+#popular-books .popular-book-author {
+    margin: 7px 0 16px;
+
+    overflow: hidden;
+
+    color: #8b847e;
+
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   PRICE + ARROW
+========================================================= */
+
+#popular-books .popular-book-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+#popular-books .popular-book-price {
+    color: #8b5e3c;
+
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+#popular-books .popular-book-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    border: 1px solid #dfd6cf;
+    border-radius: 50%;
+
+    color: #8b5e3c;
+
+    font-size: 13px;
+
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+#popular-books .popular-book-card:hover
+.popular-book-arrow {
+    border-color: #8b5e3c;
+    background: #8b5e3c;
+    color: #ffffff;
+    transform: translate(2px, -2px);
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+#popular-books .popular-books-empty {
+    grid-column: 1 / -1;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+    min-height: 330px;
+    padding: 50px 30px;
+
+    border: 1px dashed #d8cec6;
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    text-align: center;
+}
+
+#popular-books .popular-books-empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 64px;
+    height: 64px;
+    margin-bottom: 20px;
+
+    border-radius: 50%;
+
+    background: #f1eae4;
+
+    color: #8b5e3c;
+
+    font-size: 25px;
+}
+
+#popular-books .popular-books-empty h3 {
+    margin: 0 0 8px;
+
+    color: #292522;
+
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+#popular-books .popular-books-empty p {
+    max-width: 430px;
+    margin: 0;
+
+    color: #817a74;
+
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
+@media (max-width: 1199px) {
+
+    #popular-books.popular-books-section {
+        padding: 90px 0 95px;
+    }
+
+    #popular-books .popular-books-header {
+        margin-bottom: 38px;
+    }
+
+    #popular-books .popular-books-title {
+        font-size: 38px;
+    }
+
+    #popular-books .popular-books-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    #popular-books .popular-book-image-wrap {
+        height: 340px;
+    }
+
+    #popular-books .popular-books-tabs .tab {
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 991px) {
+
+    #popular-books.popular-books-section {
+        padding: 80px 0 85px;
+    }
+
+    #popular-books .popular-books-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 22px;
+        margin-bottom: 32px;
+    }
+
+    #popular-books .popular-books-heading {
+        max-width: 650px;
+    }
+
+    #popular-books .popular-books-title {
+        font-size: 36px;
+    }
+
+    #popular-books .popular-books-description {
+        max-width: 600px;
+    }
+
+    #popular-books .popular-books-view-all {
+        padding: 8px 0;
+    }
+
+    #popular-books .popular-books-tabs-wrapper {
+        margin-bottom: 32px;
+    }
+
+    #popular-books .popular-books-tabs {
+        justify-content: flex-start;
+    }
+
+    #popular-books .popular-books-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    #popular-books .popular-book-image-wrap {
+        height: 355px;
+    }
+
+    #popular-books .add-to-cart-form {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    #popular-books .popular-book-cart-btn {
+        min-height: 42px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+
+    #popular-books.popular-books-section {
+        padding: 70px 0 75px;
+    }
+
+    #popular-books .popular-books-header {
+        gap: 20px;
+        margin-bottom: 28px;
+    }
+
+    #popular-books .popular-books-eyebrow {
+        margin-bottom: 10px;
+        font-size: 10px;
+        letter-spacing: 1.7px;
+    }
+
+    #popular-books .popular-books-title {
+        font-size: 32px;
+        letter-spacing: -0.7px;
+    }
+
+    #popular-books .popular-books-divider {
+        margin-top: 16px;
+    }
+
+    #popular-books .popular-books-description {
+        margin-top: 15px;
+        font-size: 13px;
+        line-height: 1.75;
+    }
+
+    #popular-books .popular-books-tabs-wrapper {
+        margin-bottom: 28px;
+    }
+
+    #popular-books .popular-books-tabs .tab {
+        min-height: 48px;
+        padding: 0 14px;
+        font-size: 11px;
+    }
+
+    #popular-books .popular-books-tabs .tab i {
+        font-size: 13px;
+    }
+
+    #popular-books .popular-books-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    #popular-books .popular-book-image-wrap {
+        height: 380px;
+    }
+
+    #popular-books .popular-book-info {
+        padding: 18px 18px 17px;
+    }
+
+    #popular-books .popular-book-info h3 {
+        font-size: 16px;
+    }
+
+    #popular-books .popular-book-author {
+        margin-bottom: 14px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 575px) {
+
+    #popular-books.popular-books-section {
+        padding: 60px 0 65px;
+    }
+
+    #popular-books .popular-books-title {
+        font-size: 29px;
+    }
+
+    #popular-books .popular-books-description {
+        font-size: 12.5px;
+    }
+
+    #popular-books .popular-books-view-all {
+        font-size: 12px;
+    }
+
+    #popular-books .popular-books-view-all i {
+        width: 31px;
+        height: 31px;
+        font-size: 13px;
+    }
+
+    #popular-books .popular-books-tabs .tab {
+        min-height: 46px;
+        padding: 0 12px;
+        font-size: 10px;
+    }
+
+    #popular-books .popular-books-tabs .tab i {
+        font-size: 12px;
+    }
+
+    #popular-books .popular-books-tabs .tab::after {
+        right: 10px;
+        left: 10px;
+    }
+
+    #popular-books .popular-books-grid {
+        gap: 16px;
+    }
+
+    #popular-books .popular-book-image-wrap {
+        height: 345px;
+    }
+
+    #popular-books .popular-book-badge {
+        top: 12px;
+        left: 12px;
+        min-height: 26px;
+        padding: 5px 9px;
+        font-size: 8px;
+    }
+
+    #popular-books .add-to-cart-form {
+        right: 12px;
+        bottom: 12px;
+        left: 12px;
+    }
+
+    #popular-books .popular-book-cart-btn {
+        min-height: 40px;
+        padding: 10px 14px;
+        font-size: 10px;
+    }
+
+    #popular-books .popular-book-info {
+        padding: 17px 16px 16px;
+    }
+
+    #popular-books .popular-book-price {
+        font-size: 16px;
+    }
+
+    #popular-books .popular-book-arrow {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+
+    #popular-books .popular-books-empty {
+        min-height: 280px;
+        padding: 40px 20px;
+    }
+
+    #popular-books .popular-books-empty h3 {
+        font-size: 18px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    #popular-books .popular-books-view-all,
+    #popular-books .popular-books-view-all i,
+    #popular-books .popular-books-tabs .tab,
+    #popular-books .popular-books-tabs .tab i,
+    #popular-books .popular-books-tabs .tab::after,
+    #popular-books .popular-book-card,
+    #popular-books .popular-book-image-wrap img,
+    #popular-books .popular-book-image-wrap::after,
+    #popular-books .add-to-cart-form,
+    #popular-books .popular-book-cart-btn,
+    #popular-books .popular-book-info h3,
+    #popular-books .popular-book-arrow {
+        transition: none;
+    }
+}
+

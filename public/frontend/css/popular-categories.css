@@ -1,0 +1,564 @@
+/* =========================================================
+   SECOND BOOK — POPULAR CATEGORIES
+   PREMIUM FRONTEND SECTION
+========================================================= */
+
+#categories.categories-section {
+    position: relative;
+    padding: 105px 0 110px;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+#categories .categories-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 48px;
+}
+
+#categories .categories-heading {
+    max-width: 720px;
+}
+
+#categories .categories-eyebrow {
+    display: inline-block;
+    margin-bottom: 13px;
+    color: #8b5e3c;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+#categories .categories-title {
+    margin: 0;
+    color: #292522;
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -1px;
+}
+
+#categories .categories-divider {
+    width: 44px;
+    height: 2px;
+    margin-top: 19px;
+    background: #8b5e3c;
+}
+
+#categories .categories-description {
+    max-width: 620px;
+    margin: 18px 0 0;
+    color: #77706b;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   VIEW ALL BUTTON
+========================================================= */
+
+#categories .categories-view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 13px;
+    flex-shrink: 0;
+    padding: 13px 0;
+    color: #292522;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none;
+    transition:
+        color 0.3s ease,
+        gap 0.3s ease;
+}
+
+#categories .categories-view-all i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid #ddd2ca;
+    border-radius: 50%;
+    color: #8b5e3c;
+    font-size: 15px;
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+#categories .categories-view-all:hover {
+    color: #8b5e3c;
+    gap: 16px;
+}
+
+#categories .categories-view-all:hover i {
+    border-color: #8b5e3c;
+    background: #8b5e3c;
+    color: #ffffff;
+    transform: translateX(2px);
+}
+
+
+/* =========================================================
+   CATEGORY GRID
+========================================================= */
+
+#categories .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+}
+
+
+/* =========================================================
+   CATEGORY CARD
+========================================================= */
+
+#categories .category-card {
+    position: relative;
+    display: block;
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+}
+
+#categories .category-image-wrap {
+    position: relative;
+    height: 390px;
+    overflow: hidden;
+    border: 1px solid #e8e0d9;
+    border-radius: 12px;
+    background: #f3eee8;
+    isolation: isolate;
+}
+
+#categories .category-image-wrap img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition:
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.5s ease;
+}
+
+#categories .category-card:hover .category-image-wrap img {
+    transform: scale(1.07);
+    filter: brightness(0.88);
+}
+
+
+/* =========================================================
+   IMAGE OVERLAY
+========================================================= */
+
+#categories .category-image-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(35, 29, 25, 0.02) 15%,
+            rgba(35, 29, 25, 0.08) 38%,
+            rgba(35, 29, 25, 0.48) 68%,
+            rgba(35, 29, 25, 0.88) 100%
+        );
+    pointer-events: none;
+    transition: background 0.4s ease;
+}
+
+#categories .category-card:hover .category-image-overlay {
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(35, 29, 25, 0.05) 10%,
+            rgba(35, 29, 25, 0.14) 35%,
+            rgba(35, 29, 25, 0.55) 67%,
+            rgba(35, 29, 25, 0.92) 100%
+        );
+}
+
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+#categories .category-card-content {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+
+    padding: 25px 22px 22px;
+    color: #ffffff;
+}
+
+#categories .category-card-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    margin-bottom: 2px;
+
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.11);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    color: #ffffff;
+    font-size: 16px;
+
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease;
+}
+
+#categories .category-card:hover .category-card-icon {
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+}
+
+
+/* =========================================================
+   CARD TEXT
+========================================================= */
+
+#categories .category-card-text {
+    min-width: 0;
+    flex: 1;
+}
+
+#categories .category-card-label {
+    display: block;
+    margin-bottom: 5px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 1.7px;
+    text-transform: uppercase;
+}
+
+#categories .category-card-text h3 {
+    margin: 0;
+    overflow: hidden;
+    color: #ffffff;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#categories .category-card-text p {
+    margin: 7px 0 0;
+    overflow: hidden;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.5;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   CARD ARROW
+========================================================= */
+
+#categories .category-card-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    color: #ffffff;
+    font-size: 14px;
+
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        transform 0.3s ease;
+}
+
+#categories .category-card:hover .category-card-arrow {
+    border-color: #ffffff;
+    background: #ffffff;
+    color: #8b5e3c;
+    transform: translate(2px, -2px);
+}
+
+
+/* =========================================================
+   TABLET — LARGE
+========================================================= */
+
+@media (max-width: 1199px) {
+
+    #categories.categories-section {
+        padding: 90px 0 95px;
+    }
+
+    #categories .categories-header {
+        margin-bottom: 40px;
+    }
+
+    #categories .categories-title {
+        font-size: 38px;
+    }
+
+    #categories .categories-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    #categories .category-image-wrap {
+        height: 360px;
+    }
+
+    #categories .category-card-content {
+        padding: 22px 19px 19px;
+    }
+
+    #categories .category-card-text h3 {
+        font-size: 19px;
+    }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 991px) {
+
+    #categories.categories-section {
+        padding: 80px 0 85px;
+    }
+
+    #categories .categories-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 22px;
+        margin-bottom: 35px;
+    }
+
+    #categories .categories-heading {
+        max-width: 650px;
+    }
+
+    #categories .categories-title {
+        font-size: 36px;
+    }
+
+    #categories .categories-description {
+        max-width: 600px;
+    }
+
+    #categories .categories-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    #categories .category-image-wrap {
+        height: 350px;
+    }
+
+    #categories .category-card-arrow {
+        display: none;
+    }
+
+    #categories .category-card-content {
+        gap: 13px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+
+    #categories.categories-section {
+        padding: 70px 0 75px;
+    }
+
+    #categories .categories-header {
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    #categories .categories-eyebrow {
+        margin-bottom: 10px;
+        font-size: 10px;
+        letter-spacing: 1.7px;
+    }
+
+    #categories .categories-title {
+        font-size: 32px;
+        letter-spacing: -0.7px;
+    }
+
+    #categories .categories-divider {
+        margin-top: 16px;
+    }
+
+    #categories .categories-description {
+        margin-top: 15px;
+        font-size: 13px;
+        line-height: 1.75;
+    }
+
+    #categories .categories-view-all {
+        padding: 8px 0;
+        font-size: 12px;
+    }
+
+    #categories .categories-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    #categories .category-image-wrap {
+        height: 370px;
+    }
+
+    #categories .category-card-content {
+        padding: 24px 21px 21px;
+    }
+
+    #categories .category-card-icon {
+        flex-basis: 40px;
+        width: 40px;
+        height: 40px;
+    }
+
+    #categories .category-card-text h3 {
+        font-size: 20px;
+    }
+
+    #categories .category-card-text p {
+        font-size: 11px;
+    }
+
+    #categories .category-card-arrow {
+        display: inline-flex;
+        flex-basis: 34px;
+        width: 34px;
+        height: 34px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 575px) {
+
+    #categories.categories-section {
+        padding: 60px 0 65px;
+    }
+
+    #categories .categories-title {
+        font-size: 29px;
+    }
+
+    #categories .categories-description {
+        font-size: 12.5px;
+    }
+
+    #categories .categories-grid {
+        gap: 16px;
+    }
+
+    #categories .category-image-wrap {
+        height: 330px;
+        border-radius: 10px;
+    }
+
+    #categories .category-card-content {
+        gap: 11px;
+        padding: 21px 17px 17px;
+    }
+
+    #categories .category-card-icon {
+        flex-basis: 37px;
+        width: 37px;
+        height: 37px;
+        font-size: 14px;
+    }
+
+    #categories .category-card-text h3 {
+        font-size: 18px;
+    }
+
+    #categories .category-card-text p {
+        margin-top: 5px;
+        font-size: 10px;
+    }
+
+    #categories .category-card-arrow {
+        flex-basis: 31px;
+        width: 31px;
+        height: 31px;
+        font-size: 12px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    #categories .category-image-wrap img,
+    #categories .category-image-overlay,
+    #categories .category-card-icon,
+    #categories .category-card-arrow,
+    #categories .categories-view-all,
+    #categories .categories-view-all i {
+        transition: none;
+    }
+}
+

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SellerApplication;
 use App\Models\Store;
 use App\Services\ActivityLogService;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -14,9 +15,14 @@ class SellerApplicationsController extends Controller
 {
     private ActivityLogService $activityLogService;
 
-    public function __construct(ActivityLogService $activityLogService)
-    {
+    private NotificationService $notificationService;
+
+    public function __construct(
+        ActivityLogService $activityLogService,
+        NotificationService $notificationService
+    ) {
         $this->activityLogService = $activityLogService;
+        $this->notificationService = $notificationService;
     }
 
     /**
@@ -154,10 +160,19 @@ class SellerApplicationsController extends Controller
             ]);
         });
 
+        // Activity log
         $this->activityLogService->log(
             'updated',
             'Seller Applications',
             "Seller application for \"{$application->store_name}\" was approved. User \"{$user->name}\" is now a seller."
+        );
+
+        // Notify applicant
+        $this->notificationService->send(
+            $user->id,
+            'seller',
+            'Seller Application Approved',
+            "Your seller application for \"{$application->store_name}\" has been approved. Your seller store is now active."
         );
 
         return redirect()
@@ -196,10 +211,19 @@ class SellerApplicationsController extends Controller
             'reviewed_at' => now(),
         ]);
 
+        // Activity log
         $this->activityLogService->log(
             'updated',
             'Seller Applications',
             "Seller application for \"{$application->store_name}\" was rejected."
+        );
+
+        // Notify applicant
+        $this->notificationService->send(
+            $application->user_id,
+            'seller',
+            'Seller Application Rejected',
+            "Your seller application for \"{$application->store_name}\" has been rejected. Reason: {$validated['rejection_reason']}"
         );
 
         return redirect()
@@ -210,4 +234,3 @@ class SellerApplicationsController extends Controller
             );
     }
 }
-

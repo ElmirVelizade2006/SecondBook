@@ -77,7 +77,67 @@
 <link
     rel="stylesheet"
     type="text/css"
-    href="{{ asset('frontend/style.css') }}"
+    href="{{ asset('frontend/css/popular-books.css') }}"
+>
+
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ asset('frontend/css/popular-categories.css') }}"
+>
+
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ asset('frontend/css/billboard.css') }}"
+>
+
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ asset('frontend/css/subscribe.css') }}"
+>
+
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ asset('frontend/css/latest-articles.css') }}"
+>
+
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ asset('frontend/css/categories.css') }}"
+>
+
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ asset('frontend/css/special-offer.css') }}"
+>
+
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ asset('frontend/css/why-choose.blade.css') }}"
+>
+
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ asset('frontend/css/featured-books.css') }}"
+>
+
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ asset('frontend/css/quotation.css') }}"
+>
+
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ asset('frontend/css/style.css') }}"
 >
 
 {{-- =========================================================
@@ -88,6 +148,22 @@
     rel="stylesheet"
     type="text/css"
     href="{{ asset('frontend/css/header.css') }}"
+>
+
+{{-- =========================================================
+   FOOTER CSS
+========================================================= --}}
+
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ asset('frontend/css/footer.css') }}"
+>
+
+<link
+    rel="stylesheet"
+    type="text/css"
+    href="{{ asset('frontend/css/footer-bottom.css') }}"
 >
 
 {{-- =========================================================

@@ -1,130 +1,173 @@
-	<section id="latest-blog" class="py-5 my-5">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
+<section id="latest-blog" class="latest-blog-section">
+    <div class="container">
 
-					<div class="section-header align-center">
-						<div class="title">
-							<span>Read our articles</span>
-						</div>
-						<h2 class="section-title">Latest Articles</h2>
-					</div>
+        {{-- Section Header --}}
+        <div class="latest-blog-header">
+            <div class="latest-blog-eyebrow">
+                From the Journal
+            </div>
 
-					<div class="row">
+            <div class="latest-blog-heading-row">
+                <div>
+                    <h2 class="latest-blog-title">
+                        Latest Articles
+                    </h2>
 
-						<div class="col-md-4">
+                    <div class="latest-blog-divider"></div>
+                </div>
 
-							<article class="column" data-aos="fade-up">
+                <a href="#" class="latest-blog-view-all">
+                    <span>View All Articles</span>
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
 
-								<figure>
-									<a href="#" class="image-hvr-effect">
-										<img src="images/post-img1.jpg" alt="post" class="post-image">
-									</a>
-								</figure>
+            <p class="latest-blog-intro">
+                Discover thoughtful stories, reading inspiration, book guides,
+                and useful insights from the SecondBook community.
+            </p>
+        </div>
 
-								<div class="post-item">
-									<div class="meta-date">Mar 30, 2021</div>
-									<h3><a href="#">Reading books always makes the moments happy</a></h3>
+        {{-- Articles --}}
+        <div class="latest-blog-grid">
 
-									<div class="links-element">
-										<div class="categories">inspiration</div>
-										<div class="social-links">
-											<ul>
-												<li>
-													<a href="#"><i class="icon icon-facebook"></i></a>
-												</li>
-												<li>
-													<a href="#"><i class="icon icon-twitter"></i></a>
-												</li>
-												<li>
-													<a href="#"><i class="icon icon-behance-square"></i></a>
-												</li>
-											</ul>
-										</div>
-									</div><!--links-element-->
+            {{-- Article 1 --}}
+            <article class="latest-blog-card" data-aos="fade-up">
 
-								</div>
-							</article>
+                <a href="#" class="latest-blog-image image-hvr-effect">
+                    <img
+                        src="{{ asset('frontend/images/post-img1.jpg') }}"
+                        alt="Reading books"
+                        class="post-image"
+                    >
 
-						</div>
-						<div class="col-md-4">
+                    <span class="latest-blog-category">
+                        Inspiration
+                    </span>
+                </a>
 
-							<article class="column" data-aos="fade-up" data-aos-delay="200">
-								<figure>
-									<a href="#" class="image-hvr-effect">
-										<img src="images/post-img2.jpg" alt="post" class="post-image">
-									</a>
-								</figure>
-								<div class="post-item">
-									<div class="meta-date">Mar 29, 2021</div>
-									<h3><a href="#">Reading books always makes the moments happy</a></h3>
+                <div class="latest-blog-content">
 
-									<div class="links-element">
-										<div class="categories">inspiration</div>
-										<div class="social-links">
-											<ul>
-												<li>
-													<a href="#"><i class="icon icon-facebook"></i></a>
-												</li>
-												<li>
-													<a href="#"><i class="icon icon-twitter"></i></a>
-												</li>
-												<li>
-													<a href="#"><i class="icon icon-behance-square"></i></a>
-												</li>
-											</ul>
-										</div>
-									</div><!--links-element-->
+                    <div class="latest-blog-meta">
+                        <span>Mar 30, 2026</span>
+                        <span class="latest-blog-meta-dot"></span>
+                        <span>4 min read</span>
+                    </div>
 
-								</div>
-							</article>
+                    <h3>
+                        <a href="#">
+                            Why Reading Still Makes Everyday Moments Better
+                        </a>
+                    </h3>
 
-						</div>
-						<div class="col-md-4">
+                    <p>
+                        Explore how books can turn ordinary moments into
+                        meaningful experiences and lasting memories.
+                    </p>
 
-							<article class="column" data-aos="fade-up" data-aos-delay="400">
-								<figure>
-									<a href="#" class="image-hvr-effect">
-										<img src="images/post-img3.jpg" alt="post" class="post-image">
-									</a>
-								</figure>
-								<div class="post-item">
-									<div class="meta-date">Feb 27, 2021</div>
-									<h3><a href="#">Reading books always makes the moments happy</a></h3>
+                    <a href="#" class="latest-blog-read-more">
+                        Read Article
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
 
-									<div class="links-element">
-										<div class="categories">inspiration</div>
-										<div class="social-links">
-											<ul>
-												<li>
-													<a href="#"><i class="icon icon-facebook"></i></a>
-												</li>
-												<li>
-													<a href="#"><i class="icon icon-twitter"></i></a>
-												</li>
-												<li>
-													<a href="#"><i class="icon icon-behance-square"></i></a>
-												</li>
-											</ul>
-										</div>
-									</div><!--links-element-->
+                </div>
+            </article>
 
-								</div>
-							</article>
 
-						</div>
+            {{-- Article 2 --}}
+            <article
+                class="latest-blog-card"
+                data-aos="fade-up"
+                data-aos-delay="150"
+            >
 
-					</div>
+                <a href="#" class="latest-blog-image image-hvr-effect">
+                    <img
+                        src="{{ asset('frontend/images/post-img2.jpg') }}"
+                        alt="Books and reading"
+                        class="post-image"
+                    >
 
-					<div class="row">
+                    <span class="latest-blog-category">
+                        Book Guide
+                    </span>
+                </a>
 
-						<div class="btn-wrap align-center">
-							<a href="#" class="btn btn-outline-accent btn-accent-arrow" tabindex="0">Read All Articles<i
-									class="icon icon-ns-arrow-right"></i></a>
-						</div>
-					</div>
+                <div class="latest-blog-content">
 
-				</div>
-			</div>
-		</div>
-	</section>
+                    <div class="latest-blog-meta">
+                        <span>Mar 24, 2026</span>
+                        <span class="latest-blog-meta-dot"></span>
+                        <span>5 min read</span>
+                    </div>
+
+                    <h3>
+                        <a href="#">
+                            How to Choose Your Next Book Without Overthinking
+                        </a>
+                    </h3>
+
+                    <p>
+                        A simple approach to finding your next great read
+                        based on your interests, mood, and reading habits.
+                    </p>
+
+                    <a href="#" class="latest-blog-read-more">
+                        Read Article
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                </div>
+            </article>
+
+
+            {{-- Article 3 --}}
+            <article
+                class="latest-blog-card"
+                data-aos="fade-up"
+                data-aos-delay="300"
+            >
+
+                <a href="#" class="latest-blog-image image-hvr-effect">
+                    <img
+                        src="{{ asset('frontend/images/post-img3.jpg') }}"
+                        alt="Second-hand books"
+                        class="post-image"
+                    >
+
+                    <span class="latest-blog-category">
+                        Marketplace
+                    </span>
+                </a>
+
+                <div class="latest-blog-content">
+
+                    <div class="latest-blog-meta">
+                        <span>Mar 18, 2026</span>
+                        <span class="latest-blog-meta-dot"></span>
+                        <span>6 min read</span>
+                    </div>
+
+                    <h3>
+                        <a href="#">
+                            The Smart Reader's Guide to Buying Pre-Owned Books
+                        </a>
+                    </h3>
+
+                    <p>
+                        Learn what to look for when buying second-hand books
+                        and how to find quality editions at better prices.
+                    </p>
+
+                    <a href="#" class="latest-blog-read-more">
+                        Read Article
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                </div>
+            </article>
+
+        </div>
+
+    </div>
+</section>

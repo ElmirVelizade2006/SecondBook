@@ -1,0 +1,395 @@
+/* =========================================================
+   SECOND BOOK — PREMIUM SUBSCRIBE SECTION
+   ========================================================= */
+
+#subscribe.subscribe-section {
+    position: relative;
+    padding: 105px 0;
+    background: #f3eee8;
+    overflow: hidden;
+}
+
+/* Decorative background */
+
+#subscribe.subscribe-section::before {
+    content: "";
+    position: absolute;
+    top: -170px;
+    right: -150px;
+    width: 420px;
+    height: 420px;
+    border: 1px solid rgba(139, 94, 60, 0.10);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+#subscribe.subscribe-section::after {
+    content: "";
+    position: absolute;
+    bottom: -210px;
+    left: -170px;
+    width: 420px;
+    height: 420px;
+    border: 1px solid rgba(139, 94, 60, 0.08);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Main wrapper */
+
+#subscribe .subscribe-wrapper {
+    position: relative;
+    z-index: 2;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 68px 75px;
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    align-items: center;
+    gap: 75px;
+    background: #ffffff;
+    border: 1px solid rgba(139, 94, 60, 0.12);
+    border-radius: 18px;
+    box-shadow: 0 20px 55px rgba(65, 45, 32, 0.08);
+}
+
+/* =========================================================
+   HEADING
+   ========================================================= */
+
+#subscribe .subscribe-heading {
+    position: relative;
+}
+
+#subscribe .subscribe-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 17px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #8b5e3c;
+}
+
+#subscribe .subscribe-title {
+    margin: 0;
+    max-width: 360px;
+    font-family: var(--heading-font);
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 1.18;
+    letter-spacing: -0.5px;
+    color: #2f2925;
+    text-transform: none;
+}
+
+#subscribe .subscribe-divider {
+    width: 48px;
+    height: 3px;
+    margin-top: 25px;
+    background: #8b5e3c;
+    border-radius: 10px;
+}
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+#subscribe .subscribe-content {
+    margin: 0;
+    min-width: 0;
+}
+
+#subscribe .subscribe-description {
+    max-width: 570px;
+    margin: 0 0 28px;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #756c66;
+}
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+#subscribe .subscribe-form {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    min-height: 58px;
+    margin: 0;
+    padding: 5px;
+    background: #f8f5f2;
+    border: 1px solid #e7ddd5;
+    border-radius: 10px;
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+#subscribe .subscribe-form:focus-within {
+    border-color: rgba(139, 94, 60, 0.55);
+    box-shadow: 0 0 0 4px rgba(139, 94, 60, 0.08);
+}
+
+/* Input wrapper */
+
+#subscribe .subscribe-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+}
+
+#subscribe .subscribe-input-icon {
+    position: absolute;
+    left: 17px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #9a8b80;
+    pointer-events: none;
+}
+
+#subscribe .subscribe-form input[type="email"] {
+    width: 100%;
+    height: 48px;
+    margin: 0;
+    padding: 0 15px 0 45px;
+    background: transparent;
+    border: 0;
+    border-radius: 6px;
+    box-shadow: none;
+    outline: none;
+    font-family: var(--body-font);
+    font-size: 14px;
+    color: #302a26;
+}
+
+#subscribe .subscribe-form input[type="email"]:focus {
+    border: 0;
+    box-shadow: none;
+}
+
+#subscribe .subscribe-form input[type="email"]::placeholder {
+    color: #a49a93;
+    opacity: 1;
+}
+
+/* =========================================================
+   SUBSCRIBE BUTTON
+   ========================================================= */
+
+#subscribe .btn-subscribe {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    gap: 10px;
+    width: auto;
+    min-width: 142px;
+    height: 48px;
+    margin: 0;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 7px;
+    background: #8b5e3c;
+    color: #ffffff;
+    font-family: var(--body-font);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+#subscribe .btn-subscribe span {
+    padding: 0;
+    opacity: 1;
+    transition: none;
+}
+
+#subscribe .btn-subscribe i {
+    font-size: 15px;
+    transition: transform 0.25s ease;
+}
+
+#subscribe .btn-subscribe:hover {
+    background: #6f472d;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(111, 71, 45, 0.18);
+}
+
+#subscribe .btn-subscribe:hover span {
+    padding: 0;
+    opacity: 1;
+}
+
+#subscribe .btn-subscribe:hover i {
+    transform: translateX(3px);
+}
+
+#subscribe .btn-subscribe:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* =========================================================
+   PRIVACY NOTE
+   ========================================================= */
+
+#subscribe .subscribe-note {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 14px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #9b918a;
+}
+
+#subscribe .subscribe-note i {
+    font-size: 14px;
+    color: #8b5e3c;
+}
+
+/* =========================================================
+   RESPONSIVE — 1199px
+   ========================================================= */
+
+@media screen and (max-width: 1199px) {
+
+    #subscribe .subscribe-wrapper {
+        max-width: 960px;
+        padding: 60px 55px;
+        gap: 55px;
+    }
+
+    #subscribe .subscribe-title {
+        font-size: 37px;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — 991px
+   ========================================================= */
+
+@media screen and (max-width: 991px) {
+
+    #subscribe.subscribe-section {
+        padding: 85px 0;
+    }
+
+    #subscribe .subscribe-wrapper {
+        grid-template-columns: 1fr;
+        gap: 35px;
+        padding: 55px;
+    }
+
+    #subscribe .subscribe-title {
+        max-width: 100%;
+        font-size: 36px;
+    }
+
+    #subscribe .subscribe-description {
+        max-width: 700px;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — 767px
+   ========================================================= */
+
+@media screen and (max-width: 767px) {
+
+    #subscribe.subscribe-section {
+        padding: 65px 0;
+    }
+
+    #subscribe .subscribe-wrapper {
+        padding: 42px 30px;
+        border-radius: 14px;
+    }
+
+    #subscribe .subscribe-title {
+        font-size: 32px;
+    }
+
+    #subscribe .subscribe-description {
+        font-size: 14px;
+        line-height: 1.75;
+    }
+
+    #subscribe .subscribe-form {
+        flex-direction: column;
+        padding: 8px;
+        gap: 8px;
+    }
+
+    #subscribe .subscribe-input-wrapper {
+        width: 100%;
+    }
+
+    #subscribe .subscribe-form input[type="email"] {
+        height: 50px;
+    }
+
+    #subscribe .btn-subscribe {
+        width: 100%;
+        height: 50px;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — 575px
+   ========================================================= */
+
+@media screen and (max-width: 575px) {
+
+    #subscribe.subscribe-section {
+        padding: 50px 0;
+    }
+
+    #subscribe .subscribe-wrapper {
+        padding: 35px 22px;
+        border-radius: 12px;
+    }
+
+    #subscribe .subscribe-eyebrow {
+        margin-bottom: 14px;
+        font-size: 10px;
+        letter-spacing: 1.7px;
+    }
+
+    #subscribe .subscribe-title {
+        font-size: 28px;
+    }
+
+    #subscribe .subscribe-divider {
+        width: 40px;
+        margin-top: 20px;
+    }
+
+    #subscribe .subscribe-description {
+        margin-bottom: 22px;
+        font-size: 13px;
+    }
+
+    #subscribe .subscribe-note {
+        font-size: 11px;
+    }
+
+    #subscribe.subscribe-section::before,
+    #subscribe.subscribe-section::after {
+        display: none;
+    }
+}

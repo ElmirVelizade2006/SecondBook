@@ -4,12 +4,20 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\SellerApplication;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-
 class SellerApplicationController extends Controller
 {
+    private NotificationService $notificationService;
+
+    public function __construct(
+        NotificationService $notificationService
+    ) {
+        $this->notificationService = $notificationService;
+    }
+
     public function create()
     {
         $user = Auth::user();
@@ -24,7 +32,10 @@ class SellerApplicationController extends Controller
             ->latest()
             ->first();
 
-        return view('Frontend.seller-application', compact('application'));
+        return view(
+            'Frontend.seller-application',
+            compact('application')
+        );
     }
 
     public function store(Request $request)
@@ -43,17 +54,36 @@ class SellerApplicationController extends Controller
 
         if ($existingApplication) {
             return back()
-                ->with('info', 'You already have a pending seller application.');
+                ->with(
+                    'info',
+                    'You already have a pending seller application.'
+                );
         }
 
         $validated = $request->validate([
-            'store_name' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string', 'max:5000'],
-            'phone' => ['nullable', 'string', 'max:50'],
-            'address' => ['nullable', 'string', 'max:1000'],
+            'store_name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'description' => [
+                'nullable',
+                'string',
+                'max:5000',
+            ],
+            'phone' => [
+                'nullable',
+                'string',
+                'max:50',
+            ],
+            'address' => [
+                'nullable',
+                'string',
+                'max:1000',
+            ],
         ]);
 
-        SellerApplication::create([
+        $application = SellerApplication::create([
             'user_id' => $user->id,
             'store_name' => $validated['store_name'],
             'description' => $validated['description'] ?? null,
@@ -61,6 +91,13 @@ class SellerApplicationController extends Controller
             'address' => $validated['address'] ?? null,
             'status' => 'pending',
         ]);
+
+        // Notify all active admins
+        $this->notificationService->sendToAdmins(
+            'seller',
+            'New Seller Application',
+            "User \"{$user->name}\" has submitted a new seller application for \"{$application->store_name}\"."
+        );
 
         return redirect()
             ->route('frontend.seller-application')

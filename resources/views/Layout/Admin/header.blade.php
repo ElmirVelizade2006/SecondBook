@@ -37,19 +37,21 @@
 
         {{-- Right Side --}}
         <div class="d-flex align-items-center">
-
+            
             {{-- Notification --}}
-            <button
-                class="header-icon me-2 me-md-3"
-                type="button"
+            <a
+                href="{{ route('admin.notifications.index') }}"
+                class="header-icon me-2 me-md-3 text-decoration-none position-relative"
                 aria-label="Notifications"
             >
                 <i class="bi bi-bell"></i>
 
-                <span class="notification-badge">
-                    3
-                </span>
-            </button>
+                @if($unreadNotificationsCount > 0)
+                    <span class="notification-badge">
+                        {{ $unreadNotificationsCount > 99 ? '99+' : $unreadNotificationsCount }}
+                    </span>
+                @endif
+            </a>
 
 
             {{-- Messages --}}

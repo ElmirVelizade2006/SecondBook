@@ -195,14 +195,24 @@
 
 
         {{-- User Management --}}
-        @canany(['users.view', 'sellers.view', 'roles.view'])
+        @canany([
+            'users.view',
+            'sellers.view',
+            'seller_applications.view',
+            'roles.view'
+        ])
 
             <li>
 
                 <a data-bs-toggle="collapse"
                 href="#userMenu"
                 role="button"
-                aria-expanded="{{ request()->routeIs('admin.users.*','admin.sellers.*','admin.roles.*') ? 'true' : 'false' }}">
+                aria-expanded="{{ request()->routeIs(
+                    'admin.users.*',
+                    'admin.sellers.*',
+                    'admin.seller-applications.*',
+                    'admin.roles.*'
+                ) ? 'true' : 'false' }}">
 
                     <div>
                         <i class="bi bi-people"></i>
@@ -214,36 +224,76 @@
                 </a>
 
                 <div id="userMenu"
-                    class="collapse {{ request()->routeIs('admin.users.*','admin.sellers.*','admin.roles.*') ? 'show' : '' }}">
+                    class="collapse {{ request()->routeIs(
+                        'admin.users.*',
+                        'admin.sellers.*',
+                        'admin.seller-applications.*',
+                        'admin.roles.*'
+                    ) ? 'show' : '' }}">
 
                     <ul class="menu">
 
-                        @can('users.view')<li>
-                            <a href="{{ route('admin.users.index') }}"
-                            class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                                Users
-                            </a>
-                        </li>@endcan
+                        {{-- Users --}}
+                        @can('users.view')
+                            <li>
+                                <a href="{{ route('admin.users.index') }}"
+                                class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                                    Users
+                                </a>
+                            </li>
+                        @endcan
 
-                        @can('sellers.view')<li>
-                            <a href="{{ route('admin.sellers.index') }}"
-                            class="{{ request()->routeIs('admin.sellers.*') ? 'active' : '' }}">
-                                Sellers
-                            </a>
-                        </li>@endcan
 
-                        @can('roles.view')<li>
-                            <a href="{{ route('admin.roles.index') }}"
-                            class="{{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
-                                Roles & Permissions
-                            </a>
-                        </li>@endcan
+                        {{-- Sellers --}}
+                        @can('sellers.view')
+                            <li>
+                                <a href="{{ route('admin.sellers.index') }}"
+                                class="{{ request()->routeIs('admin.sellers.*') ? 'active' : '' }}">
+                                    Sellers
+                                </a>
+                            </li>
+                        @endcan
+
+
+                        {{-- Seller Requests --}}
+                        @can('seller_applications.view')
+                            <li>
+                                <a href="{{ route('admin.seller-applications.index') }}"
+                                class="d-flex align-items-center justify-content-between {{ request()->routeIs('admin.seller-applications.*') ? 'active' : '' }}">
+
+                                    <span>Seller Requests</span>
+
+                                    @if(isset($pendingSellerApplicationsCount) && $pendingSellerApplicationsCount > 0)
+
+                                        <span class="sidebar-badge">
+                                            {{ $pendingSellerApplicationsCount > 99
+                                                ? '99+'
+                                                : $pendingSellerApplicationsCount }}
+                                        </span>
+
+                                    @endif
+
+                                </a>
+                            </li>
+                        @endcan
+
+
+                        {{-- Roles & Permissions --}}
+                        @can('roles.view')
+                            <li>
+                                <a href="{{ route('admin.roles.index') }}"
+                                class="{{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
+                                    Roles & Permissions
+                                </a>
+                            </li>
+                        @endcan
 
                     </ul>
 
                 </div>
 
             </li>
+
         @endcanany
     
 
@@ -353,16 +403,29 @@
             </li>
         @endcanany
 
-
         {{-- System --}}
-        @canany(['settings.view', 'email_settings.view', 'notifications.view', 'activity_logs.view', 'backup.view'])
+        @canany([
+            'settings.view',
+            'email_settings.view',
+            'notifications.view',
+            'activity_logs.view',
+            'backup.view'
+        ])
 
             <li>
 
-                <a data-bs-toggle="collapse"
-                href="#systemMenu"
-                role="button"
-                aria-expanded="{{ request()->routeIs('admin.settings.*','admin.email.settings.*','admin.notifications.*','admin.activity.logs.*','admin.backup.*') ? 'true' : 'false' }}">
+                <a
+                    data-bs-toggle="collapse"
+                    href="#systemMenu"
+                    role="button"
+                    aria-expanded="{{ request()->routeIs(
+                        'admin.settings.*',
+                        'admin.email-settings.*',
+                        'admin.notifications.*',
+                        'admin.activity.logs.*',
+                        'admin.backup.*'
+                    ) ? 'true' : 'false' }}"
+                >
 
                     <div>
                         <i class="bi bi-gear"></i>
@@ -373,51 +436,90 @@
 
                 </a>
 
-                <div id="systemMenu"
-                    class="collapse {{ request()->routeIs('admin.settings.*','admin.email.settings.*','admin.notifications.*','admin.activity.logs.*','admin.backup.*') ? 'show' : '' }}">
+
+                <div
+                    id="systemMenu"
+                    class="collapse {{ request()->routeIs(
+                        'admin.settings.*',
+                        'admin.email-settings.*',
+                        'admin.notifications.*',
+                        'admin.activity.logs.*',
+                        'admin.backup.*'
+                    ) ? 'show' : '' }}"
+                >
 
                     <ul class="menu">
 
-                        @can('settings.view')<li>
-                            <a href="{{ route('admin.settings.index') }}"
-                            class="{{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
-                                Settings
-                            </a>
-                        </li>@endcan
+                        {{-- Settings --}}
+                        @can('settings.view')
+                            <li>
+                                <a
+                                    href="{{ route('admin.settings.index') }}"
+                                    class="{{ request()->routeIs('admin.settings.*') ? 'active' : '' }}"
+                                >
+                                    Settings
+                                </a>
+                            </li>
+                        @endcan
 
-                        @can('email_settings.view')<li>
-                            <a href="{{ route('admin.email.settings.index') }}"
-                            class="{{ request()->routeIs('admin.email.settings.*') ? 'active' : '' }}">
-                                Email Settings
-                            </a>
-                        </li>@endcan
 
-                        @can('notifications.view')<li>
-                            <a href="{{ route('admin.notifications.index') }}"
-                            class="{{ request()->routeIs('admin.notifications.*') ? 'active' : '' }}">
-                                Notifications
-                            </a>
-                        </li>@endcan
+                        {{-- Email Settings --}}
+                        @can('email_settings.view')
+                            <li>
+                                <a
+                                    href="{{ route('admin.email-settings.index') }}"
+                                    class="{{ request()->routeIs('admin.email-settings.*') ? 'active' : '' }}"
+                                >
+                                    Email Settings
+                                </a>
+                            </li>
+                        @endcan
 
-                        @can('activity_logs.view')<li>
-                            <a href="{{ route('admin.activity.logs.index') }}"
-                            class="{{ request()->routeIs('admin.activity.logs.*') ? 'active' : '' }}">
-                                Activity Logs
-                            </a>
-                        </li>@endcan
 
-                        @can('backup.view')<li>
-                            <a href="{{ route('admin.backup.index') }}"
-                            class="{{ request()->routeIs('admin.backup.*') ? 'active' : '' }}">
-                                Backup
-                            </a>
-                        </li>@endcan
+                        {{-- Notifications --}}
+                        @can('notifications.view')
+                            <li>
+                                <a
+                                    href="{{ route('admin.notifications.index') }}"
+                                    class="{{ request()->routeIs('admin.notifications.*') ? 'active' : '' }}"
+                                >
+                                    Notifications
+                                </a>
+                            </li>
+                        @endcan
+
+
+                        {{-- Activity Logs --}}
+                        @can('activity_logs.view')
+                            <li>
+                                <a
+                                    href="{{ route('admin.activity.logs.index') }}"
+                                    class="{{ request()->routeIs('admin.activity.logs.*') ? 'active' : '' }}"
+                                >
+                                    Activity Logs
+                                </a>
+                            </li>
+                        @endcan
+
+
+                        {{-- Backup --}}
+                        @can('backup.view')
+                            <li>
+                                <a
+                                    href="{{ route('admin.backup.index') }}"
+                                    class="{{ request()->routeIs('admin.backup.*') ? 'active' : '' }}"
+                                >
+                                    Backup
+                                </a>
+                            </li>
+                        @endcan
 
                     </ul>
 
                 </div>
 
             </li>
+
         @endcanany
 
         </ul>

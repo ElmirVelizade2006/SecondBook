@@ -1,0 +1,123 @@
+/* =========================================================
+   SECOND BOOK — FOOTER BOTTOM BAR
+   ========================================================= */
+
+#footer-bottom.footer-bottom-bar {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: #eee7df;
+    border-top: 1px solid #ddd2c8;
+}
+
+/* =========================================================
+   INNER
+   ========================================================= */
+
+#footer-bottom .footer-bottom-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    min-height: 72px;
+}
+
+/* =========================================================
+   COPYRIGHT
+   ========================================================= */
+
+#footer-bottom .footer-copyright {
+    margin: 0;
+    color: #877c74;
+    font-family: var(--body-font);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   LEGAL LINKS
+   ========================================================= */
+
+#footer-bottom .footer-legal {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+#footer-bottom .footer-legal a {
+    position: relative;
+    display: inline-block;
+    color: #756a62;
+    font-family: var(--body-font);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.6;
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
+
+#footer-bottom .footer-legal a:hover {
+    color: #8b5e3c;
+}
+
+/* =========================================================
+   DIVIDER
+   ========================================================= */
+
+#footer-bottom .footer-legal-divider {
+    display: block;
+    width: 3px;
+    height: 3px;
+    flex: 0 0 3px;
+    border-radius: 50%;
+    background: #b9aaa0;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media screen and (max-width: 767px) {
+
+    #footer-bottom .footer-bottom-inner {
+        min-height: 65px;
+        gap: 15px;
+    }
+
+    #footer-bottom .footer-copyright,
+    #footer-bottom .footer-legal a {
+        font-size: 11px;
+    }
+
+    #footer-bottom .footer-legal {
+        gap: 11px;
+    }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media screen and (max-width: 575px) {
+
+    #footer-bottom .footer-bottom-inner {
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
+        padding: 18px 0;
+        text-align: center;
+    }
+
+    #footer-bottom .footer-legal {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px 12px;
+    }
+
+    #footer-bottom .footer-copyright,
+    #footer-bottom .footer-legal a {
+        font-size: 11px;
+    }
+}

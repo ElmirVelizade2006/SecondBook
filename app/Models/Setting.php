@@ -29,8 +29,12 @@ class Setting extends Model
         };
     }
 
-    public static function put(string $key, mixed $value, string $group, string $type = 'text'): static
-    {
+    public static function put(
+        string $key,
+        mixed $value,
+        string $group,
+        string $type = 'text'
+    ): static {
         $storedValue = match ($type) {
             'boolean' => $value ? '1' : '0',
             'json' => json_encode($value),
@@ -39,7 +43,11 @@ class Setting extends Model
 
         return static::updateOrCreate(
             ['key' => $key],
-            ['group_name' => $group, 'value' => $storedValue, 'type' => $type]
+            [
+                'group_name' => $group,
+                'value' => $storedValue,
+                'type' => $type,
+            ]
         );
     }
 }

@@ -1,145 +1,155 @@
-<section id="featured-books" class="py-5 my-5">
+<section id="featured-books" class="featured-books-section">
 
     <div class="container">
 
-        <div class="row">
+        {{-- Section Header --}}
+        <div class="featured-books-header">
 
-            <div class="col-md-12">
+            <div class="featured-books-heading">
 
-                <div class="section-header align-center">
+                <span class="featured-books-eyebrow">
+                    Some quality items
+                </span>
 
-                    <div class="title">
-                        <span>Some quality items</span>
-                    </div>
+                <h2 class="featured-books-title">
+                    Featured Books
+                </h2>
 
-                    <h2 class="section-title">
-                        Featured Books
-                    </h2>
+                <div class="featured-books-divider"></div>
 
-                </div>
-
-
-                <div class="product-list" data-aos="fade-up">
-
-                    <div class="row">
-
-                        @forelse($featuredBooks as $book)
-
-                            @php
-                                $bookImage = null;
-
-                                if (!empty($book->cover)) {
-                                    $bookImage = filter_var(
-                                        $book->cover,
-                                        FILTER_VALIDATE_URL
-                                    )
-                                        ? $book->cover
-                                        : asset('storage/' . $book->cover);
-                                }
-                            @endphp
-
-
-                            <div class="col-md-3">
-
-                                <div class="product-item">
-
-                                    <figure class="product-style">
-
-                                        @if($bookImage)
-
-                                            <img
-                                                src="{{ $bookImage }}"
-                                                alt="{{ $book->title }}"
-                                                class="product-item"
-                                                loading="lazy"
-                                            >
-
-                                        @else
-
-                                            <div class="product-image-placeholder">
-                                                <i class="bi bi-book"></i>
-                                            </div>
-
-                                        @endif
-
-
-                                        <button
-                                            type="button"
-                                            class="add-to-cart"
-                                            data-product-tile="add-to-cart"
-                                        >
-                                            Add to Cart
-                                        </button>
-
-                                    </figure>
-
-
-                                    <figcaption>
-
-                                        <h3>
-                                            {{ $book->title }}
-                                        </h3>
-
-                                        <span>
-                                            {{ $book->author->name ?? 'Unknown Author' }}
-                                        </span>
-
-                                        <div class="item-price">
-                                            $ {{ number_format($book->price, 2) }}
-                                        </div>
-
-                                    </figcaption>
-
-                                </div>
-
-                            </div>
-
-                        @empty
-
-                            <div class="col-12">
-
-                                <div class="text-center py-5">
-
-                                    <i class="bi bi-book fs-1 text-muted"></i>
-
-                                    <h4 class="mt-3">
-                                        No featured books available
-                                    </h4>
-
-                                    <p class="text-muted mb-0">
-                                        Featured books will appear here once they are added.
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        @endforelse
-
-                    </div>
-
-                </div>
+                <p class="featured-books-description">
+                    Handpicked books selected from the SecondBook marketplace
+                    for readers looking for something worth discovering.
+                </p>
 
             </div>
+
+            <a
+                href="{{ route('frontend.books') }}"
+                class="featured-books-view-all"
+            >
+                <span>View All Books</span>
+                <i class="bi bi-arrow-right"></i>
+            </a>
 
         </div>
 
 
-        <div class="row">
+        {{-- Product List --}}
+        <div class="featured-books-list" data-aos="fade-up">
 
-            <div class="col-md-12">
+            <div class="featured-books-grid">
 
-                <div class="btn-wrap align-right">
+                @forelse($featuredBooks as $book)
 
-                    <a
-                        href="{{ route('frontend.books') }}"
-                        class="btn-accent-arrow"
-                    >
-                        View all products
-                        <i class="icon icon-ns-arrow-right"></i>
-                    </a>
+                    @php
 
-                </div>
+                        $bookImage = null;
+
+                        if (!empty($book->cover)) {
+
+                            $bookImage = filter_var(
+                                $book->cover,
+                                FILTER_VALIDATE_URL
+                            )
+                                ? $book->cover
+                                : asset('storage/' . $book->cover);
+
+                        }
+
+                    @endphp
+
+
+                    <article class="featured-book-card">
+
+                        {{-- Book Cover --}}
+                        <div class="featured-book-image-wrap">
+
+                            @if($bookImage)
+
+                                <a
+                                    href="#"
+                                    class="featured-book-image"
+                                >
+                                    <img
+                                        src="{{ $bookImage }}"
+                                        alt="{{ $book->title }}"
+                                        loading="lazy"
+                                    >
+                                </a>
+
+                            @else
+
+                                <div class="featured-book-image featured-book-placeholder">
+                                    <i class="bi bi-book"></i>
+                                </div>
+
+                            @endif
+
+
+                            {{-- Cart Button --}}
+                            <button
+                                type="button"
+                                class="add-to-cart featured-book-cart-btn"
+                                data-product-tile="add-to-cart"
+                            >
+                                <i class="bi bi-cart3"></i>
+                                <span>Add to Cart</span>
+                            </button>
+
+                        </div>
+
+
+                        {{-- Book Information --}}
+                        <div class="featured-book-info">
+
+                            <span class="featured-book-label">
+                                Featured
+                            </span>
+
+                            <h3 class="featured-book-title">
+                                {{ $book->title }}
+                            </h3>
+
+                            <p class="featured-book-author">
+                                {{ $book->author->name ?? 'Unknown Author' }}
+                            </p>
+
+                            <div class="featured-book-bottom">
+
+                                <span class="featured-book-price">
+                                    ${{ number_format($book->price, 2) }}
+                                </span>
+
+                                <span class="featured-book-arrow">
+                                    <i class="bi bi-arrow-up-right"></i>
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                @empty
+
+                    <div class="featured-books-empty">
+
+                        <div class="featured-books-empty-icon">
+                            <i class="bi bi-book"></i>
+                        </div>
+
+                        <h3>
+                            No Featured Books Available
+                        </h3>
+
+                        <p>
+                            Featured books will appear here once they are added.
+                        </p>
+
+                    </div>
+
+                @endforelse
 
             </div>
 
@@ -148,4 +158,3 @@
     </div>
 
 </section>
-

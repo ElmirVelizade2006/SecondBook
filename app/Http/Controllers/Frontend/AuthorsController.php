@@ -12,7 +12,16 @@ class AuthorsController extends Controller
      */
     public function index()
     {
-        $authors = Author::latest()->get();
+        $authors = Author::query()
+            ->when(request('search'), function ($query, $search) {
+                $query->where(function ($subQuery) use ($search) {
+                    $subQuery->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('bio', 'like', '%' . $search . '%');
+                });
+            })
+            ->latest()
+            ->paginate(12)
+            ->withQueryString();
 
         return view('Frontend.authors', compact('authors'));
     }

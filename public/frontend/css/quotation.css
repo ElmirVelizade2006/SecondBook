@@ -1,0 +1,376 @@
+/* =========================================================
+   SECOND BOOK — PREMIUM QUOTATION
+   ========================================================= */
+
+#quotation.quotation-section {
+    position: relative;
+
+    padding: 110px 0 120px;
+
+    background: #f3eee8;
+
+    overflow: hidden;
+}
+
+/* =========================================================
+   BACKGROUND DECORATION
+   ========================================================= */
+
+#quotation.quotation-section::before {
+    content: "";
+
+    position: absolute;
+
+    top: -260px;
+    left: -180px;
+
+    width: 500px;
+    height: 500px;
+
+    border: 1px solid rgba(139, 94, 60, 0.08);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+#quotation.quotation-section::after {
+    content: "";
+
+    position: absolute;
+
+    right: -220px;
+    bottom: -300px;
+
+    width: 580px;
+    height: 580px;
+
+    border: 1px solid rgba(139, 94, 60, 0.07);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+/* =========================================================
+   INNER CONTENT
+   ========================================================= */
+
+#quotation .quotation-inner {
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 920px;
+
+    margin: 0 auto;
+
+    text-align: center;
+}
+
+/* =========================================================
+   EYEBROW
+   ========================================================= */
+
+#quotation .quotation-eyebrow {
+    display: inline-flex;
+    align-items: center;
+
+    margin-bottom: 15px;
+
+    font-family: var(--body-font);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+
+    color: #8b5e3c;
+}
+
+/* =========================================================
+   DECORATIVE QUOTE MARK
+   ========================================================= */
+
+#quotation .quotation-mark {
+    position: absolute;
+
+    top: -42px;
+    left: 50%;
+
+    z-index: -1;
+
+    transform: translateX(-50%);
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 145px;
+    font-weight: 400;
+    line-height: 1;
+
+    color: rgba(139, 94, 60, 0.075);
+
+    pointer-events: none;
+    user-select: none;
+}
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
+#quotation .quotation-title {
+    margin: 0;
+
+    font-family: var(--heading-font);
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.6px;
+
+    color: #302925;
+}
+
+/* =========================================================
+   DIVIDER
+   ========================================================= */
+
+#quotation .quotation-divider {
+    width: 42px;
+    height: 2px;
+
+    margin: 21px auto 35px;
+
+    background: #8b5e3c;
+
+    border-radius: 20px;
+}
+
+/* =========================================================
+   BLOCKQUOTE
+   ========================================================= */
+
+#quotation blockquote {
+    max-width: 820px;
+
+    margin: 0 auto;
+
+    padding: 0 25px;
+
+    border: 0;
+
+    text-align: center;
+}
+
+/* =========================================================
+   QUOTE
+   ========================================================= */
+
+#quotation blockquote q {
+    display: block;
+
+    margin: 0;
+
+    font-family: var(--heading-font);
+    font-size: 28px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.65;
+    letter-spacing: -0.15px;
+
+    color: #4c423b;
+
+    quotes: none;
+}
+
+#quotation blockquote q::before,
+#quotation blockquote q::after {
+    display: none;
+}
+
+/* =========================================================
+   AUTHOR
+   ========================================================= */
+
+#quotation .quotation-author {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 11px;
+
+    margin-top: 30px;
+
+    font-family: var(--body-font);
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+
+    color: #8b5e3c;
+}
+
+#quotation .quotation-author-line {
+    display: block;
+
+    width: 25px;
+    height: 1px;
+
+    background: #b49a86;
+}
+
+/* =========================================================
+   RESPONSIVE — 1199px
+   ========================================================= */
+
+@media screen and (max-width: 1199px) {
+
+    #quotation.quotation-section {
+        padding: 95px 0 105px;
+    }
+
+    #quotation .quotation-title {
+        font-size: 37px;
+    }
+
+    #quotation blockquote q {
+        font-size: 26px;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — 991px
+   ========================================================= */
+
+@media screen and (max-width: 991px) {
+
+    #quotation.quotation-section {
+        padding: 85px 0 95px;
+    }
+
+    #quotation .quotation-inner {
+        max-width: 760px;
+    }
+
+    #quotation .quotation-mark {
+        top: -35px;
+        font-size: 125px;
+    }
+
+    #quotation .quotation-title {
+        font-size: 35px;
+    }
+
+    #quotation .quotation-divider {
+        margin-bottom: 30px;
+    }
+
+    #quotation blockquote q {
+        font-size: 24px;
+        line-height: 1.6;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — 767px
+   ========================================================= */
+
+@media screen and (max-width: 767px) {
+
+    #quotation.quotation-section {
+        padding: 70px 0 78px;
+    }
+
+    #quotation .quotation-eyebrow {
+        font-size: 9px;
+        letter-spacing: 2px;
+    }
+
+    #quotation .quotation-mark {
+        top: -27px;
+        font-size: 105px;
+    }
+
+    #quotation .quotation-title {
+        font-size: 31px;
+    }
+
+    #quotation .quotation-divider {
+        width: 38px;
+        margin-top: 18px;
+        margin-bottom: 27px;
+    }
+
+    #quotation blockquote {
+        padding: 0 12px;
+    }
+
+    #quotation blockquote q {
+        font-size: 21px;
+        line-height: 1.6;
+    }
+
+    #quotation .quotation-author {
+        margin-top: 25px;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — 575px
+   ========================================================= */
+
+@media screen and (max-width: 575px) {
+
+    #quotation.quotation-section {
+        padding: 58px 0 65px;
+    }
+
+    #quotation .quotation-eyebrow {
+        margin-bottom: 12px;
+
+        font-size: 8.5px;
+        letter-spacing: 1.8px;
+    }
+
+    #quotation .quotation-mark {
+        top: -20px;
+        font-size: 82px;
+    }
+
+    #quotation .quotation-title {
+        font-size: 28px;
+    }
+
+    #quotation .quotation-divider {
+        width: 36px;
+        margin-top: 16px;
+        margin-bottom: 23px;
+    }
+
+    #quotation blockquote {
+        padding: 0 5px;
+    }
+
+    #quotation blockquote q {
+        font-size: 18px;
+        line-height: 1.65;
+    }
+
+    #quotation .quotation-author {
+        gap: 9px;
+
+        margin-top: 22px;
+
+        font-size: 9px;
+        letter-spacing: 1.5px;
+    }
+
+    #quotation .quotation-author-line {
+        width: 20px;
+    }
+
+    #quotation.quotation-section::before,
+    #quotation.quotation-section::after {
+        display: none;
+    }
+}

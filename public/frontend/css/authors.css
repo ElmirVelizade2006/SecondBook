@@ -7,16 +7,13 @@
     --authors-brown-dark: #71482d;
     --authors-brown-deep: #2d231d;
     --authors-brown-soft: #f5ece4;
-
     --authors-bg: #fbf9f7;
     --authors-beige: #f7f1ea;
     --authors-border: #e8ded4;
-
     --authors-text: #28231f;
     --authors-muted: #827970;
     --authors-white: #ffffff;
 }
-
 
 /* =========================================================
    GLOBAL
@@ -33,7 +30,6 @@
 .authors-cta {
     position: relative;
 }
-
 
 /* =========================================================
    HERO
@@ -182,7 +178,6 @@
     transform: translateY(-3px);
 }
 
-
 /* =========================================================
    HERO VISUAL
 ========================================================= */
@@ -302,7 +297,6 @@
     border: 12px solid rgba(139, 94, 60, 0.12);
 }
 
-
 /* =========================================================
    INTRO
 ========================================================= */
@@ -345,7 +339,6 @@
     font-size: 16px;
     line-height: 1.75;
 }
-
 
 /* =========================================================
    AUTHORS LIST
@@ -486,7 +479,6 @@
     transform: translate(2px, -2px);
 }
 
-
 /* =========================================================
    EMPTY STATE
 ========================================================= */
@@ -528,6 +520,9 @@
     line-height: 1.7;
 }
 
+.authors-empty strong {
+    color: var(--authors-brown);
+}
 
 /* =========================================================
    DISCOVERY
@@ -672,7 +667,6 @@
     left: -80px;
 }
 
-
 /* =========================================================
    CTA
 ========================================================= */
@@ -736,133 +730,380 @@
     transform: translateY(-3px);
 }
 
-
 /* =========================================================
-   DARK MODE
+   SEARCH
 ========================================================= */
 
-.dark-mode .authors-hero,
-.dark-theme .authors-hero,
-[data-theme="dark"] .authors-hero {
-    --authors-bg: #111827;
-    --authors-beige: #172033;
-    --authors-white: #111827;
-    --authors-border: #263248;
-    --authors-text: #f3f4f6;
-    --authors-muted: #9ca8ba;
-    --authors-brown-soft: #2b2521;
+.authors-search-wrapper {
+    margin-bottom: 42px;
 }
 
-.dark-mode .authors-intro,
-.dark-mode .authors-list-section,
-.dark-mode .authors-discovery,
-.dark-mode .authors-cta,
-.dark-theme .authors-intro,
-.dark-theme .authors-list-section,
-.dark-theme .authors-discovery,
-.dark-theme .authors-cta,
-[data-theme="dark"] .authors-intro,
-[data-theme="dark"] .authors-list-section,
-[data-theme="dark"] .authors-discovery,
-[data-theme="dark"] .authors-cta {
-    background: #111827;
+.authors-search-form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 760px;
+    margin: 0 auto;
 }
 
-.dark-mode .authors-hero,
-.dark-theme .authors-hero,
-[data-theme="dark"] .authors-hero {
-    background:
-        radial-gradient(circle at 10% 20%, rgba(139, 94, 60, 0.12), transparent 30%),
-        radial-gradient(circle at 90% 80%, rgba(139, 94, 60, 0.1), transparent 28%),
-        #111827;
+.authors-search-box {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
 }
 
-.dark-mode .authors-secondary-btn,
-.dark-theme .authors-secondary-btn,
-[data-theme="dark"] .authors-secondary-btn {
-    background: #172033;
-    border-color: #263248;
-    color: #f3f4f6;
+.authors-search-box > i {
+    position: absolute;
+    left: 20px;
+    font-size: 18px;
+    color: #8b5e3c;
+    pointer-events: none;
 }
 
-.dark-mode .authors-floating-card,
-.dark-theme .authors-floating-card,
-[data-theme="dark"] .authors-floating-card {
-    background: rgba(23, 32, 51, 0.94);
-    border-color: #263248;
+.authors-search-box input {
+    width: 100%;
+    height: 56px;
+    padding: 0 52px 0 52px;
+    border: 1px solid #e5ddd6;
+    border-radius: 14px;
+    background: #ffffff;
+    color: #292522;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 24px rgba(41, 37, 34, 0.05);
 }
 
-.dark-mode .authors-floating-card strong,
-.dark-theme .authors-floating-card strong,
-[data-theme="dark"] .authors-floating-card strong {
-    color: #f3f4f6;
+.authors-search-box input::placeholder {
+    color: #99918b;
 }
 
-.dark-mode .author-card,
-.dark-theme .author-card,
-[data-theme="dark"] .author-card {
-    background: #172033;
-    border-color: #263248;
+.authors-search-box input:focus {
+    border-color: #8b5e3c;
+    box-shadow: 0 0 0 4px rgba(139, 94, 60, 0.09);
 }
 
-.dark-mode .author-card h3,
-.dark-theme .author-card h3,
-[data-theme="dark"] .author-card h3 {
-    color: #f3f4f6;
+.authors-search-clear {
+    position: absolute;
+    right: 17px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #746d67;
+    text-decoration: none;
+    transition: all 0.2s ease;
 }
 
-.dark-mode .author-card p,
-.dark-theme .author-card p,
-[data-theme="dark"] .author-card p {
-    color: #9ca8ba;
+.authors-search-clear:hover {
+    color: #8b5e3c;
+    background: #f5eee9;
 }
 
-.dark-mode .author-view-btn,
-.dark-theme .author-view-btn,
-[data-theme="dark"] .author-view-btn {
-    color: #f3f4f6;
-    border-color: #263248;
+.authors-search-clear i {
+    font-size: 18px;
 }
 
-.dark-mode .authors-empty,
-.dark-theme .authors-empty,
-[data-theme="dark"] .authors-empty {
-    background: #172033;
-    border-color: #263248;
+.authors-search-btn {
+    height: 56px;
+    padding: 0 25px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    border: 0;
+    border-radius: 14px;
+    background: #8b5e3c;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+    box-shadow: 0 7px 20px rgba(139, 94, 60, 0.18);
 }
 
-.dark-mode .authors-empty h3,
-.dark-theme .authors-empty h3,
-[data-theme="dark"] .authors-empty h3 {
-    color: #f3f4f6;
+.authors-search-btn:hover {
+    background: #6f472d;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(139, 94, 60, 0.23);
 }
 
-.dark-mode .authors-cta-content,
-.dark-theme .authors-cta-content,
-[data-theme="dark"] .authors-cta-content {
-    background: #172033;
-    border-color: #263248;
+.authors-search-btn i {
+    font-size: 16px;
 }
 
-.dark-mode .authors-cta-content h2,
-.dark-theme .authors-cta-content h2,
-[data-theme="dark"] .authors-cta-content h2 {
-    color: #f3f4f6;
+/* =========================================================
+   AUTHORS PAGINATION
+========================================================= */
+
+.authors-pagination-wrapper {
+    width: 100%;
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid #eee7e1;
+}
+
+.authors-pagination {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.authors-pagination-info {
+    flex: 0 0 auto;
+    color: #746d67;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.authors-pagination-info strong {
+    color: #5f5751;
+    font-weight: 600;
+}
+
+.authors-pagination-links {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.authors-page-link {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    padding: 0;
+    box-sizing: border-box;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #e5ddd6;
+    border-radius: 10px;
+
+    background: #ffffff;
+    color: #5f5751;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+
+    text-decoration: none;
+
+    transition:
+        background-color 0.22s ease,
+        border-color 0.22s ease,
+        color 0.22s ease,
+        transform 0.22s ease;
+}
+
+a.authors-page-link:hover {
+    border-color: #8b5e3c;
+    background: #f8f2ed;
+    color: #8b5e3c;
+    text-decoration: none;
+}
+
+.authors-page-link.active {
+    border-color: #8b5e3c;
+    background: #8b5e3c;
+    color: #ffffff;
+}
+
+.authors-page-link.disabled {
+    opacity: 0.45;
+    background: #faf8f6;
+    color: #99918b;
+    cursor: not-allowed;
+}
+
+.authors-page-link i {
+    font-size: 14px;
+    line-height: 1;
+}
+
+.authors-page-ellipsis {
+    width: 24px;
+    height: 40px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #8b817a;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 
 /* =========================================================
-   RESPONSIVE
+   TABLET
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .authors-pagination-wrapper {
+        margin-top: 38px;
+        padding-top: 24px;
+    }
+
+    .authors-pagination {
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+    }
+
+    .authors-pagination-info {
+        width: 100%;
+        text-align: center;
+        font-size: 13px;
+    }
+
+    .authors-pagination-links {
+        width: 100%;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .authors-page-link {
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
+        font-size: 13px;
+    }
+
+    .authors-page-ellipsis {
+        height: 38px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 575px) {
+
+    .authors-pagination-wrapper {
+        margin-top: 32px;
+        padding-top: 20px;
+    }
+
+    .authors-pagination-info {
+        font-size: 12px;
+    }
+
+    .authors-pagination-links {
+        gap: 4px;
+    }
+
+    .authors-page-link {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+        border-radius: 8px;
+        font-size: 12px;
+    }
+
+    .authors-page-link i {
+        font-size: 12px;
+    }
+
+    .authors-page-ellipsis {
+        width: 18px;
+        height: 34px;
+        font-size: 12px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .authors-pagination-links {
+        gap: 3px;
+    }
+
+    .authors-page-link {
+        width: 32px;
+        height: 32px;
+        min-width: 32px;
+        border-radius: 7px;
+        font-size: 11px;
+    }
+
+    .authors-page-link i {
+        font-size: 11px;
+    }
+
+    .authors-page-ellipsis {
+        width: 15px;
+        height: 32px;
+        font-size: 11px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 360px) {
+
+    .authors-pagination-info {
+        font-size: 11px;
+    }
+
+    .authors-pagination-links {
+        gap: 2px;
+    }
+
+    .authors-page-link {
+        width: 30px;
+        height: 30px;
+        min-width: 30px;
+        border-radius: 6px;
+        font-size: 10px;
+    }
+
+    .authors-page-link i {
+        font-size: 10px;
+    }
+
+    .authors-page-ellipsis {
+        width: 13px;
+        height: 30px;
+        font-size: 10px;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — 1199px
 ========================================================= */
 
 @media (max-width: 1199px) {
 
-    .authors-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
     .authors-hero {
         padding: 85px 0 90px;
+    }
+
+    .authors-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .authors-hero-visual {
@@ -878,6 +1119,9 @@
     }
 }
 
+/* =========================================================
+   RESPONSIVE — 991px
+========================================================= */
 
 @media (max-width: 991px) {
 
@@ -931,6 +1175,9 @@
     }
 }
 
+/* =========================================================
+   RESPONSIVE — 767px
+========================================================= */
 
 @media (max-width: 767px) {
 
@@ -957,6 +1204,7 @@
     }
 
     .authors-hero-visual {
+        width: min(100%, 500px);
         min-height: 460px;
     }
 
@@ -1016,8 +1264,74 @@
     .authors-cta-btn {
         width: 100%;
     }
+
+    /* SEARCH */
+
+    .authors-search-wrapper {
+        margin-bottom: 32px;
+    }
+
+    .authors-search-form {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .authors-search-box {
+        width: 100%;
+    }
+
+    .authors-search-btn {
+        width: 100%;
+    }
+
+    /* PAGINATION */
+
+    .authors-pagination-wrapper {
+        margin-top: 38px;
+        padding-top: 24px;
+    }
+
+    .authors-pagination nav > div:first-child {
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+    }
+
+    .authors-pagination nav > div:first-child > div:first-child {
+        width: 100%;
+        margin-right: 0;
+        text-align: center;
+    }
+
+    .authors-pagination nav > div:first-child > div:last-child {
+        width: 100%;
+        margin-left: 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    .authors-pagination nav > div:last-child {
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .authors-pagination .pagination {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .authors-pagination .page-link {
+        width: 38px;
+        height: 38px;
+        font-size: 13px;
+    }
 }
 
+/* =========================================================
+   RESPONSIVE — 575px
+========================================================= */
 
 @media (max-width: 575px) {
 
@@ -1083,10 +1397,46 @@
     .authors-cta-content h2 {
         font-size: 25px;
     }
+
+    .authors-pagination-wrapper {
+        margin-top: 32px;
+        padding-top: 20px;
+    }
+
+    .authors-pagination nav > div:first-child > div:first-child {
+        font-size: 13px;
+    }
+
+    .authors-pagination nav > div:last-child {
+        gap: 4px;
+    }
+
+    .authors-pagination .pagination {
+        gap: 4px;
+    }
+
+    .authors-pagination .page-link {
+        width: 34px;
+        height: 34px;
+        font-size: 12px;
+    }
 }
 
+/* =========================================================
+   RESPONSIVE — 420px
+========================================================= */
 
-@media (max-width: 400px) {
+@media (max-width: 420px) {
+
+    .authors-search-box input {
+        height: 52px;
+        padding-left: 47px;
+        padding-right: 45px;
+    }
+
+    .authors-search-btn {
+        height: 52px;
+    }
 
     .authors-hero h1 {
         font-size: 35px;
@@ -1110,5 +1460,83 @@
 
     .author-card-image {
         height: 280px;
+    }
+
+    .authors-pagination nav > div:last-child {
+        gap: 3px;
+    }
+
+    .authors-pagination .pagination {
+        gap: 3px;
+    }
+
+    .authors-pagination .page-link {
+        width: 32px;
+        height: 32px;
+        font-size: 11px;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE — 360px
+========================================================= */
+
+@media (max-width: 360px) {
+
+    .authors-hero h1 {
+        font-size: 32px;
+    }
+
+    .authors-primary-btn,
+    .authors-secondary-btn {
+        min-height: 50px;
+        font-size: 13px;
+    }
+
+    .authors-floating-card {
+        padding: 9px 10px;
+        gap: 9px;
+    }
+
+    .authors-floating-card strong {
+        font-size: 12px;
+    }
+
+    .authors-floating-card span {
+        font-size: 9px;
+    }
+
+    .authors-main-image {
+        width: 82%;
+        right: 9%;
+    }
+
+    .authors-pagination nav > div:last-child a,
+    .authors-pagination nav > div:last-child span {
+        min-width: 32px;
+        height: 32px;
+        padding: 0 6px;
+        font-size: 11px;
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .authors-primary-btn,
+    .authors-secondary-btn,
+    .author-card,
+    .author-card-image img,
+    .author-view-btn,
+    .author-view-btn i,
+    .discovery-btn,
+    .authors-cta-btn,
+    .authors-search-btn,
+    .authors-search-box input,
+    .authors-search-clear {
+        transition: none;
     }
 }

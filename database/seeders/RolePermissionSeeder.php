@@ -13,59 +13,241 @@ class RolePermissionSeeder extends Seeder
     public function run(): void
     {
         $modules = [
+
             'dashboard' => ['view'],
-            'books' => ['view', 'create', 'edit', 'delete', 'approve', 'reject'],
-            'book_conditions' => ['view', 'create', 'edit', 'delete'],
-            'book_requests' => ['view', 'create', 'edit', 'delete'],
-            'categories' => ['view', 'create', 'edit', 'delete'],
-            'authors' => ['view', 'create', 'edit', 'delete'],
-            'publishers' => ['view', 'create', 'edit', 'delete'],
-            'refunds' => ['view', 'create', 'edit', 'delete', 'approve', 'process'],
-            'shipping' => ['view', 'create', 'edit', 'delete'],
-            'coupons' => ['view', 'create', 'edit', 'delete'],
-            'orders' => ['view', 'create', 'edit', 'delete', 'update_status'],
-            'payments' => ['view', 'create', 'edit', 'delete', 'refund'],
-            'users' => ['view', 'create', 'edit', 'delete', 'ban'],
-            'sellers' => ['view', 'create', 'edit', 'delete', 'ban'],
-            'reviews' => ['view', 'edit', 'delete', 'approve'],
-            'banners' => ['view', 'create', 'edit', 'delete'],
-            'blogs' => ['view', 'create', 'edit', 'delete'],
-            'faq' => ['view', 'create', 'edit', 'delete'],
-            'reports' => ['view'],
-            'analytics' => ['view'],
-            'settings' => ['view', 'edit'],
-            'email_settings' => ['view', 'edit'],
-            'notifications' => ['view', 'create', 'delete'],
-            'activity_logs' => ['view'],
-            'backup' => ['view', 'create'],
-            'roles' => ['view', 'create', 'edit', 'delete'],
-            'permissions' => ['view', 'assign'],
+
+            'books' => [
+                'view',
+                'create',
+                'edit',
+                'delete',
+                'approve',
+                'reject',
+            ],
+
+            'book_conditions' => [
+                'view',
+                'create',
+                'edit',
+                'delete',
+            ],
+
+            'book_requests' => [
+                'view',
+                'create',
+                'edit',
+                'delete',
+            ],
+
+            'categories' => [
+                'view',
+                'create',
+                'edit',
+                'delete',
+            ],
+
+            'authors' => [
+                'view',
+                'create',
+                'edit',
+                'delete',
+            ],
+
+            'publishers' => [
+                'view',
+                'create',
+                'edit',
+                'delete',
+            ],
+
+            'refunds' => [
+                'view',
+                'create',
+                'edit',
+                'delete',
+                'approve',
+                'process',
+            ],
+
+            'shipping' => [
+                'view',
+                'create',
+                'edit',
+                'delete',
+            ],
+
+            'coupons' => [
+                'view',
+                'create',
+                'edit',
+                'delete',
+            ],
+
+            'orders' => [
+                'view',
+                'create',
+                'edit',
+                'delete',
+                'update_status',
+            ],
+
+            'payments' => [
+                'view',
+                'create',
+                'edit',
+                'delete',
+                'refund',
+            ],
+
+            'users' => [
+                'view',
+                'create',
+                'edit',
+                'delete',
+                'ban',
+            ],
+
+            'sellers' => [
+                'view',
+                'create',
+                'edit',
+                'delete',
+                'ban',
+            ],
+
+            'seller_applications' => [
+                'view',
+                'approve',
+                'reject',
+            ],
+
+            'reviews' => [
+                'view',
+                'edit',
+                'delete',
+                'approve',
+            ],
+
+            'banners' => [
+                'view',
+                'create',
+                'edit',
+                'delete',
+            ],
+
+            'blogs' => [
+                'view',
+                'create',
+                'edit',
+                'delete',
+            ],
+
+            'faq' => [
+                'view',
+                'create',
+                'edit',
+                'delete',
+            ],
+
+            'reports' => [
+                'view',
+            ],
+
+            'analytics' => [
+                'view',
+            ],
+
+            'settings' => [
+                'view',
+                'edit',
+            ],
+
+            'email_settings' => [
+                'view',
+                'edit',
+            ],
+
+            'notifications' => [
+                'view',
+                'create',
+                'delete',
+            ],
+
+            'activity_logs' => [
+                'view',
+            ],
+
+            'backup' => [
+                'view',
+                'create',
+            ],
+
+            'roles' => [
+                'view',
+                'create',
+                'edit',
+                'delete',
+            ],
+
+            'permissions' => [
+                'view',
+                'assign',
+            ],
         ];
 
         $permissions = collect();
 
         foreach ($modules as $module => $actions) {
+
             foreach ($actions as $action) {
+
                 $name = $module . '.' . $action;
 
                 $permission = Permission::updateOrCreate(
-                    ['name' => $name],
                     [
-                        'display_name' => $this->displayName($module, $action),
-                        'group_name' => $this->groupName($module),
+                        'name' => $name,
+                    ],
+                    [
+                        'display_name' => $this->displayName(
+                            $module,
+                            $action
+                        ),
+
+                        'group_name' => $this->groupName(
+                            $module
+                        ),
+
                         'description' => 'Allows the user to ' .
-                            Str::lower($this->displayName($module, $action)) . '.',
+                            Str::lower(
+                                $this->displayName(
+                                    $module,
+                                    $action
+                                )
+                            ) . '.',
                     ]
                 );
 
-                $permissions->put($name, $permission);
+                $permissions->put(
+                    $name,
+                    $permission
+                );
             }
         }
 
-        $all = $permissions->pluck('id')->all();
+        /*
+        |--------------------------------------------------------------------------
+        | Super Admin
+        |--------------------------------------------------------------------------
+        */
+
+        $all = $permissions
+            ->pluck('id')
+            ->all();
 
         $superAdmin = Role::updateOrCreate(
-            ['name' => 'super-admin'],
+            [
+                'name' => 'super-admin',
+            ],
             [
                 'display_name' => 'Super Admin',
                 'description' => 'Full access to every admin module.',
@@ -75,8 +257,16 @@ class RolePermissionSeeder extends Seeder
 
         $superAdmin->permissions()->sync($all);
 
+        /*
+        |--------------------------------------------------------------------------
+        | Admin
+        |--------------------------------------------------------------------------
+        */
+
         $admin = Role::updateOrCreate(
-            ['name' => 'admin'],
+            [
+                'name' => 'admin',
+            ],
             [
                 'display_name' => 'Admin',
                 'description' => 'Operational access to marketplace management.',
@@ -85,29 +275,41 @@ class RolePermissionSeeder extends Seeder
         );
 
         $admin->permissions()->sync(
-            $this->permissionIds($permissions, [
-                'dashboard',
-                'books',
-                'book_conditions',
-                'book_requests',
-                'categories',
-                'authors',
-                'publishers',
-                'refunds',
-                'orders',
-                'payments',
-                'coupons',
-                'shipping',
-                'users',
-                'sellers',
-                'reviews',
-                'reports',
-                'analytics',
-            ])
+            $this->permissionIds(
+                $permissions,
+                [
+                    'dashboard',
+                    'books',
+                    'book_conditions',
+                    'book_requests',
+                    'categories',
+                    'authors',
+                    'publishers',
+                    'refunds',
+                    'orders',
+                    'payments',
+                    'coupons',
+                    'shipping',
+                    'users',
+                    'sellers',
+                    'seller_applications',
+                    'reviews',
+                    'reports',
+                    'analytics',
+                ]
+            )
         );
 
+        /*
+        |--------------------------------------------------------------------------
+        | Manager
+        |--------------------------------------------------------------------------
+        */
+
         $manager = Role::updateOrCreate(
-            ['name' => 'manager'],
+            [
+                'name' => 'manager',
+            ],
             [
                 'display_name' => 'Manager',
                 'description' => 'Manages marketplace inventory and sales operations.',
@@ -116,22 +318,34 @@ class RolePermissionSeeder extends Seeder
         );
 
         $manager->permissions()->sync(
-            $this->permissionIds($permissions, [
-                'dashboard',
-                'books',
-                'refunds',
-                'orders',
-                'payments',
-                'shipping',
-                'coupons',
-                'sellers',
-                'reports',
-                'analytics',
-            ])
+            $this->permissionIds(
+                $permissions,
+                [
+                    'dashboard',
+                    'books',
+                    'refunds',
+                    'orders',
+                    'payments',
+                    'shipping',
+                    'coupons',
+                    'sellers',
+                    'seller_applications',
+                    'reports',
+                    'analytics',
+                ]
+            )
         );
 
+        /*
+        |--------------------------------------------------------------------------
+        | Editor
+        |--------------------------------------------------------------------------
+        */
+
         $editor = Role::updateOrCreate(
-            ['name' => 'editor'],
+            [
+                'name' => 'editor',
+            ],
             [
                 'display_name' => 'Editor',
                 'description' => 'Manages books and editorial content.',
@@ -140,21 +354,32 @@ class RolePermissionSeeder extends Seeder
         );
 
         $editor->permissions()->sync(
-            $this->permissionIds($permissions, [
-                'dashboard',
-                'books',
-                'categories',
-                'authors',
-                'publishers',
-                'reviews',
-                'banners',
-                'blogs',
-                'faq',
-            ])
+            $this->permissionIds(
+                $permissions,
+                [
+                    'dashboard',
+                    'books',
+                    'categories',
+                    'authors',
+                    'publishers',
+                    'reviews',
+                    'banners',
+                    'blogs',
+                    'faq',
+                ]
+            )
         );
 
+        /*
+        |--------------------------------------------------------------------------
+        | Seller
+        |--------------------------------------------------------------------------
+        */
+
         $seller = Role::updateOrCreate(
-            ['name' => 'seller'],
+            [
+                'name' => 'seller',
+            ],
             [
                 'display_name' => 'Seller',
                 'description' => 'Marketplace seller access.',
@@ -166,12 +391,24 @@ class RolePermissionSeeder extends Seeder
             $this->permissionIds(
                 $permissions,
                 ['books'],
-                ['view', 'create', 'edit']
+                [
+                    'view',
+                    'create',
+                    'edit',
+                ]
             )
         );
 
+        /*
+        |--------------------------------------------------------------------------
+        | Member
+        |--------------------------------------------------------------------------
+        */
+
         $member = Role::updateOrCreate(
-            ['name' => 'user'],
+            [
+                'name' => 'user',
+            ],
             [
                 'display_name' => 'Member',
                 'description' => 'Standard marketplace account.',
@@ -180,6 +417,12 @@ class RolePermissionSeeder extends Seeder
         );
 
         $member->permissions()->sync([]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Sync User Roles
+        |--------------------------------------------------------------------------
+        */
 
         User::where('role', 'admin')
             ->get()
@@ -202,18 +445,43 @@ class RolePermissionSeeder extends Seeder
                 $user->roles()->sync([$member->id])
             );
 
-        $this->command->info('Roles and permissions seeded successfully.');
+        $this->command->info(
+            'Roles and permissions seeded successfully.'
+        );
     }
 
-    private function permissionIds($permissions, array $modules, ?array $actions = null): array
-    {
+    private function permissionIds(
+        $permissions,
+        array $modules,
+        ?array $actions = null
+    ): array {
         return $permissions
-            ->filter(function (Permission $permission) use ($modules, $actions) {
-                [$module, $action] = explode('.', $permission->name, 2);
+            ->filter(
+                function (Permission $permission) use (
+                    $modules,
+                    $actions
+                ) {
+                    [$module, $action] = explode(
+                        '.',
+                        $permission->name,
+                        2
+                    );
 
-                return in_array($module, $modules, true)
-                    && ($actions === null || in_array($action, $actions, true));
-            })
+                    return in_array(
+                        $module,
+                        $modules,
+                        true
+                    )
+                        && (
+                            $actions === null
+                            || in_array(
+                                $action,
+                                $actions,
+                                true
+                            )
+                        );
+                }
+            )
             ->pluck('id')
             ->all();
     }
@@ -221,14 +489,23 @@ class RolePermissionSeeder extends Seeder
     private function groupName(string $module): string
     {
         return match ($module) {
-            'book_conditions', 'book_requests' => 'Books',
-            'email_settings', 'activity_logs' => 'System',
+
+            'book_conditions',
+            'book_requests' => 'Books',
+
+            'email_settings',
+            'activity_logs' => 'System',
+
             default => Str::headline($module),
         };
     }
 
-    private function displayName(string $module, string $action): string
-    {
-        return Str::headline($action) . ' ' . Str::headline($module);
+    private function displayName(
+        string $module,
+        string $action
+    ): string {
+        return Str::headline($action)
+            . ' '
+            . Str::headline($module);
     }
 }

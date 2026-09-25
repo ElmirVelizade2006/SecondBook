@@ -1,6 +1,6 @@
 @extends('layout.admin.master')
 
-@section('title', 'Seller Applications')
+@section('title', 'Seller Apply')
 
 @push('css') <link rel="stylesheet" href="{{ asset('admin/css/seller-applications.css') }}">
 @endpush

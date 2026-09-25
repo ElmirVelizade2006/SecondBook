@@ -767,7 +767,6 @@
 
 
             @if($books->hasPages())
-
                 <div class="books-pagination">
 
                     <div class="books-pagination-info">
@@ -781,11 +780,95 @@
                     </div>
 
                     <div class="books-pagination-links">
-                        {{ $books->withQueryString()->links() }}
+
+                        {{-- PREVIOUS --}}
+                        @if($books->onFirstPage())
+                            <span class="books-page-link disabled">
+                                <i class="bi bi-chevron-left"></i>
+                            </span>
+                        @else
+                            <a
+                                href="{{ $books->previousPageUrl() }}"
+                                class="books-page-link"
+                                data-page="{{ $books->currentPage() - 1 }}"
+                                aria-label="Previous page"
+                            >
+                                <i class="bi bi-chevron-left"></i>
+                            </a>
+                        @endif
+
+                        {{-- FIRST PAGE --}}
+                        @if($books->currentPage() > 3)
+                            <a
+                                href="{{ $books->url(1) }}"
+                                class="books-page-link"
+                                data-page="1"
+                            >
+                                1
+                            </a>
+
+                            @if($books->currentPage() > 4)
+                                <span class="books-page-ellipsis">...</span>
+                            @endif
+                        @endif
+
+                        {{-- PAGE NUMBERS --}}
+                        @foreach($books->getUrlRange(
+                            max(1, $books->currentPage() - 2),
+                            min($books->lastPage(), $books->currentPage() + 2)
+                        ) as $page => $url)
+
+                            @if($page == $books->currentPage())
+                                <span class="books-page-link active">
+                                    {{ $page }}
+                                </span>
+                            @else
+                                <a
+                                    href="{{ $url }}"
+                                    class="books-page-link"
+                                    data-page="{{ $page }}"
+                                >
+                                    {{ $page }}
+                                </a>
+                            @endif
+
+                        @endforeach
+
+                        {{-- LAST PAGE --}}
+                        @if($books->currentPage() < $books->lastPage() - 2)
+
+                            @if($books->currentPage() < $books->lastPage() - 3)
+                                <span class="books-page-ellipsis">...</span>
+                            @endif
+
+                            <a
+                                href="{{ $books->url($books->lastPage()) }}"
+                                class="books-page-link"
+                                data-page="{{ $books->lastPage() }}"
+                            >
+                                {{ $books->lastPage() }}
+                            </a>
+
+                        @endif
+
+                        {{-- NEXT --}}
+                        @if($books->hasMorePages())
+                            <a
+                                href="{{ $books->nextPageUrl() }}"
+                                class="books-page-link"
+                                data-page="{{ $books->currentPage() + 1 }}"
+                                aria-label="Next page"
+                            >
+                                <i class="bi bi-chevron-right"></i>
+                            </a>
+                        @else
+                            <span class="books-page-link disabled">
+                                <i class="bi bi-chevron-right"></i>
+                            </span>
+                        @endif
+
                     </div>
-
                 </div>
-
             @endif
 
         @else

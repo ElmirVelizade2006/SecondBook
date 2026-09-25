@@ -1,20 +1,29 @@
-	<div id="footer-bottom">
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<div class="copyright py-3">
-						<div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2">
-							<p class="mb-0">© 2026 SecondBook. All Rights Reserved.</p>
-							<div class="social-links footer-legal-links">
-								<ul class="list-unstyled d-flex flex-wrap gap-3 mb-0">
-									<li><a href="#">Privacy Policy</a></li>
-									<li><a href="#">Terms of Service</a></li>
-									<li><a href="#">Cookies</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<div id="footer-bottom" class="footer-bottom-bar">
+    <div class="container">
+        <div class="footer-bottom-inner">
+
+            <p class="footer-copyright">
+                © 2026 SecondBook. All Rights Reserved.
+            </p>
+
+            <nav class="footer-legal" aria-label="Legal links">
+                <a href="{{ route('frontend.privacy-policy') }}">
+                    Privacy Policy
+                </a>
+
+                <span class="footer-legal-divider"></span>
+
+                <a href="{{ route('frontend.auth.terms') }}">
+                    Terms of Service
+                </a>
+
+                <span class="footer-legal-divider"></span>
+
+                <a href="#">
+                    Cookies
+                </a>
+            </nav>
+
+        </div>
+    </div>
+</div>

@@ -1,35 +1,58 @@
-	<section id="subscribe">
-		<div class="container">
-			<div class="row justify-content-center">
+<section id="subscribe" class="subscribe-section">
+    <div class="container">
+        <div class="subscribe-wrapper">
 
-				<div class="col-md-8">
-					<div class="row">
+            <div class="subscribe-heading">
+                <span class="subscribe-eyebrow">
+                    Stay Updated
+                </span>
 
-						<div class="col-md-6">
+                <h2 class="subscribe-title">
+                    Get Weekly Book Deals
+                </h2>
 
-							<div class="title-element">
-								<h2 class="section-title divider">Get Weekly Book Deals</h2>
-							</div>
+                <div class="subscribe-divider"></div>
+            </div>
 
-						</div>
-						<div class="col-md-6">
+            <div class="subscribe-content" data-aos="fade-up">
 
-							<div class="subscribe-content" data-aos="fade-up">
-								<p>Subscribe for newly listed books, marketplace discounts, and curated recommendations from SecondBook.</p>
-								<form id="form">
-									<input type="text" name="email" placeholder="Enter your email address">
-									<button class="btn-subscribe">
-										<span>Subscribe</span>
-										<i class="icon icon-send"></i>
-									</button>
-								</form>
-							</div>
+                <p class="subscribe-description">
+                    Be the first to discover newly listed books, exclusive
+                    marketplace discounts, and carefully selected recommendations
+                    from SecondBook.
+                </p>
 
-						</div>
+                <form id="form" class="subscribe-form">
+                    <div class="subscribe-input-wrapper">
+                        <i class="bi bi-envelope subscribe-input-icon"></i>
 
-					</div>
-				</div>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Enter your email address"
+                            autocomplete="email"
+                            aria-label="Email address"
+                            required
+                        >
+                    </div>
 
-			</div>
-		</div>
-	</section>
+                    <button
+                        type="submit"
+                        class="btn-subscribe"
+                        aria-label="Subscribe to newsletter"
+                    >
+                        <span>Subscribe</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+                </form>
+
+                <div class="subscribe-note">
+                    <i class="bi bi-shield-check"></i>
+                    <span>We respect your inbox. No spam, ever.</span>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>

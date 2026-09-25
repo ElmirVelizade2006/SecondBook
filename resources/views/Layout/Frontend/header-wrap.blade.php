@@ -1,769 +1,501 @@
 <div id="header-wrap">
 
-    {{-- =========================================================
-       TOP CONTENT
-    ========================================================= --}}
+    {{-- ===================== TOP BAR ===================== --}}
     <div class="top-content">
-
         <div class="container-fluid">
+            <div class="top-content-inner">
 
-            <div class="row align-items-center top-content-row">
-
-                {{-- LEFT ANNOUNCEMENT --}}
-                <div class="col-lg-3 col-md-6">
-
-                    <div class="social-links top-announcement">
-
-                        <span class="top-inline-item">
-                            <i class="bi bi-book-fill" aria-hidden="true"></i>
-
-                            Buy
-                            <span class="dot">•</span>
-                            Sell
-                            <span class="dot">•</span>
-                            Discover Books
-                        </span>
-
-                    </div>
-
+                {{-- LEFT --}}
+                <div class="top-left">
+                    <i class="bi bi-book"></i>
+                    <span>SecondBook Marketplace</span>
                 </div>
 
-
-                {{-- CENTER BENEFITS --}}
-                <div class="col-lg-5 d-none d-lg-block">
-
-                    <div class="top-benefits text-center">
-
-                        <span class="top-inline-item">
-                            <i class="bi bi-truck" aria-hidden="true"></i>
-                            Free Shipping on Orders over $50
-                        </span>
-
-                        <span class="top-inline-item">
-                            <i class="bi bi-star-fill" aria-hidden="true"></i>
-                            Trusted Sellers
-                        </span>
-
-                        <span class="top-inline-item">
-                            <i class="bi bi-shield-lock-fill" aria-hidden="true"></i>
-                            Secure Payments
-                        </span>
-
+                {{-- CENTER --}}
+                <div class="top-center">
+                    <div class="top-center-item">
+                        <i class="bi bi-truck"></i>
+                        <span>Fast Delivery</span>
                     </div>
 
+                    <div class="top-center-item">
+                        <i class="bi bi-shield-check"></i>
+                        <span>Secure Shopping</span>
+                    </div>
+
+                    <div class="top-center-item">
+                        <i class="bi bi-headset"></i>
+                        <span>24/7 Support</span>
+                    </div>
                 </div>
 
+                {{-- RIGHT --}}
+                <div class="top-right">
 
-                {{-- RIGHT ELEMENTS --}}
-                <div class="col-lg-4 col-md-6">
-
-                    <div class="right-element">
-
-
-                        {{-- =================================================
-                           WISHLIST
-                        ================================================== --}}
-                        <a
-                            href="{{ route('frontend.wishlist') }}"
-                            class="user-account for-buy"
-                        >
-
-                            <i
-                                class="bi bi-heart"
-                                aria-hidden="true"
-                            ></i>
-
-                            <span>Wishlist</span>
-
-                        </a>
-
-
-                        {{-- =================================================
-                        CART
-                        ================================================== --}}
+                    @auth
 
                         @php
-                            $headerCart = session()->get('cart', []);
-                            $headerCartCount = collect($headerCart)->sum('quantity');
-                        @endphp
-
-                        <a
-                            href="{{ route('frontend.cart') }}"
-                            class="cart for-buy header-cart-link"
-                            aria-label="Shopping Cart"
-                        >
-
-                            <span class="header-cart-icon">
-
-                                <i
-                                    class="bi bi-cart3"
-                                    aria-hidden="true"
-                                ></i>
-
-                                <span
-                                    class="cart-count-badge"
-                                    id="header-cart-count"
-                                    @if($headerCartCount <= 0)
-                                        style="display: none;"
-                                    @endif
-                                >
-                                    {{ $headerCartCount > 99 ? '99+' : $headerCartCount }}
-                                </span>
-
-                            </span>
-
-                            <span>Cart</span>
-
-                        </a>
-
-
-                        {{-- =================================================
-                           AUTHENTICATED USER
-                        ================================================== --}}
-                        @auth
-
-                            @php
-
-                                /*
-                                |--------------------------------------------------------------------------
-                                | HEADER NOTIFICATIONS
-                                |--------------------------------------------------------------------------
-                                */
-
-                                $headerNotifications = Auth::user()
-                                    ->notifications()
-                                    ->latest()
-                                    ->take(5)
-                                    ->get();
-
-                                $headerUnreadCount = Auth::user()
-                                    ->notifications()
+                            $unreadCount = $unreadCount
+                                ?? \App\Models\Notification::where('user_id', auth()->id())
                                     ->whereNull('read_at')
                                     ->count();
 
-                            @endphp
+                            $headerNotifications = \App\Models\Notification::where('user_id', auth()->id())
+                                ->latest()
+                                ->take(5)
+                                ->get();
 
+                            $cartCount = auth()->user()->cart?->items?->sum('quantity') ?? 0;
+                        @endphp
 
-                            {{-- =================================================
-                               NOTIFICATIONS
-                            ================================================== --}}
-                            <div class="dropdown notification-dropdown">
+                        {{-- WISHLIST --}}
+                        <a href="{{ route('frontend.wishlist') }}"
+                           class="header-action header-wishlist"
+                           aria-label="Wishlist">
+                            <i class="bi bi-heart"></i>
 
-                                <a
-                                    href="#"
-                                    class="notification-trigger"
-                                    id="notificationDropdown"
+                            <span class="header-action-label">
+                                Wishlist
+                            </span>
+                        </a>
+
+                        {{-- CART --}}
+                        <a href="{{ route('frontend.cart') }}"
+                           class="header-action header-cart"
+                           aria-label="Cart">
+
+                            <i class="bi bi-bag"></i>
+
+                            <span class="header-action-label">
+                                Cart
+                            </span>
+
+                            @if($cartCount > 0)
+                                <span class="cart-count" id="header-cart-count">
+                                    {{ $cartCount }}
+                                </span>
+                            @endif
+                        </a>
+
+                        {{-- NOTIFICATIONS --}}
+                        <div class="header-dropdown-wrapper header-notification">
+
+                            <button type="button"
+                                    class="header-action notification-trigger"
                                     data-bs-toggle="dropdown"
+                                    data-bs-auto-close="outside"
+                                    data-bs-display="static"
                                     aria-expanded="false"
-                                    aria-label="Notifications"
-                                >
+                                    aria-label="Notifications">
 
-                                    <i class="bi bi-bell"></i>
+                                <i class="bi bi-bell"></i>
 
+                                <span class="header-action-label">
+                                    Notifications
+                                </span>
 
-                                    {{-- UNREAD BADGE --}}
-                                    @if($headerUnreadCount > 0)
+                                @if($unreadCount > 0)
+                                    <span class="notification-badge">
+                                        {{ $unreadCount > 99 ? '99+' : $unreadCount }}
+                                    </span>
+                                @endif
+                            </button>
 
-                                        <span class="notification-badge">
+                            <div class="dropdown-menu header-dropdown notification-dropdown">
 
-                                            {{ $headerUnreadCount > 99 ? '99+' : $headerUnreadCount }}
+                                <div class="header-dropdown-header">
 
-                                        </span>
+                                    <h6 class="header-dropdown-title">
+                                        Notifications
+                                    </h6>
+
+                                    @if($unreadCount > 0)
+
+                                        <form action="{{ route('frontend.notifications.read-all') }}"
+                                              method="POST"
+                                              class="notification-read-all-form">
+
+                                            @csrf
+
+                                            <button type="submit"
+                                                    class="header-dropdown-link border-0 bg-transparent">
+                                                Mark all as read
+                                            </button>
+
+                                        </form>
 
                                     @endif
 
-                                </a>
+                                </div>
 
+                                <div class="notification-list">
 
-                                {{-- =================================================
-                                   NOTIFICATION MENU
-                                ================================================== --}}
-                                <div
-                                    class="dropdown-menu dropdown-menu-end notification-menu"
-                                    aria-labelledby="notificationDropdown"
-                                >
+                                    @forelse($headerNotifications as $notification)
 
+                                        <div class="notification-item {{ is_null($notification->read_at) ? 'unread' : '' }}"
+                                             data-notification-id="{{ $notification->id }}">
 
-                                    {{-- HEADER --}}
-                                    <div class="notification-header">
+                                            <a href="{{ route('frontend.notifications.index') }}"
+                                               class="notification-content-link">
 
-                                        <div>
+                                                <div class="notification-item-title">
+                                                    {{ $notification->title }}
+                                                </div>
 
-                                            <h6>
-                                                Notifications
-                                            </h6>
+                                                <p class="notification-item-message">
+                                                    {{ $notification->message }}
+                                                </p>
 
-
-                                            @if($headerUnreadCount > 0)
-
-                                                <span>
-                                                    {{ $headerUnreadCount }} unread
+                                                <span class="notification-item-time">
+                                                    {{ $notification->created_at->diffForHumans() }}
                                                 </span>
 
-                                            @else
+                                            </a>
 
-                                                <span>
-                                                    You're all caught up
-                                                </span>
+                                            <button type="button"
+                                                    class="notification-delete-btn"
+                                                    data-id="{{ $notification->id }}"
+                                                    aria-label="Delete notification">
 
-                                            @endif
+                                                <i class="bi bi-x"></i>
+
+                                            </button>
 
                                         </div>
 
+                                    @empty
 
-                                        {{-- MARK ALL --}}
-                                        @if($headerUnreadCount > 0)
+                                        <div class="notification-empty">
 
-                                            <form
-                                                action="{{ route('frontend.notifications.read-all') }}"
-                                                method="POST"
-                                            >
+                                            <i class="bi bi-bell-slash"></i>
 
-                                                @csrf
+                                            <p>
+                                                No notifications yet.
+                                            </p>
 
-                                                <button
-                                                    type="submit"
-                                                    class="mark-all-btn"
-                                                >
-                                                    Mark all as read
-                                                </button>
+                                        </div>
 
-                                            </form>
+                                    @endforelse
 
-                                        @endif
+                                </div>
 
-                                    </div>
+                                @if($headerNotifications->count() > 0)
 
+                                    <div class="notification-dropdown-footer">
 
-                                    {{-- =================================================
-                                        NOTIFICATION LIST
-                                    ================================================= --}}
-                                    <div class="notification-list">
-
-                                        @forelse($headerNotifications as $notification)
-
-                                            <div
-                                                class="notification-item-wrapper"
-                                                id="notification-item-{{ $notification->id }}"
-                                            >
-
-                                                {{-- READ / OPEN NOTIFICATION --}}
-                                                <form
-                                                    action="{{ route('frontend.notifications.read', $notification) }}"
-                                                    method="POST"
-                                                    class="notification-item-form"
-                                                >
-
-                                                    @csrf
-
-                                                    <button
-                                                        type="submit"
-                                                        class="notification-item {{ is_null($notification->read_at) ? 'unread' : '' }}"
-                                                        title="{{ $notification->title }}"
-                                                    >
-
-                                                        {{-- ICON --}}
-                                                        <span class="notification-icon">
-
-                                                            @if($notification->type === 'book_request')
-
-                                                                <i class="bi bi-book"></i>
-
-                                                            @else
-
-                                                                <i class="bi bi-bell"></i>
-
-                                                            @endif
-
-                                                        </span>
-
-
-                                                        {{-- CONTENT --}}
-                                                        <span class="notification-content">
-
-                                                            <strong>
-                                                                {{ Str::limit($notification->title, 42, '...') }}
-                                                            </strong>
-
-                                                            <span>
-                                                                {{ Str::limit($notification->message, 65, '...') }}
-                                                            </span>
-
-                                                            <small>
-                                                                {{ $notification->created_at->diffForHumans() }}
-                                                            </small>
-
-                                                        </span>
-
-
-                                                        {{-- UNREAD DOT --}}
-                                                        @if(is_null($notification->read_at))
-
-                                                            <span
-                                                                class="notification-dot"
-                                                                aria-label="Unread"
-                                                            ></span>
-
-                                                        @endif
-
-                                                    </button>
-
-                                                </form>
-
-
-                                                {{-- DELETE --}}
-                                                <button
-                                                    type="button"
-                                                    class="notification-delete-btn"
-                                                    data-notification-id="{{ $notification->id }}"
-                                                    data-notification-title="{{ $notification->title }}"
-                                                    data-delete-url="{{ route('frontend.notifications.destroy', $notification) }}"
-                                                    aria-label="Delete notification"
-                                                    title="Delete notification"
-                                                >
-
-                                                    <i class="bi bi-trash3"></i>
-
-                                                </button>
-
-                                            </div>
-
-                                        @empty
-
-                                            {{-- EMPTY STATE --}}
-                                            <div class="notification-empty">
-
-                                                <i class="bi bi-bell-slash"></i>
-
-                                                <strong>
-                                                    No notifications
-                                                </strong>
-
-                                                <span>
-                                                    You don't have any notifications yet.
-                                                </span>
-
-                                            </div>
-
-                                        @endforelse
-
-                                    </div>
-
-
-                                    {{-- =================================================
-                                       FOOTER
-                                    ================================================== --}}
-                                    <div class="notification-footer">
-
-                                        <a
-                                            href="{{ route('frontend.notifications.index') }}"
-                                        >
-
+                                        <a href="{{ route('frontend.notifications.index') }}">
                                             View all notifications
-
-                                            <i class="bi bi-arrow-right"></i>
-
                                         </a>
+
+                                    </div>
+
+                                @endif
+
+                            </div>
+                        </div>
+
+                        {{-- PROFILE --}}
+                        <div class="header-dropdown-wrapper header-profile">
+
+                            <button type="button"
+                                    class="header-profile-trigger"
+                                    data-bs-toggle="dropdown"
+                                    data-bs-auto-close="outside"
+                                    data-bs-display="static"
+                                    aria-expanded="false"
+                                    aria-label="Profile menu">
+
+                                <span class="header-profile-avatar">
+
+                                    <img src="{{ Auth::user()->avatar
+                                        ? asset('storage/' . Auth::user()->avatar)
+                                        : asset('profile-icon.png') }}"
+                                         alt="{{ Auth::user()->name }}">
+
+                                </span>
+
+                                <span class="header-profile-name">
+                                    {{ Auth::user()->name }}
+                                </span>
+
+                                <i class="bi bi-chevron-down"></i>
+
+                            </button>
+
+                            <div class="dropdown-menu header-dropdown profile-dropdown">
+
+                                <div class="profile-dropdown-user">
+
+                                    <div class="profile-dropdown-avatar">
+
+                                        <img src="{{ Auth::user()->avatar
+                                            ? asset('storage/' . Auth::user()->avatar)
+                                            : asset('profile-icon.png') }}"
+                                             alt="{{ Auth::user()->name }}">
+
+                                    </div>
+
+                                    <div class="profile-dropdown-user-info">
+
+                                        <p class="profile-dropdown-user-name">
+                                            {{ Auth::user()->name }}
+                                        </p>
+
+                                        <p class="profile-dropdown-user-email">
+                                            {{ Auth::user()->email }}
+                                        </p>
 
                                     </div>
 
                                 </div>
 
-                            </div>
+                                <div class="profile-menu">
 
+                                    <a href="{{ route('my.profile') }}"
+                                       class="profile-menu-item">
+                                        <i class="bi bi-person"></i>
+                                        <span>My Profile</span>
+                                    </a>
 
-                            {{-- =================================================
-                               PROFILE DROPDOWN
-                            ================================================== --}}
-                            <div class="dropdown profile-dropdown">
+                                    <a href="{{ route('frontend.orders') }}"
+                                       class="profile-menu-item">
+                                        <i class="bi bi-box-seam"></i>
+                                        <span>My Orders</span>
+                                    </a>
 
-                                <a
-                                    class="user-account for-buy dropdown-toggle"
-                                    href="#"
-                                    id="profileDropdown"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                >
+                                    <a href="{{ route('frontend.wishlist') }}"
+                                       class="profile-menu-item">
+                                        <i class="bi bi-heart"></i>
+                                        <span>Wishlist</span>
+                                    </a>
 
-                                    <i class="bi bi-person-circle"></i>
+                                    <a href="{{ route('frontend.account.settings') }}"
+                                       class="profile-menu-item">
+                                        <i class="bi bi-gear"></i>
+                                        <span>Account Settings</span>
+                                    </a>
 
-                                    <span>
-                                        {{ Auth::user()->name }}
-                                    </span>
+                                    <div class="profile-menu-divider"></div>
 
-                                    <i class="bi bi-chevron-down chevron-icon"></i>
-
-                                </a>
-
-
-                                {{-- PROFILE MENU --}}
-                                <ul
-                                    class="dropdown-menu dropdown-menu-end"
-                                    aria-labelledby="profileDropdown"
-                                >
-
-                                    {{-- USER HEADER --}}
-                                    <li>
-
-                                        <div class="dropdown-header d-flex align-items-center gap-3">
-
-                                            <div class="avatar-wrap">
-
-                                                {{ Str::substr(Auth::user()->name, 0, 1) }}
-
-                                            </div>
-
-
-                                            <div>
-
-                                                <div class="user-name">
-
-                                                    {{ Auth::user()->name }}
-
-                                                </div>
-
-
-                                                <div class="user-meta">
-
-                                                    Logged in • Member since
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                    </li>
-
-
-                                    {{-- MY PROFILE --}}
-                                    <li>
-
-                                        <a
-                                            class="dropdown-item"
-                                            href="{{ route('my.profile') }}"
-                                        >
-
-                                            <i class="bi bi-person-circle"></i>
-
-                                            My Profile
-
-                                        </a>
-
-                                    </li>
-
-
-                                    {{-- MY ORDERS --}}
-                                    <li>
-
-                                        <a
-                                            class="dropdown-item"
-                                            href="{{ route('frontend.orders') }}"
-                                        >
-
-                                            <i class="bi bi-bag-check"></i>
-
-                                            My Orders
-
-                                        </a>
-
-                                    </li>
-
-
-                                    {{-- WISHLIST --}}
-                                    <li>
-
-                                        <a
-                                            class="dropdown-item"
-                                            href="{{ route('frontend.wishlist') }}"
-                                        >
-
-                                            <i class="bi bi-heart"></i>
-
-                                            Wishlist
-
-                                        </a>
-
-                                    </li>
-
-
-                                    {{-- ADMIN PANEL --}}
                                     @if(Auth::user()->role === 'admin')
 
-                                        <li>
+                                        <a href="{{ route('admin.dashboard') }}"
+                                           class="profile-menu-item profile-admin">
+                                            <i class="bi bi-speedometer2"></i>
+                                            <span>Admin Panel</span>
+                                        </a>
 
-                                            <a
-                                                class="dropdown-item admin-panel-item"
-                                                href="{{ route('admin.dashboard') }}"
-                                            >
+                                    @elseif(Auth::user()->role === 'seller')
 
-                                                <i class="bi bi-speedometer2"></i>
+                                        <a href="{{ route('seller.dashboard') }}"
+                                           class="profile-menu-item profile-seller">
+                                            <i class="bi bi-shop"></i>
+                                            <span>Seller Panel</span>
+                                        </a>
 
-                                                Admin Panel
+                                    @else
 
-                                            </a>
-
-                                        </li>
+                                        <a href="{{ route('frontend.seller-application') }}"
+                                           class="profile-menu-item profile-become-seller">
+                                            <i class="bi bi-shop"></i>
+                                            <span>Become a Seller</span>
+                                        </a>
 
                                     @endif
 
+                                    <div class="profile-menu-divider"></div>
 
-                                    {{-- SELL A BOOK --}}
-                                    <li>
+                                    <form action="{{ route('frontend.auth.logout') }}"
+                                          method="POST">
 
-                                        <a
-                                            class="dropdown-item"
-                                            href="{{ route('frontend.sell-book') }}"
-                                        >
+                                        @csrf
 
-                                            <i class="bi bi-book"></i>
+                                        <button type="submit"
+                                                class="profile-menu-item profile-logout">
 
-                                            Sell a Book
+                                            <i class="bi bi-box-arrow-right"></i>
+                                            <span>Logout</span>
 
-                                        </a>
+                                        </button>
 
-                                    </li>
+                                    </form>
 
-
-                                    {{-- ACCOUNT SETTINGS --}}
-                                    <li>
-
-                                        <a
-                                            class="dropdown-item"
-                                            href="{{ route('frontend.account.settings') }}"
-                                        >
-
-                                            <i class="bi bi-gear"></i>
-
-                                            Account Settings
-
-                                        </a>
-
-                                    </li>
-
-
-                                    {{-- DIVIDER --}}
-                                    <li>
-
-                                        <hr class="dropdown-divider">
-
-                                    </li>
-
-
-                                    {{-- LOGOUT --}}
-                                    <li class="logout-wrap">
-
-                                        <form
-                                            action="{{ route('frontend.auth.logout') }}"
-                                            method="POST"
-                                            id="profileLogoutForm"
-                                        >
-
-                                            @csrf
-
-                                            <button
-                                                type="button"
-                                                class="logout-btn"
-                                                id="profileLogoutBtn"
-                                            >
-
-                                                <i class="bi bi-box-arrow-right"></i>
-
-                                                Logout
-
-                                            </button>
-
-                                        </form>
-
-                                    </li>
-
-                                </ul>
-
-                            </div>
-
-
-                        @endauth
-
-
-                        {{-- =================================================
-                           GUEST USER
-                        ================================================== --}}
-                        @guest
-
-                            <a
-                                href="{{ route('frontend.auth.login') }}"
-                                class="user-account for-buy"
-                            >
-
-                                <i
-                                    class="bi bi-person"
-                                    aria-hidden="true"
-                                ></i>
-
-                                <span>
-                                    Login
-                                </span>
-
-                            </a>
-
-
-                            <a
-                                href="{{ route('frontend.auth.register') }}"
-                                class="user-account for-buy"
-                            >
-
-                                <i
-                                    class="bi bi-pencil-square"
-                                    aria-hidden="true"
-                                ></i>
-
-                                <span>
-                                    Register
-                                </span>
-
-                            </a>
-
-                        @endguest
-
-
-                        {{-- =================================================
-                           SEARCH
-                        ================================================== --}}
-                        <div class="action-menu">
-
-                            <div class="search-bar">
-
-                                <a
-                                    href="#"
-                                    class="search-button search-toggle"
-                                    data-selector="#header-wrap"
-                                    aria-label="Search"
-                                >
-
-                                    <i class="bi bi-search"></i>
-
-                                </a>
+                                </div>
 
                             </div>
 
                         </div>
 
+                    @else
 
-                    </div>
+                        {{-- GUEST --}}
+                        <a href="{{ route('frontend.auth.login') }}"
+                           class="header-auth-link header-login">
+                            Login
+                        </a>
+
+                        <a href="{{ route('frontend.auth.register') }}"
+                           class="header-auth-link header-register">
+                            Register
+                        </a>
+
+                    @endauth
 
                 </div>
 
             </div>
-
         </div>
-
     </div>
 
 
-    {{-- =========================================================
-       MAIN HEADER
-    ========================================================= --}}
+    {{-- ===================== MAIN NAVBAR ===================== --}}
     <header id="header">
 
         <div class="container-fluid">
 
-            <div class="row">
+            <div class="main-header">
 
-                <div class="col-md-2">
+                {{-- LOGO --}}
+                <div class="main-logo">
 
-                    <div class="main-logo">
+                    <a href="{{ route('frontend.home') }}">
 
-                        <a href="{{ route('frontend.home') }}">
+                        <img src="{{ asset('main-logo.png') }}"
+                             alt="SecondBook">
 
-                            <img
-                                src="{{ asset('main-logo.png') }}"
-                                alt="SecondBook"
-                            >
-
-                        </a>
-
-                    </div>
+                    </a>
 
                 </div>
 
 
-                <div class="col-md-10">
+                {{-- MOBILE TOGGLER
+                     Kept for Bootstrap compatibility,
+                     hidden by CSS on responsive screens. --}}
+                <button class="header-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#mainNav"
+                        aria-controls="mainNav"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
 
-                    <nav
-                        id="navbar"
-                        class="header-nav"
-                    >
+                    <i class="bi bi-list"></i>
 
-                        <div class="main-menu stellarnav">
+                </button>
+
+
+                {{-- NAVIGATION --}}
+                <nav class="header-nav collapse"
+                     id="mainNav">
+
+                    {{-- SEARCH --}}
+                    <div class="nav-search-item">
+
+                        <form action="{{ route('frontend.books') }}"
+                              method="GET"
+                              class="navbar-search-form">
+
+                            <div class="navbar-search">
+
+                                <i class="bi bi-search"></i>
+
+                                <input type="search"
+                                       name="search"
+                                       value="{{ request('search') }}"
+                                       placeholder="Search books..."
+                                       autocomplete="off">
+
+                                <button type="submit"
+                                        aria-label="Search">
+
+                                    <i class="bi bi-arrow-right"></i>
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+
+                    {{-- HORIZONTAL MENU --}}
+                    <div class="nav-menu-wrapper">
+
+                        {{-- LEFT ARROW --}}
+                        <button type="button"
+                                class="nav-scroll-btn nav-scroll-left"
+                                aria-label="Scroll navigation left">
+
+                            <i class="bi bi-chevron-left"></i>
+
+                        </button>
+
+
+                        {{-- SCROLL AREA --}}
+                        <div class="nav-scroll-area">
 
                             <ul class="menu-list">
 
-                                {{-- HOME --}}
-                                <li class="menu-item {{ request()->routeIs('frontend.home') ? 'active' : '' }}">
-
-                                    <a href="{{ route('frontend.home') }}">
+                                <li>
+                                    <a href="{{ route('frontend.home') }}"
+                                       class="{{ request()->routeIs('frontend.home') ? 'active' : '' }}">
                                         Home
                                     </a>
-
                                 </li>
 
-
-                                {{-- BOOKS --}}
-                                <li class="menu-item {{ request()->routeIs('frontend.books*') ? 'active' : '' }}">
-
-                                    <a href="{{ route('frontend.books') }}">
+                                <li>
+                                    <a href="{{ route('frontend.books') }}"
+                                    class="{{ request()->routeIs('frontend.books', 'frontend.books.*') ? 'active' : '' }}">
                                         Books
                                     </a>
-
                                 </li>
 
-
-                                {{-- CATEGORIES --}}
-                                <li class="menu-item {{ request()->routeIs('frontend.categories*') ? 'active' : '' }}">
-
-                                    <a href="{{ route('frontend.categories') }}">
+                                <li>
+                                    <a href="{{ route('frontend.categories') }}"
+                                    class="{{ request()->routeIs('frontend.categories', 'frontend.categories.*') ? 'active' : '' }}">
                                         Categories
                                     </a>
-
                                 </li>
 
-
-                                {{-- AUTHORS --}}
-                                <li class="menu-item {{ request()->routeIs('frontend.authors*') ? 'active' : '' }}">
-
-                                    <a href="{{ route('frontend.authors') }}">
+                                <li>
+                                    <a href="{{ route('frontend.authors') }}"
+                                    class="{{ request()->routeIs('frontend.authors', 'frontend.authors.*') ? 'active' : '' }}">
                                         Authors
                                     </a>
-
                                 </li>
 
-
-                                {{-- ABOUT --}}
-                                <li class="menu-item {{ request()->routeIs('frontend.about') ? 'active' : '' }}">
-
-                                    <a href="{{ route('frontend.about') }}">
+                                <li>
+                                    <a href="{{ route('frontend.about') }}"
+                                       class="{{ request()->routeIs('frontend.about') ? 'active' : '' }}">
                                         About
                                     </a>
-
                                 </li>
 
-
-                                {{-- CONTACT --}}
-                                <li class="menu-item {{ request()->routeIs('frontend.contact') ? 'active' : '' }}">
-
-                                    <a href="{{ route('frontend.contact') }}">
+                                <li>
+                                    <a href="{{ route('frontend.contact') }}"
+                                       class="{{ request()->routeIs('frontend.contact') ? 'active' : '' }}">
                                         Contact
                                     </a>
-
                                 </li>
 
                             </ul>
 
                         </div>
 
-                    </nav>
 
-                </div>
+                        {{-- RIGHT ARROW --}}
+                        <button type="button"
+                                class="nav-scroll-btn nav-scroll-right"
+                                aria-label="Scroll navigation right">
+
+                            <i class="bi bi-chevron-right"></i>
+
+                        </button>
+
+                    </div>
+
+                </nav>
 
             </div>
 
@@ -773,9 +505,15 @@
 
 </div>
 
+
 @push('js')
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+
+    /* =========================================================
+       DELETE NOTIFICATION
+       ========================================================= */
 
     document.querySelectorAll('.notification-delete-btn').forEach(function (button) {
 
@@ -784,240 +522,292 @@ document.addEventListener('DOMContentLoaded', function () {
             event.preventDefault();
             event.stopPropagation();
 
-            const deleteUrl = button.dataset.deleteUrl;
-            const notificationId = button.dataset.notificationId;
-            const notificationTitle =
-                button.dataset.notificationTitle || 'this notification';
+            const notificationId = this.dataset.id;
+            const notificationItem = this.closest('.notification-item');
 
-            if (!deleteUrl) {
-                console.error('Notification delete URL is missing.');
+            if (!notificationId) {
                 return;
             }
 
-            if (typeof Swal === 'undefined') {
-                alert('SweetAlert2 is not loaded.');
-                return;
-            }
+            if (typeof Swal !== 'undefined') {
 
-            Swal.fire({
-                title: 'Delete notification?',
-                text: `"${notificationTitle}" will be permanently deleted.`,
-                icon: 'warning',
+                Swal.fire({
+                    title: 'Delete notification?',
+                    text: 'This notification will be permanently removed.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Delete',
+                    cancelButtonText: 'Cancel',
+                    reverseButtons: true
+                }).then(function (result) {
 
-                width: 430,
-                padding: '28px',
-
-                showCancelButton: true,
-
-                confirmButtonText: 'Delete',
-                cancelButtonText: 'Cancel',
-
-                focusCancel: true,
-
-                buttonsStyling: false,
-
-                customClass: {
-                    popup: 'notification-delete-popup',
-                    icon: 'notification-delete-icon',
-                    title: 'notification-delete-title',
-                    htmlContainer: 'notification-delete-text',
-                    actions: 'notification-delete-actions',
-                    confirmButton: 'notification-delete-confirm',
-                    cancelButton: 'notification-delete-cancel'
-                }
-            }).then(function (result) {
-
-                if (!result.isConfirmed) {
-                    return;
-                }
-
-                button.disabled = true;
-
-                fetch(deleteUrl, {
-                    method: 'DELETE',
-
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Accept': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-
-                .then(async function (response) {
-
-                    const data = await response.json();
-
-                    if (!response.ok) {
-                        throw new Error(
-                            data.message ||
-                            'Failed to delete notification.'
+                    if (result.isConfirmed) {
+                        deleteNotification(
+                            notificationId,
+                            notificationItem
                         );
                     }
-
-                    return data;
-                })
-
-                .then(function (data) {
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | REMOVE NOTIFICATION
-                    |--------------------------------------------------------------------------
-                    */
-
-                    const notificationItem =
-                        document.getElementById(
-                            'notification-item-' + notificationId
-                        );
-
-                    if (notificationItem) {
-                        notificationItem.remove();
-                    }
-
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | UPDATE UNREAD BADGE
-                    |--------------------------------------------------------------------------
-                    */
-
-                    const notificationBadge =
-                        document.querySelector('.notification-badge');
-
-                    const unreadCount =
-                        Number(data.unread_count || 0);
-
-                    if (notificationBadge) {
-
-                        if (unreadCount > 0) {
-
-                            notificationBadge.textContent =
-                                unreadCount > 99
-                                    ? '99+'
-                                    : unreadCount;
-
-                        } else {
-
-                            notificationBadge.remove();
-
-                        }
-                    }
-
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | UPDATE HEADER TEXT
-                    |--------------------------------------------------------------------------
-                    */
-
-                    const notificationHeader =
-                        document.querySelector('.notification-header');
-
-                    if (notificationHeader) {
-
-                        const headerText =
-                            notificationHeader.querySelector('div span');
-
-                        if (headerText) {
-
-                            headerText.textContent =
-                                unreadCount > 0
-                                    ? unreadCount + ' unread'
-                                    : "You're all caught up";
-                        }
-                    }
-
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | EMPTY STATE
-                    |--------------------------------------------------------------------------
-                    */
-
-                    const notificationList =
-                        document.querySelector('.notification-list');
-
-                    if (
-                        notificationList &&
-                        !notificationList.querySelector(
-                            '.notification-item-wrapper'
-                        )
-                    ) {
-
-                        notificationList.innerHTML = `
-                            <div class="notification-empty">
-
-                                <i class="bi bi-bell-slash"></i>
-
-                                <strong>
-                                    No notifications
-                                </strong>
-
-                                <span>
-                                    You don't have any notifications yet.
-                                </span>
-
-                            </div>
-                        `;
-                    }
-
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | SUCCESS ALERT
-                    |--------------------------------------------------------------------------
-                    */
-
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Deleted',
-                        text: data.message ||
-                            'Notification deleted successfully.',
-
-                        width: 390,
-                        timer: 1500,
-                        showConfirmButton: false,
-
-                        customClass: {
-                            popup: 'notification-success-popup'
-                        }
-                    });
-
-                })
-
-                .catch(function (error) {
-
-                    console.error(error);
-
-                    button.disabled = false;
-
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Something went wrong',
-                        text:
-                            error.message ||
-                            'Notification could not be deleted.',
-
-                        width: 410,
-
-                        confirmButtonText: 'OK',
-
-                        buttonsStyling: false,
-
-                        customClass: {
-                            popup: 'notification-error-popup',
-                            confirmButton: 'notification-error-confirm'
-                        }
-                    });
 
                 });
 
-            });
+            } else {
+
+                deleteNotification(
+                    notificationId,
+                    notificationItem
+                );
+
+            }
 
         });
 
     });
 
+
+    /* =========================================================
+       DELETE REQUEST
+       ========================================================= */
+
+    function deleteNotification(notificationId, notificationItem) {
+
+        fetch("{{ url('/frontend/notifications') }}/" + notificationId, {
+
+            method: 'DELETE',
+
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+
+        })
+
+        .then(function (response) {
+
+            if (!response.ok) {
+                throw new Error('Request failed.');
+            }
+
+            return response.json();
+
+        })
+
+        .then(function (data) {
+
+            if (!data.success) {
+
+                throw new Error(
+                    data.message || 'Something went wrong.'
+                );
+
+            }
+
+            if (notificationItem) {
+                notificationItem.remove();
+            }
+
+
+            const trigger =
+                document.querySelector('.notification-trigger');
+
+            if (trigger) {
+
+                let badge =
+                    trigger.querySelector('.notification-badge');
+
+                const unreadCount =
+                    Number(data.unread_count || 0);
+
+                if (unreadCount > 0) {
+
+                    if (!badge) {
+
+                        badge =
+                            document.createElement('span');
+
+                        badge.className =
+                            'notification-badge';
+
+                        trigger.appendChild(badge);
+
+                    }
+
+                    badge.textContent =
+                        unreadCount > 99
+                            ? '99+'
+                            : unreadCount;
+
+                } else if (badge) {
+
+                    badge.remove();
+
+                }
+
+            }
+
+
+            const list =
+                document.querySelector('.notification-list');
+
+            if (
+                list &&
+                list.querySelectorAll('.notification-item').length === 0
+            ) {
+
+                list.innerHTML =
+                    '<div class="notification-empty">' +
+                        '<i class="bi bi-bell-slash"></i>' +
+                        '<p>No notifications yet.</p>' +
+                    '</div>';
+
+            }
+
+
+            if (typeof Swal !== 'undefined') {
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Deleted',
+                    text: data.message ||
+                        'Notification deleted successfully.',
+                    timer: 1600,
+                    showConfirmButton: false
+                });
+
+            }
+
+        })
+
+        .catch(function (error) {
+
+            console.error(error);
+
+            if (typeof Swal !== 'undefined') {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Unable to delete the notification.'
+                });
+
+            }
+
+        });
+
+    }
+
+
+    /* =========================================================
+       MOBILE HORIZONTAL NAVIGATION
+       ========================================================= */
+
+    const navScrollArea =
+        document.querySelector('.nav-scroll-area');
+
+    const navScrollLeft =
+        document.querySelector('.nav-scroll-left');
+
+    const navScrollRight =
+        document.querySelector('.nav-scroll-right');
+
+
+    function updateNavigationArrows() {
+
+        if (
+            !navScrollArea ||
+            !navScrollLeft ||
+            !navScrollRight
+        ) {
+            return;
+        }
+
+        const maxScroll =
+            navScrollArea.scrollWidth -
+            navScrollArea.clientWidth;
+
+        const currentScroll =
+            navScrollArea.scrollLeft;
+
+        const hasOverflow =
+            maxScroll > 2;
+
+
+        if (!hasOverflow) {
+
+            navScrollLeft.classList.remove('is-visible');
+            navScrollRight.classList.remove('is-visible');
+
+            return;
+        }
+
+
+        if (currentScroll <= 2) {
+
+            navScrollLeft.classList.remove('is-visible');
+
+        } else {
+
+            navScrollLeft.classList.add('is-visible');
+
+        }
+
+
+        if (currentScroll >= maxScroll - 2) {
+
+            navScrollRight.classList.remove('is-visible');
+
+        } else {
+
+            navScrollRight.classList.add('is-visible');
+
+        }
+
+    }
+
+
+    if (navScrollArea) {
+
+        navScrollLeft?.addEventListener('click', function () {
+
+            navScrollArea.scrollBy({
+                left: -220,
+                behavior: 'smooth'
+            });
+
+        });
+
+
+        navScrollRight?.addEventListener('click', function () {
+
+            navScrollArea.scrollBy({
+                left: 220,
+                behavior: 'smooth'
+            });
+
+        });
+
+
+        navScrollArea.addEventListener(
+            'scroll',
+            updateNavigationArrows,
+            { passive: true }
+        );
+
+
+        window.addEventListener(
+            'resize',
+            updateNavigationArrows
+        );
+
+
+        setTimeout(
+            updateNavigationArrows,
+            100
+        );
+
+    }
+
 });
 </script>
+
 @endpush

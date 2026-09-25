@@ -29,7 +29,7 @@ use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\SettingsController;
-use App\Http\Controllers\Admin\EmailSettingController;
+use App\Http\Controllers\Admin\EmailSettingsController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\BackupController;
@@ -54,7 +54,6 @@ use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\AccountSettingsController;
 use App\Http\Controllers\Frontend\SellerApplicationController;
 use App\Http\Controllers\Frontend\CartController;
-use App\Http\Controllers\Frontend\SellBookController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\ReturnPolicyController;
 use App\Http\Controllers\Frontend\ReviewController;
@@ -789,19 +788,20 @@ Route::prefix('admin')
 
         // Email Settings
 
-        Route::controller(EmailSettingController::class)
+        Route::controller(EmailSettingsController::class)
             ->prefix('email-settings')
-            ->name('email.settings.')
+            ->name('email-settings.')
             ->group(function () {
-
+                
                 Route::get('/', 'index')
                     ->name('index');
-
                 Route::put('/', 'update')
                     ->name('update');
+                Route::post('/test', 'test')
+                    ->name('test');
             });
 
-
+        
         // Notifications
 
         Route::controller(NotificationController::class)
@@ -814,6 +814,18 @@ Route::prefix('admin')
 
                 Route::post('/send', 'send')
                     ->name('send');
+
+                Route::post('/read-all', 'markAllAsRead')
+                    ->name('read-all');
+
+                Route::post('/{notification}/read', 'markAsRead')
+                    ->name('read');
+
+                Route::post('/{notification}/unread', 'markAsUnread')
+                    ->name('unread');
+
+                Route::delete('/{notification}', 'destroy')
+                    ->name('destroy');
             });
 
 
@@ -1463,23 +1475,6 @@ Route::middleware('auth')
             '/wishlist/remove/{book}',
             [WishlistController::class, 'remove']
         )->name('wishlist.remove');
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | SELL BOOK
-        |--------------------------------------------------------------------------
-        */
-
-        Route::get(
-            '/sell-book',
-            [SellBookController::class, 'create']
-        )->name('sell-book');
-
-        Route::post(
-            '/sell-book',
-            [SellBookController::class, 'store']
-        )->name('sell-book.store');
 
 
         /*
