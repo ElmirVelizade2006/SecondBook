@@ -15,7 +15,7 @@ Users can discover books, search and filter the catalog, manage wishlists and sh
 ### 🛍️ Customer Marketplace
 
 * Browse available books
-* Search books by title and other available information
+* Search books by title and available information
 * Filter books by condition
 * Sort book listings
 * Browse books by categories
@@ -40,8 +40,11 @@ Users can discover books, search and filter the catalog, manage wishlists and sh
 * Review management
 * Contact system
 * User profile
-* Account settings
+* Edit Profile
+* Account Settings
+* Password management
 * Password reset with OTP verification
+* Six-digit OTP verification
 * User notifications
 * Responsive frontend interface
 
@@ -62,7 +65,7 @@ Normal users can apply to become sellers. After administrative approval, the use
 * Admin application management
 * Admin approval
 * Admin rejection
-* Automatic seller role transition after approval
+* Seller role transition after approval
 * Store creation for approved sellers
 
 ### Seller Panel
@@ -100,11 +103,11 @@ The seller panel is separated from the administrator panel to keep seller functi
 
 SecondBook currently uses three main user roles:
 
-| Role     | Description                   |
-| -------- | ----------------------------- |
-| `admin`  | Full platform administration  |
-| `user`   | Customer/buyer account        |
-| `seller` | Approved seller/store account |
+| Role     | Description                     |
+| -------- | ------------------------------- |
+| `admin`  | Full platform administration    |
+| `user`   | Customer / buyer account        |
+| `seller` | Approved seller / store account |
 
 ### User
 
@@ -112,31 +115,42 @@ A regular user can:
 
 * Browse books
 * Search and filter books
+* Browse categories and authors
 * Manage wishlist
 * Manage cart
 * Checkout
 * Place orders
 * View order history
-* Review purchased books
+* View order details
+* Review eligible purchases
+* Manage profile
 * Manage account settings
+* Change password
 * Apply to become a seller
+
+Regular users **cannot directly create or sell books**. Selling functionality becomes available through the seller application and approval process.
 
 ### Seller
 
 A seller is an approved store account that can:
 
 * Manage their store
+* Manage store settings
 * Add books
 * Edit books
+* Delete books
 * Manage inventory
+* Manage prices
+* Manage book conditions
 * Manage seller orders
 * Process orders
-* View sales
+* Add order notes
+* View sales information
 * Receive buyer reviews
 
 ### Admin
 
-Administrators have access to the platform management system and can manage users, sellers, books, orders, reviews, content, settings, reports and other platform functionality.
+Administrators have access to the platform management system and can manage users, sellers, books, orders, reviews, content, settings, reports, permissions and other administrative functionality.
 
 ---
 
@@ -238,16 +252,16 @@ Checkout
  ↓
 Shipping Information
  ↓
-Order
- ↓
 Payment
+ ↓
+Order
  ↓
 Order Processing
  ↓
 Delivery
 ```
 
-The frontend cart uses AJAX interactions to provide a smoother shopping experience without requiring a full page reload for every cart operation.
+The frontend cart uses AJAX interactions to provide a smoother shopping experience without requiring a full page reload for common cart operations.
 
 The header cart count can also be updated dynamically after successful cart actions.
 
@@ -267,6 +281,14 @@ Shipping-related functionality includes:
 * Checkout shipping information
 
 The estimated delivery message can be configured through the application's shipping settings.
+
+For example:
+
+```text
+3-5 business days
+```
+
+The delivery message is handled as shipping information and is kept separate from checkout fields such as the country input.
 
 ---
 
@@ -299,12 +321,13 @@ Order functionality includes:
 
 * Order creation
 * Order listing
-* Order details
 * Customer order history
-* Seller order management
+* Order details
 * Order status
 * Payment information
 * Shipping information
+* Seller order management
+* Order processing
 * Processing deadline
 * Order notes
 * Refund-related functionality
@@ -329,24 +352,97 @@ Wishlist functionality includes:
 
 # 🔐 Authentication & Account Management
 
-SecondBook includes an authentication system with account management functionality.
+SecondBook includes a dedicated authentication and account management system.
 
-Features include:
+### Authentication
 
 * User registration
 * User login
 * Logout
 * Remember me
-* Email verification handling
-* Password reset
-* OTP-based password reset
-* Six-digit OTP
-* OTP resend cooldown
-* Account settings
-* User settings
 * Account status handling
+* Registration settings
+* Password management
+* Password reset
+* OTP-based password recovery
+* Six-digit OTP verification
+* OTP resend flow
+* Password visibility controls
 
-The application also supports configurable registration settings through the platform settings system.
+The authentication interface has been redesigned around a unified premium SecondBook visual system.
+
+The authentication pages include dedicated interfaces for:
+
+* Login
+* Registration
+* Password Reset
+* Password Verification
+
+### Password Recovery
+
+The password recovery process follows this flow:
+
+```text
+Enter Email
+     ↓
+Generate 6-Digit OTP
+     ↓
+Store OTP
+     ↓
+Send OTP by Email
+     ↓
+Verify OTP
+     ↓
+Create New Password
+```
+
+Password reset OTP information is stored in the `password_otps` database table.
+
+OTP records contain:
+
+* Email
+* Six-digit OTP code
+* Expiration time
+* Created timestamp
+* Updated timestamp
+
+OTP codes are generated with an expiration period and are used during the password verification process.
+
+### Password Requirements
+
+The account password change system currently requires:
+
+* Minimum 8 characters
+* At least one lowercase letter
+* At least one number
+* Password confirmation
+* New password must differ from the current password
+* Maximum 128 characters
+
+Uppercase characters and special characters are **not required**.
+
+Password changes are handled through an AJAX-based interface without requiring a full page refresh.
+
+---
+
+# 👤 Account Management
+
+Users have access to a dedicated account area.
+
+Account functionality includes:
+
+* My Profile
+* Edit Profile
+* Account Settings
+* Password Change
+* Password Requirements
+* Notifications
+* Orders
+* Wishlist
+* Reviews
+* Seller Application
+
+The profile and account-related interfaces use dedicated frontend styling and responsive layouts.
 
 ---
 
@@ -359,12 +455,28 @@ The platform uses:
 * Authentication middleware
 * Admin middleware
 * Seller middleware
-* Permission-based admin access
 * Role-based access control
+* Permission-based admin access
 
-The seller middleware helps prevent normal users from accessing seller-specific functionality.
+Seller middleware helps prevent normal users from accessing seller-specific functionality.
 
 The admin area also uses permission-based authorization for protected administrative modules.
+
+The application therefore separates the main access layers:
+
+```text
+Customer
+   │
+   └── Frontend
+
+Seller
+   │
+   └── Seller Panel
+
+Admin
+   │
+   └── Admin Panel
+```
 
 ---
 
@@ -372,7 +484,7 @@ The admin area also uses permission-based authorization for protected administra
 
 SecondBook includes a dedicated administration interface for managing the platform.
 
-The admin panel is built separately from the customer and seller interfaces.
+The admin panel is separated from both the customer-facing marketplace and seller panel.
 
 ### Admin Modules
 
@@ -413,46 +525,59 @@ The current admin architecture includes modules for:
 
 The administration dashboard provides platform-level information and management tools.
 
-Dashboard information includes statistics and recent platform activity.
+Dashboard information includes statistics and recent platform activity such as:
 
-Analytics functionality includes date-based filtering and platform data analysis involving areas such as:
+* Total books
+* Total users
+* Total categories
+* Total authors
+* Recent books
+* Recent users
+* Recent categories
+* Order statistics
+* Revenue information
+* Monthly overview
+
+The dashboard also includes chart-based data visualization.
+
+Analytics and reporting functionality covers areas such as:
 
 * Books
 * Orders
 * Users
+* Sales
 
-The project also includes reporting interfaces for:
-
-* Book reports
-* Sales reports
-* User reports
+The administration system also contains dedicated report interfaces for platform data analysis.
 
 ---
 
 # 🎨 Admin UI
 
-The admin panel uses a modern dashboard-oriented interface.
+The admin panel uses a modern dashboard-oriented interface focused on clear information hierarchy and responsive administration workflows.
 
-Technologies and UI components include:
+The admin interface uses:
 
-* Bootstrap 5
+* Bootstrap 5.3
 * Bootstrap Icons
 * Plus Jakarta Sans
 * Chart.js
 * SweetAlert2
 * Custom CSS architecture
 * Responsive layouts
-* Dark mode
+* Light theme
+* Dark theme
 
-The admin theme supports light and dark modes while preserving the selected theme using browser storage.
+The administration interface uses a dedicated admin visual system rather than sharing the customer-facing marketplace styling.
 
 ---
 
-# 🌙 Dark Mode
+# 🌙 Admin Dark Mode
 
-The admin panel supports a dedicated dark theme.
+SecondBook's **dark mode is available only in the Admin Panel**.
 
-The theme state is stored using:
+The customer-facing frontend does not currently provide a general dark-mode switch.
+
+The admin theme state is stored using:
 
 ```text
 admin_theme
@@ -466,7 +591,22 @@ data-theme="dark"
 
 for dark theme activation.
 
-Dark-mode styling is also applied to interactive components such as alerts and form controls.
+The admin dark theme is designed to cover the major administrative UI components, including:
+
+* Dashboard elements
+* Cards
+* Tables
+* Pagination
+* Badges
+* Filters
+* Select controls
+* Form inputs
+* Alerts
+* Modals
+* Notifications
+* Interactive components
+
+The selected admin theme is preserved using browser storage.
 
 ---
 
@@ -476,7 +616,7 @@ SecondBook includes several content-management areas inside the admin panel.
 
 ### Banners
 
-Administrators can manage promotional or informational banners.
+Administrators can manage promotional and informational banners.
 
 ### Blogs
 
@@ -499,9 +639,65 @@ The messaging system includes:
 
 # 🔔 Notifications
 
-The project includes notification-related functionality for platform users.
+SecondBook includes notification functionality within the application.
 
-Notification data can be managed through the application and seeded during development.
+The admin panel provides notification management functionality, including notification types and administrative controls.
+
+The notification interface supports different notification categories such as:
+
+* General
+* Promotion
+
+---
+
+# 📝 Activity Logs
+
+SecondBook includes an administrative activity logging system.
+
+Activity logs are designed to record important administrative operations such as:
+
+* Created records
+* Updated records
+* Deleted records
+* Status changes
+
+Activity logging has been integrated into important administrative areas, including:
+
+* Users
+* Books
+* Categories
+* Authors
+* Publishers
+* Orders
+* Payments
+* Coupons
+* Sellers
+* Reviews
+* Seller Applications
+
+This provides an audit trail for important administrative changes.
+
+---
+
+# 🎟️ Coupons
+
+The marketplace includes coupon functionality for promotional discounts.
+
+Administrators can manage:
+
+* Coupon codes
+* Coupon status
+* Discount configuration
+* Coupon availability
+* Coupon-related order processing
+
+---
+
+# 💾 Backup
+
+The administration system includes backup functionality as part of the platform management tools.
+
+Backup operations are intended to help administrators manage application data backups during development and administration.
 
 ---
 
@@ -509,7 +705,7 @@ Notification data can be managed through the application and seeded during devel
 
 SecondBook uses Laravel migrations and seeders to build and populate the application database.
 
-The project includes seeders for areas such as:
+The development database seeding process includes data for major marketplace areas such as:
 
 * Roles and permissions
 * Users
@@ -520,19 +716,6 @@ The project includes seeders for areas such as:
 * Stores
 * Seller books
 * Seller orders
-* Seller applications
-* Reviews
-* Wishlists
-* Coupons
-* FAQ
-* Messages
-* Message replies
-* Notifications
-* Settings
-* User settings
-* Shipping
-* Banners
-* Blogs
 
 The main database seeding process is coordinated through:
 
@@ -540,13 +723,15 @@ The main database seeding process is coordinated through:
 DatabaseSeeder
 ```
 
-The seeders are ordered so that required relationships can be created correctly.
+The seeders are executed in an appropriate order so that required relationships and dependent records can be created correctly.
+
+The application database is built using Laravel migrations covering marketplace, seller, buyer, authentication, order, review, settings and administrative functionality.
 
 ---
 
 # 🏗️ Application Architecture
 
-The application follows Laravel's MVC architecture.
+SecondBook follows Laravel's MVC architecture and separates customer, seller and administrative functionality.
 
 ```text
 SecondBook
@@ -555,13 +740,15 @@ SecondBook
 │   ├── Http
 │   │   ├── Controllers
 │   │   │   ├── Admin
+│   │   │   ├── Auth
 │   │   │   ├── Frontend
 │   │   │   └── Seller
+│   │   │
 │   │   └── Middleware
 │   │
 │   ├── Models
 │   │
-│   └── ...
+│   └── Services
 │
 ├── database
 │   ├── migrations
@@ -569,30 +756,67 @@ SecondBook
 │
 ├── public
 │   ├── admin
-│   │   ├── css
-│   │   ├── images
-│   │   └── js
-│   │
-│   └── ...
+│   └── frontend
 │
 ├── resources
 │   └── views
 │       ├── Admin
+│       ├── Auth
 │       ├── Frontend
-│       ├── Seller
-│       └── errors
+│       ├── Layout
+│       └── Seller
 │
 ├── routes
-│   └── web.php
 │
-└── ...
+└── README.md
 ```
+
+---
+
+# 🎨 Frontend CSS Architecture
+
+Page-specific frontend styling is organized under:
+
+```text
+public/frontend/css/
+```
+
+The project uses dedicated stylesheets for major frontend interfaces, including:
+
+```text
+account-settings.css
+auth-login.css
+auth-register.css
+auth-password-reset.css
+auth-password-verify.css
+cart.css
+checkout.css
+edit-profile.css
+faq.css
+help-center.css
+notifications.css
+order-details.css
+order-tracking.css
+orders.css
+payment.css
+privacy-policy.css
+profile.css
+return-policy.css
+review.css
+seller-application.css
+shipping-information.css
+wishlist.css
+```
+
+This page-specific CSS structure helps keep frontend styling modular and maintainable.
+
+Legacy shared authentication styling and obsolete frontend files have also been removed as part of the frontend cleanup.
 
 ---
 
 # 🔗 Main Relationships
 
-The project contains several important Eloquent relationships.
+SecondBook contains several important Eloquent relationships.
 
 ### User
 
@@ -616,11 +840,11 @@ A book can belong to:
 * Publisher
 * Seller
 
-A book can also have:
+A book can also have relationships with:
 
 * Reviews
 * Orders
-* Wishlist relationships
+* Wishlist items
 
 ### Store
 
@@ -634,7 +858,7 @@ User
 
 ### Seller Application
 
-The seller application connects a customer with the seller approval process.
+A seller application connects a customer with the seller approval workflow.
 
 ```text
 User
@@ -642,11 +866,103 @@ User
  └── SellerApplication
 ```
 
+### Review
+
+A review connects the buyer with the relevant book and order.
+
+```text
+User
+ │
+ └── Review
+       ├── Book
+       └── Order
+```
+
+---
+
+# 🔄 Marketplace Workflows
+
+## Buyer Workflow
+
+```text
+Browse Books
+     ↓
+Book Details
+     ↓
+Wishlist / Cart
+     ↓
+Checkout
+     ↓
+Shipping Information
+     ↓
+Payment
+     ↓
+Order
+     ↓
+Order Processing
+     ↓
+Delivery
+     ↓
+Review
+```
+
+## Seller Workflow
+
+```text
+Register
+     ↓
+Become a Seller
+     ↓
+Submit Application
+     ↓
+Admin Review
+     ↓
+Approval
+     ↓
+Seller Account
+     ↓
+Store
+     ↓
+Add Books
+     ↓
+Receive Orders
+     ↓
+Process Orders
+     ↓
+Sales
+```
+
+## Admin Workflow
+
+```text
+Admin Login
+     ↓
+Dashboard
+     ↓
+Platform Management
+     ↓
+Users & Sellers
+     ↓
+Seller Applications
+     ↓
+Books & Orders
+     ↓
+Payments
+     ↓
+Reviews
+     ↓
+Reports & Analytics
+     ↓
+Activity Logs
+     ↓
+System Settings
+```
+
 ---
 
 # ⚙️ Technologies
 
-SecondBook is built with:
+SecondBook is built with the following technologies:
 
 ### Backend
 
@@ -655,13 +971,16 @@ SecondBook is built with:
 * Laravel Eloquent ORM
 * Laravel Middleware
 * Laravel Blade
+* Laravel Validation
+* Laravel Sessions
+* Laravel Mail
 
 ### Frontend
 
 * HTML5
 * CSS3
 * JavaScript
-* Bootstrap 5
+* Bootstrap 5.3
 * Bootstrap Icons
 * AJAX / Fetch API
 
@@ -681,6 +1000,7 @@ SecondBook is built with:
 * Git
 * GitHub
 * Visual Studio Code
+* Composer
 
 ---
 
@@ -692,7 +1012,7 @@ SecondBook is built with:
 git clone https://github.com/ElmirVelizade2006/SecondBook.git
 ```
 
-## 2. Enter the project
+## 2. Enter the project directory
 
 ```bash
 cd SecondBook
@@ -704,15 +1024,19 @@ cd SecondBook
 composer install
 ```
 
-## 4. Create environment file
+## 4. Create the environment file
 
 ```bash
 cp .env.example .env
 ```
 
-On Windows PowerShell, you can also create the environment file manually from `.env.example`.
+On Windows PowerShell:
 
-## 5. Generate application key
+```powershell
+Copy-Item .env.example .env
+```
+
+## 5. Generate the application key
 
 ```bash
 php artisan key:generate
@@ -720,7 +1044,7 @@ php artisan key:generate
 
 ## 6. Configure the database
 
-Update the `.env` file:
+Update the `.env` file according to your local MySQL configuration:
 
 ```env
 DB_CONNECTION=mysql
@@ -745,47 +1069,55 @@ php artisan migrate
 php artisan db:seed
 ```
 
-Or, if you are working with a fresh development database:
+For a fresh development database:
 
 ```bash
 php artisan migrate:fresh --seed
 ```
 
-## 9. Create storage link
+## 9. Create the storage link
 
 ```bash
 php artisan storage:link
 ```
 
-## 10. Start the Laravel development server
+## 10. Start the development server
 
 ```bash
 php artisan serve
 ```
 
-The application will then be available through the local Laravel server.
-
 ---
 
-# 🧪 Development
+# 🧪 Development Commands
 
-During development, useful Laravel commands include:
+Useful Laravel development commands include:
+
+### List routes
 
 ```bash
 php artisan route:list
 ```
 
+### Check migration status
+
 ```bash
 php artisan migrate:status
 ```
+
+### Seed the database
 
 ```bash
 php artisan db:seed
 ```
 
+### Clear application caches
+
 ```bash
 php artisan optimize:clear
 ```
+
+### Create storage link
 
 ```bash
 php artisan storage:link
@@ -795,13 +1127,13 @@ php artisan storage:link
 
 # 🔄 Database Reset
 
-For a clean development environment:
+For a completely fresh development database:
 
 ```bash
 php artisan migrate:fresh --seed
 ```
 
-> **Warning:** This command deletes existing database tables and recreates them.
+> ⚠️ **Warning:** This command deletes existing database tables and recreates them.
 
 ---
 
@@ -816,7 +1148,35 @@ Responsive interfaces are provided for:
 * Tablet
 * Mobile
 
-Both the customer-facing application and administration interface contain responsive styling.
+Responsive styling is implemented throughout:
+
+* Customer marketplace
+* Authentication pages
+* Account pages
+* Seller panel
+* Admin panel
+
+The project uses page-specific responsive CSS to maintain consistent layouts across different viewport sizes.
+
+---
+
+# 🔒 Security
+
+SecondBook uses Laravel's built-in security mechanisms together with application-level authorization.
+
+Important security areas include:
+
+* Authentication
+* CSRF protection
+* Middleware
+* Role-based authorization
+* Permission-based authorization
+* Seller authorization
+* Request validation
+* Protected administrative routes
+* Session-based authentication
+
+Sensitive environment configuration should remain inside `.env` and should never be committed to the repository.
 
 ---
 
@@ -829,10 +1189,12 @@ SecondBook was developed with several goals in mind:
 * Provide independent seller stores
 * Provide centralized platform administration
 * Build a practical Laravel marketplace architecture
-* Implement real-world order and shipping flows
+* Implement real-world shopping and order workflows
 * Connect buyers, sellers and books through meaningful relationships
-* Provide a maintainable MVC-based codebase
+* Build a structured MVC-based codebase
+* Maintain separated customer, seller and admin experiences
 * Create a responsive and modern user interface
+* Practice real-world Laravel application development
 
 ---
 
@@ -840,73 +1202,19 @@ SecondBook was developed with several goals in mind:
 
 Potential future improvements include:
 
-* More advanced seller analytics
-* Advanced search
+* Advanced marketplace search
+* More detailed seller analytics
 * Improved recommendation system
-* More payment integrations
-* Automated email notifications
-* More detailed sales reports
+* Additional payment integrations
 * Advanced inventory management
-* Product image optimization
-* API layer for mobile applications
+* More detailed reporting
+* Automated email notifications
+* API expansion
 * Automated testing
-* CI/CD with GitHub Actions
-* Improved application monitoring
+* CI/CD integration
+* Performance optimization
+* Production deployment improvements
 * Additional marketplace features
-
----
-
-# 📸 Screenshots
-
-Screenshots of the following interfaces can be added here:
-
-* Home page
-* Books page
-* Book details
-* Cart
-* Checkout
-* Orders
-* Seller dashboard
-* Seller books
-* Seller orders
-* Store settings
-* Admin dashboard
-* Admin analytics
-* Admin reports
-* Admin reviews
-
-Example:
-
-```text
-screenshots/
-├── home.png
-├── books.png
-├── book-details.png
-├── checkout.png
-├── seller-dashboard.png
-├── seller-books.png
-├── admin-dashboard.png
-└── admin-analytics.png
-```
-
----
-
-# 🔒 Security
-
-The project uses Laravel's built-in security mechanisms together with application-level authorization.
-
-Important areas include:
-
-* Authentication
-* CSRF protection
-* Middleware
-* Role-based authorization
-* Permission-based authorization
-* Seller authorization
-* Form validation
-* Protected administrative routes
-
-Sensitive environment configuration should remain inside `.env` and should never be committed to the repository.
 
 ---
 
@@ -914,29 +1222,42 @@ Sensitive environment configuration should remain inside `.env` and should never
 
 SecondBook is an actively developed Laravel marketplace project.
 
-The core marketplace architecture includes:
+The core platform currently includes:
 
 ```text
-Buyer
-  │
-  ├── Browse Books
-  ├── Wishlist
-  ├── Cart
-  ├── Checkout
-  ├── Orders
-  └── Reviews
-          │
-          ▼
-       Books
-          │
-          ▼
-       Sellers
-          │
-          ▼
-        Stores
-          │
-          ▼
-        Admin
+Customer Marketplace
+        │
+        ├── Books
+        ├── Categories
+        ├── Authors
+        ├── Wishlist
+        ├── Cart
+        ├── Checkout
+        ├── Orders
+        └── Reviews
+                │
+                ▼
+        Seller Marketplace
+                │
+                ├── Applications
+                ├── Stores
+                ├── Books
+                ├── Orders
+                └── Sales
+                        │
+                        ▼
+                  Admin Panel
+                        │
+                        ├── Users
+                        ├── Sellers
+                        ├── Books
+                        ├── Orders
+                        ├── Payments
+                        ├── Reviews
+                        ├── Reports
+                        ├── Analytics
+                        ├── Activity Logs
+                        └── Settings
 ```
 
 ---
@@ -945,22 +1266,35 @@ Buyer
 
 **Elmir Velizade**
 
-Laravel / PHP / Web Development
+PHP • Laravel • JavaScript • Web Development
 
-SecondBook is developed as a full-stack Laravel marketplace project with a focus on practical application architecture, database relationships, authentication, authorization, marketplace workflows and responsive UI development.
+SecondBook is developed as a full-stack Laravel marketplace project with a focus on:
+
+* Backend architecture
+* Database design
+* Eloquent relationships
+* Authentication
+* Authorization
+* Marketplace workflows
+* Seller systems
+* Admin management
+* Frontend UI/UX
+* Responsive web development
 
 ---
 
-## 📄 License
+# 📄 License
 
-This project is currently intended as a personal/portfolio development project.
+This project is currently intended as a personal and portfolio development project.
 
 ---
 
-⭐ **If you find the project interesting, feel free to explore the repository and follow the development progress.**
+<div align="center">
 
+## 📚 SecondBook
 
-Clone the repository:
+### Give every book a second life.
 
+**Built with ❤️ using Laravel.**
 
-git clone https://github.com/ElmirVelizade/SecondBook.git
+</div>
