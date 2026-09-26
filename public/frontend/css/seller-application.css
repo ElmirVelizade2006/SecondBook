@@ -1,432 +1,1363 @@
 /* =========================================================
-   SELLER APPLICATION
+   SECOND BOOK — SELLER APPLICATION
+   Premium Editorial Style
 ========================================================= */
 
-.seller-application-page {
-    min-height: 70vh;
-    padding: 30px 0 80px;
+:root {
+    --sb-seller-bg: #fbf8f5;
+    --sb-seller-surface: #ffffff;
+    --sb-seller-surface-soft: #f7f2ed;
+
+    --sb-seller-brown: #8b5e3c;
+    --sb-seller-brown-dark: #70472d;
+    --sb-seller-brown-light: #a87852;
+
+    --sb-seller-text: #241c17;
+    --sb-seller-muted: #746a63;
+    --sb-seller-light-text: #988e86;
+
+    --sb-seller-border: #e8dfd8;
+    --sb-seller-border-light: #eee7e1;
+
+    --sb-seller-success: #47745c;
+    --sb-seller-success-bg: #eef7f1;
+
+    --sb-seller-info: #60758b;
+    --sb-seller-info-bg: #f0f5f9;
+
+    --sb-seller-danger: #a04d45;
+    --sb-seller-danger-bg: #fff2f0;
+
+    --sb-seller-shadow:
+        0 14px 40px rgba(54, 39, 29, .07);
+
+    --sb-seller-shadow-hover:
+        0 20px 48px rgba(54, 39, 29, .11);
+
+    --sb-seller-radius: 19px;
+    --sb-seller-small-radius: 13px;
 }
+
 
 /* =========================================================
-   HEADER
+   PAGE
 ========================================================= */
 
-.seller-application-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 8px 15px;
-    border-radius: 50px;
-    background: rgba(139, 94, 60, 0.10);
-    color: #8b5e3c;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.8px;
+.sb-seller-page {
+    background:
+        radial-gradient(
+            circle at 10% 5%,
+            rgba(139, 94, 60, .055),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 90% 20%,
+            rgba(139, 94, 60, .045),
+            transparent 25%
+        ),
+        var(--sb-seller-bg);
+
+    min-height: 100vh;
+    padding: 72px 0 100px;
+    color: var(--sb-seller-text);
 }
 
-.seller-application-title {
-    color: #1f2937;
-    font-size: 42px;
-    font-weight: 700;
-    line-height: 1.2;
-}
-
-.seller-application-subtitle {
-    max-width: 650px;
-    margin: 15px auto 0;
-    color: #6b7280;
-    font-size: 16px;
-    line-height: 1.7;
-}
 
 /* =========================================================
-   CARDS
+   HERO
 ========================================================= */
 
-.seller-info-card,
-.seller-form-card,
-.seller-status-card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 22px;
-    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.04);
-}
-
-.seller-info-card {
-    padding: 35px;
-}
-
-.seller-form-card {
-    padding: 35px;
-}
-
-/* =========================================================
-   INFORMATION CARD
-========================================================= */
-
-.seller-info-icon {
-    width: 58px;
-    height: 58px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 16px;
-    background: #8b5e3c;
-    color: #ffffff;
-    font-size: 25px;
-    margin-bottom: 22px;
-}
-
-.seller-info-card h3 {
-    margin-bottom: 12px;
-    color: #1f2937;
-    font-size: 24px;
-    font-weight: 700;
-}
-
-.seller-info-card > p {
-    color: #6b7280;
-    line-height: 1.7;
-    margin-bottom: 30px;
-}
-
-/* =========================================================
-   BENEFITS
-========================================================= */
-
-.seller-benefits {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-}
-
-.seller-benefit {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-}
-
-.benefit-icon {
-    width: 42px;
-    height: 42px;
-    flex: 0 0 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px;
-    background: #f5eee9;
-    color: #8b5e3c;
-    font-size: 18px;
-}
-
-.seller-benefit h6 {
-    margin: 1px 0 4px;
-    color: #1f2937;
-    font-weight: 700;
-}
-
-.seller-benefit span {
-    color: #6b7280;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-/* =========================================================
-   FORM HEADER
-========================================================= */
-
-.seller-form-header {
-    margin-bottom: 30px;
-}
-
-.seller-form-header h3 {
-    margin-bottom: 7px;
-    color: #1f2937;
-    font-size: 24px;
-    font-weight: 700;
-}
-
-.seller-form-header p {
-    margin: 0;
-    color: #6b7280;
-    font-size: 14px;
-}
-
-/* =========================================================
-   FORM
-========================================================= */
-
-.seller-form-card .form-label {
-    color: #374151;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 9px;
-}
-
-.seller-input-wrapper {
-    position: relative;
-}
-
-.seller-input-wrapper > i {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2;
-    color: #9ca3af;
-}
-
-.seller-input-wrapper .form-control {
-    height: 50px;
-    padding-left: 44px;
-    border: 1px solid #e5e7eb;
-    border-radius: 13px;
-    color: #1f2937;
-    background: #ffffff;
-    box-shadow: none;
-}
-
-.seller-form-card .form-control:focus {
-    border-color: #8b5e3c;
-    box-shadow: 0 0 0 3px rgba(139, 94, 60, 0.10);
-}
-
-.seller-form-card .form-control::placeholder {
-    color: #9ca3af;
-}
-
-.seller-textarea {
-    resize: vertical;
-    min-height: 130px;
-    padding: 14px 15px !important;
-    border-radius: 13px;
-}
-
-/* =========================================================
-   FORM FOOTER
-========================================================= */
-
-.seller-form-footer {
+.sb-seller-hero {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
-    padding-top: 10px;
+    gap: 60px;
+
+    padding: 20px 0 72px;
 }
 
-.seller-privacy {
-    display: flex;
+.sb-seller-hero-content {
+    max-width: 760px;
+}
+
+.sb-seller-eyebrow {
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
-    color: #6b7280;
-    font-size: 12px;
-    line-height: 1.5;
+    gap: 10px;
+
+    color: var(--sb-seller-brown);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
 }
 
-.seller-privacy i {
-    color: #8b5e3c;
-    font-size: 17px;
+.sb-seller-eyebrow-icon {
+    width: 34px;
+    height: 34px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--sb-seller-border);
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, .7);
+    box-shadow: 0 7px 20px rgba(54, 39, 29, .06);
 }
 
-.seller-submit-btn {
-    border: 0;
-    border-radius: 13px;
-    padding: 13px 22px;
-    background: #8b5e3c;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 600;
-    white-space: nowrap;
-    transition: 0.2s ease;
+.sb-seller-eyebrow-icon i {
+    font-size: 15px;
 }
 
-.seller-submit-btn:hover {
-    background: #754d31;
-    transform: translateY(-1px);
+.sb-seller-hero h1 {
+    margin: 24px 0 20px;
+
+    font-family: "Prata", Georgia, serif;
+    font-size: clamp(42px, 5vw, 70px);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -.035em;
 }
+
+.sb-seller-hero h1 span {
+    display: block;
+    color: var(--sb-seller-brown);
+}
+
+.sb-seller-hero p {
+    max-width: 650px;
+    margin: 0;
+
+    color: var(--sb-seller-muted);
+    font-size: 16px;
+    line-height: 1.8;
+}
+
 
 /* =========================================================
-   STATUS CARD
+   HERO MARK
 ========================================================= */
 
-.seller-status-card {
-    max-width: 850px;
-    margin: 0 auto;
-    padding: 35px;
-    display: flex;
-    align-items: flex-start;
-    gap: 22px;
-}
+.sb-seller-hero-mark {
+    position: relative;
 
-.seller-status-icon {
-    width: 58px;
-    height: 58px;
-    flex: 0 0 58px;
+    width: 190px;
+    min-width: 190px;
+    height: 190px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 16px;
-    background: #fff7ed;
-    color: #ea580c;
-    font-size: 24px;
+
+    border: 1px solid var(--sb-seller-border);
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #fff 0%,
+            #faf5f0 65%,
+            #f2e9e2 100%
+        );
+
+    box-shadow:
+        0 20px 50px rgba(54, 39, 29, .08);
+
+    transform: rotate(-5deg);
 }
 
-.seller-status-card.rejected .seller-status-icon {
-    background: #fef2f2;
-    color: #dc2626;
-}
+.sb-seller-hero-circle {
+    width: 88px;
+    height: 88px;
 
-.seller-status-label {
-    display: block;
-    margin-bottom: 6px;
-    color: #8b5e3c;
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-}
-
-.seller-status-content h3 {
-    margin-bottom: 10px;
-    color: #1f2937;
-    font-size: 23px;
-    font-weight: 700;
-}
-
-.seller-status-content p {
-    margin-bottom: 15px;
-    color: #6b7280;
-    line-height: 1.7;
-}
-
-.seller-status-badge {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    padding: 7px 12px;
-    border-radius: 50px;
-    font-size: 12px;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--sb-seller-brown);
+    color: #fff;
+
+    box-shadow: 0 15px 30px rgba(139, 94, 60, .24);
+}
+
+.sb-seller-hero-circle i {
+    font-size: 34px;
+}
+
+.sb-seller-hero-mark > span {
+    position: absolute;
+    right: -18px;
+    bottom: 18px;
+
+    padding: 9px 13px;
+
+    background: var(--sb-seller-text);
+    color: #fff;
+
+    border-radius: 8px;
+
+    font-size: 8px;
     font-weight: 700;
+    letter-spacing: .2em;
+    line-height: 1.45;
+
+    transform: rotate(5deg);
 }
 
-.seller-status-badge.pending {
-    background: #fff7ed;
-    color: #c2410c;
-}
-
-.rejection-reason {
-    padding: 14px 16px;
-    margin-top: 15px;
-    border-radius: 12px;
-    background: #fef2f2;
-    color: #991b1b;
-    font-size: 13px;
-    line-height: 1.6;
-}
 
 /* =========================================================
    ALERTS
 ========================================================= */
 
-.seller-alert {
-    max-width: 850px;
-    margin: 0 auto 25px;
-    border-radius: 13px;
+.sb-seller-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+
+    margin-bottom: 28px;
+    padding: 17px 20px;
+
+    border: 1px solid;
+    border-radius: var(--sb-seller-small-radius);
 }
+
+.sb-seller-alert-icon {
+    width: 38px;
+    min-width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+}
+
+.sb-seller-alert strong {
+    display: block;
+    margin-bottom: 3px;
+
+    font-size: 14px;
+}
+
+.sb-seller-alert p {
+    margin: 0;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.sb-seller-alert-success {
+    border-color: #d6e8dc;
+    background: var(--sb-seller-success-bg);
+    color: #3e654f;
+}
+
+.sb-seller-alert-success .sb-seller-alert-icon {
+    background: #dcefe3;
+}
+
+.sb-seller-alert-info {
+    border-color: #d9e4ec;
+    background: var(--sb-seller-info-bg);
+    color: #526b80;
+}
+
+.sb-seller-alert-info .sb-seller-alert-icon {
+    background: #e1ebf2;
+}
+
+.sb-seller-alert-danger {
+    border-color: #efd6d2;
+    background: var(--sb-seller-danger-bg);
+    color: var(--sb-seller-danger);
+}
+
+.sb-seller-alert-danger .sb-seller-alert-icon {
+    background: #f9dfdc;
+}
+
+.sb-seller-alert ul {
+    margin: 7px 0 0;
+    padding-left: 18px;
+
+    font-size: 13px;
+    line-height: 1.7;
+}
+
 
 /* =========================================================
-   DARK MODE
+   APPLICATION GRID
 ========================================================= */
 
-.dark-mode .seller-application-title,
-.dark-mode .seller-info-card h3,
-.dark-mode .seller-form-header h3,
-.dark-mode .seller-benefit h6,
-.dark-mode .seller-status-content h3 {
-    color: #f3f4f6;
+.sb-seller-application-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, .82fr) minmax(0, 1.5fr);
+    gap: 26px;
+
+    align-items: stretch;
 }
 
-.dark-mode .seller-application-subtitle,
-.dark-mode .seller-info-card > p,
-.dark-mode .seller-benefit span,
-.dark-mode .seller-form-header p,
-.dark-mode .seller-status-content p,
-.dark-mode .seller-privacy {
-    color: #9ca3af;
-}
-
-.dark-mode .seller-info-card,
-.dark-mode .seller-form-card,
-.dark-mode .seller-status-card {
-    background: #172033;
-    border-color: #263247;
-    box-shadow: none;
-}
-
-.dark-mode .seller-form-card .form-label {
-    color: #d1d5db;
-}
-
-.dark-mode .seller-input-wrapper .form-control,
-.dark-mode .seller-textarea {
-    background: #111827;
-    border-color: #334155;
-    color: #f3f4f6;
-}
-
-.dark-mode .seller-input-wrapper .form-control::placeholder,
-.dark-mode .seller-textarea::placeholder {
-    color: #6b7280;
-}
-
-.dark-mode .seller-benefit .benefit-icon {
-    background: #202b3d;
-    color: #c89b78;
-}
-
-.dark-mode .seller-application-badge {
-    background: rgba(200, 155, 120, 0.12);
-    color: #c89b78;
-}
-
-.dark-mode .seller-status-icon {
-    background: #2a251f;
-}
-
-.dark-mode .seller-status-card.rejected .seller-status-icon {
-    background: #2a2020;
-}
-
-.dark-mode .rejection-reason {
-    background: #2a2020;
-    color: #fca5a5;
-}
 
 /* =========================================================
-   RESPONSIVE
+   INFORMATION PANEL
 ========================================================= */
 
-@media (max-width: 767.98px) {
+.sb-seller-info {
+    position: relative;
+    overflow: hidden;
 
-    .seller-application-title {
-        font-size: 32px;
+    display: flex;
+    flex-direction: column;
+
+    min-height: 650px;
+    padding: 38px;
+
+    border-radius: var(--sb-seller-radius);
+
+    background:
+        radial-gradient(
+            circle at 90% 5%,
+            rgba(255, 255, 255, .13),
+            transparent 28%
+        ),
+        linear-gradient(
+            145deg,
+            #2b211b,
+            #211914
+        );
+
+    color: #fff;
+
+    box-shadow: var(--sb-seller-shadow);
+}
+
+.sb-seller-info::before {
+    content: "";
+    position: absolute;
+
+    width: 260px;
+    height: 260px;
+
+    top: -100px;
+    right: -90px;
+
+    border: 1px solid rgba(255, 255, 255, .09);
+    border-radius: 50%;
+}
+
+.sb-seller-info::after {
+    content: "";
+    position: absolute;
+
+    width: 190px;
+    height: 190px;
+
+    top: -65px;
+    right: -55px;
+
+    border: 1px solid rgba(255, 255, 255, .06);
+    border-radius: 50%;
+}
+
+.sb-seller-info-top {
+    position: relative;
+    z-index: 2;
+}
+
+.sb-seller-info-label {
+    display: block;
+
+    margin-bottom: 26px;
+
+    color: #c7a991;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+}
+
+.sb-seller-info-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 22px;
+
+    border: 1px solid rgba(255, 255, 255, .14);
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, .07);
+
+    color: #d8b89c;
+}
+
+.sb-seller-info-icon i {
+    font-size: 21px;
+}
+
+.sb-seller-info h2 {
+    margin: 0 0 17px;
+
+    font-family: "Prata", Georgia, serif;
+    font-size: 31px;
+    font-weight: 400;
+    line-height: 1.25;
+}
+
+.sb-seller-info h2 span {
+    display: block;
+    color: #c49b79;
+}
+
+.sb-seller-info-top p {
+    max-width: 400px;
+    margin: 0;
+
+    color: rgba(255, 255, 255, .62);
+
+    font-size: 14px;
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   BENEFITS
+========================================================= */
+
+.sb-seller-benefits {
+    position: relative;
+    z-index: 2;
+
+    margin-top: 45px;
+}
+
+.sb-seller-benefit {
+    display: grid;
+    grid-template-columns: 28px 42px 1fr;
+    gap: 14px;
+    align-items: start;
+
+    padding: 18px 0;
+
+    border-top: 1px solid rgba(255, 255, 255, .09);
+}
+
+.sb-seller-benefit-number {
+    padding-top: 4px;
+
+    color: rgba(255, 255, 255, .28);
+
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .08em;
+}
+
+.sb-seller-benefit-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: rgba(255, 255, 255, .07);
+    color: #c49b79;
+}
+
+.sb-seller-benefit-icon i {
+    font-size: 17px;
+}
+
+.sb-seller-benefit-content h3 {
+    margin: 1px 0 5px;
+
+    color: #fff;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.sb-seller-benefit-content p {
+    margin: 0;
+
+    color: rgba(255, 255, 255, .48);
+
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   INFO FOOTER
+========================================================= */
+
+.sb-seller-info-footer {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin-top: auto;
+    padding-top: 28px;
+
+    border-top: 1px solid rgba(255, 255, 255, .09);
+
+    color: rgba(255, 255, 255, .4);
+
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.sb-seller-info-footer i {
+    color: #c49b79;
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   FORM CARD
+========================================================= */
+
+.sb-seller-form-card {
+    padding: 42px;
+
+    border: 1px solid var(--sb-seller-border);
+    border-radius: var(--sb-seller-radius);
+
+    background: var(--sb-seller-surface);
+
+    box-shadow: var(--sb-seller-shadow);
+}
+
+
+/* =========================================================
+   FORM HEADING
+========================================================= */
+
+.sb-seller-form-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 30px;
+
+    padding-bottom: 28px;
+
+    border-bottom: 1px solid var(--sb-seller-border-light);
+}
+
+.sb-seller-section-label {
+    display: block;
+
+    margin-bottom: 11px;
+
+    color: var(--sb-seller-brown);
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+}
+
+.sb-seller-form-heading h2 {
+    margin: 0;
+
+    font-family: "Prata", Georgia, serif;
+    font-size: 31px;
+    font-weight: 400;
+    line-height: 1.25;
+}
+
+.sb-seller-form-heading h2 span {
+    color: var(--sb-seller-brown);
+}
+
+.sb-seller-form-step {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3px;
+}
+
+.sb-seller-form-step span {
+    color: var(--sb-seller-brown);
+
+    font-family: "Prata", Georgia, serif;
+    font-size: 23px;
+}
+
+.sb-seller-form-step small {
+    color: var(--sb-seller-light-text);
+
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   FORM INTRO
+========================================================= */
+
+.sb-seller-form-intro {
+    margin: 24px 0 31px;
+
+    color: var(--sb-seller-muted);
+
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.sb-seller-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.sb-seller-field {
+    margin: 0;
+}
+
+.sb-seller-field label {
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: var(--sb-seller-text);
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.sb-seller-field label span {
+    color: var(--sb-seller-brown);
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.sb-seller-input {
+    position: relative;
+}
+
+.sb-seller-input > i {
+    position: absolute;
+    left: 17px;
+    top: 50%;
+
+    z-index: 2;
+
+    color: var(--sb-seller-light-text);
+
+    font-size: 15px;
+
+    transform: translateY(-50%);
+    transition: color .2s ease;
+}
+
+.sb-seller-input input,
+.sb-seller-textarea textarea {
+    width: 100%;
+
+    border: 1px solid var(--sb-seller-border);
+    border-radius: var(--sb-seller-small-radius);
+
+    background: #fff;
+
+    color: var(--sb-seller-text);
+
+    font-family: inherit;
+    font-size: 13px;
+
+    outline: none;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
+}
+
+.sb-seller-input input {
+    height: 53px;
+    padding: 0 17px 0 46px;
+}
+
+.sb-seller-input input::placeholder,
+.sb-seller-textarea textarea::placeholder {
+    color: #aaa09a;
+}
+
+.sb-seller-input:focus-within > i {
+    color: var(--sb-seller-brown);
+}
+
+.sb-seller-input:focus-within input,
+.sb-seller-textarea:focus-within textarea {
+    border-color: rgba(139, 94, 60, .55);
+
+    box-shadow:
+        0 0 0 4px rgba(139, 94, 60, .07);
+}
+
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.sb-seller-textarea {
+    position: relative;
+}
+
+.sb-seller-textarea textarea {
+    min-height: 138px;
+
+    padding: 16px 45px 16px 17px;
+
+    resize: vertical;
+    line-height: 1.7;
+}
+
+.sb-seller-textarea > span {
+    position: absolute;
+    top: 17px;
+    right: 17px;
+
+    color: #b1a7a0;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   TWO COLUMN FIELDS
+========================================================= */
+
+.sb-seller-fields-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+
+/* =========================================================
+   VALIDATION ERROR
+========================================================= */
+
+.sb-seller-field-error {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    margin-top: 8px;
+
+    color: var(--sb-seller-danger);
+
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.sb-seller-field-error i {
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   FORM FOOTER
+========================================================= */
+
+.sb-seller-form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+
+    margin-top: 5px;
+    padding-top: 28px;
+
+    border-top: 1px solid var(--sb-seller-border-light);
+}
+
+.sb-seller-security {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    max-width: 330px;
+}
+
+.sb-seller-security-icon {
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--sb-seller-success-bg);
+    color: var(--sb-seller-success);
+}
+
+.sb-seller-security strong {
+    display: block;
+
+    margin-bottom: 2px;
+
+    color: var(--sb-seller-text);
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.sb-seller-security span:last-child {
+    display: block;
+
+    color: var(--sb-seller-light-text);
+
+    font-size: 10px;
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
+
+.sb-seller-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+
+    min-height: 53px;
+    padding: 0 21px;
+
+    border: 1px solid var(--sb-seller-brown);
+    border-radius: 12px;
+
+    background: var(--sb-seller-brown);
+    color: #fff;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 9px 22px rgba(139, 94, 60, .18);
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.sb-seller-submit i {
+    font-size: 14px;
+
+    transition: transform .2s ease;
+}
+
+.sb-seller-submit:hover {
+    background: var(--sb-seller-brown-dark);
+    border-color: var(--sb-seller-brown-dark);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 13px 27px rgba(139, 94, 60, .23);
+}
+
+.sb-seller-submit:hover i {
+    transform: translate(2px, -2px);
+}
+
+.sb-seller-submit:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   STATUS CARD
+========================================================= */
+
+.sb-seller-status {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 42px;
+    align-items: center;
+
+    padding: 55px;
+
+    border: 1px solid var(--sb-seller-border);
+    border-radius: var(--sb-seller-radius);
+
+    background: #fff;
+
+    box-shadow: var(--sb-seller-shadow);
+}
+
+.sb-seller-status-visual {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sb-seller-status-icon {
+    width: 116px;
+    height: 116px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--sb-seller-surface-soft);
+    color: var(--sb-seller-brown);
+
+    font-size: 38px;
+
+    box-shadow:
+        inset 0 0 0 1px var(--sb-seller-border);
+}
+
+.sb-seller-status-pulse {
+    position: absolute;
+
+    width: 136px;
+    height: 136px;
+
+    border: 1px solid rgba(139, 94, 60, .16);
+    border-radius: 50%;
+}
+
+.sb-seller-status-content {
+    max-width: 700px;
+}
+
+.sb-seller-status-content h2 {
+    margin: 0 0 15px;
+
+    font-family: "Prata", Georgia, serif;
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 1.3;
+}
+
+.sb-seller-status-content h2 span {
+    color: var(--sb-seller-brown);
+}
+
+.sb-seller-status-content > p {
+    max-width: 650px;
+    margin: 0;
+
+    color: var(--sb-seller-muted);
+
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.sb-seller-status-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+
+    margin-top: 25px;
+}
+
+.sb-seller-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 8px 12px;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.sb-seller-status-badge.pending {
+    background: #fbf1df;
+    color: #9a6d35;
+}
+
+.sb-seller-status-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    color: var(--sb-seller-light-text);
+
+    font-size: 10px;
+}
+
+.sb-seller-status-note i {
+    color: var(--sb-seller-success);
+}
+
+
+/* =========================================================
+   REJECTED
+========================================================= */
+
+.sb-seller-status.rejected .sb-seller-status-icon {
+    background: var(--sb-seller-danger-bg);
+    color: var(--sb-seller-danger);
+}
+
+.sb-seller-rejection {
+    margin-top: 24px;
+    padding: 17px 19px;
+
+    border: 1px solid #efd9d5;
+    border-radius: var(--sb-seller-small-radius);
+
+    background: #fff8f7;
+}
+
+.sb-seller-rejection > span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    margin-bottom: 7px;
+
+    color: var(--sb-seller-danger);
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.sb-seller-rejection p {
+    margin: 0;
+
+    color: #765d58;
+
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   RESPONSIVE — 1199
+========================================================= */
+
+@media (max-width: 1199px) {
+
+    .sb-seller-page {
+        padding-top: 60px;
     }
 
-    .seller-info-card,
-    .seller-form-card,
-    .seller-status-card {
-        padding: 25px;
+    .sb-seller-hero {
+        padding-bottom: 55px;
     }
 
-    .seller-form-footer {
+    .sb-seller-info {
+        padding: 32px;
+    }
+
+    .sb-seller-form-card {
+        padding: 34px;
+    }
+
+    .sb-seller-status {
+        padding: 45px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — 991
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .sb-seller-hero {
+        align-items: flex-start;
+    }
+
+    .sb-seller-hero-mark {
+        width: 145px;
+        min-width: 145px;
+        height: 145px;
+    }
+
+    .sb-seller-hero-circle {
+        width: 70px;
+        height: 70px;
+    }
+
+    .sb-seller-hero-circle i {
+        font-size: 27px;
+    }
+
+    .sb-seller-hero-mark > span {
+        right: -12px;
+        bottom: 8px;
+    }
+
+    .sb-seller-application-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sb-seller-info {
+        min-height: auto;
+    }
+
+    .sb-seller-benefits {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .sb-seller-benefit {
+        display: block;
+        border-top: 0;
+        padding: 0;
+    }
+
+    .sb-seller-benefit-number {
+        margin-bottom: 9px;
+    }
+
+    .sb-seller-benefit-icon {
+        margin-bottom: 12px;
+    }
+
+    .sb-seller-info-footer {
+        margin-top: 35px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — 767
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .sb-seller-page {
+        padding: 45px 0 70px;
+    }
+
+    .sb-seller-hero {
         flex-direction: column;
-        align-items: stretch;
+        gap: 35px;
+
+        padding-bottom: 45px;
     }
 
-    .seller-submit-btn {
+    .sb-seller-hero h1 {
+        font-size: 42px;
+    }
+
+    .sb-seller-hero-mark {
+        align-self: flex-end;
+    }
+
+    .sb-seller-form-card {
+        padding: 28px 24px;
+    }
+
+    .sb-seller-form-heading h2 {
+        font-size: 27px;
+    }
+
+    .sb-seller-fields-row {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .sb-seller-form-footer {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .sb-seller-security {
+        max-width: none;
+    }
+
+    .sb-seller-submit {
         width: 100%;
     }
 
-    .seller-status-card {
-        flex-direction: column;
+    .sb-seller-status {
+        grid-template-columns: 1fr;
+        gap: 28px;
+
+        padding: 35px 28px;
+
+        text-align: center;
     }
+
+    .sb-seller-status-content {
+        max-width: none;
+    }
+
+    .sb-seller-status-content > p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .sb-seller-status-meta {
+        justify-content: center;
+    }
+
+    .sb-seller-benefits {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .sb-seller-benefit {
+        display: grid;
+        grid-template-columns: 28px 42px 1fr;
+        gap: 14px;
+
+        padding: 17px 0;
+
+        border-top: 1px solid rgba(255, 255, 255, .09);
+    }
+
+    .sb-seller-benefit-number {
+        margin: 0;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — 575
+========================================================= */
+
+@media (max-width: 575px) {
+
+    .sb-seller-page {
+        padding-top: 35px;
+    }
+
+    .sb-seller-hero h1 {
+        margin-top: 20px;
+
+        font-size: 36px;
+    }
+
+    .sb-seller-hero p {
+        font-size: 14px;
+    }
+
+    .sb-seller-hero-mark {
+        width: 125px;
+        min-width: 125px;
+        height: 125px;
+    }
+
+    .sb-seller-hero-circle {
+        width: 61px;
+        height: 61px;
+    }
+
+    .sb-seller-hero-circle i {
+        font-size: 23px;
+    }
+
+    .sb-seller-info {
+        padding: 28px 24px;
+    }
+
+    .sb-seller-info h2 {
+        font-size: 27px;
+    }
+
+    .sb-seller-form-card {
+        padding: 25px 19px;
+    }
+
+    .sb-seller-form-heading {
+        gap: 15px;
+    }
+
+    .sb-seller-form-step {
+        display: none;
+    }
+
+    .sb-seller-form-heading h2 {
+        font-size: 25px;
+    }
+
+    .sb-seller-status {
+        padding: 30px 20px;
+    }
+
+    .sb-seller-status-content h2 {
+        font-size: 27px;
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE — 390
+========================================================= */
+
+@media (max-width: 390px) {
+
+    .sb-seller-hero h1 {
+        font-size: 32px;
+    }
+
+    .sb-seller-form-card {
+        padding: 22px 16px;
+    }
+
+    .sb-seller-info {
+        padding: 25px 19px;
+    }
+
+    .sb-seller-submit {
+        min-height: 50px;
+    }
+
+}
+
+/* =========================================================
+   RE-APPLICATION SPACING
+========================================================= */
+
+.sb-seller-status.rejected + .sb-seller-application-grid {
+    margin-top: 32px;
 }

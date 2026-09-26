@@ -153,42 +153,69 @@ class CartController extends Controller
         $cart = session()->get('cart', []);
 
         if (!isset($cart[$bookId])) {
-            return back()->with(
-                'error',
-                'This book is not in your cart.'
-            );
+            return response()->json([
+                'success' => false,
+                'message' => 'This book is not in your cart.',
+            ], 404);
         }
 
         $book = Book::find($bookId);
 
         if (!$book || $book->status !== 'approved') {
+
             unset($cart[$bookId]);
 
             session()->put('cart', $cart);
 
-            return back()->with(
-                'error',
-                'This book is no longer available.'
-            );
+            return response()->json([
+                'success' => false,
+                'message' => 'This book is no longer available.',
+                'removed' => true,
+            ], 422);
         }
+
+        /*
+        |--------------------------------------------------------------------------
+        | REMOVE ITEM WHEN QUANTITY IS ZERO
+        |--------------------------------------------------------------------------
+        */
 
         if ($quantity <= 0) {
+
             unset($cart[$bookId]);
 
             session()->put('cart', $cart);
 
-            return back()->with(
-                'success',
-                'Book removed from your cart.'
-            );
+            return response()->json([
+                'success' => true,
+                'message' => 'Book removed from your cart.',
+                'removed' => true,
+                'total_items' => collect($cart)->sum('quantity'),
+                'subtotal' => collect($cart)->sum(function ($item) {
+                    return $item['price'] * $item['quantity'];
+                }),
+            ]);
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | STOCK VALIDATION
+        |--------------------------------------------------------------------------
+        */
+
         if ($quantity > $book->stock) {
-            return back()->with(
-                'error',
-                'You cannot select more than the available stock.'
-            );
+            return response()->json([
+                'success' => false,
+                'message' =>
+                    'You cannot select more than the available stock.',
+            ], 422);
         }
+
+        /*
+        |--------------------------------------------------------------------------
+        | UPDATE CART ITEM
+        |--------------------------------------------------------------------------
+        */
 
         $cart[$bookId]['quantity'] = $quantity;
         $cart[$bookId]['price'] = (float) $book->price;
@@ -196,10 +223,85 @@ class CartController extends Controller
 
         session()->put('cart', $cart);
 
-        return back()->with(
-            'success',
-            'Cart updated successfully.'
+        /*
+        |--------------------------------------------------------------------------
+        | RECALCULATE CART TOTALS
+        |--------------------------------------------------------------------------
+        */
+
+        $totalItems = collect($cart)->sum('quantity');
+
+        $subtotal = collect($cart)->sum(function ($item) {
+            return $item['price'] * $item['quantity'];
+        });
+
+        /*
+        |--------------------------------------------------------------------------
+        | SHIPPING
+        |--------------------------------------------------------------------------
+        */
+
+        $shippingEnabled = Setting::get(
+            'shipping_enabled',
+            true
         );
+
+        $defaultShippingFee = (float) Setting::get(
+            'default_shipping_fee',
+            0
+        );
+
+        $freeShippingThreshold = (float) Setting::get(
+            'free_shipping_threshold',
+            0
+        );
+
+        $shippingFee = 0;
+
+        if ($shippingEnabled) {
+
+            if (
+                $freeShippingThreshold <= 0 ||
+                $subtotal < $freeShippingThreshold
+            ) {
+                $shippingFee = $defaultShippingFee;
+            }
+        }
+
+        $grandTotal = $subtotal + $shippingFee;
+
+        /*
+        |--------------------------------------------------------------------------
+        | CURRENT ITEM TOTAL
+        |--------------------------------------------------------------------------
+        */
+
+        $itemTotal =
+            (float) $cart[$bookId]['price'] *
+            (int) $cart[$bookId]['quantity'];
+
+        /*
+        |--------------------------------------------------------------------------
+        | AJAX RESPONSE
+        |--------------------------------------------------------------------------
+        */
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Cart updated successfully.',
+
+            'item_total' => $itemTotal,
+
+            'total_items' => $totalItems,
+
+            'subtotal' => $subtotal,
+
+            'shipping_enabled' => (bool) $shippingEnabled,
+
+            'shipping_fee' => $shippingFee,
+
+            'grand_total' => $grandTotal,
+        ]);
     }
 
     /**

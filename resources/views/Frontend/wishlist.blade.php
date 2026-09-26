@@ -56,13 +56,15 @@
                             <i class="bi bi-heart-fill"></i>
                         </div>
 
-                        <div>
+                        <div class="wishlist-floating-content">
+
                             <span>Saved for later</span>
 
                             <strong>
                                 {{ $wishlists->total() }}
                                 {{ $wishlists->total() === 1 ? 'book' : 'books' }}
                             </strong>
+
                         </div>
 
                     </div>
@@ -70,6 +72,7 @@
                 </div>
 
             </div>
+
         </div>
     </section>
 
@@ -83,7 +86,7 @@
         <div class="container">
 
             {{-- =====================================================
-                ALERTS
+                SESSION ALERTS
             ====================================================== --}}
 
             @if(session('success'))
@@ -121,6 +124,10 @@
 
             @endif
 
+
+            {{-- =====================================================
+                WISHLIST WITH BOOKS
+            ====================================================== --}}
 
             @if($wishlists->count())
 
@@ -206,6 +213,7 @@
                                     );
 
                                 }
+
                             }
 
                             $condition = $book
@@ -229,7 +237,7 @@
                             >
 
                                 {{-- =====================================
-                                    COVER AREA
+                                    BOOK COVER
                                 ====================================== --}}
 
                                 <div class="wishlist-cover-wrapper">
@@ -284,15 +292,19 @@
                                     </a>
 
 
-                                    {{-- CONDITION BADGE --}}
+                                    {{-- CONDITION --}}
 
-                                    <span class="wishlist-condition-badge">
+                                    @if($condition)
 
-                                        <i class="bi bi-stars"></i>
+                                        <span class="wishlist-condition-badge">
 
-                                        {{ $condition }}
+                                            <i class="bi bi-stars"></i>
 
-                                    </span>
+                                            {{ $condition }}
+
+                                        </span>
+
+                                    @endif
 
 
                                     {{-- REMOVE HEART --}}
@@ -322,7 +334,7 @@
                                     </form>
 
 
-                                    {{-- STOCK OVERLAY --}}
+                                    {{-- OUT OF STOCK --}}
 
                                     @if($book->stock <= 0)
 
@@ -344,6 +356,7 @@
                                 ====================================== --}}
 
                                 <div class="wishlist-card-content">
+
 
                                     {{-- META --}}
 
@@ -511,6 +524,7 @@
                                                 type="submit"
                                                 class="wishlist-remove-btn"
                                                 title="Remove from wishlist"
+                                                aria-label="Remove {{ $book->title }} from wishlist"
                                                 data-delete-button
                                             >
 
@@ -561,7 +575,9 @@
                         <span class="wishlist-empty-circle circle-three"></span>
 
                         <div class="wishlist-empty-icon">
+
                             <i class="bi bi-heart"></i>
+
                         </div>
 
                     </div>
@@ -580,7 +596,9 @@
 
                         Your next favorite book
 
-                        <span>could be waiting.</span>
+                        <span>
+                            could be waiting.
+                        </span>
 
                     </h2>
 
@@ -641,7 +659,6 @@
 @push('js')
 
 <script>
-
 document.addEventListener('DOMContentLoaded', function () {
 
     const deleteForms = document.querySelectorAll(
@@ -660,7 +677,6 @@ document.addEventListener('DOMContentLoaded', function () {
             event.preventDefault();
             event.stopPropagation();
 
-
             const button = form.querySelector(
                 '[data-delete-button]'
             );
@@ -673,16 +689,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 'input[name="_token"]'
             );
 
-
             if (!button || !card || !token) {
                 return;
             }
 
-
             if (button.disabled) {
                 return;
             }
-
 
             button.disabled = true;
 
@@ -691,29 +704,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
             try {
 
-                const response = await fetch(form.action, {
+                const response = await fetch(
+                    form.action,
+                    {
+                        method: 'DELETE',
 
-                    method: 'DELETE',
-
-                    headers: {
-
-                        'X-CSRF-TOKEN': token.value,
-
-                        'Accept': 'application/json',
-
-                        'X-Requested-With': 'XMLHttpRequest'
-
+                        headers: {
+                            'X-CSRF-TOKEN': token.value,
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
                     }
-
-                });
+                );
 
 
                 let data = {};
 
                 try {
+
                     data = await response.json();
+
                 } catch (jsonError) {
+
                     data = {};
+
                 }
 
 
@@ -727,9 +741,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
 
-                /* =====================================================
-                   REMOVE CARD ANIMATION
-                ====================================================== */
+                /* =================================================
+                   REMOVE CARD
+                ================================================= */
 
                 card.style.transition =
                     'opacity 0.25s ease, transform 0.25s ease';
@@ -760,11 +774,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     error
                 );
 
-
                 button.disabled = false;
 
-                form.classList.remove('is-removing');
-
+                form.classList.remove(
+                    'is-removing'
+                );
 
                 showWishlistAlert(
                     error.message ||
@@ -792,14 +806,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         /* =====================================================
-           UPDATE HERO COUNT
+           HERO COUNT
         ====================================================== */
 
         const heroCount =
             document.querySelector(
                 '.wishlist-floating-card strong'
             );
-
 
         if (heroCount) {
 
@@ -815,14 +828,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         /* =====================================================
-           UPDATE TOPBAR COUNT
+           TOPBAR COUNT
         ====================================================== */
 
         const topbarCount =
             document.querySelector(
                 '.wishlist-topbar p strong'
             );
-
 
         if (topbarCount) {
 
@@ -838,14 +850,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         /* =====================================================
-           UPDATE HEADER WISHLIST COUNT
+           HEADER WISHLIST COUNT
         ====================================================== */
 
         const headerWishlistCount =
             document.getElementById(
                 'header-wishlist-count'
             );
-
 
         if (headerWishlistCount) {
 
@@ -858,7 +869,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         /* =====================================================
-           NO BOOKS LEFT
+           EMPTY STATE
         ====================================================== */
 
         if (remainingCards === 0) {
@@ -893,23 +904,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         if (wishlistGrid) {
-
             wishlistGrid.remove();
-
         }
-
 
         if (wishlistTopbar) {
-
             wishlistTopbar.remove();
-
         }
 
-
         if (wishlistPagination) {
-
             wishlistPagination.remove();
-
         }
 
 
@@ -918,9 +921,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 '.wishlist-empty'
             )
         ) {
-
             return;
-
         }
 
 
@@ -929,7 +930,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 '.wishlist-section .container'
             );
 
-
         if (!container) {
             return;
         }
@@ -937,7 +937,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const emptyWishlist =
             document.createElement('div');
-
 
         emptyWishlist.className =
             'wishlist-empty';
@@ -948,15 +947,11 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="wishlist-empty-decoration">
 
                 <span class="wishlist-empty-circle circle-one"></span>
-
                 <span class="wishlist-empty-circle circle-two"></span>
-
                 <span class="wishlist-empty-circle circle-three"></span>
 
                 <div class="wishlist-empty-icon">
-
                     <i class="bi bi-heart"></i>
-
                 </div>
 
             </div>
@@ -975,7 +970,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 Your next favorite book
 
-                <span>could be waiting.</span>
+                <span>
+                    could be waiting.
+                </span>
 
             </h2>
 
@@ -1029,7 +1026,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     /* =========================================================
-       WISHLIST ALERT
+       WISHLIST AJAX ALERT
     ========================================================= */
 
     function showWishlistAlert(
@@ -1042,7 +1039,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 '.wishlist-ajax-alert'
             );
 
-
         if (existingAlert) {
             existingAlert.remove();
         }
@@ -1052,7 +1048,6 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector(
                 '.wishlist-section .container'
             );
-
 
         if (!container) {
             return;
@@ -1145,7 +1140,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 });
-
 </script>
 
 @endpush

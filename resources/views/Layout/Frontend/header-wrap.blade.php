@@ -40,7 +40,10 @@
                                     ->whereNull('read_at')
                                     ->count();
 
-                            $headerNotifications = \App\Models\Notification::where('user_id', auth()->id())
+                            $headerNotifications = \App\Models\Notification::where(
+                                'user_id',
+                                auth()->id()
+                            )
                                 ->latest()
                                 ->take(5)
                                 ->get();
@@ -52,11 +55,13 @@
                         <a href="{{ route('frontend.wishlist') }}"
                            class="header-action header-wishlist"
                            aria-label="Wishlist">
+
                             <i class="bi bi-heart"></i>
 
                             <span class="header-action-label">
                                 Wishlist
                             </span>
+
                         </a>
 
                         {{-- CART --}}
@@ -75,6 +80,7 @@
                                     {{ $cartCount }}
                                 </span>
                             @endif
+
                         </a>
 
                         {{-- NOTIFICATIONS --}}
@@ -99,6 +105,7 @@
                                         {{ $unreadCount > 99 ? '99+' : $unreadCount }}
                                     </span>
                                 @endif
+
                             </button>
 
                             <div class="dropdown-menu header-dropdown notification-dropdown">
@@ -119,7 +126,9 @@
 
                                             <button type="submit"
                                                     class="header-dropdown-link border-0 bg-transparent">
+
                                                 Mark all as read
+
                                             </button>
 
                                         </form>
@@ -192,6 +201,7 @@
                                 @endif
 
                             </div>
+
                         </div>
 
                         {{-- PROFILE --}}
@@ -253,26 +263,34 @@
 
                                     <a href="{{ route('my.profile') }}"
                                        class="profile-menu-item">
+
                                         <i class="bi bi-person"></i>
                                         <span>My Profile</span>
+
                                     </a>
 
                                     <a href="{{ route('frontend.orders') }}"
                                        class="profile-menu-item">
+
                                         <i class="bi bi-box-seam"></i>
                                         <span>My Orders</span>
+
                                     </a>
 
                                     <a href="{{ route('frontend.wishlist') }}"
                                        class="profile-menu-item">
+
                                         <i class="bi bi-heart"></i>
                                         <span>Wishlist</span>
+
                                     </a>
 
                                     <a href="{{ route('frontend.account.settings') }}"
                                        class="profile-menu-item">
+
                                         <i class="bi bi-gear"></i>
                                         <span>Account Settings</span>
+
                                     </a>
 
                                     <div class="profile-menu-divider"></div>
@@ -281,24 +299,30 @@
 
                                         <a href="{{ route('admin.dashboard') }}"
                                            class="profile-menu-item profile-admin">
+
                                             <i class="bi bi-speedometer2"></i>
                                             <span>Admin Panel</span>
+
                                         </a>
 
                                     @elseif(Auth::user()->role === 'seller')
 
                                         <a href="{{ route('seller.dashboard') }}"
                                            class="profile-menu-item profile-seller">
+
                                             <i class="bi bi-shop"></i>
                                             <span>Seller Panel</span>
+
                                         </a>
 
                                     @else
 
                                         <a href="{{ route('frontend.seller-application') }}"
                                            class="profile-menu-item profile-become-seller">
+
                                             <i class="bi bi-shop"></i>
                                             <span>Become a Seller</span>
+
                                         </a>
 
                                     @endif
@@ -331,12 +355,16 @@
                         {{-- GUEST --}}
                         <a href="{{ route('frontend.auth.login') }}"
                            class="header-auth-link header-login">
+
                             Login
+
                         </a>
 
                         <a href="{{ route('frontend.auth.register') }}"
                            class="header-auth-link header-register">
+
                             Register
+
                         </a>
 
                     @endauth
@@ -368,9 +396,7 @@
                 </div>
 
 
-                {{-- MOBILE TOGGLER
-                     Kept for Bootstrap compatibility,
-                     hidden by CSS on responsive screens. --}}
+                {{-- MOBILE TOGGLER --}}
                 <button class="header-toggler"
                         type="button"
                         data-bs-toggle="collapse"
@@ -440,42 +466,54 @@
                                 <li>
                                     <a href="{{ route('frontend.home') }}"
                                        class="{{ request()->routeIs('frontend.home') ? 'active' : '' }}">
+
                                         Home
+
                                     </a>
                                 </li>
 
                                 <li>
                                     <a href="{{ route('frontend.books') }}"
-                                    class="{{ request()->routeIs('frontend.books', 'frontend.books.*') ? 'active' : '' }}">
+                                       class="{{ request()->routeIs('frontend.books', 'frontend.books.*') ? 'active' : '' }}">
+
                                         Books
+
                                     </a>
                                 </li>
 
                                 <li>
                                     <a href="{{ route('frontend.categories') }}"
-                                    class="{{ request()->routeIs('frontend.categories', 'frontend.categories.*') ? 'active' : '' }}">
+                                       class="{{ request()->routeIs('frontend.categories', 'frontend.categories.*') ? 'active' : '' }}">
+
                                         Categories
+
                                     </a>
                                 </li>
 
                                 <li>
                                     <a href="{{ route('frontend.authors') }}"
-                                    class="{{ request()->routeIs('frontend.authors', 'frontend.authors.*') ? 'active' : '' }}">
+                                       class="{{ request()->routeIs('frontend.authors', 'frontend.authors.*') ? 'active' : '' }}">
+
                                         Authors
+
                                     </a>
                                 </li>
 
                                 <li>
                                     <a href="{{ route('frontend.about') }}"
                                        class="{{ request()->routeIs('frontend.about') ? 'active' : '' }}">
+
                                         About
+
                                     </a>
                                 </li>
 
                                 <li>
                                     <a href="{{ route('frontend.contact') }}"
                                        class="{{ request()->routeIs('frontend.contact') ? 'active' : '' }}">
+
                                         Contact
+
                                     </a>
                                 </li>
 
@@ -512,6 +550,57 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     /* =========================================================
+       SELLER APPLICATION SUCCESS MESSAGE
+       ========================================================= */
+
+    @if(session('success'))
+
+        if (typeof Swal !== 'undefined') {
+
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+
+                icon: 'success',
+
+                title: 'Seller application submitted',
+
+                text: @json(session('success')),
+
+                showConfirmButton: false,
+
+                timer: 5000,
+
+                timerProgressBar: true,
+
+                background: '#ffffff',
+
+                color: '#241c17',
+
+                customClass: {
+                    popup: 'secondbook-toast'
+                },
+
+                didOpen: function (toast) {
+
+                    toast.addEventListener(
+                        'mouseenter',
+                        Swal.stopTimer
+                    );
+
+                    toast.addEventListener(
+                        'mouseleave',
+                        Swal.resumeTimer
+                    );
+                }
+            });
+
+        }
+
+    @endif
+
+
+    /* =========================================================
        DELETE NOTIFICATION
        ========================================================= */
 
@@ -523,7 +612,8 @@ document.addEventListener('DOMContentLoaded', function () {
             event.stopPropagation();
 
             const notificationId = this.dataset.id;
-            const notificationItem = this.closest('.notification-item');
+            const notificationItem =
+                this.closest('.notification-item');
 
             if (!notificationId) {
                 return;
@@ -532,20 +622,30 @@ document.addEventListener('DOMContentLoaded', function () {
             if (typeof Swal !== 'undefined') {
 
                 Swal.fire({
+
                     title: 'Delete notification?',
+
                     text: 'This notification will be permanently removed.',
+
                     icon: 'warning',
+
                     showCancelButton: true,
+
                     confirmButtonText: 'Delete',
+
                     cancelButtonText: 'Cancel',
+
                     reverseButtons: true
+
                 }).then(function (result) {
 
                     if (result.isConfirmed) {
+
                         deleteNotification(
                             notificationId,
                             notificationItem
                         );
+
                     }
 
                 });
@@ -568,24 +668,41 @@ document.addEventListener('DOMContentLoaded', function () {
        DELETE REQUEST
        ========================================================= */
 
-    function deleteNotification(notificationId, notificationItem) {
+    function deleteNotification(
+        notificationId,
+        notificationItem
+    ) {
 
-        fetch("{{ url('/frontend/notifications') }}/" + notificationId, {
+        fetch(
+            "{{ url('/frontend/notifications') }}/" +
+            notificationId,
+            {
+                method: 'DELETE',
 
-            method: 'DELETE',
+                headers: {
 
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                'Accept': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
+                    'X-CSRF-TOKEN':
+                        '{{ csrf_token() }}',
+
+                    'Accept':
+                        'application/json',
+
+                    'X-Requested-With':
+                        'XMLHttpRequest'
+
+                }
+
             }
-
-        })
+        )
 
         .then(function (response) {
 
             if (!response.ok) {
-                throw new Error('Request failed.');
+
+                throw new Error(
+                    'Request failed.'
+                );
+
             }
 
             return response.json();
@@ -597,38 +714,51 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!data.success) {
 
                 throw new Error(
-                    data.message || 'Something went wrong.'
+                    data.message ||
+                    'Something went wrong.'
                 );
 
             }
 
             if (notificationItem) {
+
                 notificationItem.remove();
+
             }
 
 
             const trigger =
-                document.querySelector('.notification-trigger');
+                document.querySelector(
+                    '.notification-trigger'
+                );
 
             if (trigger) {
 
                 let badge =
-                    trigger.querySelector('.notification-badge');
+                    trigger.querySelector(
+                        '.notification-badge'
+                    );
 
                 const unreadCount =
-                    Number(data.unread_count || 0);
+                    Number(
+                        data.unread_count || 0
+                    );
 
                 if (unreadCount > 0) {
 
                     if (!badge) {
 
                         badge =
-                            document.createElement('span');
+                            document.createElement(
+                                'span'
+                            );
 
                         badge.className =
                             'notification-badge';
 
-                        trigger.appendChild(badge);
+                        trigger.appendChild(
+                            badge
+                        );
 
                     }
 
@@ -647,11 +777,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
             const list =
-                document.querySelector('.notification-list');
+                document.querySelector(
+                    '.notification-list'
+                );
 
             if (
                 list &&
-                list.querySelectorAll('.notification-item').length === 0
+                list.querySelectorAll(
+                    '.notification-item'
+                ).length === 0
             ) {
 
                 list.innerHTML =
@@ -666,12 +800,19 @@ document.addEventListener('DOMContentLoaded', function () {
             if (typeof Swal !== 'undefined') {
 
                 Swal.fire({
+
                     icon: 'success',
+
                     title: 'Deleted',
-                    text: data.message ||
+
+                    text:
+                        data.message ||
                         'Notification deleted successfully.',
+
                     timer: 1600,
+
                     showConfirmButton: false
+
                 });
 
             }
@@ -685,9 +826,14 @@ document.addEventListener('DOMContentLoaded', function () {
             if (typeof Swal !== 'undefined') {
 
                 Swal.fire({
+
                     icon: 'error',
+
                     title: 'Error',
-                    text: 'Unable to delete the notification.'
+
+                    text:
+                        'Unable to delete the notification.'
+
                 });
 
             }
@@ -702,13 +848,19 @@ document.addEventListener('DOMContentLoaded', function () {
        ========================================================= */
 
     const navScrollArea =
-        document.querySelector('.nav-scroll-area');
+        document.querySelector(
+            '.nav-scroll-area'
+        );
 
     const navScrollLeft =
-        document.querySelector('.nav-scroll-left');
+        document.querySelector(
+            '.nav-scroll-left'
+        );
 
     const navScrollRight =
-        document.querySelector('.nav-scroll-right');
+        document.querySelector(
+            '.nav-scroll-right'
+        );
 
 
     function updateNavigationArrows() {
@@ -718,7 +870,9 @@ document.addEventListener('DOMContentLoaded', function () {
             !navScrollLeft ||
             !navScrollRight
         ) {
+
             return;
+
         }
 
         const maxScroll =
@@ -734,31 +888,45 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!hasOverflow) {
 
-            navScrollLeft.classList.remove('is-visible');
-            navScrollRight.classList.remove('is-visible');
+            navScrollLeft.classList.remove(
+                'is-visible'
+            );
+
+            navScrollRight.classList.remove(
+                'is-visible'
+            );
 
             return;
+
         }
 
 
         if (currentScroll <= 2) {
 
-            navScrollLeft.classList.remove('is-visible');
+            navScrollLeft.classList.remove(
+                'is-visible'
+            );
 
         } else {
 
-            navScrollLeft.classList.add('is-visible');
+            navScrollLeft.classList.add(
+                'is-visible'
+            );
 
         }
 
 
         if (currentScroll >= maxScroll - 2) {
 
-            navScrollRight.classList.remove('is-visible');
+            navScrollRight.classList.remove(
+                'is-visible'
+            );
 
         } else {
 
-            navScrollRight.classList.add('is-visible');
+            navScrollRight.classList.add(
+                'is-visible'
+            );
 
         }
 
@@ -767,30 +935,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (navScrollArea) {
 
-        navScrollLeft?.addEventListener('click', function () {
+        navScrollLeft?.addEventListener(
+            'click',
+            function () {
 
-            navScrollArea.scrollBy({
-                left: -220,
-                behavior: 'smooth'
-            });
+                navScrollArea.scrollBy({
 
-        });
+                    left: -220,
+
+                    behavior: 'smooth'
+
+                });
+
+            }
+        );
 
 
-        navScrollRight?.addEventListener('click', function () {
+        navScrollRight?.addEventListener(
+            'click',
+            function () {
 
-            navScrollArea.scrollBy({
-                left: 220,
-                behavior: 'smooth'
-            });
+                navScrollArea.scrollBy({
 
-        });
+                    left: 220,
+
+                    behavior: 'smooth'
+
+                });
+
+            }
+        );
 
 
         navScrollArea.addEventListener(
             'scroll',
             updateNavigationArrows,
-            { passive: true }
+            {
+                passive: true
+            }
         );
 
 

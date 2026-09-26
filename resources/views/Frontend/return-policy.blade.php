@@ -10,49 +10,86 @@
 
 <main class="sb-return-page">
 
-    {{-- =========================================================
-         HERO
-    ========================================================== --}}
-    <section class="sb-return-hero">
+    <div class="container">
 
-        <div class="container">
+        {{-- =========================================================
+             HERO
+        ========================================================== --}}
+        <section class="sb-return-hero">
 
-            <div class="sb-return-hero-content">
+            <div class="sb-return-eyebrow">
+                <span class="sb-return-eyebrow-line"></span>
 
-                <div class="sb-return-eyebrow">
-                    <span class="sb-return-eyebrow-icon">
-                        <i class="bi bi-arrow-return-left"></i>
-                    </span>
-                    <span>SECOND BOOK POLICY</span>
-                </div>
+                <i class="bi bi-arrow-return-left"></i>
 
-                <h1>
-                    Returns made<br>
-                    <span>simple.</span>
-                </h1>
+                <span>RETURN INFORMATION</span>
+
+                <span class="sb-return-eyebrow-line"></span>
+            </div>
+
+            <h1>
+                Returns <em>&</em> Refunds
+            </h1>
+
+            <p>
+                We want every SecondBook purchase to feel clear and
+                confident. Here's what you need to know about returns,
+                eligibility, and refunds.
+            </p>
+
+            <div class="sb-return-meta">
+
+                <span>
+                    <i class="bi bi-arrow-repeat"></i>
+                    Simple return process
+                </span>
+
+                <span class="sb-return-meta-divider"></span>
+
+                <span>
+                    <i class="bi bi-shield-check"></i>
+                    We're here to help
+                </span>
+
+            </div>
+
+        </section>
+
+
+        {{-- =========================================================
+             INTRO
+        ========================================================== --}}
+        <section class="sb-return-intro">
+
+            <div class="sb-return-intro-icon">
+                <i class="bi bi-box-seam"></i>
+            </div>
+
+            <div>
+
+                <span class="sb-return-intro-label">
+                    WELCOME TO SECONDBOOK
+                </span>
+
+                <h2>
+                    A simple process when something goes wrong.
+                </h2>
 
                 <p>
-                    We want you to feel confident every time you buy a
-                    second-hand book. Here's everything you need to know
-                    about returns and refunds.
+                    If your order does not match the listing or arrives
+                    with a serious issue, you can contact our support team
+                    and request a return review.
                 </p>
 
             </div>
 
-        </div>
-
-        <div class="sb-return-decoration sb-return-decoration-one"></div>
-        <div class="sb-return-decoration sb-return-decoration-two"></div>
-
-    </section>
+        </section>
 
 
-    {{-- =========================================================
-         RETURN OVERVIEW
-    ========================================================== --}}
-    <section class="sb-return-overview">
-
-        <div class="container">
+        {{-- =========================================================
+             RETURN PROCESS
+        ========================================================== --}}
+        <section class="sb-return-section">
 
             <div class="sb-return-section-heading">
 
@@ -66,128 +103,95 @@
                 </h2>
 
                 <p>
-                    If your order does not meet the condition described
-                    on the listing, you can contact us and request a
-                    return review.
+                    Our return process is designed to keep each request
+                    clear, organized, and easy to understand.
                 </p>
 
             </div>
 
 
-            <div class="sb-return-steps">
+            <div class="sb-return-card-grid">
 
-                {{-- STEP 01 --}}
-                <article class="sb-return-step">
+                <article class="sb-return-card">
 
-                    <div class="sb-return-step-number">
-                        01
-                    </div>
+                    <span class="sb-return-card-number">01</span>
 
-                    <div class="sb-return-step-icon">
+                    <div class="sb-return-card-icon">
                         <i class="bi bi-chat-left-text"></i>
                     </div>
 
-                    <div class="sb-return-step-content">
+                    <h3>Contact us</h3>
 
-                        <h3>Contact us</h3>
-
-                        <p>
-                            Get in touch with our support team and tell us
-                            what went wrong with your order.
-                        </p>
-
-                    </div>
+                    <p>
+                        Get in touch with our support team and tell us
+                        what went wrong with your order.
+                    </p>
 
                 </article>
 
 
-                {{-- STEP 02 --}}
-                <article class="sb-return-step">
+                <article class="sb-return-card">
 
-                    <div class="sb-return-step-number">
-                        02
-                    </div>
+                    <span class="sb-return-card-number">02</span>
 
-                    <div class="sb-return-step-icon">
+                    <div class="sb-return-card-icon">
                         <i class="bi bi-search"></i>
                     </div>
 
-                    <div class="sb-return-step-content">
+                    <h3>We review the request</h3>
 
-                        <h3>We review the request</h3>
-
-                        <p>
-                            We review the order details and the reason for
-                            the return to determine the appropriate next step.
-                        </p>
-
-                    </div>
+                    <p>
+                        We review the order details and the reason for
+                        the return to determine the appropriate next step.
+                    </p>
 
                 </article>
 
 
-                {{-- STEP 03 --}}
-                <article class="sb-return-step">
+                <article class="sb-return-card">
 
-                    <div class="sb-return-step-number">
-                        03
-                    </div>
+                    <span class="sb-return-card-number">03</span>
 
-                    <div class="sb-return-step-icon">
+                    <div class="sb-return-card-icon">
                         <i class="bi bi-box-seam"></i>
                     </div>
 
-                    <div class="sb-return-step-content">
+                    <h3>Return the book</h3>
 
-                        <h3>Return the book</h3>
-
-                        <p>
-                            If the return is approved, you will receive
-                            instructions for sending the book back.
-                        </p>
-
-                    </div>
+                    <p>
+                        If the return is approved, you will receive
+                        instructions for sending the book back.
+                    </p>
 
                 </article>
 
 
-                {{-- STEP 04 --}}
-                <article class="sb-return-step">
+                <article class="sb-return-card">
 
-                    <div class="sb-return-step-number">
-                        04
-                    </div>
+                    <span class="sb-return-card-number">04</span>
 
-                    <div class="sb-return-step-icon">
+                    <div class="sb-return-card-icon">
                         <i class="bi bi-wallet2"></i>
                     </div>
 
-                    <div class="sb-return-step-content">
+                    <h3>Refund is processed</h3>
 
-                        <h3>Refund is processed</h3>
-
-                        <p>
-                            Once the return is completed and approved,
-                            the applicable refund will be processed.
-                        </p>
-
-                    </div>
+                    <p>
+                        Once the return is completed and approved,
+                        the applicable refund will be processed.
+                    </p>
 
                 </article>
 
             </div>
 
-        </div>
-
-    </section>
+        </section>
 
 
-    {{-- =========================================================
-         ELIGIBILITY
-    ========================================================== --}}
-    <section class="sb-return-eligibility">
-
-        <div class="container">
+        {{-- =========================================================
+             ELIGIBILITY
+        ========================================================== --}}
+        <section class="sb-return-section">
 
             <div class="sb-return-section-heading">
 
@@ -200,13 +204,17 @@
                     be returned?
                 </h2>
 
+                <p>
+                    Returns are reviewed according to the condition of
+                    the order and the information provided in the listing.
+                </p>
+
             </div>
 
 
             <div class="sb-return-eligibility-grid">
 
-                {{-- ELIGIBLE --}}
-                <article class="sb-return-policy-card sb-return-policy-card-positive">
+                <article class="sb-return-policy-card">
 
                     <div class="sb-return-policy-icon">
                         <i class="bi bi-check2-circle"></i>
@@ -217,25 +225,36 @@
                         <h3>Eligible situations</h3>
 
                         <ul>
+
                             <li>
                                 <i class="bi bi-check"></i>
-                                <span>The book is significantly different from its listing.</span>
+                                <span>
+                                    The book is significantly different
+                                    from its listing.
+                                </span>
                             </li>
 
                             <li>
                                 <i class="bi bi-check"></i>
-                                <span>The received book has undisclosed damage.</span>
+                                <span>
+                                    The received book has undisclosed damage.
+                                </span>
                             </li>
 
                             <li>
                                 <i class="bi bi-check"></i>
-                                <span>The wrong book was delivered.</span>
+                                <span>
+                                    The wrong book was delivered.
+                                </span>
                             </li>
 
                             <li>
                                 <i class="bi bi-check"></i>
-                                <span>The order arrived with a serious issue.</span>
+                                <span>
+                                    The order arrived with a serious issue.
+                                </span>
                             </li>
+
                         </ul>
 
                     </div>
@@ -243,8 +262,7 @@
                 </article>
 
 
-                {{-- NOT ELIGIBLE --}}
-                <article class="sb-return-policy-card sb-return-policy-card-neutral">
+                <article class="sb-return-policy-card">
 
                     <div class="sb-return-policy-icon">
                         <i class="bi bi-info-circle"></i>
@@ -255,25 +273,39 @@
                         <h3>Situations that may not qualify</h3>
 
                         <ul>
+
                             <li>
                                 <i class="bi bi-dash"></i>
-                                <span>You simply changed your mind after receiving the book.</span>
+                                <span>
+                                    You simply changed your mind after
+                                    receiving the book.
+                                </span>
                             </li>
 
                             <li>
                                 <i class="bi bi-dash"></i>
-                                <span>Minor signs of normal second-hand use were already described.</span>
+                                <span>
+                                    Minor signs of normal second-hand use
+                                    were already described.
+                                </span>
                             </li>
 
                             <li>
                                 <i class="bi bi-dash"></i>
-                                <span>The book matches the condition shown in the listing.</span>
+                                <span>
+                                    The book matches the condition shown
+                                    in the listing.
+                                </span>
                             </li>
 
                             <li>
                                 <i class="bi bi-dash"></i>
-                                <span>The return request does not meet the applicable return requirements.</span>
+                                <span>
+                                    The return request does not meet the
+                                    applicable return requirements.
+                                </span>
                             </li>
+
                         </ul>
 
                     </div>
@@ -282,84 +314,104 @@
 
             </div>
 
-        </div>
-
-    </section>
+        </section>
 
 
-    {{-- =========================================================
-         IMPORTANT NOTES
-    ========================================================== --}}
-    <section class="sb-return-notes">
+        {{-- =========================================================
+             GOOD TO KNOW
+        ========================================================== --}}
+        <section class="sb-return-feature">
 
-        <div class="container">
+            <div class="sb-return-feature-icon">
+                <i class="bi bi-lightbulb"></i>
+            </div>
 
-            <div class="sb-return-notes-box">
+            <div class="sb-return-feature-content">
 
-                <div class="sb-return-notes-icon">
-                    <i class="bi bi-lightbulb"></i>
-                </div>
+                <span class="sb-return-section-label">
+                    GOOD TO KNOW
+                </span>
 
-                <div class="sb-return-notes-content">
+                <h2>
+                    A few things to keep in mind
+                </h2>
 
-                    <span class="sb-return-section-label">
-                        GOOD TO KNOW
-                    </span>
+                <div class="sb-return-feature-list">
 
-                    <h2>
-                        A few things to keep in mind
-                    </h2>
+                    <div class="sb-return-feature-item">
 
-                    <ul class="sb-return-notes-list">
+                        <span class="sb-return-feature-number">01</span>
 
-                        <li class="sb-return-note">
-                            <i class="bi bi-check2"></i>
-                            <span>
-                                Keep your order information available when contacting support.
-                            </span>
-                        </li>
+                        <div>
+                            <h3>Keep your order information</h3>
 
-                        <li class="sb-return-note">
-                            <i class="bi bi-check2"></i>
-                            <span>
-                                If the issue concerns the condition of the book,
-                                photos may help us review your request.
-                            </span>
-                        </li>
+                            <p>
+                                Have your order details available when
+                                contacting our support team.
+                            </p>
+                        </div>
 
-                        <li class="sb-return-note">
-                            <i class="bi bi-check2"></i>
-                            <span>
-                                Return instructions should be followed carefully
-                                once a return request has been approved.
-                            </span>
-                        </li>
+                    </div>
 
-                        <li class="sb-return-note">
-                            <i class="bi bi-check2"></i>
-                            <span>
-                                Refund timing can depend on the payment method
-                                and the return review process.
-                            </span>
-                        </li>
 
-                    </ul>
+                    <div class="sb-return-feature-item">
+
+                        <span class="sb-return-feature-number">02</span>
+
+                        <div>
+                            <h3>Provide photos when useful</h3>
+
+                            <p>
+                                Photos can help us understand issues
+                                concerning the condition of a book.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="sb-return-feature-item">
+
+                        <span class="sb-return-feature-number">03</span>
+
+                        <div>
+                            <h3>Follow return instructions</h3>
+
+                            <p>
+                                Approved return requests should follow
+                                the instructions provided by our team.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="sb-return-feature-item">
+
+                        <span class="sb-return-feature-number">04</span>
+
+                        <div>
+                            <h3>Refund timing may vary</h3>
+
+                            <p>
+                                Processing time can depend on the payment
+                                method and return review process.
+                            </p>
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
-
-    </section>
+        </section>
 
 
-    {{-- =========================================================
-         RETURN QUESTIONS
-    ========================================================== --}}
-    <section class="sb-return-faq">
-
-        <div class="container">
+        {{-- =========================================================
+             FAQ
+        ========================================================== --}}
+        <section class="sb-return-section">
 
             <div class="sb-return-section-heading">
 
@@ -384,12 +436,16 @@
                     </div>
 
                     <div>
-                        <h3>How long does a refund take?</h3>
+
+                        <h3>
+                            How long does a refund take?
+                        </h3>
 
                         <p>
                             Refund processing time can vary depending on
                             the payment method and the status of the return.
                         </p>
+
                     </div>
 
                 </article>
@@ -402,12 +458,16 @@
                     </div>
 
                     <div>
-                        <h3>Should I provide photos?</h3>
+
+                        <h3>
+                            Should I provide photos?
+                        </h3>
 
                         <p>
                             If the issue is related to the book's condition,
                             photos can help our team understand the problem.
                         </p>
+
                     </div>
 
                 </article>
@@ -420,12 +480,16 @@
                     </div>
 
                     <div>
-                        <h3>Who reviews my request?</h3>
+
+                        <h3>
+                            Who reviews my request?
+                        </h3>
 
                         <p>
                             Our support team reviews the order information
                             and the reason provided with the return request.
                         </p>
+
                     </div>
 
                 </article>
@@ -438,77 +502,87 @@
                     </div>
 
                     <div>
-                        <h3>Still have questions?</h3>
+
+                        <h3>
+                            Still have questions?
+                        </h3>
 
                         <p>
                             Visit our FAQ page or contact the SecondBook
                             support team for further assistance.
                         </p>
+
                     </div>
 
                 </article>
 
             </div>
 
-        </div>
-
-    </section>
+        </section>
 
 
-    {{-- =========================================================
-         CONTACT CTA
-    ========================================================== --}}
-    <section class="sb-return-contact">
+        {{-- =========================================================
+             CONTACT CTA
+        ========================================================== --}}
+        <section class="sb-return-contact">
 
-        <div class="container">
+            <div class="sb-return-contact-icon">
+                <i class="bi bi-headset"></i>
+            </div>
 
-            <div class="sb-return-contact-box">
+            <div class="sb-return-contact-content">
 
-                <div class="sb-return-contact-icon">
-                    <i class="bi bi-headset"></i>
-                </div>
+                <span class="sb-return-section-label">
+                    NEED HELP?
+                </span>
 
-                <div class="sb-return-contact-content">
+                <h2>
+                    Something not right with your order?
+                </h2>
 
-                    <span class="sb-return-section-label">
-                        NEED HELP?
-                    </span>
-
-                    <h2>
-                        Something not right with your order?
-                    </h2>
-
-                    <p>
-                        Our support team is here to help you understand
-                        your return options and next steps.
-                    </p>
-
-                </div>
-
-                <div class="sb-return-contact-actions">
-
-                    <a href="{{ route('frontend.contact') }}"
-                       class="sb-return-contact-btn">
-                        Contact Support
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
-
-                    <a href="{{ route('frontend.faq') }}"
-                       class="sb-return-contact-link">
-                        View FAQ
-                    </a>
-
-                </div>
-
-                <div class="sb-return-contact-decoration"></div>
+                <p>
+                    Our support team is here to help you understand
+                    your return options and next steps.
+                </p>
 
             </div>
 
+            <div class="sb-return-contact-actions">
+
+                <a href="{{ route('frontend.contact') }}"
+                   class="sb-return-contact-btn">
+                    Contact Support
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+
+                <a href="{{ route('frontend.faq') }}"
+                   class="sb-return-contact-link">
+                    View FAQ
+                </a>
+
+            </div>
+
+        </section>
+
+
+        {{-- =========================================================
+             BOTTOM META
+        ========================================================== --}}
+        <div class="sb-return-bottom">
+
+            <span>
+                <i class="bi bi-arrow-repeat"></i>
+                Simple returns, clear communication
+            </span>
+
+            <span>
+                support@secondbook.com
+            </span>
+
         </div>
 
-    </section>
+    </div>
 
 </main>
 
 @endsection
-

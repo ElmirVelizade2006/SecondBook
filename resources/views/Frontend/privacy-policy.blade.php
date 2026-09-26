@@ -10,99 +10,85 @@
 
 <main class="sb-privacy-page">
 
-    {{-- =========================================================
-         HERO
-    ========================================================== --}}
-    <section class="sb-privacy-hero">
+    <div class="container">
 
-        <div class="container">
+        {{-- =========================================================
+             HERO
+        ========================================================== --}}
+        <section class="sb-privacy-hero">
 
-            <div class="sb-privacy-hero-content">
+            <div class="sb-privacy-eyebrow">
+                <span class="sb-privacy-eyebrow-line"></span>
 
-                <div class="sb-privacy-eyebrow">
-                    <span class="sb-privacy-eyebrow-icon">
-                        <i class="bi bi-shield-check"></i>
-                    </span>
-                    <span>SECOND BOOK PRIVACY</span>
-                </div>
+                <i class="bi bi-shield-check"></i>
 
-                <h1>
-                    Your privacy,<br>
-                    <span>our priority.</span>
-                </h1>
+                <span>PRIVACY INFORMATION</span>
+
+                <span class="sb-privacy-eyebrow-line"></span>
+            </div>
+
+            <h1>
+                Privacy <em>Policy</em>
+            </h1>
+
+            <p>
+                Learn how SecondBook collects, uses, protects, and manages
+                your information while you use our marketplace.
+            </p>
+
+            <div class="sb-privacy-meta">
+
+                <span>
+                    <i class="bi bi-calendar3"></i>
+                    Last updated: September 2026
+                </span>
+
+                <span class="sb-privacy-meta-divider"></span>
+
+                <span>
+                    <i class="bi bi-shield-check"></i>
+                    Your privacy matters
+                </span>
+
+            </div>
+
+        </section>
+
+
+        {{-- =========================================================
+             INTRO
+        ========================================================== --}}
+        <section class="sb-privacy-intro">
+
+            <div class="sb-privacy-intro-icon">
+                <i class="bi bi-lock"></i>
+            </div>
+
+            <div>
+
+                <span class="sb-privacy-intro-label">
+                    WELCOME TO SECONDBOOK
+                </span>
+
+                <h2>
+                    Your information deserves careful handling.
+                </h2>
 
                 <p>
-                    We believe your personal information should be handled
-                    with care, transparency, and respect. Here's how
-                    SecondBook collects, uses, and protects your information.
+                    This Privacy Policy explains what information may be
+                    collected when you use SecondBook, why it may be used,
+                    and the choices available to you.
                 </p>
 
-                <div class="sb-privacy-updated">
-                    <i class="bi bi-calendar3"></i>
-                    <span>Last updated: September 2026</span>
-                </div>
-
             </div>
 
-        </div>
-
-        <div class="sb-privacy-decoration sb-privacy-decoration-one"></div>
-        <div class="sb-privacy-decoration sb-privacy-decoration-two"></div>
-
-    </section>
+        </section>
 
 
-    {{-- =========================================================
-         INTRODUCTION
-    ========================================================== --}}
-    <section class="sb-privacy-intro">
-
-        <div class="container">
-
-            <div class="sb-privacy-intro-grid">
-
-                <div class="sb-privacy-section-heading">
-
-                    <span class="sb-privacy-section-label">
-                        PRIVACY OVERVIEW
-                    </span>
-
-                    <h2>
-                        Keeping your information
-                        clear and protected.
-                    </h2>
-
-                </div>
-
-                <div class="sb-privacy-intro-content">
-
-                    <p>
-                        When you use SecondBook, certain information may be
-                        collected to provide our marketplace services, process
-                        orders, maintain your account, and improve your experience.
-                    </p>
-
-                    <p>
-                        This Privacy Policy explains the types of information
-                        we may collect, how it may be used, and the choices
-                        available to you.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    {{-- =========================================================
-         INFORMATION WE COLLECT
-    ========================================================== --}}
-    <section class="sb-privacy-information">
-
-        <div class="container">
+        {{-- =========================================================
+             INFORMATION WE COLLECT
+        ========================================================== --}}
+        <section class="sb-privacy-section">
 
             <div class="sb-privacy-section-heading">
 
@@ -115,15 +101,21 @@
                     we collect?
                 </h2>
 
+                <p>
+                    The information we collect depends on how you interact
+                    with SecondBook and the services you use.
+                </p>
+
             </div>
 
 
-            <div class="sb-privacy-information-grid">
+            <div class="sb-privacy-card-grid">
 
-                {{-- ACCOUNT INFORMATION --}}
-                <article class="sb-privacy-info-card">
+                <article class="sb-privacy-card">
 
-                    <div class="sb-privacy-info-icon">
+                    <span class="sb-privacy-card-number">01</span>
+
+                    <div class="sb-privacy-card-icon">
                         <i class="bi bi-person"></i>
                     </div>
 
@@ -138,10 +130,11 @@
                 </article>
 
 
-                {{-- ORDER INFORMATION --}}
-                <article class="sb-privacy-info-card">
+                <article class="sb-privacy-card">
 
-                    <div class="sb-privacy-info-icon">
+                    <span class="sb-privacy-card-number">02</span>
+
+                    <div class="sb-privacy-card-icon">
                         <i class="bi bi-bag"></i>
                     </div>
 
@@ -155,10 +148,11 @@
                 </article>
 
 
-                {{-- COMMUNICATION --}}
-                <article class="sb-privacy-info-card">
+                <article class="sb-privacy-card">
 
-                    <div class="sb-privacy-info-icon">
+                    <span class="sb-privacy-card-number">03</span>
+
+                    <div class="sb-privacy-card-icon">
                         <i class="bi bi-chat-left-text"></i>
                     </div>
 
@@ -173,10 +167,11 @@
                 </article>
 
 
-                {{-- USAGE INFORMATION --}}
-                <article class="sb-privacy-info-card">
+                <article class="sb-privacy-card">
 
-                    <div class="sb-privacy-info-icon">
+                    <span class="sb-privacy-card-number">04</span>
+
+                    <div class="sb-privacy-card-icon">
                         <i class="bi bi-bar-chart"></i>
                     </div>
 
@@ -192,168 +187,89 @@
 
             </div>
 
-        </div>
-
-    </section>
+        </section>
 
 
-    {{-- =========================================================
-         HOW WE USE INFORMATION
-    ========================================================== --}}
-    <section class="sb-privacy-usage">
+        {{-- =========================================================
+             HOW WE USE INFORMATION
+        ========================================================== --}}
+        <section class="sb-privacy-feature">
 
-        <div class="container">
-
-            <div class="sb-privacy-usage-box">
-
-                <div class="sb-privacy-usage-icon">
-                    <i class="bi bi-gear"></i>
-                </div>
-
-                <div class="sb-privacy-usage-content">
-
-                    <span class="sb-privacy-section-label">
-                        HOW WE USE INFORMATION
-                    </span>
-
-                    <h2>
-                        Why do we use your information?
-                    </h2>
-
-                    <div class="sb-privacy-usage-grid">
-
-                        <div class="sb-privacy-usage-item">
-                            <span class="sb-privacy-usage-number">01</span>
-                            <div>
-                                <h3>Provide our services</h3>
-                                <p>
-                                    To create accounts, process orders,
-                                    support marketplace features, and provide
-                                    requested services.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="sb-privacy-usage-item">
-                            <span class="sb-privacy-usage-number">02</span>
-                            <div>
-                                <h3>Process transactions</h3>
-                                <p>
-                                    To manage purchases, payments, shipping,
-                                    refunds, and related order activities.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="sb-privacy-usage-item">
-                            <span class="sb-privacy-usage-number">03</span>
-                            <div>
-                                <h3>Improve SecondBook</h3>
-                                <p>
-                                    To understand how our services are used
-                                    and improve functionality and usability.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="sb-privacy-usage-item">
-                            <span class="sb-privacy-usage-number">04</span>
-                            <div>
-                                <h3>Protect our platform</h3>
-                                <p>
-                                    To detect suspicious activity, maintain
-                                    security, and help prevent misuse.
-                                </p>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-
+            <div class="sb-privacy-feature-icon">
+                <i class="bi bi-gear"></i>
             </div>
 
-        </div>
+            <div class="sb-privacy-feature-content">
 
-    </section>
+                <span class="sb-privacy-section-label">
+                    HOW WE USE INFORMATION
+                </span>
 
+                <h2>
+                    Why do we use your information?
+                </h2>
 
-    {{-- =========================================================
-         DATA PROTECTION
-    ========================================================== --}}
-    <section class="sb-privacy-protection">
+                <div class="sb-privacy-feature-grid">
 
-        <div class="container">
+                    <div class="sb-privacy-feature-item">
 
-            <div class="sb-privacy-protection-grid">
-
-                <div class="sb-privacy-section-heading">
-
-                    <span class="sb-privacy-section-label">
-                        DATA PROTECTION
-                    </span>
-
-                    <h2>
-                        We take reasonable steps
-                        to protect your data.
-                    </h2>
-
-                    <p>
-                        We use appropriate technical and organizational
-                        measures intended to protect information against
-                        unauthorized access, misuse, alteration, or loss.
-                    </p>
-
-                </div>
-
-
-                <div class="sb-privacy-protection-list">
-
-                    <div class="sb-privacy-protection-item">
-
-                        <span class="sb-privacy-protection-icon">
-                            <i class="bi bi-lock"></i>
-                        </span>
+                        <span class="sb-privacy-feature-number">01</span>
 
                         <div>
-                            <h3>Account security</h3>
+                            <h3>Provide our services</h3>
+
                             <p>
-                                Account information is handled with security
-                                measures designed to help protect your access.
+                                To create accounts, process orders,
+                                support marketplace features, and provide
+                                requested services.
                             </p>
                         </div>
 
                     </div>
 
 
-                    <div class="sb-privacy-protection-item">
+                    <div class="sb-privacy-feature-item">
 
-                        <span class="sb-privacy-protection-icon">
-                            <i class="bi bi-shield-check"></i>
-                        </span>
+                        <span class="sb-privacy-feature-number">02</span>
 
                         <div>
-                            <h3>Limited access</h3>
+                            <h3>Process transactions</h3>
+
                             <p>
-                                Access to information should be limited to
-                                purposes connected with providing our services.
+                                To manage purchases, payments, shipping,
+                                refunds, and related order activities.
                             </p>
                         </div>
 
                     </div>
 
 
-                    <div class="sb-privacy-protection-item">
+                    <div class="sb-privacy-feature-item">
 
-                        <span class="sb-privacy-protection-icon">
-                            <i class="bi bi-eye-slash"></i>
-                        </span>
+                        <span class="sb-privacy-feature-number">03</span>
 
                         <div>
-                            <h3>Responsible handling</h3>
+                            <h3>Improve SecondBook</h3>
+
                             <p>
-                                We aim to handle personal information in a
-                                transparent and responsible manner.
+                                To understand how our services are used
+                                and improve functionality and usability.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="sb-privacy-feature-item">
+
+                        <span class="sb-privacy-feature-number">04</span>
+
+                        <div>
+                            <h3>Protect our platform</h3>
+
+                            <p>
+                                To detect suspicious activity, maintain
+                                security, and help prevent misuse.
                             </p>
                         </div>
 
@@ -363,62 +279,135 @@
 
             </div>
 
-        </div>
-
-    </section>
+        </section>
 
 
-    {{-- =========================================================
-         COOKIES
-    ========================================================== --}}
-    <section class="sb-privacy-cookies">
+        {{-- =========================================================
+             DATA PROTECTION
+        ========================================================== --}}
+        <section class="sb-privacy-section sb-privacy-protection">
 
-        <div class="container">
+            <div class="sb-privacy-protection-heading">
 
-            <div class="sb-privacy-cookies-box">
+                <span class="sb-privacy-section-label">
+                    DATA PROTECTION
+                </span>
 
-                <div class="sb-privacy-cookies-icon">
-                    <i class="bi bi-cookie"></i>
-                </div>
+                <h2>
+                    We take reasonable steps<br>
+                    to protect your data.
+                </h2>
 
-                <div class="sb-privacy-cookies-content">
+                <p>
+                    We use appropriate technical and organizational
+                    measures intended to protect information against
+                    unauthorized access, misuse, alteration, or loss.
+                </p>
 
-                    <span class="sb-privacy-section-label">
-                        COOKIES & TECHNOLOGIES
+            </div>
+
+
+            <div class="sb-privacy-protection-list">
+
+                <div class="sb-privacy-protection-item">
+
+                    <span class="sb-privacy-protection-icon">
+                        <i class="bi bi-lock"></i>
                     </span>
 
-                    <h2>
-                        About cookies
-                    </h2>
+                    <div>
+                        <h3>Account security</h3>
 
-                    <p>
-                        SecondBook may use cookies and similar technologies
-                        to remember preferences, support essential website
-                        functionality, maintain sessions, and understand
-                        how the website is used.
-                    </p>
+                        <p>
+                            Account information is handled with security
+                            measures designed to help protect your access.
+                        </p>
+                    </div>
 
-                    <p>
-                        Depending on your browser and settings, you may be
-                        able to manage or restrict cookies through your
-                        browser controls.
-                    </p>
+                </div>
+
+
+                <div class="sb-privacy-protection-item">
+
+                    <span class="sb-privacy-protection-icon">
+                        <i class="bi bi-shield-check"></i>
+                    </span>
+
+                    <div>
+                        <h3>Limited access</h3>
+
+                        <p>
+                            Access to information should be limited to
+                            purposes connected with providing our services.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="sb-privacy-protection-item">
+
+                    <span class="sb-privacy-protection-icon">
+                        <i class="bi bi-eye-slash"></i>
+                    </span>
+
+                    <div>
+                        <h3>Responsible handling</h3>
+
+                        <p>
+                            We aim to handle personal information in a
+                            transparent and responsible manner.
+                        </p>
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
-
-    </section>
+        </section>
 
 
-    {{-- =========================================================
-         YOUR RIGHTS
-    ========================================================== --}}
-    <section class="sb-privacy-rights">
+        {{-- =========================================================
+             COOKIES
+        ========================================================== --}}
+        <section class="sb-privacy-intro sb-privacy-cookies">
 
-        <div class="container">
+            <div class="sb-privacy-intro-icon">
+                <i class="bi bi-cookie"></i>
+            </div>
+
+            <div>
+
+                <span class="sb-privacy-intro-label">
+                    COOKIES & TECHNOLOGIES
+                </span>
+
+                <h2>
+                    About cookies.
+                </h2>
+
+                <p>
+                    SecondBook may use cookies and similar technologies
+                    to remember preferences, support essential website
+                    functionality, maintain sessions, and understand
+                    how the website is used.
+                </p>
+
+                <p class="sb-privacy-secondary-text">
+                    Depending on your browser and settings, you may be
+                    able to manage or restrict cookies through your
+                    browser controls.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        {{-- =========================================================
+             YOUR RIGHTS
+        ========================================================== --}}
+        <section class="sb-privacy-section">
 
             <div class="sb-privacy-section-heading">
 
@@ -439,11 +428,13 @@
             </div>
 
 
-            <div class="sb-privacy-rights-grid">
+            <div class="sb-privacy-card-grid">
 
-                <article class="sb-privacy-right-card">
+                <article class="sb-privacy-card">
 
-                    <div class="sb-privacy-right-icon">
+                    <span class="sb-privacy-card-number">01</span>
+
+                    <div class="sb-privacy-card-icon">
                         <i class="bi bi-person-lines-fill"></i>
                     </div>
 
@@ -457,9 +448,11 @@
                 </article>
 
 
-                <article class="sb-privacy-right-card">
+                <article class="sb-privacy-card">
 
-                    <div class="sb-privacy-right-icon">
+                    <span class="sb-privacy-card-number">02</span>
+
+                    <div class="sb-privacy-card-icon">
                         <i class="bi bi-pencil-square"></i>
                     </div>
 
@@ -473,9 +466,11 @@
                 </article>
 
 
-                <article class="sb-privacy-right-card">
+                <article class="sb-privacy-card">
 
-                    <div class="sb-privacy-right-icon">
+                    <span class="sb-privacy-card-number">03</span>
+
+                    <div class="sb-privacy-card-icon">
                         <i class="bi bi-trash3"></i>
                     </div>
 
@@ -489,9 +484,11 @@
                 </article>
 
 
-                <article class="sb-privacy-right-card">
+                <article class="sb-privacy-card">
 
-                    <div class="sb-privacy-right-icon">
+                    <span class="sb-privacy-card-number">04</span>
+
+                    <div class="sb-privacy-card-icon">
                         <i class="bi bi-envelope"></i>
                     </div>
 
@@ -506,99 +503,93 @@
 
             </div>
 
-        </div>
-
-    </section>
+        </section>
 
 
-    {{-- =========================================================
-         POLICY NOTE
-    ========================================================== --}}
-    <section class="sb-privacy-note">
+        {{-- =========================================================
+             POLICY NOTE
+        ========================================================== --}}
+        <section class="sb-privacy-note">
 
-        <div class="container">
+            <div class="sb-privacy-note-icon">
+                <i class="bi bi-info-circle"></i>
+            </div>
 
-            <div class="sb-privacy-note-box">
+            <div>
 
-                <div class="sb-privacy-note-icon">
-                    <i class="bi bi-info-circle"></i>
-                </div>
+                <span class="sb-privacy-section-label">
+                    IMPORTANT
+                </span>
 
-                <div class="sb-privacy-note-content">
+                <h2>
+                    This policy may be updated.
+                </h2>
 
-                    <span class="sb-privacy-section-label">
-                        IMPORTANT
-                    </span>
-
-                    <h2>
-                        This policy may be updated.
-                    </h2>
-
-                    <p>
-                        As SecondBook grows and our services change, this
-                        Privacy Policy may be updated from time to time.
-                        Any updated version should replace the previous
-                        version on this page.
-                    </p>
-
-                </div>
+                <p>
+                    As SecondBook grows and our services change, this
+                    Privacy Policy may be updated from time to time.
+                    Any updated version should replace the previous
+                    version on this page.
+                </p>
 
             </div>
 
-        </div>
-
-    </section>
+        </section>
 
 
-    {{-- =========================================================
-         CONTACT CTA
-    ========================================================== --}}
-    <section class="sb-privacy-contact">
+        {{-- =========================================================
+             CONTACT
+        ========================================================== --}}
+        <section class="sb-privacy-contact">
 
-        <div class="container">
+            <div class="sb-privacy-contact-icon">
+                <i class="bi bi-headset"></i>
+            </div>
 
-            <div class="sb-privacy-contact-box">
+            <div class="sb-privacy-contact-content">
 
-                <div class="sb-privacy-contact-icon">
-                    <i class="bi bi-headset"></i>
-                </div>
+                <span class="sb-privacy-section-label">
+                    HAVE A QUESTION?
+                </span>
 
-                <div class="sb-privacy-contact-content">
+                <h2>
+                    Need more information about privacy?
+                </h2>
 
-                    <span class="sb-privacy-section-label">
-                        HAVE A QUESTION?
-                    </span>
-
-                    <h2>
-                        Need more information about privacy?
-                    </h2>
-
-                    <p>
-                        Contact the SecondBook team if you have questions
-                        about this Privacy Policy or your personal information.
-                    </p>
-
-                </div>
-
-                <div class="sb-privacy-contact-actions">
-
-                    <a href="{{ route('frontend.contact') }}"
-                       class="sb-privacy-contact-btn">
-                        Contact Support
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
-
-                </div>
-
-                <div class="sb-privacy-contact-decoration"></div>
+                <p>
+                    Contact the SecondBook team if you have questions
+                    about this Privacy Policy or your personal information.
+                </p>
 
             </div>
 
+            <a href="{{ route('frontend.contact') }}"
+               class="sb-privacy-contact-btn">
+                Contact Support
+                <i class="bi bi-arrow-right"></i>
+            </a>
+
+        </section>
+
+
+        {{-- =========================================================
+             BOTTOM META
+        ========================================================== --}}
+        <div class="sb-privacy-bottom">
+
+            <span>
+                <i class="bi bi-shield-check"></i>
+                Last Updated: September 2026
+            </span>
+
+            <span>
+                support@secondbook.com
+            </span>
+
         </div>
 
-    </section>
+    </div>
 
 </main>
 
 @endsection
-

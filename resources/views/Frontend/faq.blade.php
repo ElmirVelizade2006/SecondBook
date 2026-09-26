@@ -11,8 +11,9 @@
 <main class="sb-faq-page">
 
     {{-- =========================================================
-        HERO
+         HERO
     ========================================================== --}}
+
     <section class="sb-faq-hero">
 
         <div class="sb-faq-hero-decoration sb-faq-decoration-one"></div>
@@ -44,6 +45,7 @@
                 <div class="sb-faq-hero-meta">
 
                     <div class="sb-faq-meta-item">
+
                         <span class="sb-faq-meta-icon">
                             <i class="bi bi-lightning-charge"></i>
                         </span>
@@ -52,11 +54,13 @@
                             <strong>Quick answers</strong>
                             <span>Find what you need faster</span>
                         </div>
+
                     </div>
 
                     <div class="sb-faq-meta-divider"></div>
 
                     <div class="sb-faq-meta-item">
+
                         <span class="sb-faq-meta-icon">
                             <i class="bi bi-headset"></i>
                         </span>
@@ -65,6 +69,7 @@
                             <strong>Need more help?</strong>
                             <span>Our support team is here</span>
                         </div>
+
                     </div>
 
                 </div>
@@ -77,13 +82,13 @@
 
 
     {{-- =========================================================
-        FAQ CONTENT
+         FAQ CONTENT
     ========================================================== --}}
+
     <section class="sb-faq-section">
 
         <div class="container">
 
-            {{-- SECTION INTRO --}}
             <div class="sb-faq-section-heading">
 
                 <div>
@@ -106,9 +111,8 @@
             </div>
 
 
-            {{-- =================================================
-                SEARCH
-            ================================================== --}}
+            {{-- SEARCH --}}
+
             <div class="sb-faq-search-wrapper">
 
                 <div class="sb-faq-search">
@@ -139,9 +143,8 @@
             </div>
 
 
-            {{-- =================================================
-                CATEGORY FILTER
-            ================================================== --}}
+            {{-- CATEGORY FILTER --}}
+
             @if($categories->count())
 
                 <div class="sb-faq-filter-row">
@@ -181,9 +184,8 @@
             @endif
 
 
-            {{-- =================================================
-                FAQ LIST
-            ================================================== --}}
+            {{-- FAQ LIST --}}
+
             <div class="sb-faq-content">
 
                 <div
@@ -200,7 +202,6 @@
                             data-answer="{{ strtolower($faq->answer ?? '') }}"
                         >
 
-                            {{-- QUESTION --}}
                             <button
                                 type="button"
                                 class="sb-faq-question"
@@ -216,9 +217,11 @@
                                     <span class="sb-faq-question-content">
 
                                         @if($faq->category)
+
                                             <span class="sb-faq-question-category">
                                                 {{ $faq->category }}
                                             </span>
+
                                         @endif
 
                                         <span class="sb-faq-question-text">
@@ -229,7 +232,6 @@
 
                                 </span>
 
-
                                 <span class="sb-faq-toggle">
                                     <i class="bi bi-chevron-down"></i>
                                 </span>
@@ -237,7 +239,6 @@
                             </button>
 
 
-                            {{-- ANSWER --}}
                             <div class="sb-faq-answer">
 
                                 <div class="sb-faq-answer-inner">
@@ -290,6 +291,7 @@
 
 
                     {{-- NO SEARCH RESULTS --}}
+
                     <div
                         class="sb-faq-no-results"
                         id="faqNoResults"
@@ -319,6 +321,7 @@
 
 
                 {{-- FAQ SIDE NOTE --}}
+
                 <aside class="sb-faq-side-card">
 
                     <div class="sb-faq-side-icon">
@@ -341,6 +344,7 @@
                     <div class="sb-faq-side-divider"></div>
 
                     <div class="sb-faq-side-stat">
+
                         <span class="sb-faq-side-stat-icon">
                             <i class="bi bi-patch-question"></i>
                         </span>
@@ -349,6 +353,7 @@
                             <strong>{{ $faqs->count() }}</strong>
                             <span>Questions available</span>
                         </div>
+
                     </div>
 
                 </aside>
@@ -361,8 +366,9 @@
 
 
     {{-- =========================================================
-        CONTACT CTA
+         CONTACT CTA
     ========================================================== --}}
+
     <section class="sb-faq-contact">
 
         <div class="container">
@@ -397,7 +403,6 @@
                     class="sb-faq-contact-btn"
                 >
                     <span>Contact Us</span>
-
                     <i class="bi bi-arrow-up-right"></i>
                 </a>
 
@@ -413,8 +418,9 @@
 
 
 {{-- =========================================================
-    FAQ JAVASCRIPT
+     FAQ JAVASCRIPT
 ========================================================== --}}
+
 @push('js')
 
 <script>
@@ -423,7 +429,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('faqSearch');
     const clearButton = document.getElementById('faqSearchClear');
     const noResults = document.getElementById('faqNoResults');
-
     const items = document.querySelectorAll('.sb-faq-item');
     const categoryButtons = document.querySelectorAll('.sb-faq-category');
 
@@ -456,12 +461,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     otherItem.querySelector('.sb-faq-question');
 
                 if (otherQuestion) {
-
                     otherQuestion.setAttribute(
                         'aria-expanded',
                         'false'
                     );
-
                 }
 
             });

@@ -1191,3 +1191,85 @@
         max-height: 35px !important;
     }
 }
+
+/* =========================================================
+   PASSWORD REQUIREMENTS
+========================================================= */
+
+.password-requirements {
+    display: none;
+    width: 100%;
+    margin-top: 4px;
+    margin-bottom: 24px;
+    padding: 16px 18px;
+    border: 1px solid #eadfd7;
+    border-radius: 12px;
+    background: #fcfaf8;
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.password-requirement {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 28px;
+    margin: 0;
+    color: #8a7b72;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.password-requirement + .password-requirement {
+    margin-top: 7px;
+}
+
+.password-requirement i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    min-width: 18px;
+    height: 18px;
+    font-size: 14px;
+    color: #b7aaa1;
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.password-requirement.valid {
+    color: #4f6658;
+}
+
+.password-requirement.valid i {
+    color: #5d806b;
+    transform: scale(1.05);
+}
+
+
+/* =========================================================
+   PASSWORD REQUIREMENTS — RESPONSIVE
+========================================================= */
+
+@media (max-width: 575.98px) {
+
+    .password-requirements {
+        padding: 14px 15px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+    }
+
+    .password-requirement {
+        font-size: 12.5px;
+    }
+
+    .password-requirement + .password-requirement {
+        margin-top: 6px;
+    }
+}

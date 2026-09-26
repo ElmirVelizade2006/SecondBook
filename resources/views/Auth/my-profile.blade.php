@@ -3,55 +3,31 @@
 @section('title', 'My Profile | SecondBook')
 
 @push('css')
-    <link rel="stylesheet" href="{{ asset('frontend/profile.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/profile.css') }}">
 @endpush
 
 @php
-    $profileUser = auth()->user();
+    $profileEmail = $user->email ?: 'Not provided';
+    $profilePhone = $user->phone ?: 'Not provided';
+    $profileUsername = $user->username ?: 'Not provided';
+    $profileBio = $user->bio ?: 'No biography has been added yet.';
+    $profileDateOfBirth = $user->date_of_birth
+        ? $user->date_of_birth->format('F j, Y')
+        : 'Not provided';
 
-    $profileName = $profileUser->name ?? 'SecondBook User';
-    $profileEmail = $profileUser->email ?? 'Not provided';
-    $profilePhone = $profileUser->phone ?? 'Not provided';
-    $profileAddress = $profileUser->address ?? 'Not provided';
+    $profileGender = $user->gender
+        ? ucfirst(str_replace('_', ' ', $user->gender))
+        : 'Not provided';
 
-    $profileRole = ucfirst($profileUser->role ?? 'User');
+    $profileCountry = $user->country ?: 'Not provided';
+    $profileCity = $user->city ?: 'Not provided';
+    $profileState = $user->state ?: 'Not provided';
+    $profilePostalCode = $user->postal_code ?: 'Not provided';
 
-    $memberSince = optional($profileUser->created_at)->format('F Y') ?? 'N/A';
-    $joinedDate = optional($profileUser->created_at)->format('F j, Y') ?? 'N/A';
-    $lastAccountUpdate = optional($profileUser->updated_at)->format('F j, Y') ?? 'N/A';
-
-    /*
-    |--------------------------------------------------------------------------
-    | Avatar Initials
-    |--------------------------------------------------------------------------
-    */
-    $avatarInitials = '';
-
-    $nameParts = array_filter(
-        preg_split('/\s+/', trim($profileName)) ?: []
-    );
-
-    foreach (array_slice($nameParts, 0, 2) as $part) {
-        $avatarInitials .= mb_strtoupper(
-            mb_substr($part, 0, 1)
-        );
-    }
-
-    if ($avatarInitials === '') {
-        $avatarInitials = 'SB';
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Statistics
-    |--------------------------------------------------------------------------
-    */
-    $orderCount = $orderCount ?? 0;
-    $wishlistCount = $wishlistCount ?? 0;
-    $booksSoldCount = $booksSoldCount ?? 0;
-    $reviewsCount = $reviewsCount ?? 0;
+    $profilePhoto = $user->profile_photo
+        ? \Illuminate\Support\Facades\Storage::url($user->profile_photo)
+        : null;
 @endphp
-
 
 @section('content')
 
@@ -60,7 +36,7 @@
     <div class="container">
 
         {{-- =========================================================
-             HERO
+             PROFILE HERO
         ========================================================== --}}
         <section class="sb-profile-hero">
 
@@ -68,17 +44,25 @@
 
                 <div class="sb-profile-avatar-wrap">
 
-                    <div class="sb-profile-avatar">
-                        {{ $avatarInitials }}
-                    </div>
+                    @if($profilePhoto)
+                        <div class="sb-profile-avatar sb-profile-avatar-photo">
+                            <img
+                                src="{{ $profilePhoto }}"
+                                alt="{{ $profileName }}"
+                            >
+                        </div>
+                    @else
+                        <div class="sb-profile-avatar">
+                            {{ $avatarInitials }}
+                        </div>
+                    @endif
 
-                    <div class="sb-profile-online">
+                    <div class="sb-profile-online {{ $profileStatus['class'] }}">
                         <span></span>
-                        Active
+                        {{ $profileStatus['label'] }}
                     </div>
 
                 </div>
-
 
                 <div class="sb-profile-identity">
 
@@ -90,6 +74,13 @@
                     <h1>
                         {{ $profileName }}
                     </h1>
+
+                    @if($user->username)
+                        <div class="sb-profile-username">
+                            <i class="bi bi-at"></i>
+                            {{ $user->username }}
+                        </div>
+                    @endif
 
                     <p>
                         Manage your personal information, account details
@@ -119,7 +110,6 @@
 
             </div>
 
-
             <div class="sb-profile-hero-actions">
 
                 <a
@@ -148,91 +138,57 @@
         ========================================================== --}}
         <section class="sb-profile-stats">
 
-            {{-- ORDERS --}}
             <div class="sb-profile-stat">
-
                 <div class="sb-profile-stat-icon">
                     <i class="bi bi-bag-check"></i>
                 </div>
 
                 <div class="sb-profile-stat-content">
-
-                    <span>
-                        ORDERS
-                    </span>
-
-                    <strong>
-                        {{ $orderCount }}
-                    </strong>
-
+                    <span>ORDERS</span>
+                    <strong>{{ $orderCount }}</strong>
+                    <small>Your purchases</small>
                 </div>
-
             </div>
 
 
-            {{-- WISHLIST --}}
             <div class="sb-profile-stat">
-
                 <div class="sb-profile-stat-icon">
                     <i class="bi bi-heart"></i>
                 </div>
 
                 <div class="sb-profile-stat-content">
-
-                    <span>
-                        WISHLIST
-                    </span>
-
-                    <strong>
-                        {{ $wishlistCount }}
-                    </strong>
-
+                    <span>WISHLIST</span>
+                    <strong>{{ $wishlistCount }}</strong>
+                    <small>Saved books</small>
                 </div>
-
             </div>
 
 
-            {{-- BOOKS SOLD --}}
             <div class="sb-profile-stat">
-
                 <div class="sb-profile-stat-icon">
                     <i class="bi bi-book"></i>
                 </div>
 
                 <div class="sb-profile-stat-content">
-
-                    <span>
-                        BOOKS SOLD
-                    </span>
-
-                    <strong>
-                        {{ $booksSoldCount }}
-                    </strong>
-
+                    <span>BOOKS SOLD</span>
+                    <strong>{{ $booksSoldCount }}</strong>
+                    <small>
+                        {{ $user->isSeller() ? 'Completed sales' : 'Seller accounts only' }}
+                    </small>
                 </div>
-
             </div>
 
 
-            {{-- REVIEWS --}}
             <div class="sb-profile-stat">
-
                 <div class="sb-profile-stat-icon">
                     <i class="bi bi-star"></i>
                 </div>
 
                 <div class="sb-profile-stat-content">
-
-                    <span>
-                        REVIEWS
-                    </span>
-
-                    <strong>
-                        {{ $reviewsCount }}
-                    </strong>
-
+                    <span>REVIEWS</span>
+                    <strong>{{ $reviewsCount }}</strong>
+                    <small>Your reviews</small>
                 </div>
-
             </div>
 
         </section>
@@ -252,7 +208,6 @@
                 <div class="sb-profile-card-header">
 
                     <div>
-
                         <span class="sb-card-overline">
                             PROFILE DETAILS
                         </span>
@@ -264,7 +219,6 @@
                         <p>
                             Your personal information and contact details.
                         </p>
-
                     </div>
 
                     <div class="sb-profile-card-icon">
@@ -276,126 +230,175 @@
 
                 <div class="sb-profile-info-grid">
 
-                    {{-- FULL NAME --}}
                     <div class="sb-profile-info">
-
                         <span class="sb-profile-info-label">
                             Full Name
                         </span>
 
                         <div class="sb-profile-info-value">
-
                             <i class="bi bi-person"></i>
-
                             <span title="{{ $profileName }}">
                                 {{ $profileName }}
                             </span>
-
                         </div>
-
                     </div>
 
 
-                    {{-- EMAIL --}}
                     <div class="sb-profile-info">
+                        <span class="sb-profile-info-label">
+                            Username
+                        </span>
 
+                        <div class="sb-profile-info-value">
+                            <i class="bi bi-at"></i>
+                            <span title="{{ $profileUsername }}">
+                                {{ $profileUsername }}
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <div class="sb-profile-info">
                         <span class="sb-profile-info-label">
                             Email Address
                         </span>
 
                         <div class="sb-profile-info-value">
-
                             <i class="bi bi-envelope"></i>
-
                             <span title="{{ $profileEmail }}">
                                 {{ $profileEmail }}
                             </span>
-
                         </div>
-
                     </div>
 
 
-                    {{-- PHONE --}}
                     <div class="sb-profile-info">
-
                         <span class="sb-profile-info-label">
                             Phone Number
                         </span>
 
                         <div class="sb-profile-info-value">
-
                             <i class="bi bi-telephone"></i>
-
                             <span title="{{ $profilePhone }}">
                                 {{ $profilePhone }}
                             </span>
-
                         </div>
-
                     </div>
 
 
-                    {{-- ADDRESS --}}
                     <div class="sb-profile-info">
+                        <span class="sb-profile-info-label">
+                            Date of Birth
+                        </span>
 
+                        <div class="sb-profile-info-value">
+                            <i class="bi bi-calendar-event"></i>
+                            <span>
+                                {{ $profileDateOfBirth }}
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <div class="sb-profile-info">
+                        <span class="sb-profile-info-label">
+                            Gender
+                        </span>
+
+                        <div class="sb-profile-info-value">
+                            <i class="bi bi-person-standing"></i>
+                            <span>
+                                {{ $profileGender }}
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <div class="sb-profile-info">
+                        <span class="sb-profile-info-label">
+                            Country
+                        </span>
+
+                        <div class="sb-profile-info-value">
+                            <i class="bi bi-globe2"></i>
+                            <span title="{{ $profileCountry }}">
+                                {{ $profileCountry }}
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <div class="sb-profile-info">
+                        <span class="sb-profile-info-label">
+                            City
+                        </span>
+
+                        <div class="sb-profile-info-value">
+                            <i class="bi bi-buildings"></i>
+                            <span title="{{ $profileCity }}">
+                                {{ $profileCity }}
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <div class="sb-profile-info">
+                        <span class="sb-profile-info-label">
+                            State / Region
+                        </span>
+
+                        <div class="sb-profile-info-value">
+                            <i class="bi bi-map"></i>
+                            <span title="{{ $profileState }}">
+                                {{ $profileState }}
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <div class="sb-profile-info">
+                        <span class="sb-profile-info-label">
+                            Postal Code
+                        </span>
+
+                        <div class="sb-profile-info-value">
+                            <i class="bi bi-mailbox"></i>
+                            <span title="{{ $profilePostalCode }}">
+                                {{ $profilePostalCode }}
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <div class="sb-profile-info sb-profile-info-wide">
                         <span class="sb-profile-info-label">
                             Address
                         </span>
 
                         <div class="sb-profile-info-value">
-
                             <i class="bi bi-geo-alt"></i>
-
                             <span title="{{ $profileAddress }}">
                                 {{ $profileAddress }}
                             </span>
-
                         </div>
-
-                    </div>
-
-
-                    {{-- MEMBER SINCE --}}
-                    <div class="sb-profile-info">
-
-                        <span class="sb-profile-info-label">
-                            Member Since
-                        </span>
-
-                        <div class="sb-profile-info-value">
-
-                            <i class="bi bi-calendar-event"></i>
-
-                            <span>
-                                {{ $memberSince }}
-                            </span>
-
-                        </div>
-
-                    </div>
-
-
-                    {{-- LAST ACCOUNT UPDATE --}}
-                    <div class="sb-profile-info">
-
-                        <span class="sb-profile-info-label">
-                            Last Account Update
-                        </span>
-
-                        <div class="sb-profile-info-value">
-
-                            <i class="bi bi-clock-history"></i>
-
-                            <span>
-                                {{ $lastAccountUpdate }}
-                            </span>
-
-                        </div>
-
                     </div>
 
                 </div>
+
+
+                @if($user->bio)
+                    <div class="sb-profile-bio">
+
+                        <span class="sb-profile-info-label">
+                            About You
+                        </span>
+
+                        <p>
+                            {{ $user->bio }}
+                        </p>
+
+                    </div>
+                @endif
 
 
                 <div class="sb-profile-card-footer">
@@ -425,7 +428,6 @@
                 <div class="sb-profile-card-header">
 
                     <div>
-
                         <span class="sb-card-overline">
                             ACCOUNT
                         </span>
@@ -435,9 +437,8 @@
                         </h2>
 
                         <p>
-                            Your current account status.
+                            Your current account status and activity.
                         </p>
-
                     </div>
 
                     <div class="sb-profile-card-icon">
@@ -447,15 +448,12 @@
                 </div>
 
 
-                {{-- STATUS --}}
-                <div class="sb-account-status">
+                <div class="sb-account-status {{ $profileStatus['class'] }}">
 
                     <div class="sb-status-visual">
-
                         <div class="sb-status-check">
-                            <i class="bi bi-check-lg"></i>
+                            <i class="bi {{ $profileStatus['icon'] }}"></i>
                         </div>
-
                     </div>
 
                     <div class="sb-status-content">
@@ -465,11 +463,11 @@
                         </span>
 
                         <h3>
-                            Active
+                            {{ $profileStatus['label'] }}
                         </h3>
 
                         <p>
-                            Your account is active and ready to use.
+                            {{ $profileStatus['description'] }}
                         </p>
 
                     </div>
@@ -477,34 +475,54 @@
                 </div>
 
 
-                {{-- ACCOUNT DETAILS --}}
                 <div class="sb-account-details">
 
                     <div>
-
-                        <span>
-                            Account Type
-                        </span>
-
-                        <strong>
-                            {{ $profileRole }}
-                        </strong>
-
+                        <span>Account Type</span>
+                        <strong>{{ $profileRole }}</strong>
                     </div>
 
                     <div>
+                        <span>Member Since</span>
+                        <strong>{{ $joinedDate }}</strong>
+                    </div>
 
-                        <span>
-                            Member Since
-                        </span>
+                    <div>
+                        <span>Last Login</span>
+                        <strong>{{ $lastLogin }}</strong>
+                    </div>
 
-                        <strong>
-                            {{ $memberSince }}
-                        </strong>
-
+                    <div>
+                        <span>Last Updated</span>
+                        <strong>{{ $lastAccountUpdate }}</strong>
                     </div>
 
                 </div>
+
+
+                @if($user->isSeller() && $store)
+
+                    <div class="sb-profile-store">
+
+                        <div class="sb-profile-store-icon">
+                            <i class="bi bi-shop"></i>
+                        </div>
+
+                        <div class="sb-profile-store-content">
+                            <span>SELLER STORE</span>
+
+                            <strong>
+                                {{ $store->name ?? 'Your Store' }}
+                            </strong>
+
+                            <p>
+                                Your seller account is connected to a SecondBook store.
+                            </p>
+                        </div>
+
+                    </div>
+
+                @endif
 
 
                 <a
@@ -527,26 +545,29 @@
 
             <div class="sb-profile-section-heading">
 
-                <h2>
-                    Quick Actions
-                </h2>
+                <div>
+                    <span class="sb-section-overline">
+                        ACCOUNT SHORTCUTS
+                    </span>
 
-                <p>
-                    Shortcuts to the most important areas of your account.
-                </p>
+                    <h2>
+                        Quick Actions
+                    </h2>
+
+                    <p>
+                        Shortcuts to the most important areas of your account.
+                    </p>
+                </div>
 
             </div>
 
 
             <div class="sb-profile-actions-grid">
 
-
-                {{-- EDIT PROFILE --}}
                 <a
                     href="{{ route('profile.edit') }}"
                     class="sb-profile-action"
                 >
-
                     <div class="sb-profile-action-icon">
                         <i class="bi bi-person-gear"></i>
                     </div>
@@ -556,23 +577,20 @@
                     </h3>
 
                     <p>
-                        Update your name, phone number, address and other
-                        personal information.
+                        Update your name, phone number, address and
+                        other personal information.
                     </p>
 
                     <span class="sb-action-arrow">
                         <i class="bi bi-arrow-up-right"></i>
                     </span>
-
                 </a>
 
 
-                {{-- ACCOUNT SETTINGS --}}
                 <a
                     href="{{ route('frontend.account.settings') }}"
                     class="sb-profile-action"
                 >
-
                     <div class="sb-profile-action-icon">
                         <i class="bi bi-sliders"></i>
                     </div>
@@ -582,23 +600,20 @@
                     </h3>
 
                     <p>
-                        Manage notifications, privacy and your account
-                        preferences.
+                        Manage notifications, privacy and your
+                        account preferences.
                     </p>
 
                     <span class="sb-action-arrow">
                         <i class="bi bi-arrow-up-right"></i>
                     </span>
-
                 </a>
 
 
-                {{-- SECURITY --}}
                 <a
                     href="{{ route('frontend.account.settings') }}#security"
                     class="sb-profile-action"
                 >
-
                     <div class="sb-profile-action-icon">
                         <i class="bi bi-shield-lock"></i>
                     </div>
@@ -608,43 +623,66 @@
                     </h3>
 
                     <p>
-                        Change your password and keep your account
-                        protected.
+                        Change your password and keep your account protected.
                     </p>
 
                     <span class="sb-action-arrow">
                         <i class="bi bi-arrow-up-right"></i>
                     </span>
-
                 </a>
 
 
-                {{-- SUPPORT --}}
                 <a
-                    href="mailto:support@secondbook.com"
+                    href="{{ route('frontend.help-center') }}"
                     class="sb-profile-action"
                 >
-
                     <div class="sb-profile-action-icon">
                         <i class="bi bi-headset"></i>
                     </div>
 
                     <h3>
-                        Support
+                        Help Center
                     </h3>
 
                     <p>
-                        Contact the SecondBook support team if you need
-                        assistance.
+                        Find answers, browse helpful guides and
+                        contact SecondBook support.
                     </p>
 
                     <span class="sb-action-arrow">
                         <i class="bi bi-arrow-up-right"></i>
                     </span>
-
                 </a>
 
             </div>
+
+        </section>
+
+
+        {{-- =========================================================
+             PROFILE FOOTER NOTE
+        ========================================================== --}}
+        <section class="sb-profile-bottom">
+
+            <div class="sb-profile-bottom-icon">
+                <i class="bi bi-shield-check"></i>
+            </div>
+
+            <div>
+                <strong>
+                    Your account, your information.
+                </strong>
+
+                <p>
+                    Keep your profile details accurate so your
+                    SecondBook experience stays smooth and secure.
+                </p>
+            </div>
+
+            <a href="{{ route('profile.edit') }}">
+                Update profile
+                <i class="bi bi-arrow-right"></i>
+            </a>
 
         </section>
 

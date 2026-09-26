@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\PasswordOtp;
 use App\Models\Setting;
+use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Throwable;
 
-class AuthController extends \App\Http\Controllers\Controller
+class AuthController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -43,93 +46,146 @@ class AuthController extends \App\Http\Controllers\Controller
             'email' => strtolower(trim((string) $request->email)),
         ]);
 
-        $request->validate([
-            'first_name' => [
-                'required',
-                'string',
-                'min:2',
-                'max:50',
-                'regex:/^[\pL\pM]+(?:[\'-][\pL\pM]+)*$/u',
+        $request->validate(
+            [
+                'first_name' => [
+                    'required',
+                    'string',
+                    'min:2',
+                    'max:50',
+                    'regex:/^[\pL\pM]+(?:[\'-][\pL\pM]+)*$/u',
+                ],
+
+                'last_name' => [
+                    'required',
+                    'string',
+                    'min:2',
+                    'max:50',
+                    'regex:/^[\pL\pM]+(?:[\'-][\pL\pM]+)*$/u',
+                ],
+
+                'username' => [
+                    'required',
+                    'string',
+                    'min:3',
+                    'max:100',
+                    'regex:/^[A-Za-z0-9_.-]+$/',
+                    'unique:users,username',
+                ],
+
+                'email' => [
+                    'required',
+                    'string',
+                    'email:rfc',
+                    'max:255',
+                    'unique:users,email',
+                ],
+
+                'password' => [
+                    'required',
+                    'string',
+                    'min:' . Setting::get(
+                        'minimum_password_length',
+                        8
+                    ),
+                    'confirmed',
+                ],
+
+                'terms' => 'accepted',
             ],
+            [
+                'first_name.required' =>
+                    'First name is required.',
 
-            'last_name' => [
-                'required',
-                'string',
-                'min:2',
-                'max:50',
-                'regex:/^[\pL\pM]+(?:[\'-][\pL\pM]+)*$/u',
-            ],
+                'first_name.min' =>
+                    'First name must be at least 2 characters.',
 
-            'username' => [
-                'required',
-                'string',
-                'min:3',
-                'max:100',
-                'regex:/^[A-Za-z0-9_.-]+$/',
-                'unique:users,username',
-            ],
+                'first_name.max' =>
+                    'First name may not exceed 50 characters.',
 
-            'email' => [
-                'required',
-                'string',
-                'email:rfc',
-                'max:255',
-                'unique:users,email',
-            ],
+                'first_name.regex' =>
+                    'First name may contain letters, spaces, hyphens, or apostrophes only.',
 
-            'password' => [
-                'required',
-                'string',
-                'min:' . Setting::get(
-                    'minimum_password_length',
-                    8
-                ),
-                'confirmed',
-            ],
+                'last_name.required' =>
+                    'Last name is required.',
 
-            'terms' => 'accepted',
-        ], [
-            'first_name.required' => 'First name is required.',
-            'first_name.min' => 'First name must be at least 2 characters.',
-            'first_name.max' => 'First name may not exceed 50 characters.',
-            'first_name.regex' => 'First name may contain letters, spaces, hyphens, or apostrophes only.',
+                'last_name.min' =>
+                    'Last name must be at least 2 characters.',
 
-            'last_name.required' => 'Last name is required.',
-            'last_name.min' => 'Last name must be at least 2 characters.',
-            'last_name.max' => 'Last name may not exceed 50 characters.',
-            'last_name.regex' => 'Last name may contain letters, spaces, hyphens, or apostrophes only.',
+                'last_name.max' =>
+                    'Last name may not exceed 50 characters.',
 
-            'username.required' => 'Username is required.',
-            'username.min' => 'Username must be at least 3 characters.',
-            'username.max' => 'Username may not exceed 100 characters.',
-            'username.regex' => 'Username may contain letters, numbers, dots, underscores, and hyphens only.',
-            'username.unique' => 'This username is already taken.',
+                'last_name.regex' =>
+                    'Last name may contain letters, spaces, hyphens, or apostrophes only.',
 
-            'email.required' => 'Email address is required.',
-            'email.email' => 'Please enter a valid email address.',
-            'email.max' => 'Email address may not exceed 255 characters.',
-            'email.unique' => 'This email is already registered.',
+                'username.required' =>
+                    'Username is required.',
 
-            'password.required' => 'Password is required.',
-            'password.min' => 'Password does not meet the minimum length requirement.',
-            'password.confirmed' => 'Password confirmation does not match.',
+                'username.min' =>
+                    'Username must be at least 3 characters.',
 
-            'terms.accepted' => 'You must accept the Terms and Conditions.',
-        ]);
+                'username.max' =>
+                    'Username may not exceed 100 characters.',
+
+                'username.regex' =>
+                    'Username may contain letters, numbers, dots, underscores, and hyphens only.',
+
+                'username.unique' =>
+                    'This username is already taken.',
+
+                'email.required' =>
+                    'Email address is required.',
+
+                'email.email' =>
+                    'Please enter a valid email address.',
+
+                'email.max' =>
+                    'Email address may not exceed 255 characters.',
+
+                'email.unique' =>
+                    'This email is already registered.',
+
+                'password.required' =>
+                    'Password is required.',
+
+                'password.min' =>
+                    'Password does not meet the minimum length requirement.',
+
+                'password.confirmed' =>
+                    'Password confirmation does not match.',
+
+                'terms.accepted' =>
+                    'You must accept the Terms and Conditions.',
+            ]
+        );
 
         $user = User::create([
-            'name' => $request->first_name . ' ' . $request->last_name,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'user',
+            'name' =>
+                $request->first_name . ' ' . $request->last_name,
+
+            'first_name' =>
+                $request->first_name,
+
+            'last_name' =>
+                $request->last_name,
+
+            'username' =>
+                $request->username,
+
+            'email' =>
+                $request->email,
+
+            'password' =>
+                Hash::make($request->password),
+
+            'role' =>
+                'user',
         ]);
 
         Auth::login($user);
 
-        return redirect()->route('frontend.home');
+        return redirect()
+            ->route('frontend.home');
     }
 
     /*
@@ -159,10 +215,17 @@ class AuthController extends \App\Http\Controllers\Controller
                 ],
             ],
             [
-                'email.required' => 'Email address is required.',
-                'email.email' => 'Please enter a valid email address.',
-                'email.max' => 'Email address may not exceed 255 characters.',
-                'password.required' => 'Password is required.',
+                'email.required' =>
+                    'Email address is required.',
+
+                'email.email' =>
+                    'Please enter a valid email address.',
+
+                'email.max' =>
+                    'Email address may not exceed 255 characters.',
+
+                'password.required' =>
+                    'Password is required.',
             ]
         );
 
@@ -182,26 +245,60 @@ class AuthController extends \App\Http\Controllers\Controller
         if ($user) {
             $passwordValid = false;
 
+            /*
+            |--------------------------------------------------------------------------
+            | Check Hashed Password
+            |--------------------------------------------------------------------------
+            */
+
             if (Hash::check($password, $user->password)) {
                 $passwordValid = true;
             } elseif (
                 $user->password &&
                 $password === $user->password
             ) {
-                // Legacy plaintext password support
+                /*
+                |--------------------------------------------------------------------------
+                | Legacy Plaintext Password Support
+                |--------------------------------------------------------------------------
+                */
+
                 $passwordValid = true;
 
                 $user->password = Hash::make($password);
+
                 $user->save();
             }
 
             if ($passwordValid) {
+                /*
+                |--------------------------------------------------------------------------
+                | Login
+                |--------------------------------------------------------------------------
+                */
+
                 Auth::login(
                     $user,
                     $remember
                 );
 
                 $request->session()->regenerate();
+
+                /*
+                |--------------------------------------------------------------------------
+                | Update Last Login
+                |--------------------------------------------------------------------------
+                */
+
+                $user->update([
+                    'last_login_at' => now(),
+                ]);
+
+                /*
+                |--------------------------------------------------------------------------
+                | Redirect By Role
+                |--------------------------------------------------------------------------
+                */
 
                 $role = strtolower(
                     (string) ($user->role ?? '')
@@ -227,13 +324,22 @@ class AuthController extends \App\Http\Controllers\Controller
             }
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | Invalid Login
+        |--------------------------------------------------------------------------
+        */
+
         return back()
             ->with(
                 'error',
                 'Invalid email or password.'
             )
             ->withInput(
-                $request->only('email', 'remember')
+                $request->only(
+                    'email',
+                    'remember'
+                )
             );
     }
 
@@ -291,7 +397,7 @@ class AuthController extends \App\Http\Controllers\Controller
                         );
                 }
             );
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             report($e);
         }
 
@@ -341,7 +447,8 @@ class AuthController extends \App\Http\Controllers\Controller
         if (!$otp) {
             return back()
                 ->withErrors([
-                    'otp_code' => 'Invalid OTP code.',
+                    'otp_code' =>
+                        'Invalid OTP code.',
                 ]);
         }
 
@@ -352,7 +459,8 @@ class AuthController extends \App\Http\Controllers\Controller
         ) {
             return back()
                 ->withErrors([
-                    'otp_code' => 'OTP code has expired.',
+                    'otp_code' =>
+                        'OTP code has expired.',
                 ]);
         }
 
@@ -364,7 +472,8 @@ class AuthController extends \App\Http\Controllers\Controller
         if (!$user) {
             return back()
                 ->withErrors([
-                    'email' => 'User not found.',
+                    'email' =>
+                        'User not found.',
                 ]);
         }
 
@@ -403,6 +512,7 @@ class AuthController extends \App\Http\Controllers\Controller
         Auth::logout();
 
         $request->session()->invalidate();
+
         $request->session()->regenerateToken();
 
         return redirect()
@@ -421,9 +531,259 @@ class AuthController extends \App\Http\Controllers\Controller
     {
         $user = Auth::user();
 
+        /*
+        |--------------------------------------------------------------------------
+        | Account Statistics
+        |--------------------------------------------------------------------------
+        */
+
+        // User's own orders
+        $orderCount = $user->orders()->count();
+
+        // User's wishlist items
+        $wishlistCount = $user->wishlists()->count();
+
+        // User's reviews
+        $reviewsCount = $user->reviews()->count();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Books Sold
+        |--------------------------------------------------------------------------
+        |
+        | Only seller accounts can have sales.
+        |
+        | Count the actual quantity sold from orders belonging to
+        | books owned by this seller.
+        |
+        | pending    -> not counted
+        | processing -> counted
+        | shipped    -> counted
+        | delivered  -> counted
+        | cancelled  -> not counted
+        |
+        */
+
+        $booksSoldCount = 0;
+
+        if ($user->isSeller()) {
+            $booksSoldCount = Order::whereHas(
+                'book',
+                function ($query) use ($user) {
+                    $query->where(
+                        'seller_id',
+                        $user->id
+                    );
+                }
+            )
+                ->whereIn(
+                    'order_status',
+                    [
+                        'processing',
+                        'shipped',
+                        'delivered',
+                    ]
+                )
+                ->sum('quantity');
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Profile Data
+        |--------------------------------------------------------------------------
+        */
+
+        $profileName = trim(
+            $user->first_name . ' ' . $user->last_name
+        );
+
+        if ($profileName === '') {
+            $profileName =
+                $user->name ?: 'SecondBook User';
+        }
+
+        $profileRole = match ($user->role) {
+            'seller' =>
+                'Seller',
+
+            'admin' =>
+                'Administrator',
+
+            default =>
+                'User',
+        };
+
+        $profileStatus = match ($user->status) {
+            'active' => [
+                'label' =>
+                    'Active',
+
+                'description' =>
+                    'Your account is active and ready to use.',
+
+                'class' =>
+                    'active',
+
+                'icon' =>
+                    'bi-check-lg',
+            ],
+
+            'inactive' => [
+                'label' =>
+                    'Inactive',
+
+                'description' =>
+                    'Your account is currently inactive.',
+
+                'class' =>
+                    'inactive',
+
+                'icon' =>
+                    'bi-pause-lg',
+            ],
+
+            'banned' => [
+                'label' =>
+                    'Banned',
+
+                'description' =>
+                    'Your account is currently restricted.',
+
+                'class' =>
+                    'banned',
+
+                'icon' =>
+                    'bi-slash-circle',
+            ],
+
+            default => [
+                'label' =>
+                    ucfirst(
+                        $user->status ?? 'Unknown'
+                    ),
+
+                'description' =>
+                    'Your current account status.',
+
+                'class' =>
+                    'unknown',
+
+                'icon' =>
+                    'bi-info-lg',
+            ],
+        };
+
+        /*
+        |--------------------------------------------------------------------------
+        | Location / Address
+        |--------------------------------------------------------------------------
+        */
+
+        $addressParts = array_filter([
+            $user->address,
+            $user->city,
+            $user->state,
+            $user->postal_code,
+            $user->country,
+        ]);
+
+        $profileAddress = !empty($addressParts)
+            ? implode(
+                ', ',
+                $addressParts
+            )
+            : 'Not provided';
+
+        /*
+        |--------------------------------------------------------------------------
+        | Dates
+        |--------------------------------------------------------------------------
+        */
+
+        $memberSince = $user->created_at
+            ? $user->created_at->format('F Y')
+            : 'N/A';
+
+        $joinedDate = $user->created_at
+            ? $user->created_at->format('F j, Y')
+            : 'N/A';
+
+        $lastAccountUpdate = $user->updated_at
+            ? $user->updated_at->format('F j, Y')
+            : 'N/A';
+
+        $lastLogin = $user->last_login_at
+            ? $user->last_login_at->format(
+                'F j, Y \a\t g:i A'
+            )
+            : 'Not available';
+
+        /*
+        |--------------------------------------------------------------------------
+        | Avatar
+        |--------------------------------------------------------------------------
+        */
+
+        $avatarInitials = '';
+
+        $nameParts = array_filter(
+            preg_split(
+                '/\s+/',
+                trim($profileName)
+            ) ?: []
+        );
+
+        foreach (
+            array_slice(
+                $nameParts,
+                0,
+                2
+            ) as $part
+        ) {
+            $avatarInitials .= mb_strtoupper(
+                mb_substr(
+                    $part,
+                    0,
+                    1
+                )
+            );
+        }
+
+        if ($avatarInitials === '') {
+            $avatarInitials = 'SB';
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Seller Store
+        |--------------------------------------------------------------------------
+        */
+
+        $store = null;
+
+        if ($user->isSeller()) {
+            $store = $user->store;
+        }
+
         return view(
             'Auth.my-profile',
-            compact('user')
+            compact(
+                'user',
+                'profileName',
+                'profileRole',
+                'profileStatus',
+                'profileAddress',
+                'memberSince',
+                'joinedDate',
+                'lastAccountUpdate',
+                'lastLogin',
+                'avatarInitials',
+                'orderCount',
+                'wishlistCount',
+                'booksSoldCount',
+                'reviewsCount',
+                'store'
+            )
         );
     }
 
@@ -463,7 +823,9 @@ class AuthController extends \App\Http\Controllers\Controller
             ),
 
             'email' => strtolower(
-                trim((string) $request->email)
+                trim(
+                    (string) $request->email
+                )
             ),
         ]);
 
@@ -476,7 +838,6 @@ class AuthController extends \App\Http\Controllers\Controller
         $validated = $request->validateWithBag(
             'profileUpdate',
             [
-
                 /*
                 |--------------------------------------------------------------------------
                 | First Name
@@ -517,7 +878,6 @@ class AuthController extends \App\Http\Controllers\Controller
                     'min:3',
                     'max:100',
                     'regex:/^[A-Za-z0-9_.-]+$/',
-
                     Rule::unique(
                         'users',
                         'username'
@@ -535,7 +895,6 @@ class AuthController extends \App\Http\Controllers\Controller
                     'string',
                     'email:rfc',
                     'max:255',
-
                     Rule::unique(
                         'users',
                         'email'
@@ -551,7 +910,6 @@ class AuthController extends \App\Http\Controllers\Controller
                 'phone_country_code' => [
                     'required',
                     'string',
-
                     Rule::in([
                         '+994',
                         '+90',
@@ -598,7 +956,6 @@ class AuthController extends \App\Http\Controllers\Controller
 
                 'gender' => [
                     'nullable',
-
                     Rule::in([
                         'male',
                         'female',
@@ -690,42 +1047,8 @@ class AuthController extends \App\Http\Controllers\Controller
                     'mimes:jpg,jpeg,png,webp',
                     'max:2048',
                 ],
-
-                /*
-                |--------------------------------------------------------------------------
-                | Notifications
-                |--------------------------------------------------------------------------
-                */
-
-                'receive_email_notifications' => [
-                    'nullable',
-                    'boolean',
-                ],
-
-                'receive_order_updates' => [
-                    'nullable',
-                    'boolean',
-                ],
-
-                'receive_promotional_emails' => [
-                    'nullable',
-                    'boolean',
-                ],
-
-                /*
-                |--------------------------------------------------------------------------
-                | Profile Visibility
-                |--------------------------------------------------------------------------
-                */
-
-                'profile_visibility' => [
-                    'nullable',
-                    'boolean',
-                ],
             ],
-
             [
-
                 /*
                 |--------------------------------------------------------------------------
                 | Name Messages
@@ -846,7 +1169,6 @@ class AuthController extends \App\Http\Controllers\Controller
             $user->profile_photo ?? null;
 
         if ($request->hasFile('profile_photo')) {
-
             if ($profilePhotoPath) {
                 Storage::disk('public')->delete(
                     $profilePhotoPath
@@ -915,7 +1237,6 @@ class AuthController extends \App\Http\Controllers\Controller
         */
 
         $phoneRules = [
-
             '+994' => [
                 'min' => 9,
                 'max' => 9,
@@ -974,7 +1295,6 @@ class AuthController extends \App\Http\Controllers\Controller
         */
 
         if ($phoneNumber !== '') {
-
             $countryCode =
                 $validated['phone_country_code'];
 
@@ -1014,23 +1334,34 @@ class AuthController extends \App\Http\Controllers\Controller
         |--------------------------------------------------------------------------
         | Update User
         |--------------------------------------------------------------------------
+        |
+        | Notification və privacy preference-ləri
+        | artıq burada saxlanılmır.
+        |
+        | Onlar user_settings cədvəlindən idarə olunur.
+        |
         */
 
         $user->update([
+            'first_name' =>
+                $firstName,
 
-            'first_name' => $firstName,
+            'last_name' =>
+                $lastName,
 
-            'last_name' => $lastName,
+            'name' =>
+                $fullName,
 
-            'name' => $fullName,
+            'username' =>
+                $username,
 
-            'username' => $username,
+            'email' =>
+                strtolower(
+                    trim($validated['email'])
+                ),
 
-            'email' => strtolower(
-                trim($validated['email'])
-            ),
-
-            'phone' => $fullPhone,
+            'phone' =>
+                $fullPhone,
 
             'date_of_birth' =>
                 $validated['date_of_birth'] ?? null,
@@ -1058,27 +1389,6 @@ class AuthController extends \App\Http\Controllers\Controller
 
             'profile_photo' =>
                 $profilePhotoPath,
-
-            'receive_email_notifications' =>
-                $request->boolean(
-                    'receive_email_notifications'
-                ),
-
-            'receive_order_updates' =>
-                $request->boolean(
-                    'receive_order_updates'
-                ),
-
-            'receive_promotional_emails' =>
-                $request->boolean(
-                    'receive_promotional_emails'
-                ),
-
-            'profile_visibility' =>
-                $request->boolean(
-                    'profile_visibility',
-                    true
-                ),
         ]);
 
         /*
@@ -1106,7 +1416,6 @@ class AuthController extends \App\Http\Controllers\Controller
         $user = Auth::user();
 
         if ($user->profile_photo) {
-
             Storage::disk('public')->delete(
                 $user->profile_photo
             );
@@ -1179,7 +1488,6 @@ class AuthController extends \App\Http\Controllers\Controller
         $user = Auth::user();
 
         if ($user->profile_photo) {
-
             Storage::disk('public')->delete(
                 $user->profile_photo
             );

@@ -12,208 +12,266 @@
 
     <div class="container">
 
-        {{-- =========================
-             PAGE HEADER
-        ========================== --}}
-        <section class="notifications-hero">
+        {{-- =====================================================
+             HERO
+        ====================================================== --}}
+        <section class="sb-notifications-hero">
 
-            <div class="notifications-hero-content">
+            <div class="sb-notifications-hero-content">
 
-                <span class="notifications-kicker">
-                    <i class="bi bi-bell"></i>
-                    Account updates
+                <span class="sb-notifications-eyebrow">
+                    <span class="sb-notifications-eyebrow-icon">
+                        <i class="bi bi-bell"></i>
+                    </span>
+
+                    Notification Center
                 </span>
 
-                <h1>Notifications</h1>
+                <h1>
+                    Stay in the loop
+                    <span>with SecondBook.</span>
+                </h1>
 
                 <p>
-                    Keep track of your latest updates, book requests,
-                    orders and account activity.
+                    Keep track of your latest orders, book requests,
+                    payments and important account updates.
                 </p>
 
             </div>
 
-            @if($unreadCount > 0)
 
-                <div class="notifications-summary">
+            {{-- =================================================
+                 HERO STATUS
+            ================================================== --}}
+            <div class="sb-notifications-status">
 
-                    <span class="summary-number">
-                        {{ $unreadCount }}
+                <div class="sb-notifications-status-top">
+
+                    <span>
+                        Notification status
                     </span>
 
-                    <span class="summary-text">
+                    <i class="bi bi-activity"></i>
+
+                </div>
+
+                @if($unreadCount > 0)
+
+                    <div class="sb-notifications-status-number">
+                        {{ $unreadCount }}
+                    </div>
+
+                    <p class="sb-notifications-status-message">
                         unread
                         {{ $unreadCount === 1 ? 'notification' : 'notifications' }}
-                    </span>
+                    </p>
 
-                </div>
+                @else
 
-            @else
-
-                <div class="notifications-summary notifications-summary-clean">
-
-                    <span class="summary-check">
+                    <div class="sb-notifications-status-clean">
                         <i class="bi bi-check2"></i>
-                    </span>
+                        <span>All caught up</span>
+                    </div>
 
-                    <span class="summary-text">
-                        All caught up
-                    </span>
+                    <p class="sb-notifications-status-message">
+                        Nothing needs your attention
+                    </p>
 
-                </div>
+                @endif
 
-            @endif
+            </div>
 
         </section>
 
 
-        {{-- =========================
+        {{-- =====================================================
              TOOLBAR
-        ========================== --}}
-        <div class="notifications-toolbar">
+        ====================================================== --}}
+        <section class="sb-notifications-toolbar">
 
-            <div class="toolbar-left">
+            <div class="sb-notifications-toolbar-left">
 
-                <span class="toolbar-title">
-                    Your notifications
+                <span class="sb-notifications-toolbar-kicker">
+                    Account activity
                 </span>
 
-                <span class="toolbar-count">
-                    {{ $notifications->total() }}
-                </span>
+                <div class="sb-notifications-toolbar-title">
+
+                    <h2>
+                        Your notifications
+                    </h2>
+
+                    <span class="sb-notifications-count">
+                        {{ $notifications->total() }}
+                    </span>
+
+                </div>
 
             </div>
+
 
             @if($unreadCount > 0)
 
                 <form
                     action="{{ route('frontend.notifications.read-all') }}"
                     method="POST"
+                    class="sb-notifications-read-all-form"
                 >
                     @csrf
 
                     <button
                         type="submit"
-                        class="mark-all-btn"
+                        class="sb-notifications-read-all"
                     >
-                        <i class="bi bi-check2-all"></i>
-                        <span>Mark all as read</span>
+                        <span class="sb-notifications-read-all-icon">
+                            <i class="bi bi-check2-all"></i>
+                        </span>
+
+                        <span>
+                            Mark all as read
+                        </span>
+
+                        <i class="bi bi-arrow-up-right"></i>
                     </button>
 
                 </form>
 
             @endif
 
-        </div>
+        </section>
 
 
-        {{-- =========================
-             NOTIFICATIONS
-        ========================== --}}
-        <section class="notifications-list">
+        {{-- =====================================================
+             NOTIFICATION LIST
+        ====================================================== --}}
+        <section class="sb-notifications-list">
 
             @forelse($notifications as $notification)
 
+                @php
+                    if ($notification->type === 'book_request') {
+                        $notificationTypeLabel = 'Book Request';
+                        $notificationIcon = 'bi-book';
+                        $notificationTypeClass = 'type-book';
+                    } elseif ($notification->type === 'order') {
+                        $notificationTypeLabel = 'Order';
+                        $notificationIcon = 'bi-bag-check';
+                        $notificationTypeClass = 'type-order';
+                    } elseif ($notification->type === 'payment') {
+                        $notificationTypeLabel = 'Payment';
+                        $notificationIcon = 'bi-credit-card';
+                        $notificationTypeClass = 'type-payment';
+                    } else {
+                        $notificationTypeLabel = 'General';
+                        $notificationIcon = 'bi-bell';
+                        $notificationTypeClass = 'type-general';
+                    }
+                @endphp
+
+
                 <article
-                    class="notification-card {{ is_null($notification->read_at) ? 'is-unread' : 'is-read' }}"
+                    class="sb-notification {{ is_null($notification->read_at) ? 'is-unread' : 'is-read' }}"
                 >
 
-                    {{-- Unread indicator --}}
-                    @if(is_null($notification->read_at))
-                        <span class="unread-indicator"></span>
-                    @endif
+                    {{-- =================================================
+                         INDEX
+                    ================================================== --}}
+                    <div class="sb-notification-index">
 
-
-                    {{-- Icon --}}
-                    <div class="notification-icon-wrap">
-
-                        <div class="notification-icon">
-
-                            @if($notification->type === 'book_request')
-
-                                <i class="bi bi-book"></i>
-
-                            @elseif($notification->type === 'order')
-
-                                <i class="bi bi-bag-check"></i>
-
-                            @elseif($notification->type === 'payment')
-
-                                <i class="bi bi-credit-card"></i>
-
-                            @else
-
-                                <i class="bi bi-bell"></i>
-
-                            @endif
-
-                        </div>
+                        <span>
+                            {{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}
+                        </span>
 
                     </div>
 
 
-                    {{-- Content --}}
-                    <div class="notification-main">
+                    {{-- =================================================
+                         ICON
+                    ================================================== --}}
+                    <div class="sb-notification-icon-column">
 
-                        <div class="notification-top">
+                        <div class="sb-notification-icon {{ $notificationTypeClass }}">
+                            <i class="bi {{ $notificationIcon }}"></i>
+                        </div>
 
-                            <div class="notification-title-area">
+                        @if(!$loop->last)
+                            <span class="sb-notification-line"></span>
+                        @endif
 
-                                <h2>
-                                    {{ $notification->title }}
-                                </h2>
+                    </div>
 
-                                @if(is_null($notification->read_at))
 
-                                    <span class="new-badge">
-                                        New
+                    {{-- =================================================
+                         CONTENT
+                    ================================================== --}}
+                    <div class="sb-notification-body">
+
+                        <div class="sb-notification-header">
+
+                            <div class="sb-notification-heading">
+
+                                <div class="sb-notification-meta">
+
+                                    <span class="sb-notification-type">
+                                        {{ $notificationTypeLabel }}
                                     </span>
 
-                                @endif
+                                    @if(is_null($notification->read_at))
+
+                                        <span class="sb-notification-new">
+                                            New
+                                        </span>
+
+                                    @endif
+
+                                </div>
+
+                                <h3>
+                                    {{ $notification->title }}
+                                </h3>
 
                             </div>
 
-                            <time class="notification-date">
+
+                            <time
+                                class="sb-notification-time"
+                                datetime="{{ $notification->created_at->toIso8601String() }}"
+                            >
                                 <i class="bi bi-clock"></i>
+
                                 {{ $notification->created_at->diffForHumans() }}
                             </time>
 
                         </div>
 
 
-                        <p class="notification-message">
+                        <p class="sb-notification-message">
                             {{ $notification->message }}
                         </p>
 
 
-                        <div class="notification-bottom">
-
-                            <span class="notification-type">
-                                @if($notification->type === 'book_request')
-                                    Book Request
-                                @elseif($notification->type === 'order')
-                                    Order
-                                @elseif($notification->type === 'payment')
-                                    Payment
-                                @else
-                                    General
-                                @endif
-                            </span>
-
+                        <div class="sb-notification-footer">
 
                             @if(is_null($notification->read_at))
+
+                                <span class="sb-notification-state unread">
+                                    <span></span>
+                                    Unread
+                                </span>
 
                                 <form
                                     action="{{ route('frontend.notifications.read', $notification) }}"
                                     method="POST"
+                                    class="sb-notification-read-form"
                                 >
                                     @csrf
 
                                     <button
                                         type="submit"
-                                        class="mark-read-btn"
+                                        class="sb-notification-read-button"
                                     >
                                         Mark as read
+
                                         <i class="bi bi-arrow-right"></i>
                                     </button>
 
@@ -221,7 +279,7 @@
 
                             @else
 
-                                <span class="read-status">
+                                <span class="sb-notification-state read">
                                     <i class="bi bi-check2"></i>
                                     Read
                                 </span>
@@ -236,51 +294,66 @@
 
             @empty
 
-                {{-- =========================
+                {{-- =================================================
                      EMPTY STATE
-                ========================== --}}
-                <div class="notifications-empty">
+                ================================================== --}}
+                <section class="sb-notifications-empty">
 
-                    <div class="empty-icon">
+                    <div class="sb-notifications-empty-art">
 
-                        <i class="bi bi-bell-slash"></i>
+                        <span class="empty-ring empty-ring-one"></span>
+                        <span class="empty-ring empty-ring-two"></span>
+
+                        <div class="empty-bell">
+                            <i class="bi bi-bell-slash"></i>
+                        </div>
 
                     </div>
 
-                    <span class="empty-kicker">
-                        You're all caught up
-                    </span>
 
-                    <h2>
-                        No notifications yet
-                    </h2>
+                    <div class="sb-notifications-empty-content">
 
-                    <p>
-                        When something important happens on your account,
-                        you'll see it here.
-                    </p>
+                        <span class="sb-notifications-empty-kicker">
+                            You're all caught up
+                        </span>
 
-                    <a
-                        href="{{ route('frontend.home') }}"
-                        class="empty-action"
-                    >
-                        Continue browsing
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
+                        <h2>
+                            Nothing new
+                            <span>for now.</span>
+                        </h2>
 
-                </div>
+                        <p>
+                            Your notification center is quiet. New updates
+                            about your account, books, orders and payments
+                            will appear here.
+                        </p>
+
+                        <a
+                            href="{{ route('frontend.home') }}"
+                            class="sb-notifications-empty-button"
+                        >
+                            <span>
+                                Continue browsing
+                            </span>
+
+                            <i class="bi bi-arrow-up-right"></i>
+                        </a>
+
+                    </div>
+
+                </section>
 
             @endforelse
 
         </section>
 
 
-        {{-- =========================
+        {{-- =====================================================
              PAGINATION
-        ========================== --}}
+        ====================================================== --}}
         @if($notifications->hasPages())
 
-            <div class="notifications-pagination">
+            <div class="sb-notifications-pagination">
                 {{ $notifications->links() }}
             </div>
 
@@ -291,3 +364,323 @@
 </main>
 
 @endsection
+
+@push('js')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | Mark single notification as read
+    |--------------------------------------------------------------------------
+    */
+
+    document.querySelectorAll('.sb-notification-read-form').forEach(function (form) {
+
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const notification = form.closest('.sb-notification');
+            const button = form.querySelector('.sb-notification-read-button');
+
+            if (!notification || !button) {
+                return;
+            }
+
+            const token = form.querySelector('input[name="_token"]');
+
+            button.disabled = true;
+
+            try {
+
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': token.value,
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: new FormData(form)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to mark notification as read.');
+                }
+
+                /*
+                |--------------------------------------------------------------------------
+                | Change notification visual state
+                |--------------------------------------------------------------------------
+                */
+
+                notification.classList.remove('is-unread');
+                notification.classList.add('is-read');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Remove "New" badge
+                |--------------------------------------------------------------------------
+                */
+
+                const newBadge = notification.querySelector(
+                    '.sb-notification-new'
+                );
+
+                if (newBadge) {
+                    newBadge.remove();
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Change unread state to read
+                |--------------------------------------------------------------------------
+                */
+
+                const state = notification.querySelector(
+                    '.sb-notification-state'
+                );
+
+                if (state) {
+                    state.classList.remove('unread');
+                    state.classList.add('read');
+
+                    state.innerHTML = `
+                        <i class="bi bi-check2"></i>
+                        Read
+                    `;
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Remove old button without touching its CSS
+                |--------------------------------------------------------------------------
+                */
+
+                form.remove();
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Update unread counter
+                |--------------------------------------------------------------------------
+                */
+
+                updateUnreadCounter();
+
+            } catch (error) {
+
+                console.error(error);
+
+                button.disabled = false;
+            }
+
+        });
+
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Mark all notifications as read
+    |--------------------------------------------------------------------------
+    */
+
+    const markAllForm = document.querySelector(
+        '.sb-notifications-read-all-form'
+    );
+
+    if (markAllForm) {
+
+        markAllForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const button = markAllForm.querySelector(
+                '.sb-notifications-read-all'
+            );
+
+            const token = markAllForm.querySelector(
+                'input[name="_token"]'
+            );
+
+            if (!button || !token) {
+                return;
+            }
+
+            button.disabled = true;
+
+            try {
+
+                const response = await fetch(markAllForm.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': token.value,
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: new FormData(markAllForm)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to mark all notifications as read.');
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Update every unread notification
+                |--------------------------------------------------------------------------
+                */
+
+                document
+                    .querySelectorAll('.sb-notification.is-unread')
+                    .forEach(function (notification) {
+
+                        notification.classList.remove('is-unread');
+                        notification.classList.add('is-read');
+
+
+                        const newBadge = notification.querySelector(
+                            '.sb-notification-new'
+                        );
+
+                        if (newBadge) {
+                            newBadge.remove();
+                        }
+
+
+                        const state = notification.querySelector(
+                            '.sb-notification-state'
+                        );
+
+                        if (state) {
+
+                            state.classList.remove('unread');
+                            state.classList.add('read');
+
+                            state.innerHTML = `
+                                <i class="bi bi-check2"></i>
+                                Read
+                            `;
+                        }
+
+
+                        const readForm = notification.querySelector(
+                            '.sb-notification-read-form'
+                        );
+
+                        if (readForm) {
+                            readForm.remove();
+                        }
+
+                    });
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Remove "Mark all as read" button
+                |--------------------------------------------------------------------------
+                */
+
+                markAllForm.remove();
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Update hero status
+                |--------------------------------------------------------------------------
+                */
+
+                updateUnreadCounter();
+
+            } catch (error) {
+
+                console.error(error);
+
+                button.disabled = false;
+            }
+
+        });
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Update unread counter
+    |--------------------------------------------------------------------------
+    */
+
+    function updateUnreadCounter() {
+
+        const unreadNotifications = document.querySelectorAll(
+            '.sb-notification.is-unread'
+        );
+
+        const unreadCount = unreadNotifications.length;
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Hero status
+        |--------------------------------------------------------------------------
+        */
+
+        const statusNumber = document.querySelector(
+            '.sb-notifications-status-number'
+        );
+
+        const statusMessage = document.querySelector(
+            '.sb-notifications-status-message'
+        );
+
+        const status = document.querySelector(
+            '.sb-notifications-status'
+        );
+
+
+        if (status && unreadCount === 0) {
+
+            if (statusNumber) {
+                statusNumber.remove();
+            }
+
+            const cleanStatus =
+                status.querySelector('.sb-notifications-status-clean');
+
+            if (!cleanStatus) {
+
+                const top = status.querySelector(
+                    '.sb-notifications-status-top'
+                );
+
+                const message = status.querySelector(
+                    '.sb-notifications-status-message'
+                );
+
+                if (top) {
+                    top.insertAdjacentHTML(
+                        'afterend',
+                        `
+                        <div class="sb-notifications-status-clean">
+                            <i class="bi bi-check2"></i>
+                            <span>All caught up</span>
+                        </div>
+                        `
+                    );
+                }
+
+                if (message) {
+                    message.textContent =
+                        'Nothing needs your attention';
+                }
+            }
+        }
+
+    }
+
+});
+</script>
+@endpush

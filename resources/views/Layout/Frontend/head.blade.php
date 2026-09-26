@@ -134,12 +134,6 @@
     href="{{ asset('frontend/css/quotation.css') }}"
 >
 
-<link
-    rel="stylesheet"
-    type="text/css"
-    href="{{ asset('frontend/css/style.css') }}"
->
-
 {{-- =========================================================
    HEADER CSS
 ========================================================= --}}

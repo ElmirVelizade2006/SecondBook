@@ -10,46 +10,41 @@
 
 <main class="sb-payment-page">
 
-    {{-- =====================================================
-       HERO
-    ====================================================== --}}
-
-    <section class="payment-hero">
-
+    {{-- =========================================================
+        HERO
+    ========================================================== --}}
+    <section class="sb-payment-hero">
         <div class="container">
 
-            <div class="payment-breadcrumb">
-
+            <div class="sb-payment-breadcrumb">
                 <a href="{{ route('frontend.cart') }}">
                     <i class="bi bi-cart3"></i>
-                    Shopping Cart
+                    <span>Shopping Cart</span>
                 </a>
 
                 <i class="bi bi-chevron-right"></i>
 
                 <a href="{{ route('frontend.orders') }}">
-                    Orders
+                    <span>Orders</span>
                 </a>
 
                 <i class="bi bi-chevron-right"></i>
 
-                <span>Payment</span>
-
+                <span class="is-current">Payment</span>
             </div>
 
+            <div class="sb-payment-hero-grid">
 
-            <div class="payment-hero-content">
+                <div class="sb-payment-hero-content">
 
-                <div class="payment-hero-main">
-
-                    <span class="payment-eyebrow">
-                        <i class="bi bi-shield-check"></i>
+                    <span class="sb-payment-eyebrow">
+                        <span class="sb-payment-eyebrow-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </span>
                         Secure Payment
                     </span>
 
-                    <h1>
-                        Complete Your Payment
-                    </h1>
+                    <h1>Complete Your Payment</h1>
 
                     <p>
                         Review your order and choose a secure payment
@@ -58,197 +53,130 @@
 
                 </div>
 
-
-                <div class="payment-security-badge">
-
-                    <div class="payment-security-icon">
+                <div class="sb-payment-security">
+                    <div class="sb-payment-security-icon">
                         <i class="bi bi-lock-fill"></i>
                     </div>
 
-                    <div class="payment-security-content">
-
-                        <strong>
-                            Secure Checkout
-                        </strong>
-
-                        <span>
-                            Your payment details are protected.
-                        </span>
-
+                    <div class="sb-payment-security-content">
+                        <strong>Secure Checkout</strong>
+                        <span>Your payment details are protected.</span>
                     </div>
-
                 </div>
 
             </div>
 
         </div>
-
     </section>
 
 
-    {{-- =====================================================
-       CONTENT
-    ====================================================== --}}
-
-    <section class="payment-section">
-
+    {{-- =========================================================
+        CONTENT
+    ========================================================== --}}
+    <section class="sb-payment-section">
         <div class="container">
 
-            {{-- Alerts --}}
-
+            {{-- Success --}}
             @if(session('success'))
-
-                <div class="payment-alert payment-alert-success">
-
-                    <div class="payment-alert-icon">
+                <div class="sb-payment-alert sb-payment-alert-success">
+                    <div class="sb-payment-alert-icon">
                         <i class="bi bi-check-lg"></i>
                     </div>
 
-                    <div>
-
-                        <strong>
-                            Success
-                        </strong>
-
-                        <span>
-                            {{ session('success') }}
-                        </span>
-
+                    <div class="sb-payment-alert-content">
+                        <strong>Success</strong>
+                        <span>{{ session('success') }}</span>
                     </div>
-
                 </div>
-
             @endif
 
 
+            {{-- Error --}}
             @if(session('error'))
-
-                <div class="payment-alert payment-alert-error">
-
-                    <div class="payment-alert-icon">
+                <div class="sb-payment-alert sb-payment-alert-error">
+                    <div class="sb-payment-alert-icon">
                         <i class="bi bi-exclamation-lg"></i>
                     </div>
 
-                    <div>
-
-                        <strong>
-                            Payment Error
-                        </strong>
-
-                        <span>
-                            {{ session('error') }}
-                        </span>
-
+                    <div class="sb-payment-alert-content">
+                        <strong>Payment Error</strong>
+                        <span>{{ session('error') }}</span>
                     </div>
-
                 </div>
-
             @endif
 
 
             {{-- Validation Errors --}}
-
             @if($errors->any())
-
-                <div class="payment-alert payment-alert-error">
-
-                    <div class="payment-alert-icon">
+                <div class="sb-payment-alert sb-payment-alert-error">
+                    <div class="sb-payment-alert-icon">
                         <i class="bi bi-exclamation-lg"></i>
                     </div>
 
-                    <div>
-
-                        <strong>
-                            Please check your payment details
-                        </strong>
-
-                        <span>
-                            {{ $errors->first() }}
-                        </span>
-
+                    <div class="sb-payment-alert-content">
+                        <strong>Please check your payment details</strong>
+                        <span>{{ $errors->first() }}</span>
                     </div>
-
                 </div>
-
             @endif
 
 
             <div class="row g-4 g-xl-5 align-items-start">
 
-
                 {{-- =================================================
-                   PAYMENT FORM
+                    PAYMENT FORM
                 ================================================== --}}
-
                 <div class="col-lg-7">
 
                     <form
                         action="{{ route('frontend.payment.process', $order->id) }}"
                         method="POST"
-                        class="payment-form"
+                        class="sb-payment-form"
                         id="paymentForm"
                     >
-
                         @csrf
 
+                        <div class="sb-payment-card">
 
-                        {{-- =================================================
-                           PAYMENT CARD
-                        ================================================== --}}
+                            {{-- Card Header --}}
+                            <div class="sb-payment-card-header">
 
-                        <div class="payment-card">
+                                <div class="sb-payment-card-heading">
 
-                            <div class="payment-card-header">
-
-                                <div class="payment-card-heading">
-
-                                    <div class="payment-card-icon">
+                                    <div class="sb-payment-card-icon">
                                         <i class="bi bi-credit-card-2-front"></i>
                                     </div>
 
                                     <div>
-
-                                        <span>
+                                        <span class="sb-payment-card-kicker">
                                             Payment Details
                                         </span>
 
-                                        <h2>
-                                            Choose Payment Method
-                                        </h2>
-
+                                        <h2>Choose Payment Method</h2>
                                     </div>
 
                                 </div>
 
-
-                                <span class="payment-step">
-                                    01
-                                </span>
+                                <span class="sb-payment-step">01</span>
 
                             </div>
 
 
-                            <div class="payment-card-body">
-
+                            <div class="sb-payment-card-body">
 
                                 {{-- =================================================
-                                   PAYMENT METHODS
+                                    PAYMENT METHODS
                                 ================================================== --}}
+                                <div class="sb-payment-method-section">
 
-                                <div class="payment-method-section">
-
-                                    <div class="payment-section-title">
+                                    <div class="sb-payment-section-title">
 
                                         <div>
-
-                                            <span>
-                                                Payment method
-                                            </span>
+                                            <span>Payment method</span>
 
                                             <small>
                                                 Select your preferred payment option
                                             </small>
-
                                         </div>
 
                                         <i class="bi bi-wallet2"></i>
@@ -256,13 +184,10 @@
                                     </div>
 
 
-                                    <div class="payment-method-grid">
-
+                                    <div class="sb-payment-method-grid">
 
                                         {{-- Credit Card --}}
-
-                                        <label class="payment-method-option">
-
+                                        <label class="sb-payment-method">
                                             <input
                                                 type="radio"
                                                 name="payment_method"
@@ -270,35 +195,28 @@
                                                 {{ old('payment_method', $payment->payment_method) === 'credit_card' ? 'checked' : '' }}
                                             >
 
-                                            <span class="payment-method-box">
+                                            <span class="sb-payment-method-box">
 
-                                                <span class="payment-method-top">
-
-                                                    <span class="payment-method-icon">
+                                                <span class="sb-payment-method-top">
+                                                    <span class="sb-payment-method-icon">
                                                         <i class="bi bi-credit-card"></i>
                                                     </span>
 
-                                                    <span class="payment-radio"></span>
-
+                                                    <span class="sb-payment-radio"></span>
                                                 </span>
 
-                                                <strong>
-                                                    Credit Card
-                                                </strong>
+                                                <strong>Credit Card</strong>
 
                                                 <small>
                                                     Pay securely with your credit card.
                                                 </small>
 
                                             </span>
-
                                         </label>
 
 
                                         {{-- Debit Card --}}
-
-                                        <label class="payment-method-option">
-
+                                        <label class="sb-payment-method">
                                             <input
                                                 type="radio"
                                                 name="payment_method"
@@ -306,35 +224,28 @@
                                                 {{ old('payment_method', $payment->payment_method) === 'debit_card' ? 'checked' : '' }}
                                             >
 
-                                            <span class="payment-method-box">
+                                            <span class="sb-payment-method-box">
 
-                                                <span class="payment-method-top">
-
-                                                    <span class="payment-method-icon">
+                                                <span class="sb-payment-method-top">
+                                                    <span class="sb-payment-method-icon">
                                                         <i class="bi bi-wallet2"></i>
                                                     </span>
 
-                                                    <span class="payment-radio"></span>
-
+                                                    <span class="sb-payment-radio"></span>
                                                 </span>
 
-                                                <strong>
-                                                    Debit Card
-                                                </strong>
+                                                <strong>Debit Card</strong>
 
                                                 <small>
                                                     Pay securely with your debit card.
                                                 </small>
 
                                             </span>
-
                                         </label>
 
 
                                         {{-- PayPal --}}
-
-                                        <label class="payment-method-option">
-
+                                        <label class="sb-payment-method">
                                             <input
                                                 type="radio"
                                                 name="payment_method"
@@ -342,35 +253,28 @@
                                                 {{ old('payment_method', $payment->payment_method) === 'paypal' ? 'checked' : '' }}
                                             >
 
-                                            <span class="payment-method-box">
+                                            <span class="sb-payment-method-box">
 
-                                                <span class="payment-method-top">
-
-                                                    <span class="payment-method-icon">
+                                                <span class="sb-payment-method-top">
+                                                    <span class="sb-payment-method-icon">
                                                         <i class="bi bi-paypal"></i>
                                                     </span>
 
-                                                    <span class="payment-radio"></span>
-
+                                                    <span class="sb-payment-radio"></span>
                                                 </span>
 
-                                                <strong>
-                                                    PayPal
-                                                </strong>
+                                                <strong>PayPal</strong>
 
                                                 <small>
                                                     Pay through your PayPal account.
                                                 </small>
 
                                             </span>
-
                                         </label>
 
 
                                         {{-- Cash on Delivery --}}
-
-                                        <label class="payment-method-option">
-
+                                        <label class="sb-payment-method">
                                             <input
                                                 type="radio"
                                                 name="payment_method"
@@ -378,28 +282,23 @@
                                                 {{ old('payment_method', $payment->payment_method) === 'cash_on_delivery' ? 'checked' : '' }}
                                             >
 
-                                            <span class="payment-method-box">
+                                            <span class="sb-payment-method-box">
 
-                                                <span class="payment-method-top">
-
-                                                    <span class="payment-method-icon">
+                                                <span class="sb-payment-method-top">
+                                                    <span class="sb-payment-method-icon">
                                                         <i class="bi bi-cash-stack"></i>
                                                     </span>
 
-                                                    <span class="payment-radio"></span>
-
+                                                    <span class="sb-payment-radio"></span>
                                                 </span>
 
-                                                <strong>
-                                                    Cash on Delivery
-                                                </strong>
+                                                <strong>Cash on Delivery</strong>
 
                                                 <small>
                                                     Pay when your order arrives.
                                                 </small>
 
                                             </span>
-
                                         </label>
 
                                     </div>
@@ -408,26 +307,21 @@
 
 
                                 {{-- =================================================
-                                   CARD INFORMATION
+                                    CARD DETAILS
                                 ================================================== --}}
-
                                 <div
-                                    class="card-details"
+                                    class="sb-card-details"
                                     id="cardDetails"
                                 >
 
-                                    <div class="payment-section-title">
+                                    <div class="sb-payment-section-title">
 
                                         <div>
-
-                                            <span>
-                                                Card information
-                                            </span>
+                                            <span>Card information</span>
 
                                             <small>
                                                 Enter your card details below.
                                             </small>
-
                                         </div>
 
                                         <i class="bi bi-credit-card-2-back"></i>
@@ -437,25 +331,23 @@
 
                                     <div class="row g-3">
 
-
-                                        {{-- Cardholder Name --}}
-
+                                        {{-- Cardholder --}}
                                         <div class="col-12">
 
                                             <label
                                                 for="cardholder_name"
-                                                class="payment-label"
+                                                class="sb-payment-label"
                                             >
                                                 Cardholder Name
                                             </label>
 
-                                            <div class="payment-input-wrapper">
+                                            <div class="sb-payment-input-wrap">
 
                                                 <input
                                                     type="text"
                                                     id="cardholder_name"
                                                     name="cardholder_name"
-                                                    class="payment-input"
+                                                    class="sb-payment-input"
                                                     value="{{ old('cardholder_name') }}"
                                                     placeholder="John Doe"
                                                     autocomplete="cc-name"
@@ -469,23 +361,22 @@
 
 
                                         {{-- Card Number --}}
-
                                         <div class="col-12">
 
                                             <label
                                                 for="card_number"
-                                                class="payment-label"
+                                                class="sb-payment-label"
                                             >
                                                 Card Number
                                             </label>
 
-                                            <div class="payment-input-wrapper">
+                                            <div class="sb-payment-input-wrap">
 
                                                 <input
                                                     type="text"
                                                     id="card_number"
                                                     name="card_number"
-                                                    class="payment-input"
+                                                    class="sb-payment-input"
                                                     value="{{ old('card_number') }}"
                                                     placeholder="1234 5678 9012 3456"
                                                     inputmode="numeric"
@@ -500,24 +391,23 @@
                                         </div>
 
 
-                                        {{-- Expiry Date --}}
-
+                                        {{-- Expiry --}}
                                         <div class="col-md-6">
 
                                             <label
                                                 for="expiry_date"
-                                                class="payment-label"
+                                                class="sb-payment-label"
                                             >
                                                 Expiry Date
                                             </label>
 
-                                            <div class="payment-input-wrapper">
+                                            <div class="sb-payment-input-wrap">
 
                                                 <input
                                                     type="text"
                                                     id="expiry_date"
                                                     name="expiry_date"
-                                                    class="payment-input"
+                                                    class="sb-payment-input"
                                                     value="{{ old('expiry_date') }}"
                                                     placeholder="MM/YY"
                                                     inputmode="numeric"
@@ -533,23 +423,22 @@
 
 
                                         {{-- CVV --}}
-
                                         <div class="col-md-6">
 
                                             <label
                                                 for="cvv"
-                                                class="payment-label"
+                                                class="sb-payment-label"
                                             >
                                                 CVV
                                             </label>
 
-                                            <div class="payment-input-wrapper">
+                                            <div class="sb-payment-input-wrap">
 
                                                 <input
                                                     type="password"
                                                     id="cvv"
                                                     name="cvv"
-                                                    class="payment-input"
+                                                    class="sb-payment-input"
                                                     value="{{ old('cvv') }}"
                                                     placeholder="123"
                                                     inputmode="numeric"
@@ -569,26 +458,21 @@
 
 
                                 {{-- =================================================
-                                   PAYPAL INFORMATION
+                                    PAYPAL
                                 ================================================== --}}
-
                                 <div
-                                    class="paypal-details"
+                                    class="sb-paypal-details"
                                     id="paypalDetails"
                                 >
 
-                                    <div class="payment-section-title">
+                                    <div class="sb-payment-section-title">
 
                                         <div>
-
-                                            <span>
-                                                PayPal information
-                                            </span>
+                                            <span>PayPal information</span>
 
                                             <small>
                                                 Enter the email address connected to your PayPal account.
                                             </small>
-
                                         </div>
 
                                         <i class="bi bi-paypal"></i>
@@ -596,43 +480,39 @@
                                     </div>
 
 
-                                    <div class="paypal-info-box">
+                                    <div class="sb-paypal-info">
 
-                                        <div class="paypal-info-icon">
+                                        <div class="sb-paypal-info-icon">
                                             <i class="bi bi-paypal"></i>
                                         </div>
 
                                         <div>
-
-                                            <strong>
-                                                Pay with PayPal
-                                            </strong>
+                                            <strong>Pay with PayPal</strong>
 
                                             <span>
                                                 You can use your PayPal account to complete this payment.
                                             </span>
-
                                         </div>
 
                                     </div>
 
 
-                                    <div class="paypal-input-group">
+                                    <div class="sb-paypal-input">
 
                                         <label
                                             for="paypal_email"
-                                            class="payment-label"
+                                            class="sb-payment-label"
                                         >
                                             PayPal Email
                                         </label>
 
-                                        <div class="payment-input-wrapper">
+                                        <div class="sb-payment-input-wrap">
 
                                             <input
                                                 type="email"
                                                 id="paypal_email"
                                                 name="paypal_email"
-                                                class="payment-input"
+                                                class="sb-payment-input"
                                                 value="{{ old('paypal_email') }}"
                                                 placeholder="your@email.com"
                                                 autocomplete="email"
@@ -648,25 +528,22 @@
 
 
                                 {{-- =================================================
-                                   CASH ON DELIVERY
+                                    CASH ON DELIVERY
                                 ================================================== --}}
-
                                 <div
-                                    class="cod-details"
+                                    class="sb-cod-details"
                                     id="codDetails"
                                 >
 
-                                    <div class="cod-box">
+                                    <div class="sb-cod-box">
 
-                                        <div class="cod-icon">
+                                        <div class="sb-cod-icon">
                                             <i class="bi bi-box-seam"></i>
                                         </div>
 
-                                        <div class="cod-content">
+                                        <div class="sb-cod-content">
 
-                                            <strong>
-                                                Cash on Delivery
-                                            </strong>
+                                            <strong>Cash on Delivery</strong>
 
                                             <p>
                                                 No card or online payment is required.
@@ -686,26 +563,21 @@
 
 
                                 {{-- =================================================
-                                   SECURITY NOTICE
+                                    SECURITY NOTICE
                                 ================================================== --}}
+                                <div class="sb-payment-security-note">
 
-                                <div class="payment-security-note">
-
-                                    <div class="payment-security-note-icon">
+                                    <div class="sb-payment-security-note-icon">
                                         <i class="bi bi-shield-check"></i>
                                     </div>
 
                                     <div>
-
-                                        <strong>
-                                            Your payment is secure
-                                        </strong>
+                                        <strong>Your payment is secure</strong>
 
                                         <p>
                                             Your payment information is handled
                                             securely and protected during checkout.
                                         </p>
-
                                     </div>
 
                                 </div>
@@ -716,37 +588,28 @@
 
 
                         {{-- =================================================
-                           ACTIONS
+                            ACTIONS
                         ================================================== --}}
-
-                        <div class="payment-actions">
+                        <div class="sb-payment-actions">
 
                             <a
                                 href="{{ route('frontend.orders') }}"
-                                class="payment-back-btn"
+                                class="sb-payment-back"
                             >
-
                                 <i class="bi bi-arrow-left"></i>
-
-                                <span>
-                                    Back to Orders
-                                </span>
-
+                                <span>Back to Orders</span>
                             </a>
-
 
                             <button
                                 type="submit"
-                                class="payment-submit-btn"
+                                class="sb-payment-submit"
                                 id="paymentSubmitBtn"
                             >
-
                                 <span id="paymentSubmitText">
                                     Pay ${{ number_format($payment->amount, 2) }}
                                 </span>
 
                                 <i class="bi bi-arrow-right"></i>
-
                             </button>
 
                         </div>
@@ -757,31 +620,23 @@
 
 
                 {{-- =================================================
-                   ORDER SUMMARY
+                    ORDER SUMMARY
                 ================================================== --}}
-
                 <div class="col-lg-5">
 
-                    <aside class="payment-summary">
+                    <aside class="sb-payment-summary">
 
-
-                        {{-- Summary Header --}}
-
-                        <div class="payment-summary-header">
+                        <div class="sb-payment-summary-header">
 
                             <div>
-
-                                <span class="summary-eyebrow">
+                                <span class="sb-summary-eyebrow">
                                     Your Order
                                 </span>
 
-                                <h2>
-                                    Order Summary
-                                </h2>
-
+                                <h2>Order Summary</h2>
                             </div>
 
-                            <span class="summary-order">
+                            <span class="sb-summary-order">
                                 #{{ $order->order_number }}
                             </span>
 
@@ -789,10 +644,9 @@
 
 
                         {{-- Product --}}
+                        <div class="sb-payment-product">
 
-                        <div class="payment-product">
-
-                            <div class="payment-product-image">
+                            <div class="sb-payment-product-image">
 
                                 @if($order->book && !empty($order->book->cover))
 
@@ -805,7 +659,7 @@
 
                                 @else
 
-                                    <div class="payment-product-placeholder">
+                                    <div class="sb-payment-product-placeholder">
                                         <i class="bi bi-book"></i>
                                     </div>
 
@@ -814,24 +668,20 @@
                             </div>
 
 
-                            <div class="payment-product-info">
+                            <div class="sb-payment-product-info">
 
-                                <span>
-                                    Book
-                                </span>
+                                <span>Book</span>
 
                                 <h3>
                                     {{ $order->book->title ?? 'Book' }}
                                 </h3>
 
                                 <p>
-
                                     <i class="bi bi-box-seam"></i>
 
                                     {{ $order->quantity }}
 
                                     {{ $order->quantity == 1 ? 'item' : 'items' }}
-
                                 </p>
 
                             </div>
@@ -839,68 +689,46 @@
                         </div>
 
 
-                        {{-- Price Details --}}
+                        {{-- Price --}}
+                        <div class="sb-payment-price-list">
 
-                        <div class="payment-price-list">
-
-                            <div class="payment-price-row">
-
-                                <span>
-                                    Unit Price
-                                </span>
+                            <div class="sb-payment-price-row">
+                                <span>Unit Price</span>
 
                                 <strong>
                                     ${{ number_format($order->book_price, 2) }}
                                 </strong>
-
                             </div>
 
-
-                            <div class="payment-price-row">
-
-                                <span>
-                                    Quantity
-                                </span>
+                            <div class="sb-payment-price-row">
+                                <span>Quantity</span>
 
                                 <strong>
                                     ×{{ $order->quantity }}
                                 </strong>
-
                             </div>
 
+                            <div class="sb-payment-price-row">
+                                <span>Shipping</span>
 
-                            <div class="payment-price-row">
-
-                                <span>
-                                    Shipping
-                                </span>
-
-                                <strong class="payment-free">
+                                <strong class="sb-payment-free">
                                     FREE
                                 </strong>
-
                             </div>
 
                         </div>
 
 
-                        <div class="payment-summary-divider"></div>
+                        <div class="sb-payment-summary-divider"></div>
 
 
                         {{-- Total --}}
-
-                        <div class="payment-total">
+                        <div class="sb-payment-total">
 
                             <div>
+                                <span>Total Amount</span>
 
-                                <span>
-                                    Total Amount
-                                </span>
-
-                                <small>
-                                    Including shipping
-                                </small>
-
+                                <small>Including shipping</small>
                             </div>
 
                             <strong>
@@ -910,16 +738,14 @@
                         </div>
 
 
-                        {{-- Pending Status --}}
+                        {{-- Status --}}
+                        <div class="sb-payment-status">
 
-                        <div class="payment-status">
-
-                            <div class="payment-status-icon">
+                            <div class="sb-payment-status-icon">
                                 <i class="bi bi-hourglass-split"></i>
                             </div>
 
                             <div>
-
                                 <strong id="paymentStatusTitle">
                                     Payment Pending
                                 </strong>
@@ -927,37 +753,26 @@
                                 <span id="paymentStatusText">
                                     Complete your payment to continue.
                                 </span>
-
                             </div>
 
                         </div>
 
 
-                        {{-- Order Information --}}
-
-                        <div class="payment-order-info">
+                        {{-- Order Info --}}
+                        <div class="sb-payment-order-info">
 
                             <div>
-
-                                <span>
-                                    Order Date
-                                </span>
+                                <span>Order Date</span>
 
                                 <strong>
                                     {{ $order->created_at->format('M d, Y') }}
                                 </strong>
-
                             </div>
 
-
                             <div>
-
-                                <span>
-                                    Payment Method
-                                </span>
+                                <span>Payment Method</span>
 
                                 <strong id="summaryPaymentMethod">
-
                                     {{ ucwords(
                                         str_replace(
                                             '_',
@@ -968,17 +783,14 @@
                                             )
                                         )
                                     ) }}
-
                                 </strong>
-
                             </div>
 
                         </div>
 
 
-                        {{-- Trust Badges --}}
-
-                        <div class="payment-trust">
+                        {{-- Trust --}}
+                        <div class="sb-payment-trust">
 
                             <div>
                                 <i class="bi bi-shield-check"></i>
@@ -1004,7 +816,6 @@
             </div>
 
         </div>
-
     </section>
 
 </main>
@@ -1013,7 +824,6 @@
 
 
 @push('js')
-
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -1053,12 +863,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('paymentStatusText');
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Enable / Disable Fields
-    |--------------------------------------------------------------------------
-    */
-
     function setFieldState(field, enabled) {
 
         if (!field) {
@@ -1095,6 +899,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     value.substring(0, 2) +
                     '/' +
                     value.substring(2);
+
             }
 
             this.value = value;
@@ -1116,7 +921,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 .replace(/\D/g, '')
                 .slice(0, 16);
 
-            value = value.replace(/(.{4})/g, '$1 ').trim();
+            value = value
+                .replace(/(.{4})/g, '$1 ')
+                .trim();
 
             this.value = value;
         });
@@ -1125,7 +932,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | CVV - Numbers Only
+    | CVV
     |--------------------------------------------------------------------------
     */
 
@@ -1142,7 +949,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Update Payment UI
+    | Payment UI
     |--------------------------------------------------------------------------
     */
 
@@ -1159,22 +966,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const method = selected.value;
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | Hide Everything
-        |--------------------------------------------------------------------------
-        */
-
         cardDetails.style.display = 'none';
         paypalDetails.style.display = 'none';
         codDetails.style.display = 'none';
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | Disable All Conditional Fields
-        |--------------------------------------------------------------------------
-        */
 
         setFieldState(cardholderName, false);
         setFieldState(cardNumber, false);
@@ -1258,7 +1053,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         /*
         |--------------------------------------------------------------------------
-        | Update Summary
+        | Summary
         |--------------------------------------------------------------------------
         */
 
@@ -1267,12 +1062,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const methodNames = {
 
                 credit_card: 'Credit Card',
-
                 debit_card: 'Debit Card',
-
                 paypal: 'PayPal',
-
                 cash_on_delivery: 'Cash on Delivery'
+
             };
 
             summaryPaymentMethod.textContent =
@@ -1281,33 +1074,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Payment Method Change
-    |--------------------------------------------------------------------------
-    */
-
     paymentMethods.forEach(function (method) {
 
         method.addEventListener('change', function () {
-
             updatePaymentUI();
-
         });
 
     });
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Initial State
-    |--------------------------------------------------------------------------
-    */
-
     updatePaymentUI();
 
 });
 </script>
-
 @endpush
-

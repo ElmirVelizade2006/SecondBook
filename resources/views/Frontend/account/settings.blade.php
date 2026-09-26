@@ -3,7 +3,7 @@
 @section('title', 'Account Settings | SecondBook')
 
 @push('css')
-    <link rel="stylesheet" href="{{ asset('frontend/css/account-settings.css') }}">
+<link rel="stylesheet" href="{{ asset('frontend/css/account-settings.css') }}">
 @endpush
 
 @section('content')
@@ -55,13 +55,11 @@
         @if(session('success'))
 
             <div class="account-alert account-alert-success">
-
                 <i class="bi bi-check-circle-fill"></i>
 
                 <span>
                     {{ session('success') }}
                 </span>
-
             </div>
 
         @endif
@@ -314,7 +312,6 @@
                 </section>
 
 
-
                 {{-- =================================================
                      SECURITY
                 ================================================== --}}
@@ -349,6 +346,7 @@
                         action="{{ route('frontend.account.settings.password') }}"
                         method="POST"
                         class="settings-form"
+                        id="passwordSettingsForm"
                     >
 
                         @csrf
@@ -415,6 +413,7 @@
                                         placeholder="Minimum 8 characters"
                                         autocomplete="new-password"
                                         minlength="8"
+                                        maxlength="128"
                                         required
                                     >
 
@@ -451,6 +450,7 @@
                                         placeholder="Repeat your new password"
                                         autocomplete="new-password"
                                         minlength="8"
+                                        maxlength="128"
                                         required
                                     >
 
@@ -470,16 +470,48 @@
                         </div>
 
 
+                        {{-- Password Requirements --}}
+
+                        <div
+                            class="password-requirements"
+                            id="passwordRequirements"
+                            style="display: none;"
+                        >
+
+                            <div
+                                class="password-requirement"
+                                id="passwordLengthRequirement"
+                            >
+                                <i class="bi bi-circle"></i>
+                                <span>At least 8 characters</span>
+                            </div>
+
+                            <div
+                                class="password-requirement"
+                                id="passwordLowercaseRequirement"
+                            >
+                                <i class="bi bi-circle"></i>
+                                <span>At least one lowercase letter</span>
+                            </div>
+
+                            <div
+                                class="password-requirement"
+                                id="passwordNumberRequirement"
+                            >
+                                <i class="bi bi-circle"></i>
+                                <span>At least one number</span>
+                            </div>
+
+                        </div>
+
+
                         {{-- Form Footer --}}
 
                         <div class="settings-form-footer">
 
                             <span>
-
                                 <i class="bi bi-info-circle"></i>
-
                                 Use a strong password you don't use elsewhere.
-
                             </span>
 
                             <button
@@ -495,7 +527,6 @@
                     </form>
 
                 </section>
-
 
 
                 {{-- =================================================
@@ -666,7 +697,6 @@
                 </section>
 
 
-
                 {{-- =================================================
                      PRIVACY
                 ================================================== --}}
@@ -759,7 +789,6 @@
                 </section>
 
 
-
                 {{-- =================================================
                      DANGER ZONE
                 ================================================== --}}
@@ -830,7 +859,6 @@
 
                 </section>
 
-
             </div>
 
         </div>
@@ -841,518 +869,71 @@
 
 @endsection
 
-<script>
-(function () {
-
-    'use strict';
-
-
-    /* =========================================================
-       PAGE READY
-    ========================================================= */
-
-    function initAccountSettings() {
-
-        const navLinks = Array.from(
-            document.querySelectorAll('.settings-nav-link')
-        );
-
-        const sections = Array.from(
-            document.querySelectorAll(
-                '.account-settings-content .settings-card'
-            )
-        );
-
-
-        if (!navLinks.length || !sections.length) {
-            console.warn(
-                'SecondBook Account Settings: navigation or sections not found.'
-            );
-
-            return;
-        }
-
-
-        /* =====================================================
-           ACTIVE LINK
-        ===================================================== */
-
-        function setActive(id) {
-
-            navLinks.forEach(function (link) {
-
-                const href = link.getAttribute('href');
-
-                if (href === '#' + id) {
-
-                    link.classList.add('active');
-
-                } else {
-
-                    link.classList.remove('active');
-
-                }
-
-            });
-
-        }
-
-
-        /* =====================================================
-           PASSWORD TOGGLE
-        ===================================================== */
-
-        const passwordButtons =
-            document.querySelectorAll('.password-toggle');
-
-
-        passwordButtons.forEach(function (button) {
-
-            button.addEventListener('click', function () {
-
-                const targetId =
-                    this.getAttribute('data-target');
-
-                const input =
-                    document.getElementById(targetId);
-
-                const icon =
-                    this.querySelector('i');
-
-
-                if (!input || !icon) {
-                    return;
-                }
-
-
-                if (input.type === 'password') {
-
-                    input.type = 'text';
-
-                    icon.classList.remove('bi-eye');
-                    icon.classList.add('bi-eye-slash');
-
-                    this.setAttribute(
-                        'aria-label',
-                        'Hide password'
-                    );
-
-                } else {
-
-                    input.type = 'password';
-
-                    icon.classList.remove('bi-eye-slash');
-                    icon.classList.add('bi-eye');
-
-                    this.setAttribute(
-                        'aria-label',
-                        'Show password'
-                    );
-
-                }
-
-            });
-
-        });
-
-
-        /* =====================================================
-           NAVIGATION CLICK
-        ===================================================== */
-
-        navLinks.forEach(function (link) {
-
-            link.addEventListener('click', function (event) {
-
-                event.preventDefault();
-
-
-                const href =
-                    this.getAttribute('href');
-
-
-                if (!href || href === '#') {
-                    return;
-                }
-
-
-                const targetId =
-                    href.substring(1);
-
-
-                const target =
-                    document.getElementById(targetId);
-
-
-                if (!target) {
-                    return;
-                }
-
-
-                setActive(targetId);
-
-
-                /*
-                 * Scroll manually.
-                 * This works independently from CSS scroll-margin.
-                 */
-
-                const navbar =
-                    document.querySelector(
-                        '.navbar, header, .site-header'
-                    );
-
-
-                let offset = 100;
-
-
-                if (navbar) {
-
-                    const navbarHeight =
-                        navbar.getBoundingClientRect().height;
-
-                    if (navbarHeight > 0) {
-                        offset = navbarHeight + 25;
-                    }
-
-                }
-
-
-                const targetPosition =
-                    target.getBoundingClientRect().top +
-                    window.pageYOffset -
-                    offset;
-
-
-                window.scrollTo({
-
-                    top: Math.max(
-                        0,
-                        targetPosition
-                    ),
-
-                    behavior: 'smooth'
-
-                });
-
-            });
-
-        });
-
-
-        /* =====================================================
-           FIND ACTIVE SECTION
-        ===================================================== */
-
-        function updateActiveSection() {
-
-            const detectionLine = 220;
-
-            let activeSection = sections[0];
-
-
-            sections.forEach(function (section) {
-
-                const rect =
-                    section.getBoundingClientRect();
-
-
-                if (rect.top <= detectionLine) {
-
-                    activeSection = section;
-
-                }
-
-            });
-
-
-            if (activeSection) {
-
-                setActive(
-                    activeSection.id
-                );
-
-            }
-
-        }
-
-
-        /* =====================================================
-           SCROLL
-        ===================================================== */
-
-        let ticking = false;
-
-
-        function onScroll() {
-
-            if (ticking) {
-                return;
-            }
-
-
-            window.requestAnimationFrame(function () {
-
-                updateActiveSection();
-
-                ticking = false;
-
-            });
-
-
-            ticking = true;
-
-        }
-
-
-        /*
-         * capture:true
-         *
-         * Bu vacibdir.
-         * Əgər səhifədə nested scroll container varsa,
-         * scroll event-i yenə tutulur.
-         */
-
-        window.addEventListener(
-            'scroll',
-            onScroll,
-            {
-                passive: true,
-                capture: true
-            }
-        );
-
-
-        /* =====================================================
-           RESIZE
-        ===================================================== */
-
-        window.addEventListener(
-            'resize',
-            updateActiveSection
-        );
-
-
-        /* =====================================================
-           INTERSECTION OBSERVER
-        ===================================================== */
-
-        /*
-         * Scroll event-dən əlavə observer də istifadə edirik.
-         * Beləliklə section ekranda dəyişəndə active link yenilənir.
-         */
-
-        if ('IntersectionObserver' in window) {
-
-            const observer =
-                new IntersectionObserver(
-                    function (entries) {
-
-                        const visibleSections =
-                            entries
-                                .filter(function (entry) {
-                                    return entry.isIntersecting;
-                                })
-                                .sort(function (a, b) {
-                                    return (
-                                        a.boundingClientRect.top -
-                                        b.boundingClientRect.top
-                                    );
-                                });
-
-
-                        if (visibleSections.length) {
-
-                            setActive(
-                                visibleSections[0].target.id
-                            );
-
-                        }
-
-                    },
-                    {
-                        root: null,
-                        rootMargin: '-15% 0px -65% 0px',
-                        threshold: 0
-                    }
-                );
-
-
-            sections.forEach(function (section) {
-
-                observer.observe(section);
-
-            });
-
-        }
-
-
-        /* =====================================================
-           INITIAL STATE
-        ===================================================== */
-
-        updateActiveSection();
-
-
-        /* =====================================================
-           PASSWORD MATCH
-        ===================================================== */
-
-        const password =
-            document.getElementById('password');
-
-        const confirmation =
-            document.getElementById(
-                'password_confirmation'
-            );
-
-
-        if (password && confirmation) {
-
-            function validatePasswords() {
-
-                if (
-                    confirmation.value &&
-                    password.value !== confirmation.value
-                ) {
-
-                    confirmation.setCustomValidity(
-                        'Passwords do not match.'
-                    );
-
-                } else {
-
-                    confirmation.setCustomValidity('');
-
-                }
-
-            }
-
-
-            password.addEventListener(
-                'input',
-                validatePasswords
-            );
-
-
-            confirmation.addEventListener(
-                'input',
-                validatePasswords
-            );
-
-        }
-
-
-        /* =====================================================
-           DELETE ACCOUNT
-        ===================================================== */
-
-        const deleteForm =
-            document.querySelector(
-                '.danger-delete-form'
-            );
-
-
-        if (deleteForm) {
-
-            deleteForm.addEventListener(
-                'submit',
-                function (event) {
-
-                    const confirmed =
-                        window.confirm(
-                            'Are you sure you want to permanently delete your account? This action cannot be undone.'
-                        );
-
-
-                    if (!confirmed) {
-
-                        event.preventDefault();
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        /* =====================================================
-           DEBUG
-        ===================================================== */
-
-        console.log(
-            'SecondBook Account Settings JS loaded successfully.'
-        );
-
-    }
-
-
-    /* =========================================================
-       START
-    ========================================================= */
-
-    if (
-        document.readyState === 'loading'
-    ) {
-
-        document.addEventListener(
-            'DOMContentLoaded',
-            initAccountSettings
-        );
-
-    } else {
-
-        initAccountSettings();
-
-    }
-
-})();
-</script>
-
 
 {{-- =============================================================
      JAVASCRIPT
 ============================================================== --}}
 
-@push('scripts')
+@push('js')
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    'use strict';
 
     /* =========================================================
        ELEMENTS
     ========================================================= */
 
-    const navLinks = document.querySelectorAll(
-        '.settings-nav-link'
+    const navLinks = Array.from(
+        document.querySelectorAll('.settings-nav-link')
     );
 
     const sections = Array.from(
         document.querySelectorAll(
-            '.account-settings-content > .settings-card'
+            '.account-settings-content .settings-card'
         )
     );
+
+
+    /* =========================================================
+       ACTIVE LINK
+    ========================================================= */
+
+    function setActiveLink(sectionId) {
+        navLinks.forEach(function (link) {
+            const href = link.getAttribute('href');
+
+            link.classList.toggle(
+                'active',
+                href === '#' + sectionId
+            );
+        });
+    }
 
 
     /* =========================================================
        PASSWORD TOGGLE
     ========================================================= */
 
-    document.querySelectorAll('.password-toggle').forEach(function (button) {
+    const passwordButtons =
+        document.querySelectorAll('.password-toggle');
+
+    passwordButtons.forEach(function (button) {
 
         button.addEventListener('click', function () {
 
-            const targetId = this.getAttribute('data-target');
+            const targetId =
+                this.getAttribute('data-target');
 
-            const input = document.getElementById(targetId);
+            const input =
+                document.getElementById(targetId);
 
-            const icon = this.querySelector('i');
+            const icon =
+                this.querySelector('i');
 
             if (!input || !icon) {
                 return;
             }
-
 
             if (input.type === 'password') {
 
@@ -1377,35 +958,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     'aria-label',
                     'Show password'
                 );
-
             }
-
         });
-
     });
-
-
-    /* =========================================================
-       ACTIVE NAV LINK
-    ========================================================= */
-
-    function setActiveLink(sectionId) {
-
-        navLinks.forEach(function (link) {
-
-            const href = link.getAttribute('href');
-
-            const isActive =
-                href === '#' + sectionId;
-
-            link.classList.toggle(
-                'active',
-                isActive
-            );
-
-        });
-
-    }
 
 
     /* =========================================================
@@ -1418,13 +973,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
             event.preventDefault();
 
-            const href = this.getAttribute('href');
+            const href =
+                this.getAttribute('href');
 
             if (!href || href === '#') {
                 return;
             }
 
-            const targetId = href.substring(1);
+            const targetId =
+                href.substring(1);
 
             const targetSection =
                 document.getElementById(targetId);
@@ -1433,31 +990,35 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-
             setActiveLink(targetId);
 
+            const navbar =
+                document.querySelector(
+                    '.navbar, header, .site-header'
+                );
 
-            /*
-             * Header offset.
-             * This prevents the section from going underneath
-             * the website navbar.
-             */
+            let offset = 100;
 
-            const headerOffset = 110;
+            if (navbar) {
+
+                const navbarHeight =
+                    navbar.getBoundingClientRect().height;
+
+                if (navbarHeight > 0) {
+                    offset = navbarHeight + 25;
+                }
+            }
 
             const targetTop =
                 targetSection.getBoundingClientRect().top +
                 window.pageYOffset -
-                headerOffset;
-
+                offset;
 
             window.scrollTo({
                 top: Math.max(0, targetTop),
                 behavior: 'smooth'
             });
-
         });
-
     });
 
 
@@ -1471,40 +1032,26 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-
-        /*
-         * Detection line.
-         *
-         * When a section crosses this point,
-         * its sidebar link becomes active.
-         */
-
         const detectionPoint = 180;
 
         let currentSection = sections[0];
-
 
         sections.forEach(function (section) {
 
             const rect =
                 section.getBoundingClientRect();
 
-
             if (rect.top <= detectionPoint) {
                 currentSection = section;
             }
-
         });
-
 
         if (currentSection) {
 
             setActiveLink(
                 currentSection.id
             );
-
         }
-
     }
 
 
@@ -1525,19 +1072,17 @@ document.addEventListener('DOMContentLoaded', function () {
             updateActiveSection();
 
             scrollTicking = false;
-
         });
 
         scrollTicking = true;
-
     }
-
 
     window.addEventListener(
         'scroll',
         handleScroll,
         {
-            passive: true
+            passive: true,
+            capture: true
         }
     );
 
@@ -1553,6 +1098,51 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     /* =========================================================
+       INTERSECTION OBSERVER
+    ========================================================= */
+
+    if ('IntersectionObserver' in window) {
+
+        const observer =
+            new IntersectionObserver(
+                function (entries) {
+
+                    const visibleSections =
+                        entries
+                            .filter(function (entry) {
+                                return entry.isIntersecting;
+                            })
+                            .sort(function (a, b) {
+
+                                return (
+                                    a.boundingClientRect.top -
+                                    b.boundingClientRect.top
+                                );
+                            });
+
+                    if (visibleSections.length) {
+
+                        setActiveLink(
+                            visibleSections[0]
+                                .target
+                                .id
+                        );
+                    }
+                },
+                {
+                    root: null,
+                    rootMargin: '-15% 0px -65% 0px',
+                    threshold: 0
+                }
+            );
+
+        sections.forEach(function (section) {
+            observer.observe(section);
+        });
+    }
+
+
+    /* =========================================================
        INITIAL STATE
     ========================================================= */
 
@@ -1560,36 +1150,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     /* =========================================================
-       DELETE ACCOUNT CONFIRMATION
-    ========================================================= */
-
-    const deleteForm =
-        document.querySelector('.danger-delete-form');
-
-
-    if (deleteForm) {
-
-        deleteForm.addEventListener(
-            'submit',
-            function (event) {
-
-                const confirmed = window.confirm(
-                    'Are you sure you want to permanently delete your account? This action cannot be undone.'
-                );
-
-
-                if (!confirmed) {
-                    event.preventDefault();
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =========================================================
-       PASSWORD MATCH CHECK
+       PASSWORD ELEMENTS
     ========================================================= */
 
     const password =
@@ -1600,14 +1161,133 @@ document.addEventListener('DOMContentLoaded', function () {
             'password_confirmation'
         );
 
+    const passwordRequirements =
+        document.getElementById(
+            'passwordRequirements'
+        );
 
-    if (password && passwordConfirmation) {
+    const passwordLengthRequirement =
+        document.getElementById(
+            'passwordLengthRequirement'
+        );
 
-        function checkPasswordMatch() {
+    const passwordLowercaseRequirement =
+        document.getElementById(
+            'passwordLowercaseRequirement'
+        );
+
+    const passwordNumberRequirement =
+        document.getElementById(
+            'passwordNumberRequirement'
+        );
+
+
+    /* =========================================================
+       PASSWORD REQUIREMENT UI
+    ========================================================= */
+
+    function updateRequirement(
+        element,
+        passed
+    ) {
+
+        if (!element) {
+            return;
+        }
+
+        const icon =
+            element.querySelector('i');
+
+        if (!icon) {
+            return;
+        }
+
+        if (passed) {
+
+            element.classList.add('valid');
+
+            icon.classList.remove(
+                'bi-circle'
+            );
+
+            icon.classList.add(
+                'bi-check-circle-fill'
+            );
+
+        } else {
+
+            element.classList.remove('valid');
+
+            icon.classList.remove(
+                'bi-check-circle-fill'
+            );
+
+            icon.classList.add(
+                'bi-circle'
+            );
+        }
+    }
+
+
+    /* =========================================================
+       PASSWORD VALIDATION
+    ========================================================= */
+
+    function validatePassword() {
+
+        if (!password) {
+            return false;
+        }
+
+        const value =
+            password.value;
+
+        const hasMinimumLength =
+            value.length >= 8;
+
+        const hasLowercase =
+            /[a-z]/.test(value);
+
+        const hasNumber =
+            /[0-9]/.test(value);
+
+        updateRequirement(
+            passwordLengthRequirement,
+            hasMinimumLength
+        );
+
+        updateRequirement(
+            passwordLowercaseRequirement,
+            hasLowercase
+        );
+
+        updateRequirement(
+            passwordNumberRequirement,
+            hasNumber
+        );
+
+        return (
+            hasMinimumLength &&
+            hasLowercase &&
+            hasNumber
+        );
+    }
+
+
+    /* =========================================================
+       PASSWORD MATCH
+    ========================================================= */
+
+    function checkPasswordMatch() {
+
+        if (
+            passwordConfirmation &&
+            passwordConfirmation.value
+        ) {
 
             if (
-                passwordConfirmation.value &&
-                password.value !== passwordConfirmation.value
+                password.value !==
+                passwordConfirmation.value
             ) {
 
                 passwordConfirmation.setCustomValidity(
@@ -1616,24 +1296,724 @@ document.addEventListener('DOMContentLoaded', function () {
 
             } else {
 
-                passwordConfirmation.setCustomValidity('');
-
+                passwordConfirmation.setCustomValidity(
+                    ''
+                );
             }
 
-        }
+        } else if (passwordConfirmation) {
 
+            passwordConfirmation.setCustomValidity('');
+        }
+    }
+
+
+    /* =========================================================
+       PASSWORD INPUT EVENTS
+    ========================================================= */
+
+    if (password) {
 
         password.addEventListener(
             'input',
-            checkPasswordMatch
+            function () {
+
+                if (
+                    passwordRequirements &&
+                    password.value.length > 0
+                ) {
+
+                    passwordRequirements.style.display =
+                        'block';
+
+                } else if (passwordRequirements) {
+
+                    passwordRequirements.style.display =
+                        'none';
+                }
+
+                validatePassword();
+
+                checkPasswordMatch();
+            }
         );
+    }
+
+
+    if (passwordConfirmation) {
 
         passwordConfirmation.addEventListener(
             'input',
             checkPasswordMatch
         );
-
     }
+
+
+    /* =========================================================
+       AJAX MESSAGE HELPERS
+    ========================================================= */
+
+    function removeAjaxMessages(form) {
+
+        if (!form || !form.parentNode) {
+            return;
+        }
+
+        const successMessage =
+            form.parentNode.querySelector(
+                '.settings-ajax-success'
+            );
+
+        const errorMessage =
+            form.parentNode.querySelector(
+                '.settings-ajax-error'
+            );
+
+        if (successMessage) {
+            successMessage.remove();
+        }
+
+        if (errorMessage) {
+            errorMessage.remove();
+        }
+    }
+
+
+    function showAjaxMessage(
+        form,
+        type,
+        message
+    ) {
+
+        if (!form || !form.parentNode) {
+            return;
+        }
+
+        removeAjaxMessages(form);
+
+        const messageElement =
+            document.createElement('div');
+
+        if (type === 'success') {
+
+            messageElement.className =
+                'account-alert account-alert-success settings-ajax-success';
+
+            messageElement.innerHTML = `
+                <i class="bi bi-check-circle-fill"></i>
+                <span>${message}</span>
+            `;
+
+        } else {
+
+            messageElement.className =
+                'account-alert account-alert-error settings-ajax-error';
+
+            messageElement.innerHTML = `
+                <i class="bi bi-exclamation-circle-fill"></i>
+                <span>${message}</span>
+            `;
+        }
+
+        form.parentNode.insertBefore(
+            messageElement,
+            form
+        );
+
+        messageElement.style.display =
+            'flex';
+
+        messageElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+        });
+
+        setTimeout(function () {
+
+            messageElement.style.display =
+                'none';
+
+        }, type === 'success' ? 4000 : 5000);
+    }
+
+
+    /* =========================================================
+       GET CSRF TOKEN
+    ========================================================= */
+
+    function getCsrfToken() {
+
+        const csrfMeta =
+            document.querySelector(
+                'meta[name="csrf-token"]'
+            );
+
+        if (!csrfMeta) {
+            return '';
+        }
+
+        return (
+            csrfMeta.getAttribute('content') || ''
+        );
+    }
+
+
+    /* =========================================================
+       PASSWORD — AJAX UPDATE
+    ========================================================= */
+
+    const passwordForm =
+        document.getElementById(
+            'passwordSettingsForm'
+        );
+
+    if (passwordForm) {
+
+        passwordForm.addEventListener(
+            'submit',
+            async function (event) {
+
+                event.preventDefault();
+
+                checkPasswordMatch();
+
+                /*
+                 * Browser native validation
+                 */
+                if (!passwordForm.checkValidity()) {
+
+                    passwordForm.reportValidity();
+
+                    return;
+                }
+
+
+                /*
+                 * Password requirements
+                 */
+                if (!validatePassword()) {
+
+                    showAjaxMessage(
+                        passwordForm,
+                        'error',
+                        'Password must contain at least 8 characters, one lowercase letter and one number.'
+                    );
+
+                    return;
+                }
+
+
+                /*
+                 * New password must be different
+                 */
+                const currentPasswordInput =
+                    passwordForm.querySelector(
+                        '#current_password'
+                    );
+
+                const passwordInput =
+                    passwordForm.querySelector(
+                        '#password'
+                    );
+
+                if (
+                    currentPasswordInput &&
+                    passwordInput &&
+                    currentPasswordInput.value ===
+                    passwordInput.value
+                ) {
+
+                    showAjaxMessage(
+                        passwordForm,
+                        'error',
+                        'New password must be different from your current password.'
+                    );
+
+                    return;
+                }
+
+
+                /*
+                 * Submit button
+                 */
+                const submitButton =
+                    passwordForm.querySelector(
+                        'button[type="submit"]'
+                    );
+
+                if (!submitButton) {
+                    return;
+                }
+
+                const originalButtonHtml =
+                    submitButton.innerHTML;
+
+                submitButton.disabled = true;
+
+                submitButton.innerHTML = `
+                    <span
+                        class="spinner-border spinner-border-sm me-2"
+                        role="status"
+                        aria-hidden="true"
+                    ></span>
+                    Updating...
+                `;
+
+
+                /*
+                 * Form data
+                 */
+                const formData =
+                    new FormData(passwordForm);
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            passwordForm.action,
+                            {
+                                method: 'POST',
+
+                                headers: {
+                                    'X-CSRF-TOKEN':
+                                        getCsrfToken(),
+
+                                    'Accept':
+                                        'application/json',
+
+                                    'X-Requested-With':
+                                        'XMLHttpRequest'
+                                },
+
+                                body: formData
+                            }
+                        );
+
+
+                    /*
+                     * Read response
+                     */
+                    const responseText =
+                        await response.text();
+
+                    let data;
+
+
+                    /*
+                     * Parse JSON
+                     */
+                    try {
+
+                        data =
+                            JSON.parse(
+                                responseText
+                            );
+
+                    } catch (error) {
+
+                        console.error(
+                            'Server response:',
+                            responseText
+                        );
+
+                        throw new Error(
+                            'Server returned an invalid response. Check Laravel logs.'
+                        );
+                    }
+
+
+                    /*
+                     * Validation / Laravel error
+                     */
+                    if (
+                        response.status === 422 ||
+                        data.success === false
+                    ) {
+
+                        let message =
+                            data.message ||
+                            'Please check the entered information.';
+
+
+                        /*
+                         * Laravel validation errors
+                         */
+                        if (
+                            data.errors &&
+                            typeof data.errors === 'object'
+                        ) {
+
+                            const firstField =
+                                Object.keys(
+                                    data.errors
+                                )[0];
+
+                            if (
+                                firstField &&
+                                Array.isArray(
+                                    data.errors[firstField]
+                                ) &&
+                                data.errors[firstField].length
+                            ) {
+
+                                message =
+                                    data.errors[firstField][0];
+                            }
+                        }
+
+
+                        showAjaxMessage(
+                            passwordForm,
+                            'error',
+                            message
+                        );
+
+                        return;
+                    }
+
+
+                    /*
+                     * Other HTTP errors
+                     */
+                    if (!response.ok) {
+
+                        throw new Error(
+                            data.message ||
+                            'Unable to update your password.'
+                        );
+                    }
+
+
+                    /*
+                     * SUCCESS
+                     */
+                    showAjaxMessage(
+                        passwordForm,
+                        'success',
+                        data.message ||
+                        'Password updated successfully.'
+                    );
+
+
+                    /*
+                     * Clear current password
+                     */
+                    if (currentPasswordInput) {
+                        currentPasswordInput.value = '';
+                    }
+
+
+                    /*
+                     * Clear new password
+                     */
+                    if (passwordInput) {
+                        passwordInput.value = '';
+                    }
+
+
+                    /*
+                     * Clear confirmation
+                     */
+                    const passwordConfirmationInput =
+                        passwordForm.querySelector(
+                            '#password_confirmation'
+                        );
+
+                    if (passwordConfirmationInput) {
+                        passwordConfirmationInput.value = '';
+
+                        passwordConfirmationInput.setCustomValidity('');
+                    }
+
+
+                    /*
+                     * Hide requirements
+                     */
+                    if (passwordRequirements) {
+
+                        passwordRequirements.style.display =
+                            'none';
+                    }
+
+
+                    /*
+                     * Reset requirement icons
+                     */
+                    updateRequirement(
+                        passwordLengthRequirement,
+                        false
+                    );
+
+                    updateRequirement(
+                        passwordLowercaseRequirement,
+                        false
+                    );
+
+                    updateRequirement(
+                        passwordNumberRequirement,
+                        false
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        'Password AJAX error:',
+                        error
+                    );
+
+                    showAjaxMessage(
+                        passwordForm,
+                        'error',
+                        error.message ||
+                        'Unable to update your password.'
+                    );
+
+                } finally {
+
+                    submitButton.disabled =
+                        false;
+
+                    submitButton.innerHTML =
+                        originalButtonHtml;
+                }
+            }
+        );
+    }
+
+
+    /* =========================================================
+       NOTIFICATIONS + PRIVACY — AJAX SAVE
+    ========================================================= */
+
+    const settingsForms =
+        document.querySelectorAll(
+            '.settings-preferences-form, .privacy-form'
+        );
+
+
+    settingsForms.forEach(function (form) {
+
+        form.addEventListener(
+            'submit',
+            async function (event) {
+
+                event.preventDefault();
+
+
+                const submitButton =
+                    form.querySelector(
+                        'button[type="submit"]'
+                    );
+
+                if (!submitButton) {
+                    return;
+                }
+
+
+                const originalButtonHtml =
+                    submitButton.innerHTML;
+
+                submitButton.disabled = true;
+
+                submitButton.innerHTML = `
+                    <span
+                        class="spinner-border spinner-border-sm me-2"
+                        role="status"
+                        aria-hidden="true"
+                    ></span>
+                    Saving...
+                `;
+
+
+                const formData =
+                    new FormData(form);
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            form.action,
+                            {
+                                method: 'POST',
+
+                                headers: {
+                                    'X-CSRF-TOKEN':
+                                        getCsrfToken(),
+
+                                    'Accept':
+                                        'application/json',
+
+                                    'X-Requested-With':
+                                        'XMLHttpRequest'
+                                },
+
+                                body: formData
+                            }
+                        );
+
+
+                    const responseText =
+                        await response.text();
+
+                    let data;
+
+
+                    try {
+
+                        data =
+                            JSON.parse(
+                                responseText
+                            );
+
+                    } catch (error) {
+
+                        console.error(
+                            'Server response:',
+                            responseText
+                        );
+
+                        throw new Error(
+                            'Server returned an invalid response. Check Laravel logs.'
+                        );
+                    }
+
+
+                    /*
+                     * Validation / backend error
+                     */
+                    if (
+                        response.status === 422 ||
+                        data.success === false
+                    ) {
+
+                        let message =
+                            data.message ||
+                            'Please check the entered information.';
+
+
+                        if (
+                            data.errors &&
+                            typeof data.errors === 'object'
+                        ) {
+
+                            const firstField =
+                                Object.keys(
+                                    data.errors
+                                )[0];
+
+                            if (
+                                firstField &&
+                                Array.isArray(
+                                    data.errors[firstField]
+                                ) &&
+                                data.errors[firstField].length
+                            ) {
+
+                                message =
+                                    data.errors[firstField][0];
+                            }
+                        }
+
+
+                        showAjaxMessage(
+                            form,
+                            'error',
+                            message
+                        );
+
+                        return;
+                    }
+
+
+                    /*
+                     * Other HTTP errors
+                     */
+                    if (!response.ok) {
+
+                        throw new Error(
+                            data.message ||
+                            'Unable to save your settings.'
+                        );
+                    }
+
+
+                    /*
+                     * SUCCESS
+                     */
+                    showAjaxMessage(
+                        form,
+                        'success',
+                        data.message ||
+                        'Your settings have been updated successfully.'
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        'Settings AJAX error:',
+                        error
+                    );
+
+                    showAjaxMessage(
+                        form,
+                        'error',
+                        error.message ||
+                        'Unable to update your settings.'
+                    );
+
+                } finally {
+
+                    submitButton.disabled =
+                        false;
+
+                    submitButton.innerHTML =
+                        originalButtonHtml;
+                }
+            }
+        );
+    });
+
+
+    /* =========================================================
+       DELETE ACCOUNT CONFIRMATION
+    ========================================================= */
+
+    const deleteForm =
+        document.querySelector(
+            '.danger-delete-form'
+        );
+
+
+    if (deleteForm) {
+
+        deleteForm.addEventListener(
+            'submit',
+            function (event) {
+
+                const confirmed =
+                    window.confirm(
+                        'Are you sure you want to permanently delete your account? This action cannot be undone.'
+                    );
+
+                if (!confirmed) {
+                    event.preventDefault();
+                }
+            }
+        );
+    }
+
+
+    /* =========================================================
+       DEBUG
+    ========================================================= */
+
+    console.log(
+        'SecondBook Account Settings JS loaded successfully.'
+    );
 
 });
 </script>

@@ -11,179 +11,165 @@
 <main class="sb-orders-page">
 
     {{-- =====================================================
-       HERO
+         HERO
     ====================================================== --}}
-
-    <section class="orders-hero">
-
+    <section class="sb-orders-hero">
         <div class="container">
 
-            <div class="orders-breadcrumb">
-
+            <div class="sb-orders-breadcrumb">
                 <a href="{{ route('frontend.home') }}">
                     <i class="bi bi-house-door"></i>
-                    Home
+                    <span>Home</span>
                 </a>
 
                 <i class="bi bi-chevron-right"></i>
 
-                <span>
-                    Orders
-                </span>
-
+                <span class="is-current">Orders</span>
             </div>
 
+            <div class="sb-orders-hero-grid">
 
-            <div class="orders-intro">
+                <div class="sb-orders-hero-content">
 
-                <div class="orders-intro-content">
-
-                    <span class="orders-label">
-                        <i class="bi bi-box-seam"></i>
-                        Order History
+                    <span class="sb-orders-eyebrow">
+                        <span class="sb-orders-eyebrow-icon">
+                            <i class="bi bi-receipt"></i>
+                        </span>
+                        Purchase History
                     </span>
 
                     <h1>
-                        Your Orders
+                        Your orders,
+                        <span>all in one place.</span>
                     </h1>
 
                     <p>
-                        Keep track of your purchases, delivery status,
-                        and order details all in one place.
+                        Keep track of your purchases, delivery progress,
+                        payment details, and everything you've ordered.
                     </p>
 
                 </div>
 
+                <div class="sb-orders-hero-card">
 
-                <div class="orders-intro-card">
-
-                    <div class="orders-intro-icon">
+                    <div class="sb-orders-hero-card-icon">
                         <i class="bi bi-bag-heart"></i>
                     </div>
 
-                    <div class="orders-intro-info">
-
-                        <span>
-                            Everything you've ordered
-                        </span>
-
-                        <strong>
-                            My Purchases
-                        </strong>
-
+                    <div class="sb-orders-hero-card-content">
+                        <span>SecondBook</span>
+                        <strong>My Purchases</strong>
                     </div>
 
-                    <i class="bi bi-arrow-up-right orders-intro-arrow"></i>
+                    <i class="bi bi-arrow-up-right sb-orders-hero-card-arrow"></i>
 
                 </div>
 
             </div>
 
         </div>
-
     </section>
 
 
     {{-- =====================================================
-       CONTENT
+         MAIN
     ====================================================== --}}
-
-    <section class="orders-section">
-
+    <section class="sb-orders-section">
         <div class="container">
 
             {{-- Alerts --}}
-
             @if(session('success'))
+                <div class="sb-orders-alert sb-alert-success">
 
-                <div class="orders-alert orders-alert-success">
-
-                    <div class="orders-alert-icon">
-                        <i class="bi bi-check-lg"></i>
-                    </div>
-
-                    <span>
-                        {{ session('success') }}
+                    <span class="sb-alert-icon">
+                        <i class="bi bi-check-circle"></i>
                     </span>
 
+                    <div class="sb-alert-content">
+                        <strong>Order Updated</strong>
+                        <span>{{ session('success') }}</span>
+                    </div>
+
                 </div>
-
             @endif
-
 
             @if(session('error'))
+                <div class="sb-orders-alert sb-alert-error">
 
-                <div class="orders-alert orders-alert-error">
-
-                    <div class="orders-alert-icon">
-                        <i class="bi bi-exclamation-lg"></i>
-                    </div>
-
-                    <span>
-                        {{ session('error') }}
+                    <span class="sb-alert-icon">
+                        <i class="bi bi-exclamation-circle"></i>
                     </span>
 
-                </div>
+                    <div class="sb-alert-content">
+                        <strong>Something went wrong</strong>
+                        <span>{{ session('error') }}</span>
+                    </div>
 
+                </div>
             @endif
 
-
-            {{-- =================================================
-               ORDERS
-            ================================================== --}}
 
             @if($orders->count())
 
-                <div class="orders-list">
+                {{-- Section Heading --}}
+                <div class="sb-orders-heading-row">
+
+                    <div class="sb-orders-heading">
+
+                        <span class="sb-orders-section-kicker">
+                            <i class="bi bi-box-seam"></i>
+                            Your Purchases
+                        </span>
+
+                        <h2>Your Orders</h2>
+
+                        <p>
+                            Review your recent purchases and track every order.
+                        </p>
+
+                    </div>
+
+                    <a
+                        href="{{ route('frontend.books') }}"
+                        class="sb-orders-continue-btn"
+                    >
+                        <i class="bi bi-book"></i>
+                        <span>Continue Shopping</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                </div>
+
+
+                {{-- Orders --}}
+                <div class="sb-orders-list">
 
                     @foreach($orders as $order)
 
                         @php
 
                             $statusClass = match($order->order_status) {
-
-                                'pending' =>
-                                    'status-pending',
-
-                                'processing' =>
-                                    'status-processing',
-
-                                'shipped' =>
-                                    'status-shipped',
-
-                                'delivered' =>
-                                    'status-delivered',
-
-                                'cancelled' =>
-                                    'status-cancelled',
-
-                                default =>
-                                    'status-pending',
+                                'pending' => 'status-pending',
+                                'processing' => 'status-processing',
+                                'shipped' => 'status-shipped',
+                                'delivered' => 'status-delivered',
+                                'cancelled' => 'status-cancelled',
+                                default => 'status-pending',
                             };
-
 
                             $paymentMethod = $order->payment_method
                                 ? ucwords(
                                     str_replace(
-                                        '_',
+                                        '\_',
                                         ' ',
                                         $order->payment_method
                                     )
                                 )
                                 : 'Not selected';
 
-
                             $paymentStatus = $order->payment_status
                                 ? ucfirst($order->payment_status)
                                 : 'Pending';
-
-
-                            /*
-                             * Order can be cancelled only when:
-                             * - Cancellation period is enabled
-                             * - Order is pending or processing
-                             * - Cancellation period has not expired
-                             */
 
                             $canCancelOrder =
                                 $cancelOrderPeriod > 0 &&
@@ -199,51 +185,56 @@
                         @endphp
 
 
-                        <article class="order-card">
+                        <article class="sb-order-card">
 
-                            {{-- =================================================
-                               ORDER HEADER
-                            ================================================== --}}
+                            {{-- Order Header --}}
+                            <div class="sb-order-card-header">
 
-                            <div class="order-card-header">
+                                <div class="sb-order-card-heading">
 
-                                <div class="order-number">
+                                    <div class="sb-order-card-icon">
+                                        <i class="bi bi-receipt"></i>
+                                    </div>
 
-                                    <span class="order-label">
-                                        Order
-                                    </span>
+                                    <div>
+                                        <span class="sb-order-card-kicker">
+                                            Order Number
+                                        </span>
 
-                                    <strong>
-                                        #{{ $order->order_number }}
-                                    </strong>
+                                        <h2>
+                                            #{{ $order->order_number }}
+                                        </h2>
+                                    </div>
 
                                 </div>
 
 
-                                <div class="order-date">
+                                <div class="sb-order-date">
 
-                                    <i class="bi bi-calendar3"></i>
-
-                                    <span>
-                                        {{ $order->created_at->format('M d, Y') }}
+                                    <span class="sb-order-date-icon">
+                                        <i class="bi bi-calendar3"></i>
                                     </span>
+
+                                    <div>
+                                        <span>Placed on</span>
+
+                                        <strong>
+                                            {{ $order->created_at->format('M d, Y') }}
+                                        </strong>
+                                    </div>
 
                                 </div>
 
                             </div>
 
 
-                            {{-- =================================================
-                               ORDER BODY
-                            ================================================== --}}
+                            {{-- Order Body --}}
+                            <div class="sb-order-card-body">
 
-                            <div class="order-card-body">
+                                {{-- Book --}}
+                                <div class="sb-order-book">
 
-                                {{-- BOOK --}}
-
-                                <div class="order-book">
-
-                                    <div class="order-book-image">
+                                    <div class="sb-order-book-image">
 
                                         @if($order->book && !empty($order->book->cover))
 
@@ -263,7 +254,6 @@
 
                                             @endphp
 
-
                                             <img
                                                 src="{{ $coverUrl }}"
                                                 alt="{{ $order->book->title }}"
@@ -271,9 +261,8 @@
                                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
                                             >
 
-
                                             <div
-                                                class="order-book-placeholder"
+                                                class="sb-order-book-placeholder"
                                                 style="display: none;"
                                             >
                                                 <i class="bi bi-book"></i>
@@ -281,7 +270,7 @@
 
                                         @else
 
-                                            <div class="order-book-placeholder">
+                                            <div class="sb-order-book-placeholder">
                                                 <i class="bi bi-book"></i>
                                             </div>
 
@@ -290,24 +279,25 @@
                                     </div>
 
 
-                                    <div class="order-book-info">
+                                    <div class="sb-order-book-content">
 
-                                        <span class="order-book-label">
+                                        <span class="sb-order-book-kicker">
                                             Book
                                         </span>
 
-                                        <h2>
+                                        <h3>
                                             {{ $order->book->title ?? 'Book unavailable' }}
-                                        </h2>
+                                        </h3>
 
-                                        <div class="order-book-meta">
+                                        <div class="sb-order-book-meta">
 
                                             <span>
                                                 <i class="bi bi-box-seam"></i>
-                                                Qty: {{ $order->quantity }}
+                                                {{ $order->quantity }}
+                                                {{ $order->quantity == 1 ? 'copy' : 'copies' }}
                                             </span>
 
-                                            <span class="meta-dot"></span>
+                                            <span class="sb-order-meta-divider"></span>
 
                                             <span>
                                                 ${{ number_format($order->book_price, 2) }}
@@ -321,52 +311,38 @@
                                 </div>
 
 
-                                {{-- ORDER INFO --}}
+                                {{-- Total --}}
+                                <div class="sb-order-info-card">
 
-                                <div class="order-info">
+                                    <span>Total</span>
 
-                                    <div class="order-info-item">
-
-                                        <span>
-                                            Total
-                                        </span>
-
-                                        <strong>
-                                            ${{ number_format($order->total_price, 2) }}
-                                        </strong>
-
-                                    </div>
-
-
-                                    <div class="order-info-item">
-
-                                        <span>
-                                            Payment
-                                        </span>
-
-                                        <strong class="payment-method">
-                                            {{ $paymentMethod }}
-                                        </strong>
-
-                                    </div>
+                                    <strong>
+                                        ${{ number_format($order->total_price, 2) }}
+                                    </strong>
 
                                 </div>
 
 
-                                {{-- STATUS --}}
+                                {{-- Payment --}}
+                                <div class="sb-order-info-card">
 
-                                <div class="order-status-wrapper">
+                                    <span>Payment</span>
 
-                                    <span class="order-status-label">
-                                        Status
-                                    </span>
+                                    <strong class="sb-order-payment-method">
+                                        {{ $paymentMethod }}
+                                    </strong>
 
-                                    <span class="order-status {{ $statusClass }}">
+                                </div>
 
-                                        <span class="status-dot"></span>
 
+                                {{-- Status --}}
+                                <div class="sb-order-info-card sb-order-status-info">
+
+                                    <span>Order Status</span>
+
+                                    <span class="sb-order-status-badge {{ $statusClass }}">
+                                        <span class="sb-order-status-dot"></span>
                                         {{ ucfirst($order->order_status) }}
-
                                     </span>
 
                                 </div>
@@ -374,25 +350,18 @@
                             </div>
 
 
-                            {{-- =================================================
-                               ORDER FOOTER
-                            ================================================== --}}
+                            {{-- Footer --}}
+                            <div class="sb-order-card-footer">
 
-                            <div class="order-card-footer">
+                                <div class="sb-order-payment-status">
 
-                                {{-- PAYMENT STATUS --}}
-
-                                <div class="order-payment-status">
-
-                                    <div class="order-payment-icon">
+                                    <div class="sb-order-payment-icon">
                                         <i class="bi bi-credit-card-2-front"></i>
                                     </div>
 
-                                    <div>
+                                    <div class="sb-order-payment-content">
 
-                                        <span>
-                                            Payment Status
-                                        </span>
+                                        <span>Payment Status</span>
 
                                         <strong>
                                             {{ $paymentStatus }}
@@ -403,58 +372,16 @@
                                 </div>
 
 
-                                {{-- ACTIONS --}}
-
-                                <div class="order-actions">
-
-                                    {{-- VIEW DETAILS --}}
+                                <div class="sb-order-actions">
 
                                     <a
                                         href="{{ route('frontend.orders.show', $order->id) }}"
-                                        class="order-details-btn"
+                                        class="sb-order-details-btn"
                                     >
-
-                                        <span>
-                                            View Details
-                                        </span>
-
+                                        <span>View Details</span>
                                         <i class="bi bi-arrow-right"></i>
-
                                     </a>
 
-
-                                    {{-- CANCEL ORDER --}}
-
-                                    @if($canCancelOrder)
-
-                                        <form
-                                            action="{{ route('frontend.orders.cancel', $order->id) }}"
-                                            method="POST"
-                                            class="cancel-order-form"
-                                        >
-
-                                            @csrf
-
-                                            <button
-                                                type="button"
-                                                class="order-cancel-btn js-cancel-order"
-                                                data-order="{{ $order->order_number }}"
-                                            >
-
-                                                <i class="bi bi-x-circle"></i>
-
-                                                <span>
-                                                    Cancel Order
-                                                </span>
-
-                                            </button>
-
-                                        </form>
-
-                                    @endif
-
-
-                                    {{-- WRITE REVIEW --}}
 
                                     @if(
                                         $order->order_status === 'delivered' &&
@@ -467,16 +394,35 @@
 
                                         <a
                                             href="{{ route('frontend.reviews.create', $order->id) }}"
-                                            class="order-review-btn"
+                                            class="sb-order-review-btn"
+                                        >
+                                            <i class="bi bi-star"></i>
+                                            <span>Write Review</span>
+                                        </a>
+
+                                    @endif
+
+
+                                    @if($canCancelOrder)
+
+                                        <form
+                                            action="{{ route('frontend.orders.cancel', $order->id) }}"
+                                            method="POST"
+                                            class="sb-cancel-order-form"
                                         >
 
-                                            <i class="bi bi-star"></i>
+                                            @csrf
 
-                                            <span>
-                                                Write Review
-                                            </span>
+                                            <button
+                                                type="button"
+                                                class="sb-order-cancel-btn js-cancel-order"
+                                                data-order="{{ $order->order_number }}"
+                                            >
+                                                <i class="bi bi-x-circle"></i>
+                                                <span>Cancel Order</span>
+                                            </button>
 
-                                        </a>
+                                        </form>
 
                                     @endif
 
@@ -491,16 +437,11 @@
                 </div>
 
 
-                {{-- =================================================
-                   PAGINATION
-                ================================================== --}}
-
+                {{-- Pagination --}}
                 @if($orders->hasPages())
 
-                    <div class="orders-pagination">
-
+                    <div class="sb-orders-pagination">
                         {{ $orders->links() }}
-
                     </div>
 
                 @endif
@@ -508,23 +449,18 @@
 
             @else
 
-                {{-- =================================================
-                   EMPTY STATE
-                ================================================== --}}
+                {{-- Empty --}}
+                <div class="sb-orders-empty">
 
-                <div class="orders-empty">
-
-                    <div class="orders-empty-icon">
+                    <div class="sb-orders-empty-icon">
                         <i class="bi bi-bag-x"></i>
                     </div>
 
-                    <span class="orders-empty-label">
+                    <span class="sb-orders-empty-eyebrow">
                         Your shopping journey starts here
                     </span>
 
-                    <h2>
-                        No Orders Yet
-                    </h2>
+                    <h2>No Orders Yet</h2>
 
                     <p>
                         You haven't placed any orders yet.
@@ -533,17 +469,11 @@
 
                     <a
                         href="{{ route('frontend.books') }}"
-                        class="orders-shop-btn"
+                        class="sb-orders-shop-btn"
                     >
-
                         <i class="bi bi-book"></i>
-
-                        <span>
-                            Browse Books
-                        </span>
-
+                        <span>Browse Books</span>
                         <i class="bi bi-arrow-right"></i>
-
                     </a>
 
                 </div>
@@ -551,7 +481,6 @@
             @endif
 
         </div>
-
     </section>
 
 </main>
@@ -559,14 +488,8 @@
 @endsection
 
 
-{{-- =========================================================
-   CANCEL ORDER - SWEETALERT
-========================================================= --}}
-
 @push('js')
-
 <script>
-
 document.addEventListener('DOMContentLoaded', function () {
 
     document
@@ -575,42 +498,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
             button.addEventListener('click', function () {
 
-                const form = this.closest('.cancel-order-form');
-
+                const form = this.closest('.sb-cancel-order-form');
                 const orderNumber = this.dataset.order;
 
-
                 Swal.fire({
-
                     title: 'Cancel Order?',
-
                     text:
                         `Are you sure you want to cancel order #${orderNumber}?`,
-
                     icon: 'warning',
-
                     showCancelButton: true,
-
                     confirmButtonText: 'Yes, Cancel Order',
-
                     cancelButtonText: 'Keep Order',
-
                     reverseButtons: true,
-
                     customClass: {
-
                         confirmButton: 'swal-confirm-btn',
-
                         cancelButton: 'swal-cancel-btn'
-
                     }
-
                 }).then(function (result) {
 
                     if (result.isConfirmed) {
-
                         form.submit();
-
                     }
 
                 });
@@ -620,7 +527,5 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 });
-
 </script>
-
 @endpush

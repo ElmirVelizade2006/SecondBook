@@ -18,16 +18,28 @@ class SellerApplicationController extends Controller
         $this->notificationService = $notificationService;
     }
 
+    /**
+     * Show seller application page.
+     */
     public function create()
     {
         $user = Auth::user();
 
+        /*
+         * User is already a seller.
+         */
         if ($user->isSeller()) {
             return redirect()
                 ->route('frontend.home')
-                ->with('info', 'You are already a seller.');
+                ->with(
+                    'info',
+                    'You are already a seller.'
+                );
         }
 
+        /*
+         * Get the user's latest seller application.
+         */
         $application = $user->sellerApplications()
             ->latest()
             ->first();
@@ -38,16 +50,28 @@ class SellerApplicationController extends Controller
         );
     }
 
+    /**
+     * Store seller application.
+     */
     public function store(Request $request)
     {
         $user = Auth::user();
 
+        /*
+         * User is already a seller.
+         */
         if ($user->isSeller()) {
             return redirect()
                 ->route('frontend.home')
-                ->with('info', 'You are already a seller.');
+                ->with(
+                    'info',
+                    'You are already a seller.'
+                );
         }
 
+        /*
+         * Prevent multiple pending applications.
+         */
         $existingApplication = $user->sellerApplications()
             ->where('status', 'pending')
             ->exists();
@@ -60,29 +84,95 @@ class SellerApplicationController extends Controller
                 );
         }
 
+        /*
+         * Validate seller application.
+         */
         $validated = $request->validate([
+
+            /*
+             * Store name
+             * Required
+             * Maximum 100 characters
+             */
             'store_name' => [
                 'required',
                 'string',
-                'max:255',
+                'max:100',
             ],
+
+            /*
+             * Store description
+             * Optional
+             * Maximum 1000 characters
+             */
             'description' => [
-                'nullable',
-                'string',
-                'max:5000',
-            ],
-            'phone' => [
-                'nullable',
-                'string',
-                'max:50',
-            ],
-            'address' => [
                 'nullable',
                 'string',
                 'max:1000',
             ],
+
+            /*
+             * Phone number
+             * Optional
+             * Maximum 15 characters
+             * Only numbers and an optional + at the beginning
+             */
+            'phone' => [
+                'nullable',
+                'string',
+                'max:15',
+                'regex:/^\+?[0-9]+$/',
+            ],
+
+            /*
+             * Address
+             * Optional
+             * Maximum 255 characters
+             */
+            'address' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+        ], [
+
+            /*
+             * Custom validation messages.
+             */
+            'store_name.required' =>
+                'Please enter your store name.',
+
+            'store_name.string' =>
+                'Store name must be a valid text.',
+
+            'store_name.max' =>
+                'Store name may not be longer than 100 characters.',
+
+            'description.string' =>
+                'Store description must be a valid text.',
+
+            'description.max' =>
+                'Store description may not be longer than 1000 characters.',
+
+            'phone.string' =>
+                'Phone number must be a valid text.',
+
+            'phone.max' =>
+                'Phone number may not be longer than 15 characters.',
+
+            'phone.regex' =>
+                'Phone number may contain only numbers and an optional + at the beginning.',
+
+            'address.string' =>
+                'Address must be a valid text.',
+
+            'address.max' =>
+                'Address may not be longer than 255 characters.',
         ]);
 
+        /*
+         * Create seller application.
+         */
         $application = SellerApplication::create([
             'user_id' => $user->id,
             'store_name' => $validated['store_name'],
@@ -92,13 +182,18 @@ class SellerApplicationController extends Controller
             'status' => 'pending',
         ]);
 
-        // Notify all active admins
+        /*
+         * Notify all active admins.
+         */
         $this->notificationService->sendToAdmins(
             'seller',
             'New Seller Application',
             "User \"{$user->name}\" has submitted a new seller application for \"{$application->store_name}\"."
         );
 
+        /*
+         * Redirect back to seller application page.
+         */
         return redirect()
             ->route('frontend.seller-application')
             ->with(
